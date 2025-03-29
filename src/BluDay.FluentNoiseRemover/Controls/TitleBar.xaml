@@ -7,6 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              MaxHeight="48"
+             MinHeight="32"
              SizeChanged="UserControl_SizeChanged">
     <UserControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
@@ -41,10 +42,12 @@
                 Width="32"
                 Grid.ColumnSpan="5"/>
 
+        <!--
         <Button x:Name="CloseButton" Click="CloseButton_Click" Grid.Column="4">
             <Viewbox>
                 <FontIcon Glyph="&#xe8bb;"/>
             </Viewbox>
         </Button>
+        -->
     </Grid>
 </UserControl>

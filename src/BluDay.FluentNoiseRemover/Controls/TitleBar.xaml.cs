@@ -7,8 +7,6 @@ public sealed partial class TitleBar : UserControl
 {
     private InputNonClientPointerSource _nonClientPointerSource;
 
-    private Action _closeAction;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="TitleBar"/> class.
     /// </summary>
@@ -16,22 +14,29 @@ public sealed partial class TitleBar : UserControl
     {
         _nonClientPointerSource = null!;
 
-        _closeAction = null!;
-
         InitializeComponent();
     }
 
     private void UpdateDragRegionRectangles()
     {
-        _nonClientPointerSource.SetRegionRects(
-            NonClientRegionKind.Caption,
-            [GetControlBounds(this)]
-        );
+        _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [GetControlBounds(this)]);
+    }
+
+    private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (!IsLoaded) return;
+
+        _nonClientPointerSource!.ClearAllRegionRects();
+
+        UpdateDragRegionRectangles();
+        UpdateInteractiveRegionRectangles();
     }
 
     private void UpdateInteractiveRegionRectangles()
     {
-        Collection<RectInt32> passthroughBounds = [GetControlBounds(CloseButton)];
+        // Collection<RectInt32> passthroughBounds = [GetControlBounds(CloseButton)];
+
+        Collection<RectInt32> passthroughBounds = [];
 
         if (BackButton.Visibility is Visibility.Visible)
         {
@@ -80,47 +85,8 @@ public sealed partial class TitleBar : UserControl
 
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
 
-        _closeAction = window.Close;
-
         window.ExtendsContentIntoTitleBar = true;
 
         window.SetTitleBar(this);
     }
-}
-
-/// <summary>
-/// Contains all XAML-defined event handlers.
-/// </summary>
-public sealed partial class TitleBar
-{
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
-    {
-        _closeAction();
-    }
-
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    {
-        _nonClientPointerSource!.ClearAllRegionRects();
-
-        UpdateDragRegionRectangles();
-        UpdateInteractiveRegionRectangles();
-    }
-
-    private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (!IsLoaded) return;
-
-        _nonClientPointerSource!.ClearAllRegionRects();
-
-        UpdateDragRegionRectangles();
-        UpdateInteractiveRegionRectangles();
-    }
-}
-
-/// <summary>
-/// Contains all dependency properties for the control.
-/// </summary>
-public sealed partial class TitleBar
-{
-    
 }

@@ -41,7 +41,8 @@
                 </Style>
             </Grid.Resources>
 
-            <Button Grid.Column="1">
+            <!-- Presets button -->
+            <Button IsEnabled="False" Grid.Column="1">
                 <Button.Flyout>
                     <Flyout AreOpenCloseAnimationsEnabled="True" ShouldConstrainToRootBounds="False">
                         <Grid Width="150">
@@ -109,6 +110,7 @@
                 </Viewbox>
             </Button>
 
+            <!-- Play button -->
             <Button CornerRadius="40"
                     Height="80"
                     Margin="14"
@@ -123,6 +125,7 @@
                 </Viewbox>
             </Button>
 
+            <!-- Volume button -->
             <Button Grid.Column="3">
                 <Button.Flyout>
                     <Flyout AreOpenCloseAnimationsEnabled="True" ShouldConstrainToRootBounds="False">
