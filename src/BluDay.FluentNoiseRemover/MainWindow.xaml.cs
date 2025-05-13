@@ -37,4 +37,9 @@ public sealed partial class MainWindow : Window
 
         SetTitleBar(AppTitleBar);
     }
+
+    private void AppTitleBar_CloseButtonClick(object sender, EventArgs e)
+    {
+        Close();
+    }
 }

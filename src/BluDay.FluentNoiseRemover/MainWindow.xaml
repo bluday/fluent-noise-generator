@@ -20,7 +20,9 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <controls:TitleBar x:Name="AppTitleBar" Grid.Row="0"/>
+        <controls:TitleBar x:Name="AppTitleBar"
+                           CloseButtonClick="AppTitleBar_CloseButtonClick"
+                           Grid.Row="0"/>
         
         <!-- Title bar bottom border -->
         <Grid BorderBrush="{ThemeResource ControlElevationBorderBrush}"

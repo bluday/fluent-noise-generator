@@ -44,6 +44,7 @@
 
         <!-- Close button -->
         <Button x:Name="CloseButton"
+                Click="CloseButton_Click"
                 Content="{communityToolkit:FontIcon Glyph=&#xe8bb;}"
                 Grid.Column="3"/>
     </Grid>
