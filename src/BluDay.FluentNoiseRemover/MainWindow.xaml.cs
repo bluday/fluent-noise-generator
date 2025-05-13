@@ -5,14 +5,18 @@ namespace BluDay.FluentNoiseRemover;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-    private readonly OverlappedPresenter _presenter;
+    private readonly AppWindow _appWindow;
+
+    private readonly nint _windowHandle;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
     public MainWindow()
     {
-        _presenter = OverlappedPresenter.Create();
+        _appWindow = AppWindow;
+
+        _windowHandle = WindowNative.GetWindowHandle(this);
 
         InitializeComponent();
 
@@ -21,25 +25,69 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureWindow()
     {
-        AppWindow appWindow = AppWindow;
+        OverlappedPresenter presenter = OverlappedPresenter.Create();
 
-        _presenter.IsAlwaysOnTop = true;
-        _presenter.IsMaximizable = false;
-        _presenter.IsMinimizable = false;
-        _presenter.IsResizable   = false;
+        presenter.IsAlwaysOnTop = true;
+        presenter.IsMaximizable = false;
+        presenter.IsMinimizable = false;
+        presenter.IsResizable   = false;
 
-        _presenter.SetBorderAndTitleBar(true, false);
+        presenter.SetBorderAndTitleBar(true, false);
 
-        appWindow.SetPresenter(_presenter);
-        appWindow.ResizeClient(new SizeInt32(300, 200));
+        ResizeUsingScaleFactorValue(350, 250);
 
-        ExtendsContentIntoTitleBar = true;
+        _appWindow.Move(GetCenterPositionForWindow());
+
+        _appWindow.SetPresenter(presenter);
 
         SetTitleBar(AppTitleBar);
+
+        ExtendsContentIntoTitleBar = true;
     }
 
+    private void ResizeUsingScaleFactorValue(int width, int height)
+    {
+        double scaleFactor = GetScaleFactorForWindow();
+
+        _appWindow.Resize(new SizeInt32(
+            (int)(width * scaleFactor),
+            (int)(height * scaleFactor)
+        ));
+    }
+
+    private PointInt32 GetCenterPositionForWindow()
+    {
+        return GetCenterPositionForWindow(
+            DisplayArea.GetFromWindowId(_appWindow.Id, DisplayAreaFallback.Primary)
+        );
+    }
+
+    private PointInt32 GetCenterPositionForWindow(DisplayArea displayArea)
+    {
+        RectInt32 displayWorkArea = displayArea.WorkArea;
+
+        SizeInt32 windowSize = _appWindow.Size;
+
+        return new(
+            (displayWorkArea.Width - windowSize.Width) / 2,
+            (displayWorkArea.Height - windowSize.Height) / 2
+        );
+    }
+
+    private double GetScaleFactorForWindow()
+    {
+        return GetDpiForWindow(_windowHandle) / 96.0;
+    }
+
+    #region Event handlers
     private void AppTitleBar_CloseButtonClick(object sender, EventArgs e)
     {
         Close();
     }
+    #endregion
+
+    #region External methods
+    [DllImport("user32.dll")]
+    public static extern int GetDpiForWindow(nint hwnd);
+    #endregion
 }
