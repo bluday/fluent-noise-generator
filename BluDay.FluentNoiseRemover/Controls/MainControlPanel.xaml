@@ -98,7 +98,7 @@
         <!-- Play button -->
         <Button CornerRadius="40"
                 Height="80"
-                Margin="14"
+                Margin="14,0"
                 Padding="20"
                 Width="80"
                 Style="{ThemeResource DefaultButtonStyle}"

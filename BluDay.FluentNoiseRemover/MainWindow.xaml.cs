@@ -34,7 +34,7 @@ public sealed partial class MainWindow : Window
 
         presenter.SetBorderAndTitleBar(true, false);
 
-        ResizeUsingScaleFactorValue(350, 250);
+        ResizeUsingScaleFactorValue(220, 150);
 
         _appWindow.Move(GetCenterPositionForWindow());
 
@@ -50,7 +50,7 @@ public sealed partial class MainWindow : Window
         double scaleFactor = GetScaleFactorForWindow();
 
         _appWindow.Resize(new SizeInt32(
-            (int)(width * scaleFactor),
+            (int)(width  * scaleFactor),
             (int)(height * scaleFactor)
         ));
     }
