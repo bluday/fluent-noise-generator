@@ -5,8 +5,6 @@
 /// </summary>
 public partial class App : Application
 {
-    private Window? _mainWindow;
-
     /// <summary>
     /// Initializes the singleton application object. This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -19,8 +17,6 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _mainWindow = new MainWindow();
-
-        _mainWindow.Activate();
+        new MainWindow().Activate();
     }
 }
