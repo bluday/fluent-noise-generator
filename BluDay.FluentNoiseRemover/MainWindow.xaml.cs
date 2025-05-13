@@ -7,6 +7,8 @@ public sealed partial class MainWindow : Window
 {
     private readonly AppWindow _appWindow;
 
+    private readonly OverlappedPresenter _overlappedPresenter;
+
     private readonly nint _windowHandle;
 
     /// <summary>
@@ -15,6 +17,8 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         _appWindow = AppWindow;
+        
+        _overlappedPresenter = OverlappedPresenter.Create();
 
         _windowHandle = WindowNative.GetWindowHandle(this);
 
@@ -25,20 +29,18 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureWindow()
     {
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
+        _overlappedPresenter.IsAlwaysOnTop = true;
+        _overlappedPresenter.IsMaximizable = false;
+        _overlappedPresenter.IsMinimizable = false;
+        _overlappedPresenter.IsResizable   = false;
 
-        presenter.IsAlwaysOnTop = true;
-        presenter.IsMaximizable = false;
-        presenter.IsMinimizable = false;
-        presenter.IsResizable   = false;
-
-        presenter.SetBorderAndTitleBar(true, false);
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
         ResizeUsingScaleFactorValue(220, 150);
 
         _appWindow.Move(GetCenterPositionForWindow());
 
-        _appWindow.SetPresenter(presenter);
+        _appWindow.SetPresenter(_overlappedPresenter);
 
         SetTitleBar(AppTitleBar);
 
@@ -69,7 +71,7 @@ public sealed partial class MainWindow : Window
         SizeInt32 windowSize = _appWindow.Size;
 
         return new(
-            (displayWorkArea.Width - windowSize.Width) / 2,
+            (displayWorkArea.Width  - windowSize.Width)  / 2,
             (displayWorkArea.Height - windowSize.Height) / 2
         );
     }
