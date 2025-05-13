@@ -5,11 +5,9 @@ namespace BluDay.FluentNoiseRemover;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-    private DisplayArea _displayArea;
-
     private readonly AppWindow _appWindow;
 
-    private readonly OverlappedPresenter _overlappedPresenter;
+    private readonly CompactOverlayPresenter _presenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -18,19 +16,20 @@ public sealed partial class MainWindow : Window
     {
         _appWindow = AppWindow;
 
-        _displayArea = DisplayArea.GetFromWindowId(_appWindow.Id, DisplayAreaFallback.Primary);
-
-        _overlappedPresenter = (OverlappedPresenter)_appWindow.Presenter;
-
-        _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = false;
-        _overlappedPresenter.IsResizable   = false;
-
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
-
-        _appWindow.ResizeClient(new SizeInt32(300, 300));
+        _presenter = CompactOverlayPresenter.Create();
 
         InitializeComponent();
+
+        ConfigureWindow();
+    }
+
+    private void ConfigureWindow()
+    {
+        _presenter.InitialSize = CompactOverlaySize.Small;
+
+        _appWindow.SetPresenter(_presenter);
+
+        _appWindow.ResizeClient(new SizeInt32(300, 200));
 
         AppTitleBar.SetWindow(this);
     }
