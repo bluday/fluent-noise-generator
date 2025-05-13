@@ -31,6 +31,8 @@ public sealed partial class MainWindow : Window
 
         _appWindow.ResizeClient(new SizeInt32(300, 200));
 
-        AppTitleBar.SetWindow(this);
+        SetTitleBar(AppTitleBar);
+
+        ExtendsContentIntoTitleBar = true;
     }
 }
