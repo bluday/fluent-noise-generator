@@ -14,16 +14,12 @@ public partial class App : Application
         InitializeComponent();
 
 #if DEBUG
-        UnhandledException += App_UnhandledException;
+        UnhandledException += (sender, e) =>
+        {
+            Debug.WriteLine($"{e.Exception}: {e.Message}");
+        };
 #endif
     }
-
-#if DEBUG
-    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-    {
-        Debug.WriteLine($"{e.Exception}: {e.Message}");
-    }
-#endif
 
     /// <summary>
     /// Invoked when the application is launched.
