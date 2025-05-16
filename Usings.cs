@@ -1,4 +1,6 @@
-﻿global using Microsoft.UI.Windowing;
+﻿global using BluDay.Net.WinUI3.UI.Windowing;
+
+global using Microsoft.UI.Windowing;
 global using Microsoft.UI.Xaml;
 global using Microsoft.UI.Xaml.Controls;
 
