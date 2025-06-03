@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<!-- Framework versioning -->
 	<PropertyGroup>
-        <TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
+        <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 	
@@ -60,6 +60,11 @@
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <ProjectCapability Include="Msix" />
     </ItemGroup>
+	
+    <PropertyGroup Label="Globals">
+      <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+      <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+    </PropertyGroup>
 
     <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
