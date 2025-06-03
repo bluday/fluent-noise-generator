@@ -11,14 +11,16 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        InitializeComponent();
-
 #if DEBUG
-        UnhandledException += (sender, e) =>
-        {
-            Debug.WriteLine($"{e.Exception}: {e.Message}");
-        };
+        UnhandledException += App_UnhandledException;
 #endif
+
+        InitializeComponent();
+    }
+
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        Debug.WriteLine($"{e.Exception}: {e.Message}");
     }
 
     /// <summary>
