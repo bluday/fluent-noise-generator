@@ -22,6 +22,7 @@
         <!-- Title bar -->
         <controls:TitleBar x:Name="AppTitleBar"
                            CloseButtonClick="AppTitleBar_CloseButtonClick"
+                           SettingsButtonClick="AppTitleBar_SettingsButtonClick"
                            Grid.Row="0"/>
         
         <!-- Title bar bottom border -->

@@ -5,8 +5,6 @@ namespace BluDay.FluentNoiseRemover;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-    private readonly WindowManager _windowManager;
-
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
@@ -22,8 +20,6 @@ public sealed partial class MainWindow : Window
         
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        _windowManager = new WindowManager(this);
-
         InitializeComponent();
 
         ConfigureWindow();
@@ -36,11 +32,12 @@ public sealed partial class MainWindow : Window
         _overlappedPresenter.IsMinimizable = false;
         _overlappedPresenter.IsResizable   = false;
 
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
+        _appWindow.Resize(new Windows.Graphics.SizeInt32(
+            (int)(220 * 1.5),
+            (int)(150 * 1.5)
+        ));
 
-        _windowManager.ResizeUsingScaleFactorValue(220, 150);
-
-        _appWindow.Move(_windowManager.GetCenterPositionForWindow());
+        _appWindow.Move(_appWindow.GetCenterPositionForWindow(DisplayAreaFallback.Primary));
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
@@ -53,6 +50,11 @@ public sealed partial class MainWindow : Window
     private void AppTitleBar_CloseButtonClick(object sender, EventArgs e)
     {
         Close();
+    }
+
+    private void AppTitleBar_SettingsButtonClick(object sender, EventArgs e)
+    {
+        // TODO: Open settings window.
     }
     #endregion
 }
