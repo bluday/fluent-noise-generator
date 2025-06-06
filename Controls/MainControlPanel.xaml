@@ -97,10 +97,10 @@
 
         <!-- Play button -->
         <Button CornerRadius="40"
-                Height="80"
+                Height="60"
                 Margin="14,0"
-                Padding="20"
-                Width="80"
+                Padding="15"
+                Width="60"
                 Style="{ThemeResource DefaultButtonStyle}"
                 Grid.Column="2">
             <Viewbox>
