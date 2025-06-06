@@ -5,11 +5,13 @@ namespace BluDay.FluentNoiseRemover;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+    private double _dpiScaleFactor;
+    
+    private readonly InputNonClientPointerSource _nonClientPointerSource;
+
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
-
-    private readonly nint _windowHandle;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -17,8 +19,12 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         _appWindow = AppWindow;
+
+        _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
         
         _overlappedPresenter = OverlappedPresenter.Create();
+
+        _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         InitializeComponent();
 
@@ -27,26 +33,27 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureWindow()
     {
+        SetTitleBar(AppTitleBar);
+
+        ExtendsContentIntoTitleBar = true;
+
         _overlappedPresenter.IsAlwaysOnTop = true;
         _overlappedPresenter.IsMaximizable = false;
         _overlappedPresenter.IsMinimizable = false;
         _overlappedPresenter.IsResizable   = false;
 
-        _appWindow.Resize(new Windows.Graphics.SizeInt32(
-            (int)(220 * 1.5),
-            (int)(150 * 1.5)
-        ));
-
-        _appWindow.Move(_appWindow.GetCenterPositionForWindow(DisplayAreaFallback.Primary));
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        SetTitleBar(AppTitleBar);
+        _appWindow.Resize(new SizeInt32(
+            (int)(200 * _dpiScaleFactor),
+            (int)(120 * _dpiScaleFactor)
+        ));
 
-        ExtendsContentIntoTitleBar = true;
+        // TODO: Center the window.
     }
 
-    #region Event handlers
     private void AppTitleBar_CloseButtonClick(object sender, EventArgs e)
     {
         Close();
@@ -56,5 +63,32 @@ public sealed partial class MainWindow : Window
     {
         // TODO: Open settings window.
     }
-    #endregion
+
+    private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        _nonClientPointerSource.ClearAllRegionRects();
+
+        /**
+         * Note:
+         * 
+         * Region kind for drag must be set to `Caption` in order to set a drag
+         * region for the title bar control. Really bizarre that one can't hide
+         * the native close chrome button without making external calls to the
+         * Win32 API. This is a temporary workaround.
+         */
+        _nonClientPointerSource.SetRegionRects(
+            NonClientRegionKind.Caption,
+            [AppTitleBar.GetBoundingBox(_dpiScaleFactor)]
+        );
+
+        _nonClientPointerSource.SetRegionRects(
+            NonClientRegionKind.Close,
+            [AppTitleBar.GetBoundingRectForCloseButton(_dpiScaleFactor)]
+        );
+
+        _nonClientPointerSource.SetRegionRects(
+            NonClientRegionKind.Passthrough,
+            [AppTitleBar.GetBoundingRectForSettingsButton(_dpiScaleFactor)]
+        );
+    }
 }

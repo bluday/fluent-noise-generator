@@ -12,7 +12,7 @@
     </Window.SystemBackdrop>
     
     <!-- Root grid -->
-    <Grid>
+    <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
