@@ -1,18 +1,18 @@
 namespace BluDay.FluentNoiseRemover.Controls;
 
 /// <summary>
-/// Interaction logic for TitleBar.xaml.
+/// Interaction logic for TopActionBar.xaml.
 /// </summary>
-public sealed partial class TitleBar : UserControl
+public sealed partial class TopActionBar : UserControl
 {
     public event EventHandler? CloseButtonClick;
 
     public event EventHandler? SettingsButtonClick;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TitleBar"/> class.
+    /// Initializes a new instance of the <see cref="TopActionBar"/> class.
     /// </summary>
-    public TitleBar()
+    public TopActionBar()
     {
         InitializeComponent();
     }

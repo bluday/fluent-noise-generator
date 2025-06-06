@@ -20,11 +20,11 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <controls:TitleBar x:Name="AppTitleBar"
+        <controls:TopActionBar x:Name="TopActionBarControl"
                            BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                            BorderThickness="0,0,0,1"
-                           CloseButtonClick="AppTitleBar_CloseButtonClick"
-                           SettingsButtonClick="AppTitleBar_SettingsButtonClick"
+                           CloseButtonClick="TopActionBarControl_CloseButtonClick"
+                           SettingsButtonClick="TopActionBarControl_SettingsButtonClick"
                            Grid.Row="0"/>
         
         <!-- Control panel grid -->

@@ -33,7 +33,7 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureWindow()
     {
-        SetTitleBar(AppTitleBar);
+        SetTitleBar(TopActionBarControl);
 
         ExtendsContentIntoTitleBar = true;
 
@@ -54,12 +54,12 @@ public sealed partial class MainWindow : Window
         // TODO: Center the window.
     }
 
-    private void AppTitleBar_CloseButtonClick(object sender, EventArgs e)
+    private void TopActionBarControl_CloseButtonClick(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void AppTitleBar_SettingsButtonClick(object sender, EventArgs e)
+    private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
     {
         // TODO: Open settings window.
     }
@@ -78,17 +78,17 @@ public sealed partial class MainWindow : Window
          */
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Caption,
-            [AppTitleBar.GetBoundingBox(_dpiScaleFactor)]
+            [TopActionBarControl.GetBoundingBox(_dpiScaleFactor)]
         );
 
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Close,
-            [AppTitleBar.GetBoundingRectForCloseButton(_dpiScaleFactor)]
+            [TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)]
         );
 
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Passthrough,
-            [AppTitleBar.GetBoundingRectForSettingsButton(_dpiScaleFactor)]
+            [TopActionBarControl.GetBoundingRectForSettingsButton(_dpiScaleFactor)]
         );
     }
 }
