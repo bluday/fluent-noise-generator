@@ -21,16 +21,12 @@
 
         <!-- Title bar -->
         <controls:TitleBar x:Name="AppTitleBar"
+                           BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+                           BorderThickness="0,0,0,1"
                            CloseButtonClick="AppTitleBar_CloseButtonClick"
                            SettingsButtonClick="AppTitleBar_SettingsButtonClick"
                            Grid.Row="0"/>
         
-        <!-- Title bar bottom border -->
-        <Grid BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-              BorderThickness="0,0,0,1"
-              VerticalAlignment="Bottom"
-              Grid.Row="0"/>
-
         <!-- Control panel grid -->
         <controls:MainControlPanel Grid.Row="1"/>
     </Grid>

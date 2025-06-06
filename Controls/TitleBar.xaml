@@ -24,7 +24,9 @@
     </UserControl.Resources>
     
     <!-- Root grid -->
-    <Grid Padding="4">
+    <Grid BorderBrush="{x:Bind BorderBrush}"
+          BorderThickness="{x:Bind BorderThickness}"
+          Padding="4">
         <!-- Column definutions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
