@@ -6,16 +6,17 @@
              xmlns:communityToolkit="using:CommunityToolkit.WinUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="32">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Resources -->
     <UserControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Height" Value="24"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="22"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Width" Value="24"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Width" Value="22"/>
         </Style>
 
         <Style TargetType="FontIcon">
@@ -26,7 +27,7 @@
     <!-- Root grid -->
     <Grid BorderBrush="{x:Bind BorderBrush}"
           BorderThickness="{x:Bind BorderThickness}"
-          Padding="4">
+          Height="32">
         <!-- Column definutions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -52,7 +53,7 @@
         <!-- Close button -->
         <Button x:Name="CloseButton"
                 Click="CloseButton_Click"
-                Content="{communityToolkit:FontIcon FontSize=10, Glyph=&#xe8bb;}"
+                Content="{communityToolkit:FontIcon FontSize=11, Glyph=&#xe8bb;}"
                 Grid.Column="2"/>
     </Grid>
 </UserControl>
