@@ -16,18 +16,18 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public SettingsWindow()
     {
-        _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
-
         _appWindow = AppWindow;
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
+        _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
         InitializeComponent();
 
-        ConfigureWindow();
+        Configure();
     }
 
-    private void ConfigureWindow()
+    private void Configure()
     {
         SetTitleBar(TitleBarControl);
 
@@ -38,7 +38,7 @@ public sealed partial class SettingsWindow : Window
         _appWindow.SetPresenter(_overlappedPresenter);
 
         _appWindow.Resize(600, 600, _dpiScaleFactor);
-        
+
         // TODO: Center the window.
     }
 }

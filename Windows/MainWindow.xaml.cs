@@ -34,10 +34,10 @@ public sealed partial class MainWindow : Window
 
         InitializeComponent();
 
-        ConfigureWindow();
+        Configure();
     }
 
-    private void ConfigureWindow()
+    private void Configure()
     {
         SetTitleBar(TopActionBarControl);
 
@@ -103,7 +103,7 @@ public sealed partial class MainWindow : Window
     {
         _settingsWindow = new SettingsWindow();
 
-        _settingsWindow.SetOwner(this);
+        _settingsWindow.SetParent(this);
 
         _settingsWindow.Activate();
     }
