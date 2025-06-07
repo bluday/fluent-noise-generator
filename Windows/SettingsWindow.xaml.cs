@@ -7,8 +7,6 @@ public sealed partial class SettingsWindow : Window
 {
     private double _dpiScaleFactor;
     
-    private readonly InputNonClientPointerSource _nonClientPointerSource;
-
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
@@ -21,8 +19,6 @@ public sealed partial class SettingsWindow : Window
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         _appWindow = AppWindow;
-
-        _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
@@ -41,11 +37,8 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(new SizeInt32(
-            (int)(600 * _dpiScaleFactor),
-            (int)(600 * _dpiScaleFactor)
-        ));
-
+        _appWindow.Resize(600, 600, _dpiScaleFactor);
+        
         // TODO: Center the window.
     }
 }

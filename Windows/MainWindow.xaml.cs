@@ -52,10 +52,7 @@ public sealed partial class MainWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(new SizeInt32(
-            (int)(200 * _dpiScaleFactor),
-            (int)(120 * _dpiScaleFactor)
-        ));
+        _appWindow.Resize(200, 120, _dpiScaleFactor);
 
         // TODO: Center the window.
     }
@@ -67,17 +64,21 @@ public sealed partial class MainWindow : Window
 
     private void RootGrid_LayoutUpdated(object sender, object e)
     {
+        /**
+         * Required to prevent the window from throwing a <see cref="ObjectDisposedException"/>.
+         * Operations on the pointer source are not allowed once the window has been closed.
+         */
         if (_hasClosed) return;
 
         _nonClientPointerSource.ClearAllRegionRects();
 
         /**
-         * Note:
+         * Region kind for drag must be set to `Caption` in order to set a drag region for the
+         * title bar control. Really bizarre that one can't hide the native close chrome button
+         * without making external calls to the Win32 API.
          * 
-         * Region kind for drag must be set to `Caption` in order to set a drag
-         * region for the title bar control. Really bizarre that one can't hide
-         * the native close chrome button without making external calls to the
-         * Win32 API. This is a temporary workaround.
+         * I am lazy and this is the easiest way of specifying drag regions after setting title
+         * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Caption,
