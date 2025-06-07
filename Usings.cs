@@ -11,3 +11,5 @@ global using System;
 global using System.Diagnostics;
 
 global using Windows.Graphics;
+
+global using WinRT.Interop;

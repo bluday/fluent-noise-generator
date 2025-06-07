@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window mc:Ignorable="d"
-        x:Class="BluDay.FluentNoiseRemover.Windows.MainWindow"
+        x:Class="BluDay.FluentNoiseRemover.Windows.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:controls="using:BluDay.FluentNoiseRemover.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
     </Window.SystemBackdrop>
     
     <!-- Root grid -->
-    <Grid x:Name="RootGrid" LayoutUpdated="RootGrid_LayoutUpdated">
+    <Grid x:Name="RootGrid">
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,14 +20,12 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <controls:TopActionBar x:Name="TopActionBarControl"
-                           BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-                           BorderThickness="0,0,0,1"
-                           CloseButtonClick="TopActionBarControl_CloseButtonClick"
-                           SettingsButtonClick="TopActionBarControl_SettingsButtonClick"
-                           Grid.Row="0"/>
+        <Grid x:Name="TitleBarControl" Grid.Row="0"/>
         
-        <!-- Control panel grid -->
-        <controls:MainControlPanel Grid.Row="1"/>
+        <!-- Content -->
+        <TextBlock HorizontalAlignment="Center"
+                   Text="{x:Bind}"
+                   VerticalAlignment="Center"
+                   Grid.Row="1"/>
     </Grid>
 </Window>

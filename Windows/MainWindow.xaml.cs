@@ -5,6 +5,10 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+    private SettingsWindow? _settingsWindow;
+
+    private bool _hasClosed;
+
     private double _dpiScaleFactor;
     
     private readonly InputNonClientPointerSource _nonClientPointerSource;
@@ -25,6 +29,8 @@ public sealed partial class MainWindow : Window
         _overlappedPresenter = OverlappedPresenter.Create();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
+        Closed += MainWindow_Closed;
 
         InitializeComponent();
 
@@ -54,18 +60,15 @@ public sealed partial class MainWindow : Window
         // TODO: Center the window.
     }
 
-    private void TopActionBarControl_CloseButtonClick(object sender, EventArgs e)
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-        Close();
+        _hasClosed = true;
     }
 
-    private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
+    private void RootGrid_LayoutUpdated(object sender, object e)
     {
-        // TODO: Open settings window.
-    }
+        if (_hasClosed) return;
 
-    private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
         _nonClientPointerSource.ClearAllRegionRects();
 
         /**
@@ -82,13 +85,25 @@ public sealed partial class MainWindow : Window
         );
 
         _nonClientPointerSource.SetRegionRects(
-            NonClientRegionKind.Close,
-            [TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)]
-        );
-
-        _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Passthrough,
-            [TopActionBarControl.GetBoundingRectForSettingsButton(_dpiScaleFactor)]
+            [
+                TopActionBarControl.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+                TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)
+            ]
         );
+    }
+
+    private void TopActionBarControl_CloseButtonClick(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
+    {
+        _settingsWindow = new SettingsWindow();
+
+        _settingsWindow.SetOwner(this);
+
+        _settingsWindow.Activate();
     }
 }
