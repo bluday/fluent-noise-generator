@@ -33,7 +33,10 @@ public sealed partial class SettingsWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        _overlappedPresenter.IsAlwaysOnTop = true;
+        int size = (int)(600 * _dpiScaleFactor);
+
+        _overlappedPresenter.PreferredMinimumHeight = size;
+        _overlappedPresenter.PreferredMinimumWidth  = size;
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
