@@ -122,13 +122,26 @@
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard Description="Select which app theme to display"
+                            <!-- Application theme -->
+                            <communityToolkitControls:SettingsCard Description="Select which app theme to display."
                                                                    Header="Application theme"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
                                 <ComboBox SelectedIndex="0">
                                     <ComboBoxItem Content="Dark"/>
                                     <ComboBoxItem Content="Light"/>
                                     <ComboBoxItem Content="System"/>
+                                </ComboBox>
+                            </communityToolkitControls:SettingsCard>
+
+                            <!-- System backdrop -->
+                            <communityToolkitControls:SettingsCard Description="Select which system backdrop to use."
+                                                                   Header="System backdrop"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                                <ComboBox SelectedIndex="0">
+                                    <ComboBoxItem Content="Mica"/>
+                                    <ComboBoxItem Content="Mica (Alternative)"/>
+                                    <ComboBoxItem Content="Acrylic"/>
+                                    <ComboBoxItem Content="None"/>
                                 </ComboBox>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
