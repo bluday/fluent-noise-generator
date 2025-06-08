@@ -5,8 +5,6 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-    private SettingsWindow? _settingsWindow;
-
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
@@ -16,6 +14,8 @@ public sealed partial class MainWindow : Window
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
+
+    private readonly ResourceLoader _resourceLoader;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -28,21 +28,21 @@ public sealed partial class MainWindow : Window
         
         _overlappedPresenter = OverlappedPresenter.Create();
 
+        _resourceLoader = new ResourceLoader();
+
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         Closed += MainWindow_Closed;
 
         InitializeComponent();
 
+        ConfigureTitleBar();
+
         Configure();
     }
 
     private void Configure()
     {
-        SetTitleBar(TopActionBarControl);
-
-        ExtendsContentIntoTitleBar = true;
-
         _overlappedPresenter.IsAlwaysOnTop = true;
         _overlappedPresenter.IsMaximizable = false;
         _overlappedPresenter.IsMinimizable = false;
@@ -53,8 +53,17 @@ public sealed partial class MainWindow : Window
         _appWindow.SetPresenter(_overlappedPresenter);
 
         _appWindow.Resize(width: 200, height: 120, _dpiScaleFactor);
+    }
 
-        // TODO: Center the window.
+    private void ConfigureTitleBar()
+    {
+        Title = _resourceLoader.GetString("AppDisplayName");
+
+        _appWindow.SetIcon(_resourceLoader.GetString("AppIconPath/64x64"));
+
+        SetTitleBar(TopActionBarControl);
+
+        ExtendsContentIntoTitleBar = true;
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
@@ -101,10 +110,6 @@ public sealed partial class MainWindow : Window
 
     private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
     {
-        _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.SetParent(this);
-
-        _settingsWindow.Activate();
+        new SettingsWindow().Activate();
     }
 }
