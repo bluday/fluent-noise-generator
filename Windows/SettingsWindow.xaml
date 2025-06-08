@@ -43,7 +43,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <Grid x:Name="TitleBarControl" Height="32" Grid.Row="0"/>
+        <controls:TitleBar x:Name="TitleBarControl" Grid.Row="0"/>
         
         <!-- Content -->
         <Grid MaxWidth="800" Grid.Row="1">
@@ -54,7 +54,7 @@
 
             <!-- Header -->
             <TextBlock FontSize="24"
-                       Margin="32,0,32,24"
+                       Margin="32,16,32,24"
                        Style="{StaticResource TitleTextBlockStyle}"
                        Text="Preferences"/>
 
@@ -165,7 +165,7 @@
                                 <!-- Content -->
                                 <communityToolkitControls:SettingsExpander.Content>
                                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="1.0.0"/>
+                                               Text="1.0"/>
                                 </communityToolkitControls:SettingsExpander.Content>
 
                                 <!-- Items -->

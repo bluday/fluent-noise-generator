@@ -11,6 +11,8 @@ public sealed partial class SettingsWindow : Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
+    private readonly ResourceLoader _resourceLoader;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
     /// </summary>
@@ -20,19 +22,19 @@ public sealed partial class SettingsWindow : Window
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
+        _resourceLoader = new ResourceLoader();
+
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         InitializeComponent();
+
+        ConfigureTitleBar();
 
         Configure();
     }
 
     private void Configure()
     {
-        SetTitleBar(TitleBarControl);
-
-        ExtendsContentIntoTitleBar = true;
-
         int size = (int)(600 * _dpiScaleFactor);
 
         _overlappedPresenter.PreferredMinimumHeight = size;
@@ -41,7 +43,23 @@ public sealed partial class SettingsWindow : Window
         _appWindow.SetPresenter(_overlappedPresenter);
 
         _appWindow.Resize(width: 600, height: 600, _dpiScaleFactor);
+    }
 
-        // TODO: Center the window.
+    private void ConfigureTitleBar()
+    {
+        string iconPath = _resourceLoader.GetString("AppIconPath/64x64");
+        string title    = _resourceLoader.GetString("AppDisplayName");
+
+        _appWindow.SetIcon(iconPath);
+
+        TitleBarControl.Icon = new BitmapImage(new Uri(iconPath));
+
+        TitleBarControl.Title = title;
+
+        ExtendsContentIntoTitleBar = true;
+
+        Title = title;
+
+        SetTitleBar(TitleBarControl);
     }
 }

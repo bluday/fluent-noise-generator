@@ -6,10 +6,12 @@ global using Microsoft.UI.Input;
 global using Microsoft.UI.Windowing;
 global using Microsoft.UI.Xaml;
 global using Microsoft.UI.Xaml.Controls;
+global using Microsoft.UI.Xaml.Media;
+global using Microsoft.UI.Xaml.Media.Imaging;
+
+global using Microsoft.Windows.ApplicationModel.Resources;
 
 global using System;
 global using System.Diagnostics;
 
 global using Windows.Graphics;
-
-global using WinRT.Interop;
