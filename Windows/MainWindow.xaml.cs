@@ -52,7 +52,7 @@ public sealed partial class MainWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(200, 120, _dpiScaleFactor);
+        _appWindow.Resize(width: 200, height: 120, _dpiScaleFactor);
 
         // TODO: Center the window.
     }

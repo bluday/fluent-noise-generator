@@ -37,7 +37,7 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(600, 600, _dpiScaleFactor);
+        _appWindow.Resize(width: 600, height: 600, _dpiScaleFactor);
 
         // TODO: Center the window.
     }
