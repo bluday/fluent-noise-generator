@@ -117,28 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppDisplayName" xml:space="preserve">
-    <value>Fluent Noise Remover</value>
+  <data name="SettingsWindow.About.HeaderTextBlock.Text" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="AppIconPath.64x64" xml:space="preserve">
-    <value>ms-appx:///Assets/Icon-64.ico</value>
+  <data name="SettingsWindow.Audio.DefaultNoisePreset.SettingsCard.Description" xml:space="preserve">
+    <value>The noise preset to automatically select on launch.</value>
   </data>
-  <data name="SettingsWindow.About.ApplicationInfo.SettingsExpander.Description" xml:space="preserve">
-    <value>© 2025 BluDay.</value>
+  <data name="SettingsWindow.Audio.DefaultNoisePreset.SettingsCard.Header" xml:space="preserve">
+    <value>Default noise preset</value>
   </data>
-  <data name="SettingsWindow.About.ApplicationInfo.SettingsExpander.Header" xml:space="preserve">
-    <value>Fluent Noise Remover</value>
+  <data name="SettingsWindow.Audio.HeaderTextBlock.Text" xml:space="preserve">
+    <value>Audio</value>
   </data>
-  <data name="SettingsWindow.HyperlinkButtons.RepositoryOnGitHub.NavigateUri" xml:space="preserve">
-    <value>https://github.com/bluday/fluent-noise-remover</value>
+  <data name="SettingsWindow.HeaderTextBlock.Text" xml:space="preserve">
+    <value>Settings</value>
   </data>
-  <data name="SettingsWindow.HyperlinkButtons.SendFeedback.NavigateUri" xml:space="preserve">
-    <value>https://halopedia.org</value>
+  <data name="SettingsWindow.HyperlinkButtons.RepositoryOnGitHub.Content" xml:space="preserve">
+    <value>Repository on GitHub</value>
   </data>
-  <data name="SystemBackdrops.Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+  <data name="SettingsWindow.HyperlinkButtons.SendFeedback.Content" xml:space="preserve">
+    <value>Send feedback</value>
   </data>
-  <data name="SystemBackdrops.Mica" xml:space="preserve">
-    <value>Mica</value>
+  <data name="SettingsWindow.Interface.HeaderTextBlock.Text" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="SettingsWindow.Interface.ApplicationTheme.SettingsCard.Description" xml:space="preserve">
+    <value>Select which application theme to display.</value>
+  </data>
+  <data name="SettingsWindow.Interface.ApplicationTheme.SettingsCard.Header" xml:space="preserve">
+    <value>Application theme</value>
+  </data>
+  <data name="SettingsWindow.Interface.SystemBackdrop.SettingsCard.Description" xml:space="preserve">
+    <value>Select which system backdrop to use.</value>
+  </data>
+  <data name="SettingsWindow.Interface.SystemBackdrop.SettingsCard.Header" xml:space="preserve">
+    <value>System backdrop</value>
+  </data>
+  <data name="SystemThemes.Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SystemThemes.Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SystemThemes.System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="SystemBackdrops.MicaAlternative" xml:space="preserve">
+    <value>Mica (Alternative)</value>
+  </data>
+  <data name="SystemBackdrops.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NoisePresets.Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="NoisePresets.Brownian" xml:space="preserve">
+    <value>Brown</value>
+  </data>
+  <data name="NoisePresets.White" xml:space="preserve">
+    <value>White</value>
   </data>
 </root>

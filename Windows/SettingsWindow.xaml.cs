@@ -16,6 +16,21 @@ public sealed partial class SettingsWindow : Window
     private readonly ResourceLoader _resourceLoader;
 
     /// <summary>
+    /// Gets a read-only dictionary of localized strings for application themes.
+    /// </summary>
+    public IReadOnlyDictionary<AppTheme, string> LocalizedApplicationThemes { get; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of localized strings for noise presets.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of localized strings for system backdrops.
+    /// </summary>
+    public IReadOnlyDictionary<WindowsSystemBackdrop, string> LocalizedSystemBackdrops { get; }
+    
+    /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
     public bool HasClosed => _hasClosed;
@@ -32,6 +47,28 @@ public sealed partial class SettingsWindow : Window
         _resourceLoader = new ResourceLoader();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
+        LocalizedApplicationThemes = new Dictionary<AppTheme, string>
+        {
+            [AppTheme.System] = _resourceLoader.GetString("SystemThemes/System"),
+            [AppTheme.Dark]   = _resourceLoader.GetString("SystemThemes/Dark"),
+            [AppTheme.Light]  = _resourceLoader.GetString("SystemThemes/Light")
+        };
+
+        LocalizedNoisePresets = new Dictionary<string, string>
+        {
+            ["Blue"]     = _resourceLoader.GetString("NoisePresets/Blue"),
+            ["Brownian"] = _resourceLoader.GetString("NoisePresets/Brownian"),
+            ["White"]    = _resourceLoader.GetString("NoisePresets/White")
+        };
+
+        LocalizedSystemBackdrops = new Dictionary<WindowsSystemBackdrop, string>
+        {
+            [WindowsSystemBackdrop.Mica]            = _resourceLoader.GetString("SystemBackdrops/Mica"),
+            [WindowsSystemBackdrop.MicaAlternative] = _resourceLoader.GetString("SystemBackdrops/MicaAlternative"),
+            [WindowsSystemBackdrop.Acrylic]         = _resourceLoader.GetString("SystemBackdrops/Acrylic"),
+            [WindowsSystemBackdrop.None]            = _resourceLoader.GetString("SystemBackdrops/None")
+        };
 
         RegisterEventHandlers();
 

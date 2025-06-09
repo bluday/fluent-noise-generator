@@ -17,17 +17,24 @@
     <Grid>
         <!-- Resources -->
         <Grid.Resources>
-            <Style x:Key="SectionHeaderGrid" TargetType="Grid">
+            <Style x:Key="HeaderTextBlockStyle"
+                   BasedOn="{StaticResource TitleTextBlockStyle}"
+                   TargetType="TextBlock">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="Margin" Value="32,16,32,24"/>
+            </Style>
+            
+            <Style x:Key="SectionHeaderGridStyle" TargetType="Grid">
                 <Setter Property="Margin" Value="4,4,4,8"/>
             </Style>
             
-            <Style x:Key="SectionHeaderIconViewbox" TargetType="Viewbox">
+            <Style x:Key="SectionHeaderIconViewboxStyle" TargetType="Viewbox">
                 <Setter Property="Height" Value="14"/>
                 <Setter Property="Margin" Value="0,0,8,0"/>
                 <Setter Property="Width" Value="14"/>
             </Style>
 
-            <Style x:Key="SectionHeaderTextBlock"
+            <Style x:Key="SectionHeaderTextBlockStyle"
                    BasedOn="{StaticResource BodyStrongTextBlockStyle}"
                    TargetType="TextBlock">
                 <Setter Property="FontSize" Value="14"/>
@@ -53,10 +60,8 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <TextBlock FontSize="24"
-                       Margin="32,16,32,24"
-                       Style="{StaticResource TitleTextBlockStyle}"
-                       Text="Settings"/>
+            <TextBlock x:Uid="SettingsWindow/HeaderTextBlock"
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
 
             <ScrollViewer Padding="32,0" Grid.Row="1">
                 <StackPanel Orientation="Vertical" Spacing="16">
@@ -68,31 +73,27 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGrid}" Grid.Row="0">
+                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewbox}" Grid.Column="0">
+                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
                                 <FontIcon Glyph="&#xe8d6;"/>
                             </Viewbox>
 
-                            <TextBlock Style="{StaticResource SectionHeaderTextBlock}"
-                                       Text="Audio"
+                            <TextBlock x:Uid="SettingsWindow/Audio/HeaderTextBlock"
+                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard Description="The noise preset to automatically select on launch."
-                                                                   Header="Default noise preset"
+                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Audio/DefaultNoisePreset/SettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox SelectedIndex="0">
-                                    <ComboBoxItem Content="Blue"/>
-                                    <ComboBoxItem Content="Brown"/>
-                                    <ComboBoxItem Content="White"/>
-                                </ComboBox>
+                                <ComboBox ItemsSource="{x:Bind LocalizedNoisePresets.Values}"
+                                          SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -105,44 +106,35 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGrid}" Grid.Row="0">
+                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewbox}" Grid.Column="0">
+                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
                                 <FontIcon Glyph="&#xf8a6;"/>
                             </Viewbox>
 
-                            <TextBlock Style="{StaticResource SectionHeaderTextBlock}"
-                                       Text="Interface"
+                            <TextBlock x:Uid="SettingsWindow/Interface/HeaderTextBlock"
+                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
                             <!-- Application theme -->
-                            <communityToolkitControls:SettingsCard Description="Select which app theme to display."
-                                                                   Header="Application theme"
+                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/ApplicationTheme/SettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox SelectedIndex="0">
-                                    <ComboBoxItem Content="Dark"/>
-                                    <ComboBoxItem Content="Light"/>
-                                    <ComboBoxItem Content="System"/>
-                                </ComboBox>
+                                <ComboBox ItemsSource="{x:Bind LocalizedApplicationThemes.Values}"
+                                          SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- System backdrop -->
-                            <communityToolkitControls:SettingsCard Description="Select which system backdrop to use."
-                                                                   Header="System backdrop"
+                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/SystemBackdrop/SettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ComboBox SelectedIndex="0">
-                                    <ComboBoxItem Content="Mica"/>
-                                    <ComboBoxItem Content="Mica (Alternative)"/>
-                                    <ComboBoxItem Content="Acrylic"/>
-                                    <ComboBoxItem Content="None"/>
-                                </ComboBox>
+                                <ComboBox ItemsSource="{x:Bind LocalizedSystemBackdrops.Values}"
+                                          SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -155,25 +147,24 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGrid}" Grid.Row="0">
+                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewbox}" Grid.Column="0">
+                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
                                 <FontIcon Glyph="&#xe946;"/>
                             </Viewbox>
 
-                            <TextBlock Style="{StaticResource SectionHeaderTextBlock}"
-                                       Text="About"
+                            <TextBlock x:Uid="SettingsWindow/About/HeaderTextBlock"
+                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsExpander Description="© 2025 BluDay."
-                                                                       Header="Fluent Noise Remover"
+                            <communityToolkitControls:SettingsExpander x:Uid="SettingsWindow/About/ApplicationInfo/SettingsExpander"
                                                                        HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
                                 <!-- Content -->
                                 <communityToolkitControls:SettingsExpander.Content>
@@ -192,12 +183,10 @@
                     <!-- Hyperlink buttons -->
                     <StackPanel Margin="0,0,0,32" Spacing="4">
                         <!-- Reset preferences -->
-                        <HyperlinkButton Content="Repository on GitHub"
-                                         NavigateUri="https://github.com/bluday/fluent-noise-remover"/>
+                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"/>
 
                         <!-- Send feedback -->
-                        <HyperlinkButton Content="Send feedback"
-                                         NavigateUri="https://halopedia.org"/>
+                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/SendFeedback"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
