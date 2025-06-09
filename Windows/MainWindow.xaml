@@ -23,8 +23,8 @@
         <controls:TopActionBar x:Name="TopActionBarControl"
                            BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                            BorderThickness="0,0,0,1"
-                           CloseButtonClick="TopActionBarControl_CloseButtonClick"
-                           SettingsButtonClick="TopActionBarControl_SettingsButtonClick"
+                           CloseButtonCommand="{x:Bind CloseCommand}"
+                           SettingsButtonCommand="{x:Bind ShowSettingsCommand}"
                            Grid.Row="0"/>
         
         <!-- Control panel grid -->

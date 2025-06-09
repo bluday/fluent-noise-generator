@@ -37,7 +37,7 @@
         
         <!-- Close button -->
         <Button x:Name="SettingsButton"
-                Click="SettingsButton_Click"
+                Command="{x:Bind SettingsButtonCommand}"
                 Content="{communityToolkit:FontIcon Glyph=&#xe713;}"
                 Grid.Column="0"/>
 
@@ -52,7 +52,7 @@
 
         <!-- Close button -->
         <Button x:Name="CloseButton"
-                Click="CloseButton_Click"
+                Command="{x:Bind CloseButtonCommand}"
                 Content="{communityToolkit:FontIcon FontSize=11, Glyph=&#xe8bb;}"
                 Grid.Column="2"/>
     </Grid>

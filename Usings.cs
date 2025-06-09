@@ -1,4 +1,5 @@
-﻿global using BluDay.FluentNoiseRemover.Windows;
+﻿global using BluDay.FluentNoiseRemover.Common;
+global using BluDay.FluentNoiseRemover.Windows;
 
 global using BluDay.Net.WinUI3.Common.Extensions;
 
@@ -13,5 +14,6 @@ global using Microsoft.Windows.ApplicationModel.Resources;
 
 global using System;
 global using System.Diagnostics;
+global using System.Windows.Input;
 
 global using Windows.Graphics;

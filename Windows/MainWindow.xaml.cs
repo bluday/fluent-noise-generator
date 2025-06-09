@@ -20,6 +20,16 @@ public sealed partial class MainWindow : Window
     private readonly ResourceLoader _resourceLoader;
 
     /// <summary>
+    /// Gets the command for closing the window.
+    /// </summary>
+    public ICommand CloseCommand { get; }
+
+    /// <summary>
+    /// Gets the command for showing the settings window.
+    /// </summary>
+    public ICommand ShowSettingsCommand { get; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
     public MainWindow()
@@ -34,7 +44,11 @@ public sealed partial class MainWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        Closed += MainWindow_Closed;
+        CloseCommand = new RelayCommand(Close);
+
+        ShowSettingsCommand = new RelayCommand(ShowSettingsWindow);
+
+        RegisterEventHandlers();
 
         InitializeComponent();
 
@@ -66,6 +80,26 @@ public sealed partial class MainWindow : Window
         SetTitleBar(TopActionBarControl);
 
         ExtendsContentIntoTitleBar = true;
+    }
+
+    private void RegisterEventHandlers()
+    {
+        Closed += MainWindow_Closed;
+    }
+
+    private void ShowSettingsWindow()
+    {
+        if (_settingsWindow is not null)
+        {
+            _settingsWindow.Restore();
+            _settingsWindow.Focus();
+
+            return;
+        }
+
+        _settingsWindow = new SettingsWindow();
+
+        _settingsWindow.Activate();
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
@@ -103,25 +137,5 @@ public sealed partial class MainWindow : Window
                 TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
-    }
-
-    private void TopActionBarControl_CloseButtonClick(object sender, EventArgs e)
-    {
-        Close();
-    }
-
-    private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
-    {
-        if (_settingsWindow is not null)
-        {
-            _settingsWindow.Restore();
-            _settingsWindow.Focus();
-
-            return;
-        }
-
-        _settingsWindow = new SettingsWindow();
-            
-        _settingsWindow.Activate();
     }
 }
