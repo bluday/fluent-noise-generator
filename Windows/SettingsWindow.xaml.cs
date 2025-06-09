@@ -18,17 +18,17 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// Gets a read-only dictionary of localized strings for application themes.
     /// </summary>
-    public IReadOnlyDictionary<AppTheme, string> LocalizedApplicationThemes { get; }
+    public IReadOnlyDictionary<AppTheme, string> LocalizedApplicationThemes { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of localized strings for noise presets.
     /// </summary>
-    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; }
+    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of localized strings for system backdrops.
     /// </summary>
-    public IReadOnlyDictionary<WindowsSystemBackdrop, string> LocalizedSystemBackdrops { get; }
+    public IReadOnlyDictionary<WindowsSystemBackdrop, string> LocalizedSystemBackdrops { get; private set; }
     
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
@@ -48,6 +48,53 @@ public sealed partial class SettingsWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
+        LocalizedApplicationThemes = null!;
+        LocalizedNoisePresets      = null!;
+        LocalizedSystemBackdrops   = null!;
+
+        PopulateMaps();
+
+        RegisterEventHandlers();
+
+        InitializeComponent();
+
+        ConfigureTitleBar();
+
+        ConfigureWindow();
+    }
+
+    private void ConfigureTitleBar()
+    {
+        string iconPath = _resourceLoader.GetString("AppIconPath/64x64");
+        string title    = _resourceLoader.GetString("AppDisplayName");
+
+        _appWindow.SetIcon(iconPath);
+
+        TitleBarControl.Icon = new BitmapImage(new Uri(iconPath));
+
+        TitleBarControl.Title = title;
+
+        ExtendsContentIntoTitleBar = true;
+
+        Title = title;
+
+        SetTitleBar(TitleBarControl);
+    }
+
+    private void ConfigureWindow()
+    {
+        int size = (int)(600 * _dpiScaleFactor);
+
+        _overlappedPresenter.PreferredMinimumHeight = size;
+        _overlappedPresenter.PreferredMinimumWidth  = size;
+
+        _appWindow.SetPresenter(_overlappedPresenter);
+
+        _appWindow.Resize(width: 600, height: 600, _dpiScaleFactor);
+    }
+
+    private void PopulateMaps()
+    {
         LocalizedApplicationThemes = new Dictionary<AppTheme, string>
         {
             [AppTheme.System] = _resourceLoader.GetString("SystemThemes/System"),
@@ -69,44 +116,6 @@ public sealed partial class SettingsWindow : Window
             [WindowsSystemBackdrop.Acrylic]         = _resourceLoader.GetString("SystemBackdrops/Acrylic"),
             [WindowsSystemBackdrop.None]            = _resourceLoader.GetString("SystemBackdrops/None")
         };
-
-        RegisterEventHandlers();
-
-        InitializeComponent();
-
-        ConfigureTitleBar();
-
-        Configure();
-    }
-
-    private void Configure()
-    {
-        int size = (int)(600 * _dpiScaleFactor);
-
-        _overlappedPresenter.PreferredMinimumHeight = size;
-        _overlappedPresenter.PreferredMinimumWidth  = size;
-
-        _appWindow.SetPresenter(_overlappedPresenter);
-
-        _appWindow.Resize(width: 600, height: 600, _dpiScaleFactor);
-    }
-
-    private void ConfigureTitleBar()
-    {
-        string iconPath = _resourceLoader.GetString("AppIconPath/64x64");
-        string title    = _resourceLoader.GetString("AppDisplayName");
-
-        _appWindow.SetIcon(iconPath);
-
-        TitleBarControl.Icon = new BitmapImage(new Uri(iconPath));
-
-        TitleBarControl.Title = title;
-
-        ExtendsContentIntoTitleBar = true;
-
-        Title = title;
-
-        SetTitleBar(TitleBarControl);
     }
 
     private void RegisterEventHandlers()

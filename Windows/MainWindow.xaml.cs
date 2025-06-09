@@ -20,14 +20,14 @@ public sealed partial class MainWindow : Window
     private readonly ResourceLoader _resourceLoader;
 
     /// <summary>
-    /// Gets the command for closing the window.
+    /// Gets the command for hiding the window.
     /// </summary>
-    public ICommand CloseCommand { get; }
+    public ICommand HideWindowCommand { get; }
 
     /// <summary>
     /// Gets the command for showing the settings window.
     /// </summary>
-    public ICommand ShowSettingsCommand { get; }
+    public ICommand ShowSettingsWindowCommand { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -44,9 +44,9 @@ public sealed partial class MainWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        CloseCommand = new RelayCommand(Close);
+        HideWindowCommand = new RelayCommand(Close);
 
-        ShowSettingsCommand = new RelayCommand(ShowSettingsWindow);
+        ShowSettingsWindowCommand = new RelayCommand(ShowSettingsWindow);
 
         RegisterEventHandlers();
 
@@ -54,21 +54,7 @@ public sealed partial class MainWindow : Window
 
         ConfigureTitleBar();
 
-        Configure();
-    }
-
-    private void Configure()
-    {
-        _overlappedPresenter.IsAlwaysOnTop = true;
-        _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = false;
-        _overlappedPresenter.IsResizable   = false;
-
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
-
-        _appWindow.SetPresenter(_overlappedPresenter);
-
-        _appWindow.Resize(width: 200, height: 120, _dpiScaleFactor);
+        ConfigureWindow();
     }
 
     private void ConfigureTitleBar()
@@ -80,6 +66,20 @@ public sealed partial class MainWindow : Window
         SetTitleBar(TopActionBarControl);
 
         ExtendsContentIntoTitleBar = true;
+    }
+
+    private void ConfigureWindow()
+    {
+        _overlappedPresenter.IsAlwaysOnTop = true;
+        _overlappedPresenter.IsMaximizable = false;
+        _overlappedPresenter.IsMinimizable = false;
+        _overlappedPresenter.IsResizable   = false;
+
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
+
+        _appWindow.SetPresenter(_overlappedPresenter);
+
+        _appWindow.Resize(width: 200, height: 120, _dpiScaleFactor);
     }
 
     private void RegisterEventHandlers()
