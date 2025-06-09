@@ -1,13 +1,12 @@
 ﻿namespace BluDay.FluentNoiseRemover;
 
 /// <summary>
-/// Provides application-specific behavior to supplement the default Application class.
+/// Interaction logic for App.xaml and the entrypoint for the application.
 /// </summary>
 public partial class App : Application
 {
     /// <summary>
-    /// Initializes the singleton application object. This is the first line of authored
-    /// code executed, and as such is the logical equivalent of main() or WinMain().
+    /// Initializes a new instance of the <see cref="App"/> class.
     /// </summary>
     public App()
     {
