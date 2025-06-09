@@ -5,6 +5,8 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// </summary>
 public sealed partial class SettingsWindow : Window
 {
+    private bool _hasClosed;
+
     private double _dpiScaleFactor;
     
     private readonly AppWindow _appWindow;
@@ -12,6 +14,11 @@ public sealed partial class SettingsWindow : Window
     private readonly OverlappedPresenter _overlappedPresenter;
 
     private readonly ResourceLoader _resourceLoader;
+
+    /// <summary>
+    /// Gets a value indicating whether the window has been closed.
+    /// </summary>
+    public bool HasClosed => _hasClosed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
@@ -25,6 +32,8 @@ public sealed partial class SettingsWindow : Window
         _resourceLoader = new ResourceLoader();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
+        RegisterEventHandlers();
 
         InitializeComponent();
 
@@ -61,6 +70,16 @@ public sealed partial class SettingsWindow : Window
         Title = title;
 
         SetTitleBar(TitleBarControl);
+    }
+
+    private void RegisterEventHandlers()
+    {
+        Closed += SettingsWindow_Closed;
+    }
+
+    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
+    {
+        _hasClosed = true;
     }
 
     /// <summary>

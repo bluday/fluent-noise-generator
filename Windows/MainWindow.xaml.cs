@@ -89,17 +89,17 @@ public sealed partial class MainWindow : Window
 
     private void ShowSettingsWindow()
     {
-        if (_settingsWindow is not null)
+        if (_settingsWindow is null || _settingsWindow.HasClosed)
         {
-            _settingsWindow.Restore();
-            _settingsWindow.Focus();
+            _settingsWindow = new SettingsWindow();
+
+            _settingsWindow.Activate();
 
             return;
         }
 
-        _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.Activate();
+        _settingsWindow.Restore();
+        _settingsWindow.Focus();
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
