@@ -44,8 +44,7 @@ public sealed partial class MainWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        HideWindowCommand = new RelayCommand(Close);
-
+        HideWindowCommand         = new RelayCommand(Close);
         ShowSettingsWindowCommand = new RelayCommand(ShowSettingsWindow);
 
         RegisterEventHandlers();
@@ -109,12 +108,7 @@ public sealed partial class MainWindow : Window
         _settingsWindow.Focus();
     }
 
-    private void MainWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-
-    private void RootGrid_LayoutUpdated(object sender, object e)
+    private void UpdateNonClientInputRegions()
     {
         /**
          * Required to prevent the window from throwing a <see cref="ObjectDisposedException"/>.
@@ -144,5 +138,15 @@ public sealed partial class MainWindow : Window
                 TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
+    }
+
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        _hasClosed = true;
+    }
+
+    private void RootGrid_LayoutUpdated(object sender, object e)
+    {
+        UpdateNonClientInputRegions();
     }
 }
