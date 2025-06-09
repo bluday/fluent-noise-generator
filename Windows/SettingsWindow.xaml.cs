@@ -8,12 +8,17 @@ public sealed partial class SettingsWindow : Window
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
-    
+
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
     private readonly ResourceLoader _resourceLoader;
+
+    /// <summary>
+    /// The minimum width, in pixels, unscaled.
+    /// </summary>
+    public const int MINIMUM_WIDTH = 700;
 
     /// <summary>
     /// Gets a read-only dictionary of localized strings for application themes.
@@ -83,14 +88,18 @@ public sealed partial class SettingsWindow : Window
 
     private void ConfigureWindow()
     {
-        int size = (int)(600 * _dpiScaleFactor);
+        int scaledMinimumWidth = (int)(MINIMUM_WIDTH * _dpiScaleFactor);
 
-        _overlappedPresenter.PreferredMinimumHeight = size;
-        _overlappedPresenter.PreferredMinimumWidth  = size;
+        _overlappedPresenter.PreferredMinimumHeight = scaledMinimumWidth;
+        _overlappedPresenter.PreferredMinimumWidth  = scaledMinimumWidth;
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(width: 600, height: 600, _dpiScaleFactor);
+        _appWindow.Resize(
+            width:       MINIMUM_WIDTH,
+            height:      MINIMUM_WIDTH,
+            scaleFactor: _dpiScaleFactor
+        );
     }
 
     private void PopulateMaps()
