@@ -56,7 +56,7 @@
             <TextBlock FontSize="24"
                        Margin="32,16,32,24"
                        Style="{StaticResource TitleTextBlockStyle}"
-                       Text="Preferences"/>
+                       Text="Settings"/>
 
             <ScrollViewer Padding="32,0" Grid.Row="1">
                 <StackPanel Orientation="Vertical" Spacing="16">
