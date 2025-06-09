@@ -53,7 +53,7 @@
         <!-- Close button -->
         <Button x:Name="CloseButton"
                 Command="{x:Bind CloseButtonCommand}"
-                Content="{communityToolkit:FontIcon FontSize=11, Glyph=&#xe8bb;}"
+                Content="{communityToolkit:FontIcon FontSize=10, Glyph=&#xe8bb;}"
                 Grid.Column="2"/>
     </Grid>
 </UserControl>
