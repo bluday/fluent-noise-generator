@@ -62,4 +62,18 @@ public sealed partial class SettingsWindow : Window
 
         SetTitleBar(TitleBarControl);
     }
+
+    /// <summary>
+    /// Focuses the root element of the window.
+    /// </summary>
+    public void Focus()
+    {
+        Content?.Focus(FocusState.Programmatic);
+    }
+
+    /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
+    public void Restore()
+    {
+        _overlappedPresenter.Restore();
+    }
 }

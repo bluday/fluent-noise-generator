@@ -5,6 +5,8 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+    private SettingsWindow? _settingsWindow;
+
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
@@ -110,6 +112,16 @@ public sealed partial class MainWindow : Window
 
     private void TopActionBarControl_SettingsButtonClick(object sender, EventArgs e)
     {
-        new SettingsWindow().Activate();
+        if (_settingsWindow is not null)
+        {
+            _settingsWindow.Restore();
+            _settingsWindow.Focus();
+
+            return;
+        }
+
+        _settingsWindow = new SettingsWindow();
+            
+        _settingsWindow.Activate();
     }
 }
