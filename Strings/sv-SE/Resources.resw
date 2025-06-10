@@ -177,4 +177,10 @@
   <data name="NoisePresets.White" xml:space="preserve">
     <value>Vit</value>
   </data>
+  <data name="SettingsWindow.Interface.Language.SettingsCard.Header" xml:space="preserve">
+    <value>Språk</value>
+  </data>
+  <data name="SettingsWindow.Interface.Language.SettingsCard.Description" xml:space="preserve">
+    <value>Välj vilket språk som ska visas.</value>
+  </data>
 </root>

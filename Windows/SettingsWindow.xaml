@@ -136,6 +136,12 @@
                                 <ComboBox ItemsSource="{x:Bind LocalizedSystemBackdrops.Values}"
                                           SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
+                            
+                            <!-- Language -->
+                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/Language/SettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
+                                <ComboBox SelectedIndex="0"/>
+                            </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
 
