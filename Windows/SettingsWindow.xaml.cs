@@ -26,6 +26,11 @@ public sealed partial class SettingsWindow : Window
     public IReadOnlyDictionary<AppTheme, string> LocalizedApplicationThemes { get; private set; }
 
     /// <summary>
+    /// Gets a read-only dictionary of localized strings for available languages.
+    /// </summary>
+    public IReadOnlyDictionary<CultureInfo, string> LocalizedLanguages { get; private set; }
+
+    /// <summary>
     /// Gets a read-only dictionary of localized strings for noise presets.
     /// </summary>
     public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; private set; }
@@ -54,6 +59,7 @@ public sealed partial class SettingsWindow : Window
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         LocalizedApplicationThemes = null!;
+        LocalizedLanguages         = null!;
         LocalizedNoisePresets      = null!;
         LocalizedSystemBackdrops   = null!;
 
@@ -110,6 +116,13 @@ public sealed partial class SettingsWindow : Window
             [AppTheme.Dark]   = _resourceLoader.GetString("SystemThemes/Dark"),
             [AppTheme.Light]  = _resourceLoader.GetString("SystemThemes/Light")
         };
+
+        LocalizedLanguages = ApplicationLanguages.ManifestLanguages
+            .Select(language => new CultureInfo(language))
+            .ToDictionary(
+                keySelector:     language => language,
+                elementSelector: language => language.NativeName
+            );
 
         LocalizedNoisePresets = new Dictionary<string, string>
         {
