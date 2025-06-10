@@ -5,6 +5,8 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// </summary>
 public sealed partial class SettingsWindow : Window
 {
+    private ResourceLoader _resourceLoader;
+
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
@@ -13,32 +15,10 @@ public sealed partial class SettingsWindow : Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
-    private readonly ResourceLoader _resourceLoader;
-
     /// <summary>
     /// The minimum width, in pixels, unscaled.
     /// </summary>
     public const int MINIMUM_WIDTH = 700;
-
-    /// <summary>
-    /// Gets a read-only dictionary of localized strings for application themes.
-    /// </summary>
-    public IReadOnlyDictionary<AppTheme, string> LocalizedApplicationThemes { get; private set; }
-
-    /// <summary>
-    /// Gets a read-only dictionary of localized strings for available languages.
-    /// </summary>
-    public IReadOnlyDictionary<CultureInfo, string> LocalizedLanguages { get; private set; }
-
-    /// <summary>
-    /// Gets a read-only dictionary of localized strings for noise presets.
-    /// </summary>
-    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; private set; }
-
-    /// <summary>
-    /// Gets a read-only dictionary of localized strings for system backdrops.
-    /// </summary>
-    public IReadOnlyDictionary<WindowsSystemBackdrop, string> LocalizedSystemBackdrops { get; private set; }
     
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
@@ -58,26 +38,59 @@ public sealed partial class SettingsWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        LocalizedApplicationThemes = null!;
-        LocalizedLanguages         = null!;
-        LocalizedNoisePresets      = null!;
-        LocalizedSystemBackdrops   = null!;
+        InitializeComponent();
 
-        PopulateMaps();
+        PopulateComboBoxControlsWithLocalizedValues();
 
         RegisterEventHandlers();
-
-        InitializeComponent();
 
         ConfigureTitleBar();
 
         ConfigureWindow();
+
+        ApplyLocalizedContent();
+    }
+
+    private void ApplyLocalizedContent()
+    {
+        HeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Header");
+
+        AudioHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Audio/Header");
+
+        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
+        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
+
+        InterfaceHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Interface/Header");
+
+        ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
+        ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
+
+        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
+        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
+
+        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/Language/Description");
+        LanguageSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/Language/Header");
+
+        AboutHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/About/Header");
+
+        ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
+        ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
+
+        ApplicationInfoSettingsExpanderVersionTextBlock.Text = "1.0";
+
+        SessionIdentifierSettingsCard.Header = $"{GetLocalizedString("SettingsWindow/About/SessionIdentifier")}: {Guid.Empty}";
+
+        RepositoryOnGitHubHyperlinkButton.Content = GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
+        SendFeedbackHyperlinkButton.Content       = GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
+
+        RepositoryOnGitHubHyperlinkButton.NavigateUri = GetUriFromLocalizedString("General/GitHubRepositoryUrl");
+        SendFeedbackHyperlinkButton.NavigateUri       = GetUriFromLocalizedString("General/SendFeedbackUrl");
     }
 
     private void ConfigureTitleBar()
     {
-        string iconPath = _resourceLoader.GetString("AppIconPath/64x64");
-        string title    = _resourceLoader.GetString("AppDisplayName");
+        string iconPath = GetLocalizedString("Assets/IconPaths/64x64");
+        string title    = GetLocalizedString("General/AppDisplayName");
 
         _appWindow.SetIcon(iconPath);
 
@@ -108,41 +121,80 @@ public sealed partial class SettingsWindow : Window
         );
     }
 
-    private void PopulateMaps()
+    private string GetLocalizedString(string key)
     {
-        LocalizedApplicationThemes = new Dictionary<AppTheme, string>
+        return _resourceLoader.GetString(key);
+    }
+
+    private Uri GetUriFromLocalizedString(string key)
+    {
+        return new Uri(_resourceLoader.GetString(key));
+    }
+
+    private void PopulateComboBoxControlsWithLocalizedValues()
+    {
+        /*
+        GetLocalizedString("SystemThemes/System"),
+        GetLocalizedString("SystemThemes/Dark"),
+        GetLocalizedString("SystemThemes/Light")
+        */
+        ApplicationThemeComboBox.ItemsSource = new List<AppTheme>
         {
-            [AppTheme.System] = _resourceLoader.GetString("SystemThemes/System"),
-            [AppTheme.Dark]   = _resourceLoader.GetString("SystemThemes/Dark"),
-            [AppTheme.Light]  = _resourceLoader.GetString("SystemThemes/Light")
+            AppTheme.System,
+            AppTheme.Dark,
+            AppTheme.Light
         };
 
-        LocalizedLanguages = ApplicationLanguages.ManifestLanguages
+        // CultureInfo.NativeName
+        LanguageComboBox.ItemsSource = ApplicationLanguages.ManifestLanguages
             .Select(language => new CultureInfo(language))
-            .ToDictionary(
-                keySelector:     language => language,
-                elementSelector: language => language.NativeName
-            );
+            .ToList();
 
-        LocalizedNoisePresets = new Dictionary<string, string>
+        /*
+        GetLocalizedString("NoisePresets/Blue"),
+        GetLocalizedString("NoisePresets/Brownian"),
+        GetLocalizedString("NoisePresets/White")
+        */
+        NoisePresetComboBox.ItemsSource = new List<string>
         {
-            ["Blue"]     = _resourceLoader.GetString("NoisePresets/Blue"),
-            ["Brownian"] = _resourceLoader.GetString("NoisePresets/Brownian"),
-            ["White"]    = _resourceLoader.GetString("NoisePresets/White")
+            "Blue",
+            "Brownian",
+            "White"
         };
 
-        LocalizedSystemBackdrops = new Dictionary<WindowsSystemBackdrop, string>
+        /*
+        GetLocalizedString("SystemBackdrops/Mica"),
+        GetLocalizedString("SystemBackdrops/MicaAlternative"),
+        GetLocalizedString("SystemBackdrops/Acrylic"),
+        GetLocalizedString("SystemBackdrops/None")
+        */
+        SystemBackdropComboBox.ItemsSource = new List<WindowsSystemBackdrop>
         {
-            [WindowsSystemBackdrop.Mica]            = _resourceLoader.GetString("SystemBackdrops/Mica"),
-            [WindowsSystemBackdrop.MicaAlternative] = _resourceLoader.GetString("SystemBackdrops/MicaAlternative"),
-            [WindowsSystemBackdrop.Acrylic]         = _resourceLoader.GetString("SystemBackdrops/Acrylic"),
-            [WindowsSystemBackdrop.None]            = _resourceLoader.GetString("SystemBackdrops/None")
+            WindowsSystemBackdrop.Mica,
+            WindowsSystemBackdrop.MicaAlternative,
+            WindowsSystemBackdrop.Acrylic,
+            WindowsSystemBackdrop.None
         };
     }
 
     private void RegisterEventHandlers()
     {
         Closed += SettingsWindow_Closed;
+
+        LanguageComboBox.SelectionChanged += (sender, e) =>
+        {
+            CultureInfo? cultureInfo = e.AddedItems.FirstOrDefault() as CultureInfo;
+
+            if (cultureInfo is null) return;
+
+            ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+
+            _resourceLoader = new ResourceLoader();
+
+            PopulateComboBoxControlsWithLocalizedValues();
+
+            ApplyLocalizedContent();
+        };
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)

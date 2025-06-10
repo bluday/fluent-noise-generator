@@ -58,9 +58,9 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureTitleBar()
     {
-        Title = _resourceLoader.GetString("AppDisplayName");
+        Title = _resourceLoader.GetString("General/AppDisplayName");
 
-        _appWindow.SetIcon(_resourceLoader.GetString("AppIconPath/64x64"));
+        _appWindow.SetIcon(_resourceLoader.GetString("Assets/IconPaths/64x64"));
 
         SetTitleBar(TopActionBarControl);
 
@@ -87,6 +87,7 @@ public sealed partial class MainWindow : Window
             scaleFactor: _dpiScaleFactor
         );
     }
+
 
     private void RegisterEventHandlers()
     {

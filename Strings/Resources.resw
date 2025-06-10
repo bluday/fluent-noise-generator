@@ -117,22 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppDisplayName" xml:space="preserve">
+  <data name="General.AppDisplayName" xml:space="preserve">
     <value>Fluent Noise Remover</value>
   </data>
-  <data name="AppIconPath.64x64" xml:space="preserve">
+  <data name="Assets.IconPaths.64x64" xml:space="preserve">
     <value>ms-appx:///Assets/Icon-64.ico</value>
   </data>
-  <data name="SettingsWindow.About.ApplicationInfo.SettingsExpander.Description" xml:space="preserve">
+  <data name="General.CopyrightText" xml:space="preserve">
     <value>© 2025 BluDay.</value>
   </data>
-  <data name="SettingsWindow.About.ApplicationInfo.SettingsExpander.Header" xml:space="preserve">
-    <value>Fluent Noise Remover</value>
-  </data>
-  <data name="SettingsWindow.HyperlinkButtons.RepositoryOnGitHub.NavigateUri" xml:space="preserve">
+  <data name="General.GitHubRepositoryUrl" xml:space="preserve">
     <value>https://github.com/bluday/fluent-noise-remover</value>
   </data>
-  <data name="SettingsWindow.HyperlinkButtons.SendFeedback.NavigateUri" xml:space="preserve">
+  <data name="General.SendFeedbackUrl" xml:space="preserve">
     <value>https://halopedia.org</value>
   </data>
   <data name="SystemBackdrops.Acrylic" xml:space="preserve">

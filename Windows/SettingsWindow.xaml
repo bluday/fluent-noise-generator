@@ -60,8 +60,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <TextBlock x:Uid="SettingsWindow/HeaderTextBlock"
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock x:Name="HeaderTextBlock" Style="{StaticResource HeaderTextBlockStyle}"/>
 
             <ScrollViewer Padding="32,0" Grid.Row="1">
                 <StackPanel Orientation="Vertical" Spacing="16">
@@ -83,17 +82,16 @@
                                 <FontIcon Glyph="&#xe8d6;"/>
                             </Viewbox>
 
-                            <TextBlock x:Uid="SettingsWindow/Audio/HeaderTextBlock"
+                            <TextBlock x:Name="AudioHeaderTextBlock"
                                        Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Audio/DefaultNoisePreset/SettingsCard"
+                            <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox ItemsSource="{x:Bind LocalizedNoisePresets.Values}"
-                                          SelectedIndex="0"/>
+                                <ComboBox x:Name="NoisePresetComboBox"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -116,7 +114,7 @@
                                 <FontIcon Glyph="&#xf8a6;"/>
                             </Viewbox>
 
-                            <TextBlock x:Uid="SettingsWindow/Interface/HeaderTextBlock"
+                            <TextBlock x:Name="InterfaceHeaderTextBlock"
                                        Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
@@ -124,24 +122,21 @@
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
                             <!-- Application theme -->
-                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/ApplicationTheme/SettingsCard"
+                            <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox ItemsSource="{x:Bind LocalizedApplicationThemes.Values}"
-                                          SelectedIndex="0"/>
+                                <ComboBox x:Name="ApplicationThemeComboBox"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- System backdrop -->
-                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/SystemBackdrop/SettingsCard"
+                            <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ComboBox ItemsSource="{x:Bind LocalizedSystemBackdrops.Values}"
-                                          SelectedIndex="0"/>
+                                <ComboBox x:Name="SystemBackdropComboBox"/>
                             </communityToolkitControls:SettingsCard>
                             
                             <!-- Language -->
-                            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/Interface/Language/SettingsCard"
+                            <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox ItemsSource="{x:Bind LocalizedLanguages.Values}"
-                                          SelectedIndex="0"/>
+                                <ComboBox x:Name="LanguageComboBox"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -164,24 +159,24 @@
                                 <FontIcon Glyph="&#xe946;"/>
                             </Viewbox>
 
-                            <TextBlock x:Uid="SettingsWindow/About/HeaderTextBlock"
+                            <TextBlock x:Name="AboutHeaderTextBlock"
                                        Style="{StaticResource SectionHeaderTextBlockStyle}"
                                        Grid.Column="1"/>
                         </Grid>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsExpander x:Uid="SettingsWindow/About/ApplicationInfo/SettingsExpander"
+                            <communityToolkitControls:SettingsExpander x:Name="ApplicationInfoSettingsExpander"
                                                                        HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
                                 <!-- Content -->
                                 <communityToolkitControls:SettingsExpander.Content>
-                                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="1.0"/>
+                                    <TextBlock x:Name="ApplicationInfoSettingsExpanderVersionTextBlock"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                                 </communityToolkitControls:SettingsExpander.Content>
 
                                 <!-- Items -->
                                 <communityToolkitControls:SettingsExpander.Items>
-                                    <communityToolkitControls:SettingsCard Header="Session identifier: {0}"/>
+                                    <communityToolkitControls:SettingsCard x:Name="SessionIdentifierSettingsCard"/>
                                 </communityToolkitControls:SettingsExpander.Items>
                             </communityToolkitControls:SettingsExpander>
                         </StackPanel>
@@ -190,10 +185,10 @@
                     <!-- Hyperlink buttons -->
                     <StackPanel Margin="0,0,0,32" Spacing="4">
                         <!-- Reset preferences -->
-                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"/>
+                        <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton"/>
 
                         <!-- Send feedback -->
-                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/SendFeedback"/>
+                        <HyperlinkButton x:Name="SendFeedbackHyperlinkButton"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
