@@ -76,7 +76,9 @@ public sealed partial class SettingsWindow : Window
         ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
         ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
 
-        ApplicationInfoSettingsExpanderVersionTextBlock.Text = "1.0";
+        PackageVersion packageVersion = Package.Current.Id.Version;
+
+        ApplicationInfoSettingsExpanderVersionTextBlock.Text = $"{packageVersion.Major}.{packageVersion.Minor}";
 
         SessionIdentifierSettingsCard.Header = $"{GetLocalizedString("SettingsWindow/About/SessionIdentifier")}: {Guid.Empty}";
 
