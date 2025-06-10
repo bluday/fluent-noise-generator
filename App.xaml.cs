@@ -17,9 +17,9 @@ public partial class App : Application
         InitializeComponent();
     }
 
-    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    private void App_UnhandledException(object sender, Muxc.UnhandledExceptionEventArgs e)
     {
-        Debug.WriteLine($"{e.Exception}: {e.Message}");
+        Debug.WriteLine(e.Exception);
     }
 
     /// <summary>

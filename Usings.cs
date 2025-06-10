@@ -11,8 +11,9 @@ global using Microsoft.UI.Xaml.Controls;
 global using Microsoft.UI.Xaml.Media;
 global using Microsoft.UI.Xaml.Media.Imaging;
 global using Microsoft.Windows.Globalization;
-
 global using Microsoft.Windows.ApplicationModel.Resources;
+
+global using Muxc = Microsoft.UI.Xaml;
 
 global using System;
 global using System.Collections.Generic;
