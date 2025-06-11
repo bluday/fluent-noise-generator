@@ -1,9 +1,9 @@
 ﻿global using BluDay.FluentNoiseRemover.Common;
 global using BluDay.FluentNoiseRemover.Windows;
 
-global using BluDay.Net.UI.Appearance;
 global using BluDay.Net.WinUI3.Common.Extensions;
 
+global using Microsoft.UI;
 global using Microsoft.UI.Input;
 global using Microsoft.UI.Windowing;
 global using Microsoft.UI.Xaml;
