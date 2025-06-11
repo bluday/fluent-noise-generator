@@ -60,7 +60,7 @@ public sealed partial class SettingsWindow : Window
 
     private void ApplyLocalizedContent()
     {
-        HeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Header");
+        HeaderTextBlock.Text = GetLocalizedString("Common/Settings");
 
         AudioSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/Audio/Header");
 
@@ -97,17 +97,16 @@ public sealed partial class SettingsWindow : Window
     private void ConfigureTitleBar()
     {
         string iconPath = GetLocalizedString("Assets/IconPaths/64x64");
-        string title    = GetLocalizedString("General/AppDisplayName");
 
         _appWindow.SetIcon(iconPath);
 
         TitleBar.Icon = $"ms-appx:///{iconPath}";
 
-        TitleBar.Title = title;
+        TitleBar.Title = GetLocalizedString("General/AppDisplayName");
 
         ExtendsContentIntoTitleBar = true;
 
-        Title = title;
+        Title = GetLocalizedString("Common/Settings");
 
         SetTitleBar(TitleBar);
     }

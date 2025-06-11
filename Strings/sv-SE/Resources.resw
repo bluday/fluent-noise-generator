@@ -129,7 +129,7 @@
   <data name="SettingsWindow.Audio.Header" xml:space="preserve">
     <value>Ljud</value>
   </data>
-  <data name="SettingsWindow.Header" xml:space="preserve">
+  <data name="Common.Settings" xml:space="preserve">
     <value>Inställningar</value>
   </data>
   <data name="SettingsWindow.HyperlinkButtons.RepositoryOnGitHub" xml:space="preserve">
