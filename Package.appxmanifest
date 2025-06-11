@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="1f1f46b2-e4d8-44c9-9905-4287d27545fa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>BluDay.FluentNoiseRemover</DisplayName>
+    <DisplayName>Fluent Noise Remover</DisplayName>
     <PublisherDisplayName>BluDay</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
