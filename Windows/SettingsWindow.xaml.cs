@@ -76,9 +76,7 @@ public sealed partial class SettingsWindow : Window
         ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
         ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
 
-        PackageVersion packageVersion = Package.Current.Id.Version;
-
-        ApplicationInfoSettingsExpanderVersionTextBlock.Text = $"{packageVersion.Major}.{packageVersion.Minor}";
+        ApplicationInfoSettingsExpanderVersionTextBlock.Text = GetApplicationVersionText();
 
         SessionIdentifierSettingsCard.Header = $"{GetLocalizedString("SettingsWindow/About/SessionIdentifier")}: {Guid.Empty}";
 
@@ -121,6 +119,13 @@ public sealed partial class SettingsWindow : Window
             height:      MINIMUM_WIDTH,
             scaleFactor: _dpiScaleFactor
         );
+    }
+
+    private string GetApplicationVersionText()
+    {
+        PackageVersion packageVersion = Package.Current.Id.Version;
+
+        return $"{packageVersion.Major}.{packageVersion.Minor}";
     }
 
     private string GetLocalizedString(string key)
