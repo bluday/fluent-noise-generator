@@ -20,10 +20,18 @@
 public interface INoiseGenerator
 {
     /// <summary>
+    /// Gets the configuration parameters that define the behavior of the noise generator.
+    /// </summary>
+    /// <remarks>
+    /// Controls things like amplitude, randomness, and smoothing.
+    /// </remarks>
+    INoiseSettings Settings { get; }
+
+    /// <summary>
     /// Generates a 16-bit PCM audio sample for playback.
     /// </summary>
     /// <returns>
-    /// A 16-bit signed short representing the generated noise sample.
+    /// A <see cref="short"/> representing the generated noise sample.
     /// </returns>
     short GenerateSample();
 }
