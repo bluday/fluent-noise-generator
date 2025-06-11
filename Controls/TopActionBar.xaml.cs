@@ -5,57 +5,50 @@ namespace BluDay.FluentNoiseRemover.Controls;
 /// </summary>
 public sealed partial class TopActionBar : UserControl
 {
-    /// <summary>
-    /// Identifies the <see cref="CloseButtonCommand"/> dependency property.
-    /// </summary>
-    private readonly DependencyProperty CloseButtonCommandProperty = DependencyProperty.Register(
-        nameof(CloseButton),
-        typeof(ICommand),
-        typeof(TopActionBar),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public event EventHandler CloseButtonClicked;
 
-    /// <summary>
-    /// Identifies the <see cref="SettingsButtonCommand"/> dependency property.
-    /// </summary>
-    private readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(
-        nameof(SettingsButton),
-        typeof(ICommand),
-        typeof(TopActionBar),
-        new PropertyMetadata(defaultValue: null)
-    );
-
-    /// <summary>
-    /// Gets or sets the command for the close button.
-    /// </summary>
-    public ICommand? CloseButtonCommand
-    {
-        get => GetValue(CloseButtonCommandProperty) as ICommand;
-        set => SetValue(CloseButtonCommandProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the command for the settings button.
-    /// </summary>
-    public ICommand? SettingsButtonCommand
-    {
-        get => GetValue(SettingsButtonCommandProperty) as ICommand;
-        set => SetValue(SettingsButtonCommandProperty, value);
-    }
+    public event EventHandler SettingsButtonClicked;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TopActionBar"/> class.
     /// </summary>
     public TopActionBar()
     {
+        CloseButtonClicked = (sender, e) => { };
+
+        SettingsButtonClicked = (sender, e) => { };
+
         InitializeComponent();
     }
 
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseButtonClicked.Invoke(this, EventArgs.Empty);
+    }
+
+    private void SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsButtonClicked.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Gets the bounding box for the settings button.
+    /// </summary>
+    /// <param name="scaleFactor">
+    /// The scale factor to multiply the width and height with.
+    /// </param>
+    /// <returns>
+    /// A scaled rect of the bounding box.
+    /// </returns>
     public RectInt32 GetBoundingRectForCloseButton(double scaleFactor)
     {
         return CloseButton.GetBoundingBox(scaleFactor);
     }
 
+    /// <inheritdoc cref="GetBoundingRectForCloseButton(double)"/>
+    /// <summary>
+    /// Gets the bounding box for the settings button.
+    /// </summary>
     public RectInt32 GetBoundingRectForSettingsButton(double scaleFactor)
     {
         return SettingsButton.GetBoundingBox(scaleFactor);
