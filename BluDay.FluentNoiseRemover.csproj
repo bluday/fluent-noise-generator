@@ -1,4 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<!-- Assets -->
+	<PropertyGroup>
+		<ApplicationIcon>Assets\Icon-64.ico</ApplicationIcon>
+	</PropertyGroup>
+	
 	<!-- Framework versioning -->
 	<PropertyGroup>
         <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
