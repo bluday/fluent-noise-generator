@@ -184,24 +184,30 @@ public sealed partial class SettingsWindow : Window
         };
     }
 
+    private void RefreshLocalizedContent()
+    {
+        _resourceLoader = new ResourceLoader();
+
+        PopulateComboBoxControlsWithLocalizedValues();
+
+        ApplyLocalizedContent();
+    }
+
     private void RegisterEventHandlers()
     {
         Closed += SettingsWindow_Closed;
 
-        LanguageComboBox.SelectionChanged += (sender, e) =>
+        LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
+    }
+
+    private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is CultureInfo cultureInfo)
         {
-            CultureInfo? cultureInfo = e.AddedItems.FirstOrDefault() as CultureInfo;
-
-            if (cultureInfo is null) return;
-
             ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
 
-            _resourceLoader = new ResourceLoader();
-
-            PopulateComboBoxControlsWithLocalizedValues();
-
-            ApplyLocalizedContent();
-        };
+            RefreshLocalizedContent();
+        }
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)
