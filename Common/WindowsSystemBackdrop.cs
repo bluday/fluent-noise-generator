@@ -1,27 +1,27 @@
 ﻿namespace BluDay.FluentNoiseRemover.Common;
 
 /// <summary>
-/// Defines the available system backdrop materials.
+/// Represents available system backdrop materials.
 /// </summary>
 public enum WindowsSystemBackdrop
 {
     /// <summary>
-    /// Uses the standard Mica material.
+    /// No backdrop.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// The standard Mica backdrop.
     /// </summary>
     Mica,
 
     /// <summary>
-    /// Uses an alternative variant of the Mica material.
+    /// The Mica Alt material.
     /// </summary>
-    MicaAlternative,
+    MicaAlt,
 
     /// <summary>
-    /// Uses the Acrylic material for a translucent effect.
+    /// The Acrylic material.
     /// </summary>
-    Acrylic,
-
-    /// <summary>
-    /// No system backdrop is applied.
-    /// </summary>
-    None
+    Acrylic
 }

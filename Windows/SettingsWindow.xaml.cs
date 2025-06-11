@@ -174,17 +174,17 @@ public sealed partial class SettingsWindow : Window
         };
 
         /*
+        GetLocalizedString("Common/None"),
         GetLocalizedString("SystemBackdrop/Mica"),
         GetLocalizedString("SystemBackdrop/MicaAlt"),
-        GetLocalizedString("SystemBackdrop/Acrylic"),
-        GetLocalizedString("Common/None")
+        GetLocalizedString("SystemBackdrop/Acrylic")
         */
         SystemBackdropComboBox.ItemsSource = new List<WindowsSystemBackdrop>
         {
+            WindowsSystemBackdrop.None,
             WindowsSystemBackdrop.Mica,
-            WindowsSystemBackdrop.MicaAlternative,
-            WindowsSystemBackdrop.Acrylic,
-            WindowsSystemBackdrop.None
+            WindowsSystemBackdrop.MicaAlt,
+            WindowsSystemBackdrop.Acrylic
         };
     }
 
