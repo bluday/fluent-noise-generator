@@ -71,12 +71,10 @@ public sealed partial class SettingsWindow : Window
 
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
-
-        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
-        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
-
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/Language/Description");
-        LanguageSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/Language/Header");
+        SystemBackdropSettingsCard.Description   = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
+        SystemBackdropSettingsCard.Header        = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
+        LanguageSettingsCard.Description         = GetLocalizedString("SettingsWindow/Interface/Language/Description");
+        LanguageSettingsCard.Header              = GetLocalizedString("SettingsWindow/Interface/Language/Header");
 
         AboutHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/About/Header");
 
@@ -87,9 +85,8 @@ public sealed partial class SettingsWindow : Window
 
         SessionIdentifierSettingsCard.Header = $"{GetLocalizedString("SettingsWindow/About/SessionIdentifier")}: {Guid.Empty}";
 
-        RepositoryOnGitHubHyperlinkButton.Content = GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
-        SendFeedbackHyperlinkButton.Content       = GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
-
+        RepositoryOnGitHubHyperlinkButton.Content     = GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
+        SendFeedbackHyperlinkButton.Content           = GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
         RepositoryOnGitHubHyperlinkButton.NavigateUri = GetUriFromLocalizedString("General/GitHubRepositoryUrl");
         SendFeedbackHyperlinkButton.NavigateUri       = GetUriFromLocalizedString("General/SendFeedbackUrl");
     }
@@ -100,15 +97,15 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetIcon("Assets/Icon-64.ico");
 
-        TitleBarControl.Icon = new BitmapImage(GetUriFromLocalizedString("Assets/IconPaths/64x64"));
+        ClientTitleBar.Icon = new BitmapImage(GetUriFromLocalizedString("Assets/IconPaths/64x64"));
 
-        TitleBarControl.Title = title;
+        ClientTitleBar.Title = title;
 
         ExtendsContentIntoTitleBar = true;
 
         Title = title;
 
-        SetTitleBar(TitleBarControl);
+        SetTitleBar(ClientTitleBar);
     }
 
     private void ConfigureWindow()
