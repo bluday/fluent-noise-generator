@@ -16,10 +16,15 @@ public sealed partial class SettingsWindow : Window
     private readonly OverlappedPresenter _overlappedPresenter;
 
     /// <summary>
-    /// The minimum width, in pixels, unscaled.
+    /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_WIDTH = 700;
-    
+    public const int MINIMUM_HEIGHT = 820;
+
+    /// <summary>
+    /// The minimum width unscaled in pixels.
+    /// </summary>
+    public const int MINIMUM_WIDTH = 800;
+
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
@@ -118,18 +123,15 @@ public sealed partial class SettingsWindow : Window
 
     private void ConfigureWindow()
     {
-        int scaledMinimumWidth = (int)(MINIMUM_WIDTH * _dpiScaleFactor);
+        int scaledMinimumWidth  = (int)(MINIMUM_WIDTH  * _dpiScaleFactor);
+        int scaledMinimumHeight = (int)(MINIMUM_HEIGHT * _dpiScaleFactor);
 
-        _overlappedPresenter.PreferredMinimumHeight = scaledMinimumWidth;
         _overlappedPresenter.PreferredMinimumWidth  = scaledMinimumWidth;
+        _overlappedPresenter.PreferredMinimumHeight = scaledMinimumHeight;
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(
-            width:       MINIMUM_WIDTH,
-            height:      MINIMUM_WIDTH,
-            scaleFactor: _dpiScaleFactor
-        );
+        _appWindow.Resize(scaledMinimumWidth, scaledMinimumHeight);
     }
 
     private string GetApplicationVersionText()
@@ -150,7 +152,13 @@ public sealed partial class SettingsWindow : Window
     }
 
     private void PopulateComboBoxControlsWithLocalizedValues()
-    {
+    { 
+        AudioSampleRateComboBox.ItemsSource = new List<int>
+        {
+            AudioSampleRates.Rate44100Hz,
+            AudioSampleRates.Rate48000Hz
+        };
+
         /*
         GetLocalizedString("Common/System"),
         GetLocalizedString("Common/Dark"),
