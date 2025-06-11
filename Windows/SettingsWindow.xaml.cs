@@ -98,15 +98,15 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetIcon(iconPath);
 
-        ClientTitleBar.Icon = $"ms-appx:///{iconPath}";
+        TitleBar.Icon = $"ms-appx:///{iconPath}";
 
-        ClientTitleBar.Title = title;
+        TitleBar.Title = title;
 
         ExtendsContentIntoTitleBar = true;
 
         Title = title;
 
-        SetTitleBar(ClientTitleBar);
+        SetTitleBar(TitleBar);
     }
 
     private void ConfigureWindow()

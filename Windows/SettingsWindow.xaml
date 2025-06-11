@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <controls:TitleBar x:Name="ClientTitleBar" Grid.Row="0"/>
+        <controls:TitleBar x:Name="TitleBar" Grid.Row="0"/>
         
         <!-- Content -->
         <Grid MaxWidth="800" Grid.Row="1">
