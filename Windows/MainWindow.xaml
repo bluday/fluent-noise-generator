@@ -28,9 +28,9 @@
                                SettingsButtonClicked="TopActionBar_SettingsButtonClicked"
                                Grid.Row="0"/>
         
-        <!-- Control panel grid -->
-        <controls:MainControlPanel x:Name="MainControlPanel"
-                                   PlaybackButtonClicked="MainControlPanel_PlaybackButtonClicked"
-                                   Grid.Row="1"/>
+        <!-- Playback control panel -->
+        <controls:PlaybackControlPanel x:Name="PlaybackControlPanel"
+                                       PlaybackButtonClicked="PlaybackControlPanel_PlaybackButtonClicked"
+                                       Grid.Row="1"/>
     </Grid>
 </Window>

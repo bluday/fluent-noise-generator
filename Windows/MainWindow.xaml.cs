@@ -113,7 +113,7 @@ public sealed partial class MainWindow : Window
 
         IsPlaying = isPlaying;
 
-        MainControlPanel.IsPlaying = isPlaying;
+        PlaybackControlPanel.IsPlaying = isPlaying;
     }
 
     private string GetLocalizedString(string key)
@@ -196,11 +196,6 @@ public sealed partial class MainWindow : Window
         );
     }
 
-    private void MainControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
-    {
-        TogglePlayback();
-    }
-
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
         _hasClosed = true;
@@ -209,6 +204,11 @@ public sealed partial class MainWindow : Window
     private void LayoutRoot_LayoutUpdated(object sender, object e)
     {
         UpdateNonClientInputRegions();
+    }
+
+    private void PlaybackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
+    {
+        TogglePlayback();
     }
 
     private void TopActionBar_CloseButtonClicked(object sender, EventArgs e)

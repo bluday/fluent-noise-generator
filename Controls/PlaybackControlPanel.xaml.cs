@@ -1,9 +1,9 @@
 namespace BluDay.FluentNoiseRemover.Controls;
 
 /// <summary>
-/// Interaction logic for MainControlPanel.xaml.
+/// Interaction logic for PlaybackControlPanel.xaml.
 /// </summary>
-public sealed partial class MainControlPanel : UserControl
+public sealed partial class PlaybackControlPanel : UserControl
 {
     /// <summary>
     /// Identifies the <see cref="IsPlaying"/> dependency property.
@@ -11,7 +11,7 @@ public sealed partial class MainControlPanel : UserControl
     public static readonly DependencyProperty IsPlayingProperty = DependencyProperty.Register(
         nameof(IsPlaying),
         typeof(bool),
-        typeof(MainControlPanel),
+        typeof(PlaybackControlPanel),
         new PropertyMetadata(
             defaultValue:            false,
             propertyChangedCallback: OnIsPlayingChanged
@@ -33,9 +33,9 @@ public sealed partial class MainControlPanel : UserControl
     public event EventHandler PlaybackButtonClicked;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MainControlPanel"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackControlPanel"/> class.
     /// </summary>
-    public MainControlPanel()
+    public PlaybackControlPanel()
     {
         PlaybackButtonClicked = (sender, e) => { };
 
@@ -54,6 +54,6 @@ public sealed partial class MainControlPanel : UserControl
 
     private static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((MainControlPanel)d).UpdatePlaybackVisualState();
+        ((PlaybackControlPanel)d).UpdatePlaybackVisualState();
     }
 }
