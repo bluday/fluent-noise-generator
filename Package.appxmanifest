@@ -1,57 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+			xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+			xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+			xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+			IgnorableNamespaces="uap rescap">
+	<!-- Application identity -->
+    <Identity Name="1f1f46b2-e4d8-44c9-9905-4287d27545fa"
+			  Publisher="CN=BluDay"
+			  Version="1.0.0.0"/>
 
-<Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+	<!-- Windows Phone? -->
+    <mp:PhoneIdentity PhoneProductId="1f1f46b2-e4d8-44c9-9905-4287d27545fa"
+					  PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
-  <Identity
-    Name="1f1f46b2-e4d8-44c9-9905-4287d27545fa"
-    Publisher="CN=BluDay"
-    Version="1.0.0.0" />
+	<!-- Application info -->
+    <Properties>
+        <DisplayName>Fluent Noise Remover</DisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+        <PublisherDisplayName>BluDay</PublisherDisplayName>
+    </Properties>
+	
+	<!-- Dependencies -->
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal"
+							MinVersion="10.0.17763.0"
+							MaxVersionTested="10.0.19041.0"/>
+		
+        <TargetDeviceFamily Name="Windows.Desktop"
+							MinVersion="10.0.17763.0"
+							MaxVersionTested="10.0.19041.0"/>
+    </Dependencies>
+		
+	<!-- Languages -->
+    <Resources>
+        <Resource Language="en-US"/>
+        <Resource Language="sv-SE"/>
+    </Resources>
 
-  <mp:PhoneIdentity PhoneProductId="1f1f46b2-e4d8-44c9-9905-4287d27545fa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+    <Applications>
+        <Application Id="App"
+					 Executable="$targetnametoken$.exe"
+					 EntryPoint="$targetentrypoint$">
+            <uap:VisualElements DisplayName="ms-resource:General/AppDisplayName"
+								Description="Developed by BluDay."
+								BackgroundColor="transparent"
+								Square150x150Logo="Assets\Square150x150Logo.png"
+								Square44x44Logo="Assets\Square44x44Logo.png">
+				<!-- Default tile assets -->
+                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"
+							     Square71x71Logo="Assets\SmallTile.png"
+							     Square310x310Logo="Assets\LargeTile.png">
+                    <uap:ShowNameOnTiles>
+                        <uap:ShowOn Tile="square150x150Logo"/>
+                        <uap:ShowOn Tile="wide310x150Logo"/>
+                        <uap:ShowOn Tile="square310x310Logo"/>
+                    </uap:ShowNameOnTiles>
+                </uap:DefaultTile>
+				
+				<!-- Splash screen -->
+                <uap:SplashScreen Image="Assets\SplashScreen.png"/>
+            </uap:VisualElements>
+        </Application>
+    </Applications>
 
-  <Properties>
-    <DisplayName>Fluent Noise Remover</DisplayName>
-    <PublisherDisplayName>BluDay</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
-
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-  </Dependencies>
-
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
-
-  <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
-      <uap:VisualElements
-        DisplayName="ms-resource:General/AppDisplayName"
-        Description="Developed by BluDay."
-        BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo"/>
-            <uap:ShowOn Tile="wide310x150Logo"/>
-            <uap:ShowOn Tile="square310x310Logo"/>
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile >
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
-      </uap:VisualElements>
-    </Application>
-  </Applications>
-
-  <Capabilities>
-    <rescap:Capability Name="runFullTrust" />
-  </Capabilities>
+	<!-- Capabilities -->
+    <Capabilities>
+        <rescap:Capability Name="runFullTrust"/>
+    </Capabilities>
 </Package>
