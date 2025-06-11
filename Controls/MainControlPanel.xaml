@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl mc:Ignorable="d"
              x:Class="BluDay.FluentNoiseRemover.Controls.MainControlPanel"
+             x:DefaultBindMode="OneWay"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -18,6 +19,7 @@
     
     <!-- Root grid -->
     <Grid Padding="8" Grid.Row="1">
+        <!-- Column definitions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
@@ -26,6 +28,21 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <!-- Visual state management -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <!-- Normal -->
+                <VisualState x:Name="Normal"/>
+
+                <!-- Playing -->
+                <VisualState x:Name="Playing">
+                    <VisualState.Setters>
+                        <Setter Target="PlaybackButtonFontIcon.Glyph" Value="&#xf8ae;"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <!-- Presets button -->
         <Button IsEnabled="False" Grid.Column="1">
             <Button.Flyout>
@@ -95,8 +112,10 @@
             </Viewbox>
         </Button>
 
-        <!-- Play button -->
-        <Button CornerRadius="40"
+        <!-- Playback button -->
+        <Button x:Name="PlaybackButton"
+                Click="PlaybackButton_Click"
+                CornerRadius="40"
                 Height="60"
                 Margin="14,0"
                 Padding="15"
@@ -104,9 +123,7 @@
                 Style="{ThemeResource DefaultButtonStyle}"
                 Grid.Column="2">
             <Viewbox>
-                <!-- f8ae (PauseBold) -->
-            
-                <FontIcon Glyph="&#xf5b0;"/>
+                <FontIcon x:Name="PlaybackButtonFontIcon" Glyph="&#xf5b0;"/>
             </Viewbox>
         </Button>
 
