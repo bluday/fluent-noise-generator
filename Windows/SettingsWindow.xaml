@@ -20,26 +20,6 @@
             <Style x:Key="HeaderTextBlockStyle"
                    BasedOn="{StaticResource TitleTextBlockStyle}"
                    TargetType="TextBlock">
-                <Setter Property="FontSize" Value="24"/>
-                <Setter Property="Margin" Value="32,16,32,24"/>
-            </Style>
-            
-            <Style x:Key="SectionHeaderGridStyle" TargetType="Grid">
-                <Setter Property="Margin" Value="4,4,4,8"/>
-            </Style>
-            
-            <Style x:Key="SectionHeaderIconViewboxStyle" TargetType="Viewbox">
-                <Setter Property="Height" Value="14"/>
-                <Setter Property="Margin" Value="0,0,8,0"/>
-                <Setter Property="Width" Value="14"/>
-            </Style>
-
-            <Style x:Key="SectionHeaderTextBlockStyle"
-                   BasedOn="{StaticResource BodyStrongTextBlockStyle}"
-                   TargetType="TextBlock">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextLineBounds" Value="Tight"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
         </Grid.Resources>
         
@@ -60,7 +40,10 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <TextBlock x:Name="HeaderTextBlock" Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock x:Name="HeaderTextBlock"
+                       FontSize="24"
+                       Margin="32,16,32,24"
+                       Style="{StaticResource TitleTextBlockStyle}"/>
 
             <ScrollViewer Padding="32,0" Grid.Row="1">
                 <StackPanel Orientation="Vertical" Spacing="16">
@@ -72,20 +55,9 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
-                                <FontIcon Glyph="&#xe8d6;"/>
-                            </Viewbox>
-
-                            <TextBlock x:Name="AudioHeaderTextBlock"
-                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
-                                       Grid.Column="1"/>
-                        </Grid>
+                        <controls:SettingsSectionHeader x:Name="AudioSettingsSectionHeader"
+                                                        Glyph="&#xe8d6;"
+                                                        Grid.Row="0"/>
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
@@ -104,21 +76,10 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
-                                <FontIcon Glyph="&#xf8a6;"/>
-                            </Viewbox>
-
-                            <TextBlock x:Name="InterfaceHeaderTextBlock"
-                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
-                                       Grid.Column="1"/>
-                        </Grid>
-
+                        <controls:SettingsSectionHeader x:Name="InterfaceSettingsSectionHeader"
+                                                        Glyph="&#xf8a6;"
+                                                        Grid.Row="0"/>
+                        
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
                             <!-- Application theme -->
@@ -149,21 +110,10 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Header -->
-                        <Grid Style="{StaticResource SectionHeaderGridStyle}" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Viewbox Style="{StaticResource SectionHeaderIconViewboxStyle}" Grid.Column="0">
-                                <FontIcon Glyph="&#xe946;"/>
-                            </Viewbox>
-
-                            <TextBlock x:Name="AboutHeaderTextBlock"
-                                       Style="{StaticResource SectionHeaderTextBlockStyle}"
-                                       Grid.Column="1"/>
-                        </Grid>
-
+                        <controls:SettingsSectionHeader x:Name="AboutSettingsSectionHeader"
+                                                        Glyph="&#xe946;"
+                                                        Grid.Row="0"/>
+                        
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
                             <communityToolkitControls:SettingsExpander x:Name="ApplicationInfoSettingsExpander"

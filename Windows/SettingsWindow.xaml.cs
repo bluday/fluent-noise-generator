@@ -62,12 +62,12 @@ public sealed partial class SettingsWindow : Window
     {
         HeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Header");
 
-        AudioHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Audio/Header");
+        AudioSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/Audio/Header");
 
         DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
         DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
 
-        InterfaceHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/Interface/Header");
+        InterfaceSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/Interface/Header");
 
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
@@ -76,7 +76,7 @@ public sealed partial class SettingsWindow : Window
         LanguageSettingsCard.Description         = GetLocalizedString("SettingsWindow/Interface/Language/Description");
         LanguageSettingsCard.Header              = GetLocalizedString("SettingsWindow/Interface/Language/Header");
 
-        AboutHeaderTextBlock.Text = GetLocalizedString("SettingsWindow/About/Header");
+        AboutSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/About/Header");
 
         ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
         ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
