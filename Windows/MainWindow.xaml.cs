@@ -1,6 +1,3 @@
-using CommunityToolkit.WinUI;
-using Windows.Storage.Search;
-
 namespace BluDay.FluentNoiseRemover.Windows;
 
 /// <summary>
@@ -63,7 +60,7 @@ public sealed partial class MainWindow : Window
     {
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
-        _appWindow.SetIcon(_resourceLoader.GetString("Assets/IconPaths/64x64"));
+        _appWindow.SetIcon("Assets/Icon-64.ico");
 
         SetTitleBar(TopActionBarControl);
 
@@ -90,7 +87,6 @@ public sealed partial class MainWindow : Window
             scaleFactor: _dpiScaleFactor
         );
     }
-
 
     private void RegisterEventHandlers()
     {

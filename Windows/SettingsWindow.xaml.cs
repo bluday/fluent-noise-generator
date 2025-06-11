@@ -96,12 +96,11 @@ public sealed partial class SettingsWindow : Window
 
     private void ConfigureTitleBar()
     {
-        string iconPath = GetLocalizedString("Assets/IconPaths/64x64");
-        string title    = GetLocalizedString("General/AppDisplayName");
+        string title = GetLocalizedString("General/AppDisplayName");
 
-        _appWindow.SetIcon(iconPath);
+        _appWindow.SetIcon("Assets/Icon-64.ico");
 
-        TitleBarControl.Icon = new BitmapImage(new Uri(iconPath));
+        TitleBarControl.Icon = new BitmapImage(GetUriFromLocalizedString("Assets/IconPaths/64x64"));
 
         TitleBarControl.Title = title;
 
