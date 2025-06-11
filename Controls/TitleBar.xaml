@@ -14,17 +14,17 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <!-- Application icon -->
-        <Image Height="16"
+        <!-- Icon -->
+        <Image x:Name="IconImage"
+               Height="16"
                Margin="8,4"
-               Source="{x:Bind Icon}"
                VerticalAlignment="Center"
                Width="16"
                Grid.Column="0"/>
 
         <!-- Title -->
-        <TextBlock FontSize="12"
-                   Text="{x:Bind Title}"
+        <TextBlock x:Name="TitleTextBlock"
+                   FontSize="12"
                    VerticalAlignment="Center"
                    Grid.Column="1"/>
     </Grid>

@@ -5,7 +5,6 @@ namespace BluDay.FluentNoiseRemover.Controls;
 /// </summary>
 public sealed partial class TitleBar : UserControl
 {
-    #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="Icon"> dependency property.
     /// </summary>
@@ -13,7 +12,10 @@ public sealed partial class TitleBar : UserControl
         nameof(Icon),
         typeof(ImageSource),
         typeof(TitleBar),
-        new PropertyMetadata(defaultValue: null)
+        new PropertyMetadata(
+            defaultValue:            null,
+            propertyChangedCallback: OnIconChanged
+        )
     );
 
     /// <summary>
@@ -23,31 +25,30 @@ public sealed partial class TitleBar : UserControl
         nameof(Title),
         typeof(string),
         typeof(TitleBar),
-        new PropertyMetadata(defaultValue: null)
+        new PropertyMetadata(
+            defaultValue:            null,
+            propertyChangedCallback: OnTitleChanged
+        )
     );
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Gets the image source for the icon.
     /// </summary>
-    public ImageSource? Icon
+    public string Icon
     {
-        get => GetValue(IconProperty) as ImageSource;
+        get => (string)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <summary>
     /// Gets the title value of the title bar.
     /// </summary>
-    public string? Title
+    public string Title
     {
-        get => GetValue(TitleProperty) as string;
+        get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="TitleBar"/> class.
     /// </summary>
@@ -55,5 +56,23 @@ public sealed partial class TitleBar : UserControl
     {
         InitializeComponent();
     }
-    #endregion
+
+    private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (TitleBar)d;
+
+        if (!Uri.TryCreate(e.NewValue as string, UriKind.Absolute, out Uri? uri))
+        {
+            control.IconImage.Source = null;
+
+            return;
+        }
+
+        control.IconImage.Source = new BitmapImage(uri);
+    }
+
+    private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((TitleBar)d).TitleTextBlock.Text = e.NewValue as string;
+    }
 }
