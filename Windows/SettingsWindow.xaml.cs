@@ -26,6 +26,11 @@ public sealed partial class SettingsWindow : Window
     public bool HasClosed => _hasClosed;
 
     /// <summary>
+    /// The event to invoke when a new application theme gets selected.
+    /// </summary>
+    public event EventHandler<ElementTheme> ApplicationThemeChanged;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
     /// </summary>
     public SettingsWindow()
@@ -37,6 +42,8 @@ public sealed partial class SettingsWindow : Window
         _resourceLoader = new ResourceLoader();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
+        ApplicationThemeChanged = (sender, theme) => { };
 
         InitializeComponent();
 
@@ -145,11 +152,11 @@ public sealed partial class SettingsWindow : Window
         GetLocalizedString("SystemThemes/Dark"),
         GetLocalizedString("SystemThemes/Light")
         */
-        ApplicationThemeComboBox.ItemsSource = new List<AppTheme>
+        ApplicationThemeComboBox.ItemsSource = new List<ElementTheme>
         {
-            AppTheme.System,
-            AppTheme.Dark,
-            AppTheme.Light
+            ElementTheme.Default,
+            ElementTheme.Dark,
+            ElementTheme.Light
         };
 
         // CultureInfo.NativeName
@@ -197,7 +204,17 @@ public sealed partial class SettingsWindow : Window
     {
         Closed += SettingsWindow_Closed;
 
+        ApplicationThemeComboBox.SelectionChanged += ApplicationThemeComboBox_SelectionChanged;
+
         LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
+    }
+
+    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is ElementTheme theme)
+        {
+            ApplicationThemeChanged.Invoke(this, theme);
+        }
     }
 
     private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

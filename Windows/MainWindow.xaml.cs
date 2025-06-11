@@ -1,3 +1,6 @@
+using CommunityToolkit.WinUI;
+using Windows.Storage.Search;
+
 namespace BluDay.FluentNoiseRemover.Windows;
 
 /// <summary>
@@ -100,6 +103,8 @@ public sealed partial class MainWindow : Window
         {
             _settingsWindow = new SettingsWindow();
 
+            _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
+
             _settingsWindow.Activate();
 
             return;
@@ -107,6 +112,19 @@ public sealed partial class MainWindow : Window
 
         _settingsWindow.Restore();
         _settingsWindow.Focus();
+    }
+
+    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
+    {
+        if (Content is FrameworkElement frameworkElement)
+        {
+            frameworkElement.RequestedTheme = e;
+        }
+
+        if (_settingsWindow?.Content is FrameworkElement settingsFrameworkElement)
+        {
+            settingsFrameworkElement.RequestedTheme = e;
+        }
     }
 
     private void UpdateNonClientInputRegions()
