@@ -21,11 +21,11 @@
 
         <!-- Title bar -->
         <controls:TopActionBar x:Name="TopActionBarControl"
-                           BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-                           BorderThickness="0,0,0,1"
-                           CloseButtonCommand="{x:Bind HideWindowCommand}"
-                           SettingsButtonCommand="{x:Bind ShowSettingsWindowCommand}"
-                           Grid.Row="0"/>
+                               BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+                               BorderThickness="0,0,0,1"
+                               CloseButtonCommand="{x:Bind HideWindowCommand}"
+                               SettingsButtonCommand="{x:Bind ShowSettingsWindowCommand}"
+                               Grid.Row="0"/>
         
         <!-- Control panel grid -->
         <controls:MainControlPanel Grid.Row="1"/>
