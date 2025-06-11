@@ -67,6 +67,28 @@
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
+                    
+                    <!-- General -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+    
+                        <!-- Header -->
+                        <controls:SettingsSectionHeader x:Name="GeneralSettingsSectionHeader"
+                                                        Glyph="&#xf8a6;"
+                                                        Grid.Row="0"/>
+    
+                        <!-- Expanders -->
+                        <StackPanel Spacing="2" Grid.Row="1">
+                            <!-- Language -->
+                            <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
+                                <ComboBox x:Name="LanguageComboBox"/>
+                            </communityToolkitControls:SettingsCard>
+                        </StackPanel>
+                    </Grid>
 
                     <!-- Interface -->
                     <Grid>
@@ -77,7 +99,7 @@
                         
                         <!-- Header -->
                         <controls:SettingsSectionHeader x:Name="InterfaceSettingsSectionHeader"
-                                                        Glyph="&#xf8a6;"
+                                                        Glyph="&#xead5;"
                                                         Grid.Row="0"/>
                         
                         <!-- Expanders -->
@@ -92,12 +114,6 @@
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
                                 <ComboBox x:Name="SystemBackdropComboBox"/>
-                            </communityToolkitControls:SettingsCard>
-                            
-                            <!-- Language -->
-                            <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox x:Name="LanguageComboBox"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>

@@ -186,4 +186,7 @@
   <data name="SettingsWindow.About.SessionIdentifier" xml:space="preserve">
     <value>Sessionsid</value>
   </data>
+  <data name="SettingsWindow.General.Header" xml:space="preserve">
+    <value>Allmänt</value>
+  </data>
 </root>
