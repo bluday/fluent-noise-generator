@@ -20,14 +20,9 @@ public sealed partial class MainWindow : Window
     private readonly ResourceLoader _resourceLoader;
 
     /// <summary>
-    /// Gets the command for hiding the window.
+    /// Gets a value indicating whether the playback is currently active.
     /// </summary>
-    public ICommand HideWindowCommand { get; }
-
-    /// <summary>
-    /// Gets the command for showing the settings window.
-    /// </summary>
-    public ICommand ShowSettingsWindowCommand { get; }
+    public bool IsPlaying { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -44,9 +39,6 @@ public sealed partial class MainWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        HideWindowCommand         = new RelayCommand(Close);
-        ShowSettingsWindowCommand = new RelayCommand(ShowSettingsWindow);
-
         RegisterEventHandlers();
 
         InitializeComponent();
@@ -58,11 +50,11 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureTitleBar()
     {
+        _appWindow.SetIcon(GetLocalizedString("Assets/IconPaths/64x64"));
+
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
-        _appWindow.SetIcon("Assets/Icon-64.ico");
-
-        SetTitleBar(TopActionBarControl);
+        SetTitleBar(TopActionBar);
 
         ExtendsContentIntoTitleBar = true;
     }
@@ -95,19 +87,38 @@ public sealed partial class MainWindow : Window
 
     private void ShowSettingsWindow()
     {
-        if (_settingsWindow is null || _settingsWindow.HasClosed)
+        if (_settingsWindow?.HasClosed is false)
         {
-            _settingsWindow = new SettingsWindow();
-
-            _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
-
-            _settingsWindow.Activate();
+            _settingsWindow.Restore();
+            _settingsWindow.Focus();
 
             return;
         }
 
-        _settingsWindow.Restore();
-        _settingsWindow.Focus();
+        if (_settingsWindow is not null)
+        {
+            _settingsWindow.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
+        }
+
+        _settingsWindow = new SettingsWindow();
+
+        _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
+
+        _settingsWindow.Activate();
+    }
+
+    private void TogglePlayback()
+    {
+        bool isPlaying = !IsPlaying;
+
+        IsPlaying = isPlaying;
+
+        MainControlPanel.IsPlaying = isPlaying;
+    }
+
+    private string GetLocalizedString(string key)
+    {
+        return _resourceLoader.GetString(key);
     }
 
     private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
@@ -120,6 +131,36 @@ public sealed partial class MainWindow : Window
         if (_settingsWindow?.Content is FrameworkElement settingsFrameworkElement)
         {
             settingsFrameworkElement.RequestedTheme = e;
+        }
+
+        AppWindowTitleBar? settingsWindowTitleBar = _settingsWindow?.AppWindow.TitleBar;
+
+        if (settingsWindowTitleBar is null)
+        {
+            return;
+        }
+
+        settingsWindowTitleBar.ButtonBackgroundColor         = Colors.Transparent;
+        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+        if (e is ElementTheme.Light)
+        {
+            settingsWindowTitleBar.ButtonHoverBackgroundColor    = Colors.DarkGray;
+            settingsWindowTitleBar.ButtonPressedBackgroundColor  = Colors.LightGray;
+
+            settingsWindowTitleBar.ButtonForegroundColor        = Colors.Black;
+            settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.Black;
+            settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.Black;
+        }
+        else
+        {
+            settingsWindowTitleBar.ButtonHoverBackgroundColor    = Colors.LightGray;
+            settingsWindowTitleBar.ButtonPressedBackgroundColor  = Colors.Gray;
+
+            settingsWindowTitleBar.ButtonForegroundColor        = Colors.White;
+            settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.White;
+            settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
         }
     }
 
@@ -143,16 +184,21 @@ public sealed partial class MainWindow : Window
          */
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Caption,
-            [TopActionBarControl.GetBoundingBox(_dpiScaleFactor)]
+            [TopActionBar.GetBoundingBox(_dpiScaleFactor)]
         );
 
         _nonClientPointerSource.SetRegionRects(
             NonClientRegionKind.Passthrough,
             [
-                TopActionBarControl.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-                TopActionBarControl.GetBoundingRectForCloseButton(_dpiScaleFactor)
+                TopActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+                TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
+    }
+
+    private void MainControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
+    {
+        TogglePlayback();
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
@@ -160,8 +206,18 @@ public sealed partial class MainWindow : Window
         _hasClosed = true;
     }
 
-    private void RootGrid_LayoutUpdated(object sender, object e)
+    private void LayoutRoot_LayoutUpdated(object sender, object e)
     {
         UpdateNonClientInputRegions();
+    }
+
+    private void TopActionBar_CloseButtonClicked(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
+    {
+        ShowSettingsWindow();
     }
 }

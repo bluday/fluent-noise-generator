@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window mc:Ignorable="d"
         x:Class="BluDay.FluentNoiseRemover.Windows.MainWindow"
+        x:DefaultBindMode="OneWay"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:controls="using:BluDay.FluentNoiseRemover.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +13,7 @@
     </Window.SystemBackdrop>
     
     <!-- Root grid -->
-    <Grid x:Name="RootGrid" LayoutUpdated="RootGrid_LayoutUpdated">
+    <Grid x:Name="LayoutRoot" LayoutUpdated="LayoutRoot_LayoutUpdated">
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,14 +21,16 @@
         </Grid.RowDefinitions>
 
         <!-- Title bar -->
-        <controls:TopActionBar x:Name="TopActionBarControl"
+        <controls:TopActionBar x:Name="TopActionBar"
                                BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                                BorderThickness="0,0,0,1"
-                               CloseButtonCommand="{x:Bind HideWindowCommand}"
-                               SettingsButtonCommand="{x:Bind ShowSettingsWindowCommand}"
+                               CloseButtonClicked="TopActionBar_CloseButtonClicked"
+                               SettingsButtonClicked="TopActionBar_SettingsButtonClicked"
                                Grid.Row="0"/>
         
         <!-- Control panel grid -->
-        <controls:MainControlPanel Grid.Row="1"/>
+        <controls:MainControlPanel x:Name="MainControlPanel"
+                                   PlaybackButtonClicked="MainControlPanel_PlaybackButtonClicked"
+                                   Grid.Row="1"/>
     </Grid>
 </Window>

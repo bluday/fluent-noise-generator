@@ -121,7 +121,7 @@
     <value>Fluent Noise Remover</value>
   </data>
   <data name="Assets.IconPaths.64x64" xml:space="preserve">
-    <value>ms-appx:///Assets/Icon-64.ico</value>
+    <value>Assets/Icon-64.ico</value>
   </data>
   <data name="General.CopyrightText" xml:space="preserve">
     <value>© 2025 BluDay.</value>
