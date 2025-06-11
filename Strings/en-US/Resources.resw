@@ -183,4 +183,10 @@
   <data name="Common.General" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="Common.SampleRate" xml:space="preserve">
+    <value>Sample rate</value>
+  </data>
+  <data name="SettingsWindow.Audio.SampleRate.Description" xml:space="preserve">
+    <value>Select which playback sample rate to use.</value>
+  </data>
 </root>

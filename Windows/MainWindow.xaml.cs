@@ -52,11 +52,11 @@ public sealed partial class MainWindow : Window
     {
         _appWindow.SetIcon(GetLocalizedString("Assets/IconPaths/64x64"));
 
+        ExtendsContentIntoTitleBar = true;
+
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
         SetTitleBar(TopActionBar);
-
-        ExtendsContentIntoTitleBar = true;
     }
 
     private void ConfigureWindow()

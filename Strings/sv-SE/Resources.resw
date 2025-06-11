@@ -183,4 +183,10 @@
   <data name="Common.General" xml:space="preserve">
     <value>Allmänt</value>
   </data>
+  <data name="Common.SampleRate" xml:space="preserve">
+    <value>Samplingsfrekvens</value>
+  </data>
+  <data name="SettingsWindow.Audio.SampleRate.Description" xml:space="preserve">
+    <value>Välj vilken samplingsfrekvens som ska användas för uppspelning.</value>
+  </data>
 </root>

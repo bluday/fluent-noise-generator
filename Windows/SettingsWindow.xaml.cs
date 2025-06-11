@@ -64,13 +64,15 @@ public sealed partial class SettingsWindow : Window
 
         AudioSettingsSectionHeader.Header = GetLocalizedString("Common/Audio");
 
-        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
-        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
+        AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/SampleRate/Description");
+        AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
 
         GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
 
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
-        LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
+        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
+        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
+        LanguageSettingsCard.Description           = GetLocalizedString("SettingsWindow/General/Language/Description");
+        LanguageSettingsCard.Header                = GetLocalizedString("Common/Language");
 
         InterfaceSettingsSectionHeader.Header = GetLocalizedString("Common/Interface");
 
@@ -166,7 +168,7 @@ public sealed partial class SettingsWindow : Window
             .Select(language => new CultureInfo(language))
             .ToList();
 
-        NoisePresetComboBox.ItemsSource = new List<string>
+        DefaultNoisePresetComboBox.ItemsSource = new List<string>
         {
             GetLocalizedString("Common/Blue"),
             GetLocalizedString("Common/Brownian"),
