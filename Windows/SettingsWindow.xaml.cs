@@ -62,31 +62,34 @@ public sealed partial class SettingsWindow : Window
     {
         HeaderTextBlock.Text = GetLocalizedString("Common/Settings");
 
-        AudioSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/Audio/Header");
+        AudioSettingsSectionHeader.Header = GetLocalizedString("Common/Audio");
 
         DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
         DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
 
-        GeneralSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/General/Header");
+        GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
 
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/Language/Description");
-        LanguageSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/Language/Header");
+        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
+        LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
 
-        InterfaceSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/Interface/Header");
+        InterfaceSettingsSectionHeader.Header = GetLocalizedString("Common/Interface");
 
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
         SystemBackdropSettingsCard.Description   = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
         SystemBackdropSettingsCard.Header        = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
 
-        AboutSettingsSectionHeader.Header = GetLocalizedString("SettingsWindow/About/Header");
+        AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
 
         ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
         ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
 
         ApplicationInfoSettingsExpanderVersionTextBlock.Text = GetApplicationVersionText();
 
-        SessionIdentifierSettingsCard.Header = $"{GetLocalizedString("SettingsWindow/About/SessionIdentifier")}: {Guid.Empty}";
+        SessionIdentifierSettingsCard.Header = string.Format(
+            format: GetLocalizedString("SettingsWindow/About/SessionIdentifierFormatString"),
+            args:   [Guid.Empty]
+        );
 
         RepositoryOnGitHubHyperlinkButton.Content     = GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
         SendFeedbackHyperlinkButton.Content           = GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
@@ -147,9 +150,9 @@ public sealed partial class SettingsWindow : Window
     private void PopulateComboBoxControlsWithLocalizedValues()
     {
         /*
-        GetLocalizedString("SystemThemes/System"),
-        GetLocalizedString("SystemThemes/Dark"),
-        GetLocalizedString("SystemThemes/Light")
+        GetLocalizedString("Common/System"),
+        GetLocalizedString("Common/Dark"),
+        GetLocalizedString("Common/Light")
         */
         ApplicationThemeComboBox.ItemsSource = new List<ElementTheme>
         {
@@ -163,23 +166,18 @@ public sealed partial class SettingsWindow : Window
             .Select(language => new CultureInfo(language))
             .ToList();
 
-        /*
-        GetLocalizedString("NoisePresets/Blue"),
-        GetLocalizedString("NoisePresets/Brownian"),
-        GetLocalizedString("NoisePresets/White")
-        */
         NoisePresetComboBox.ItemsSource = new List<string>
         {
-            "Blue",
-            "Brownian",
-            "White"
+            GetLocalizedString("Common/Blue"),
+            GetLocalizedString("Common/Brownian"),
+            GetLocalizedString("Common/White")
         };
 
         /*
-        GetLocalizedString("SystemBackdrops/Mica"),
-        GetLocalizedString("SystemBackdrops/MicaAlternative"),
-        GetLocalizedString("SystemBackdrops/Acrylic"),
-        GetLocalizedString("SystemBackdrops/None")
+        GetLocalizedString("SystemBackdrop/Mica"),
+        GetLocalizedString("SystemBackdrop/MicaAlt"),
+        GetLocalizedString("SystemBackdrop/Acrylic"),
+        GetLocalizedString("Common/None")
         */
         SystemBackdropComboBox.ItemsSource = new List<WindowsSystemBackdrop>
         {

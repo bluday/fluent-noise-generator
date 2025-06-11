@@ -132,10 +132,16 @@
   <data name="General.SendFeedbackUrl" xml:space="preserve">
     <value>https://halopedia.org</value>
   </data>
-  <data name="SystemBackdrops.Acrylic" xml:space="preserve">
+  <data name="SystemBackdrop.Acrylic" xml:space="preserve">
     <value>Acrylic</value>
   </data>
-  <data name="SystemBackdrops.Mica" xml:space="preserve">
+  <data name="SystemBackdrop.Mica" xml:space="preserve">
     <value>Mica</value>
+  </data>
+  <data name="SystemBackdrop.MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="Common.Brownian" xml:space="preserve">
+    <value>Brownian</value>
   </data>
 </root>
