@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        Title = _resourceLoader.GetString("General/AppDisplayName");
+        Title = GetLocalizedString("General/AppDisplayName");
 
         SetTitleBar(TopActionBar);
     }
