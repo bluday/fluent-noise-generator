@@ -18,12 +18,12 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_HEIGHT = 820;
+    public const int MINIMUM_HEIGHT = 600;
 
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_WIDTH = 800;
+    public const int MINIMUM_WIDTH = 600;
 
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
