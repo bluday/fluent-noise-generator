@@ -56,7 +56,7 @@
                             <!-- Sample rate -->
                             <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
-                                <ComboBox x:Name="AudioSampleRateComboBox"/>
+                                <ComboBox x:Name="AudioSampleRateComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -78,13 +78,13 @@
                             <!-- Default noise preset -->
                             <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox x:Name="DefaultNoisePresetComboBox"/>
+                                <ComboBox x:Name="DefaultNoisePresetComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                             
                             <!-- Language -->
                             <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox x:Name="LanguageComboBox"/>
+                                <ComboBox x:Name="LanguageComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -106,13 +106,13 @@
                             <!-- Application theme -->
                             <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox x:Name="ApplicationThemeComboBox"/>
+                                <ComboBox x:Name="ApplicationThemeComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- System backdrop -->
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ComboBox x:Name="SystemBackdropComboBox"/>
+                                <ComboBox x:Name="SystemBackdropComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>

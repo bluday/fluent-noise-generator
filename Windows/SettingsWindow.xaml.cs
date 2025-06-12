@@ -26,6 +26,34 @@ public sealed partial class SettingsWindow : Window
     public const int MINIMUM_WIDTH = 800;
 
     /// <summary>
+    /// Gets a read-only dictionary of mapped application themes, with localized keys.
+    /// </summary>
+    public IReadOnlyDictionary<string, ElementTheme> LocalizedApplicationThemes { get; private set; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of mapped audio sample rates, with localized keys.
+    /// </summary>
+    public IReadOnlyDictionary<string, int> LocalizedAudioSampleRates { get; private set; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of mapped languages, with localized keys.
+    /// </summary>
+    public IReadOnlyDictionary<string, CultureInfo> LocalizedLanguages { get; private set; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of mapped noise presets, with localized keys.
+    /// </summary>
+    /// <remarks>
+    /// Value type of <see cref="string"/> is used for now, until a type for noise preset is implemented.
+    /// </remarks>
+    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; private set; }
+
+    /// <summary>
+    /// Gets a read-only dictionary of mapped system backdrops, with localized keys.
+    /// </summary>
+    public IReadOnlyDictionary<string, WindowsSystemBackdrop> LocalizedSystemBackdrops { get; private set; }
+
+    /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
     public bool HasClosed => _hasClosed;
@@ -50,6 +78,12 @@ public sealed partial class SettingsWindow : Window
 
         ApplicationThemeChanged = (sender, theme) => { };
 
+        LocalizedApplicationThemes = null!;
+        LocalizedAudioSampleRates  = null!;
+        LocalizedLanguages         = null!;
+        LocalizedNoisePresets      = null!;
+        LocalizedSystemBackdrops   = null!;
+
         InitializeComponent();
 
         PopulateComboBoxControlsWithLocalizedValues();
@@ -72,19 +106,31 @@ public sealed partial class SettingsWindow : Window
         AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/SampleRate/Description");
         AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
 
+        AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
+
         GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
 
-        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Description");
-        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Audio/DefaultNoisePreset/Header");
-        LanguageSettingsCard.Description           = GetLocalizedString("SettingsWindow/General/Language/Description");
-        LanguageSettingsCard.Header                = GetLocalizedString("Common/Language");
+        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
+        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
+
+        DefaultNoisePresetComboBox.ItemsSource = LocalizedNoisePresets.Keys;
+
+        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
+        LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
+
+        LanguageComboBox.ItemsSource = LocalizedLanguages.Keys;
 
         InterfaceSettingsSectionHeader.Header = GetLocalizedString("Common/Interface");
 
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
-        SystemBackdropSettingsCard.Description   = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
-        SystemBackdropSettingsCard.Header        = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
+
+        ApplicationThemeComboBox.ItemsSource = LocalizedApplicationThemes.Keys;
+
+        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
+        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
+
+        SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
 
         AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
 
@@ -152,49 +198,47 @@ public sealed partial class SettingsWindow : Window
     }
 
     private void PopulateComboBoxControlsWithLocalizedValues()
-    { 
-        AudioSampleRateComboBox.ItemsSource = new List<int>
-        {
+    {
+        List<int> audioSampleRates = [
             AudioSampleRates.Rate44100Hz,
             AudioSampleRates.Rate48000Hz
-        };
+        ];
 
-        /*
-        GetLocalizedString("Common/System"),
-        GetLocalizedString("Common/Dark"),
-        GetLocalizedString("Common/Light")
-        */
-        ApplicationThemeComboBox.ItemsSource = new List<ElementTheme>
-        {
-            ElementTheme.Default,
-            ElementTheme.Dark,
-            ElementTheme.Light
-        };
-
-        // CultureInfo.NativeName
-        LanguageComboBox.ItemsSource = ApplicationLanguages.ManifestLanguages
-            .Select(language => new CultureInfo(language))
-            .ToList();
-
-        DefaultNoisePresetComboBox.ItemsSource = new List<string>
-        {
+        List<string> noisePresets = [
             GetLocalizedString("Common/Blue"),
             GetLocalizedString("Common/Brownian"),
             GetLocalizedString("Common/White")
+        ];
+
+        string shortHertzText = GetLocalizedString("General/Unit/Hertz/Short");
+
+        LocalizedAudioSampleRates = audioSampleRates.ToDictionary(
+            keySelector:     value => $"{value} {shortHertzText}",
+            elementSelector: value => value
+        );
+
+        LocalizedApplicationThemes = new Dictionary<string, ElementTheme>
+        {
+            [GetLocalizedString("Common/System")] = ElementTheme.Default,
+            [GetLocalizedString("Common/Dark")]   = ElementTheme.Dark,
+            [GetLocalizedString("Common/Light")]  = ElementTheme.Light
         };
 
-        /*
-        GetLocalizedString("Common/None"),
-        GetLocalizedString("SystemBackdrop/Mica"),
-        GetLocalizedString("SystemBackdrop/MicaAlt"),
-        GetLocalizedString("SystemBackdrop/Acrylic")
-        */
-        SystemBackdropComboBox.ItemsSource = new List<WindowsSystemBackdrop>
+        LocalizedLanguages = ApplicationLanguages.ManifestLanguages
+            .Select(language => new CultureInfo(language))
+            .ToDictionary(
+                keySelector:     cultureInfo => cultureInfo.NativeName,
+                elementSelector: cultureInfo => cultureInfo
+            );
+
+        LocalizedNoisePresets = noisePresets.ToDictionary(preset => preset);
+
+        LocalizedSystemBackdrops = new Dictionary<string, WindowsSystemBackdrop>
         {
-            WindowsSystemBackdrop.None,
-            WindowsSystemBackdrop.Mica,
-            WindowsSystemBackdrop.MicaAlt,
-            WindowsSystemBackdrop.Acrylic
+            [GetLocalizedString("Common/None")]            = WindowsSystemBackdrop.None,
+            [GetLocalizedString("SystemBackdrop/Mica")]    = WindowsSystemBackdrop.Mica,
+            [GetLocalizedString("SystemBackdrop/MicaAlt")] = WindowsSystemBackdrop.MicaAlt,
+            [GetLocalizedString("SystemBackdrop/Acrylic")] = WindowsSystemBackdrop.Acrylic
         };
     }
 
