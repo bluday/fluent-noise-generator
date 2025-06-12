@@ -110,6 +110,9 @@ public sealed partial class SettingsWindow : Window
 
         GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
 
+        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Description");
+        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Header");
+
         DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
         DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
 

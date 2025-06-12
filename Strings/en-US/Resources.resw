@@ -189,4 +189,10 @@
   <data name="SettingsWindow.General.DefaultNoisePreset.Header" xml:space="preserve">
     <value>Default noise preset</value>
   </data>
+  <data name="SettingsWindow.General.AutoplayOnLaunch.Header" xml:space="preserve">
+    <value>Autoplay on launch</value>
+  </data>
+  <data name="SettingsWindow.General.AutoplayOnLaunch.Description" xml:space="preserve">
+    <value>Select which noise preset to play automatically on launch.</value>
+  </data>
 </root>

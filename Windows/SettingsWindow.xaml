@@ -75,6 +75,12 @@
     
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
+                            <!-- Autoplay on launch -->
+                            <communityToolkitControls:SettingsCard x:Name="AutoplayOnLaunchSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
+                                <ToggleSwitch/>
+                            </communityToolkitControls:SettingsCard>
+                            
                             <!-- Default noise preset -->
                             <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
