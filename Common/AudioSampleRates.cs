@@ -13,5 +13,5 @@ public static class AudioSampleRates
     /// <summary>
     /// 48000 Hz.
     /// </summary>
-    public const int Rate48000Hz = 44800;
+    public const int Rate48000Hz = 48000;
 }
