@@ -15,14 +15,6 @@
     
     <!-- Root grid -->
     <Grid>
-        <!-- Resources -->
-        <Grid.Resources>
-            <Style x:Key="HeaderTextBlockStyle"
-                   BasedOn="{StaticResource TitleTextBlockStyle}"
-                   TargetType="TextBlock">
-            </Style>
-        </Grid.Resources>
-        
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
