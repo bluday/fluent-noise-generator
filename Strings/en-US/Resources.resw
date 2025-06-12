@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Common.About" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="SettingsWindow.Audio.DefaultNoisePreset.Description" xml:space="preserve">
-    <value>The noise preset to automatically select on launch.</value>
-  </data>
-  <data name="SettingsWindow.Audio.DefaultNoisePreset.Header" xml:space="preserve">
-    <value>Default noise preset</value>
-  </data>
   <data name="Common.Audio" xml:space="preserve">
     <value>Audio</value>
   </data>
@@ -188,5 +179,14 @@
   </data>
   <data name="SettingsWindow.Audio.SampleRate.Description" xml:space="preserve">
     <value>Select which playback sample rate to use.</value>
+  </data>
+  <data name="Common.About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsWindow.General.DefaultNoisePreset.Description" xml:space="preserve">
+    <value>The noise preset to automatically select on launch.</value>
+  </data>
+  <data name="SettingsWindow.General.DefaultNoisePreset.Header" xml:space="preserve">
+    <value>Default noise preset</value>
   </data>
 </root>

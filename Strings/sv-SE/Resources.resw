@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Common.About" xml:space="preserve">
-    <value>Om</value>
-  </data>
-  <data name="SettingsWindow.Audio.DefaultNoisePreset.Description" xml:space="preserve">
-    <value>Brusförinställning som automatiskt väljs vid start.</value>
-  </data>
-  <data name="SettingsWindow.Audio.DefaultNoisePreset.Header" xml:space="preserve">
-    <value>Standardinställning för brus</value>
-  </data>
   <data name="Common.Audio" xml:space="preserve">
     <value>Ljud</value>
   </data>
@@ -188,5 +179,14 @@
   </data>
   <data name="SettingsWindow.Audio.SampleRate.Description" xml:space="preserve">
     <value>Välj vilken samplingsfrekvens som ska användas för uppspelning.</value>
+  </data>
+  <data name="Common.About" xml:space="preserve">
+    <value>Om</value>
+  </data>
+  <data name="SettingsWindow.General.DefaultNoisePreset.Description" xml:space="preserve">
+    <value>Brusförinställning som automatiskt väljs vid start.</value>
+  </data>
+  <data name="SettingsWindow.General.DefaultNoisePreset.Header" xml:space="preserve">
+    <value>Standardinställning för brus</value>
   </data>
 </root>
