@@ -144,4 +144,7 @@
   <data name="Common.Brownian" xml:space="preserve">
     <value>Brownian</value>
   </data>
+  <data name="General.Unit.Hertz.Short" xml:space="preserve">
+    <value>Hz</value>
+  </data>
 </root>
