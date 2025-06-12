@@ -101,46 +101,47 @@ public sealed partial class SettingsWindow : Window
     {
         HeaderTextBlock.Text = GetLocalizedString("Common/Settings");
 
-        AudioSettingsSectionHeader.Header = GetLocalizedString("Common/Audio");
+        AppearanceSettingsExpander.Header      = GetLocalizedString("Common/Appearance");
+        AppearanceSettingsExpander.Description = GetLocalizedString("SettingsWindow/Appearance/Description");
 
-        AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Audio/SampleRate/Description");
-        AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
+        ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
+        ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
-        AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
+        ApplicationThemeItemsRepeater.ItemsSource = LocalizedApplicationThemes.Keys;
 
-        GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
+        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Header");
+        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Description");
 
-        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Description");
-        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Header");
+        SystemBackdropItemsRepeater.ItemsSource = LocalizedSystemBackdrops.Keys;
 
-        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
-        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
+        PreferencesSettingsExpander.Header      = GetLocalizedString("Common/Preferences");
+        PreferencesSettingsExpander.Description = GetLocalizedString("SettingsWindow/Preferences/Description");
+
+        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Header");
+        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Description");
+
+        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Header");
+        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Description");
 
         DefaultNoisePresetComboBox.ItemsSource = LocalizedNoisePresets.Keys;
 
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
         LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
+        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/Language/Description");
 
         LanguageComboBox.ItemsSource = LocalizedLanguages.Keys;
 
-        InterfaceSettingsSectionHeader.Header = GetLocalizedString("Common/Interface");
+        SoundSettingsExpander.Header      = GetLocalizedString("Common/Sound");
+        SoundSettingsExpander.Description = GetLocalizedString("SettingsWindow/Sound/Description");
 
-        ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Description");
-        ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/ApplicationTheme/Header");
+        AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
+        AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Sound/SampleRate/Description");
 
-        ApplicationThemeComboBox.ItemsSource = LocalizedApplicationThemes.Keys;
+        AudioSampleRateItemsRepeater.ItemsSource = LocalizedAudioSampleRates.Keys;
 
-        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Description");
-        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Interface/SystemBackdrop/Header");
+        AboutSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
+        AboutSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
 
-        SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
-
-        AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
-
-        ApplicationInfoSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
-        ApplicationInfoSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
-
-        ApplicationInfoSettingsExpanderVersionTextBlock.Text = GetApplicationVersionText();
+        ApplicationVersionTextBlock.Text = GetApplicationVersionText();
 
         SessionIdentifierSettingsCard.Header = string.Format(
             format: GetLocalizedString("SettingsWindow/About/SessionIdentifierFormatString"),
@@ -213,7 +214,7 @@ public sealed partial class SettingsWindow : Window
             GetLocalizedString("Common/White")
         ];
 
-        string shortHertzText = GetLocalizedString("General/Unit/Hertz/Short");
+        string shortHertzText = GetLocalizedString("Units/Hertz/Short");
 
         LocalizedAudioSampleRates = audioSampleRates.ToDictionary(
             keySelector:     value => $"{value} {shortHertzText}",
@@ -258,27 +259,36 @@ public sealed partial class SettingsWindow : Window
     {
         Closed += SettingsWindow_Closed;
 
-        ApplicationThemeComboBox.SelectionChanged += ApplicationThemeComboBox_SelectionChanged;
-
         LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
     }
 
-    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ApplicationThemeRadioButton_Click(object sender, RoutedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is ElementTheme theme)
+        var key = (string)((RadioButton)sender).Content;
+
+        if (!LocalizedApplicationThemes.TryGetValue(key, out ElementTheme theme))
         {
-            ApplicationThemeChanged.Invoke(this, theme);
+            return;
         }
+
+        ApplicationThemeChanged.Invoke(this, theme);
     }
 
     private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is CultureInfo cultureInfo)
+        if (e.AddedItems.FirstOrDefault() is not string key)
         {
-            ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
-
-            RefreshLocalizedContent();
+            return;
         }
+
+        if (!LocalizedLanguages.TryGetValue(key, out CultureInfo? cultureInfo))
+        {
+            return;
+        }
+
+        ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+
+        RefreshLocalizedContent();
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)
