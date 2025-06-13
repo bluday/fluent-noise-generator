@@ -209,8 +209,8 @@ public sealed partial class SettingsWindow : Window
     private void PopulateComboBoxControlsWithLocalizedValues()
     {
         List<int> audioSampleRates = [
-            AudioSampleRates.Rate44100Hz,
-            AudioSampleRates.Rate48000Hz
+            AudioSampleRates.Rate48000Hz,
+            AudioSampleRates.Rate44100Hz
         ];
 
         List<string> noisePresets = [
