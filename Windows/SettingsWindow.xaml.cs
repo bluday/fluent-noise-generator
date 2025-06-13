@@ -99,9 +99,11 @@ public sealed partial class SettingsWindow : Window
 
     private void ApplyLocalizedContent()
     {
-        TitleBar.Title = GetLocalizedString("General/AppDisplayName");
+        string displayName = Package.Current.DisplayName;
 
         string settingsText = GetLocalizedString("Common/Settings");
+
+        TitleBar.Title = displayName;
 
         Title = settingsText;
 
@@ -146,7 +148,7 @@ public sealed partial class SettingsWindow : Window
 
         AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
 
-        AboutSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
+        AboutSettingsExpander.Header      = displayName;
         AboutSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
 
         ApplicationVersionTextBlock.Text = GetApplicationVersionText();
@@ -190,9 +192,9 @@ public sealed partial class SettingsWindow : Window
 
     private string GetApplicationVersionText()
     {
-        PackageVersion packageVersion = Package.Current.Id.Version;
+        PackageVersion version = Package.Current.Id.Version;
 
-        return $"{packageVersion.Major}.{packageVersion.Minor}";
+        return $"{version.Major}.{version.Minor}";
     }
 
     private string GetLocalizedString(string key)
