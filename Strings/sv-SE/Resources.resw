@@ -153,8 +153,8 @@
   <data name="Common.Language" xml:space="preserve">
     <value>Språk</value>
   </data>
-  <data name="SettingsWindow.Preferences.Language.Description" xml:space="preserve">
-    <value>Välj vilket språk som ska visas.</value>
+  <data name="SettingsWindow.General.Language.Description" xml:space="preserve">
+    <value>Välj vilket språk som ska visas</value>
   </data>
   <data name="SettingsWindow.Appearance.SystemBackdrop.Description" xml:space="preserve">
     <value>Välj vilken systembakgrund som ska användas</value>
@@ -171,22 +171,22 @@
   <data name="SettingsWindow.Sound.SampleRate.Description" xml:space="preserve">
     <value>Välj vilken samplingsfrekvens som ska användas för uppspelning</value>
   </data>
-  <data name="SettingsWindow.Preferences.DefaultNoisePreset.Description" xml:space="preserve">
+  <data name="SettingsWindow.General.DefaultNoisePreset.Description" xml:space="preserve">
     <value>Brusförinställning som automatiskt väljs vid start</value>
   </data>
-  <data name="SettingsWindow.Preferences.DefaultNoisePreset.Header" xml:space="preserve">
+  <data name="SettingsWindow.General.DefaultNoisePreset.Header" xml:space="preserve">
     <value>Standardinställning för brus</value>
   </data>
-  <data name="SettingsWindow.Preferences.AutoplayOnLaunch.Header" xml:space="preserve">
+  <data name="SettingsWindow.General.AutoplayOnLaunch.Header" xml:space="preserve">
     <value>Autospel vid start</value>
   </data>
-  <data name="SettingsWindow.Preferences.AutoplayOnLaunch.Description" xml:space="preserve">
+  <data name="SettingsWindow.General.AutoplayOnLaunch.Description" xml:space="preserve">
     <value>Välj vilken förinställning för brus som ska spelas upp automatiskt vid start</value>
   </data>
   <data name="SettingsWindow.Sound.Description" xml:space="preserve">
     <value>Justera ljudeffekter, volym och ljudenhetsinställningar</value>
   </data>
-  <data name="SettingsWindow.Preferences.Description" xml:space="preserve">
+  <data name="SettingsWindow.General.Description" xml:space="preserve">
     <value>Konfigurera grundläggande inställningar och applikationsbeteende</value>
   </data>
   <data name="SettingsWindow.Appearance.Description" xml:space="preserve">
@@ -198,13 +198,16 @@
   <data name="Common.Appearance" xml:space="preserve">
     <value>Utseende</value>
   </data>
-  <data name="Common.Preferences" xml:space="preserve">
-    <value>Preferenser</value>
+  <data name="Common.General" xml:space="preserve">
+    <value>Allmänt</value>
   </data>
   <data name="Common.On" xml:space="preserve">
     <value>På</value>
   </data>
   <data name="Common.Off" xml:space="preserve">
     <value>Av</value>
+  </data>
+  <data name="Common.About" xml:space="preserve">
+    <value>Om</value>
   </data>
 </root>

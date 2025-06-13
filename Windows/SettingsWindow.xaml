@@ -33,34 +33,29 @@
 
             <!-- Header -->
             <TextBlock x:Name="HeaderTextBlock"
-                       FontSize="24"
-                       Margin="32,16,32,24"
-                       Style="{StaticResource TitleTextBlockStyle}"/>
+                        Text="Settings"
+                        FontSize="24"
+                        Margin="32,16"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        TextLineBounds="Tight"
+                        VerticalAlignment="Center"/>
 
             <ScrollViewer Padding="32,0" Grid.Row="1">
-                <StackPanel Orientation="Vertical" Spacing="2">
-                    <!-- Appearance -->
-                    <communityToolkitControls:SettingsExpander x:Name="AppearanceSettingsExpander"
-                                                               HeaderIcon="{communityToolkit:FontIcon Glyph=&#xead5;}">
-                        <communityToolkitControls:SettingsExpander.Items>
-                            <!-- Application theme -->
-                            <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox x:Name="ApplicationThemeComboBox" SelectedIndex="0"/>
-                            </communityToolkitControls:SettingsCard>
+                <StackPanel Orientation="Vertical" Spacing="16">
+                    <!-- General -->
+                    <Grid Margin="0,8,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                            <!-- System backdrop -->
-                            <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ComboBox x:Name="SystemBackdropComboBox" SelectedIndex="0"/>
-                            </communityToolkitControls:SettingsCard>
-                        </communityToolkitControls:SettingsExpander.Items>
-                    </communityToolkitControls:SettingsExpander>
-                    
-                    <!-- Preferences -->
-                    <communityToolkitControls:SettingsExpander x:Name="PreferencesSettingsExpander"
-                                                               HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9f5;}">
-                        <communityToolkitControls:SettingsExpander.Items>
+                        <!-- Header -->
+                        <controls:SettingsSectionHeader x:Name="GeneralSettingsSectionHeader"
+                                                        Glyph="&#xf8a6;"
+                                                        Grid.Row="0"/>
+
+                        <!-- Expanders -->
+                        <StackPanel Spacing="2" Grid.Row="1">
                             <!-- Autoplay on launch -->
                             <communityToolkitControls:SettingsCard x:Name="AutoplayOnLaunchSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
@@ -78,38 +73,91 @@
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                                 <ComboBox x:Name="LanguageComboBox"/>
                             </communityToolkitControls:SettingsCard>
-                        </communityToolkitControls:SettingsExpander.Items>
-                    </communityToolkitControls:SettingsExpander>
-
+                        </StackPanel>
+                    </Grid>
+                    
                     <!-- Sound -->
-                    <communityToolkitControls:SettingsExpander x:Name="SoundSettingsExpander"
-                                                               HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe8d6;}">
-                        <communityToolkitControls:SettingsExpander.Items>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <controls:SettingsSectionHeader x:Name="SoundSettingsSectionHeader"
+                                                        Glyph="&#xe8d6;"
+                                                        Grid.Row="0"/>
+
+                        <!-- Expanders -->
+                        <StackPanel Spacing="2" Grid.Row="1">
                             <!-- Sample rate -->
                             <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
                                 <ComboBox x:Name="AudioSampleRateComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
-                        </communityToolkitControls:SettingsExpander.Items>
-                    </communityToolkitControls:SettingsExpander>
+                        </StackPanel>
+                    </Grid>
                     
-                    <!-- About -->
-                    <communityToolkitControls:SettingsExpander x:Name="AboutSettingsExpander"
-                                                               HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
-                        <!-- Content -->
-                        <communityToolkitControls:SettingsExpander.Content>
-                            <TextBlock x:Name="ApplicationVersionTextBlock"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                        </communityToolkitControls:SettingsExpander.Content>
+                    <!-- Appearance -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                        <!-- Items -->
-                        <communityToolkitControls:SettingsExpander.Items>
-                            <communityToolkitControls:SettingsCard x:Name="SessionIdentifierSettingsCard"/>
-                        </communityToolkitControls:SettingsExpander.Items>
-                    </communityToolkitControls:SettingsExpander>
-                    
+                        <!-- Header -->
+                        <controls:SettingsSectionHeader x:Name="AppearanceSettingsSectionHeader"
+                                                        Glyph="&#xead5;"
+                                                        Grid.Row="0"/>
+
+                        <!-- Expanders -->
+                        <StackPanel Spacing="2" Grid.Row="1">
+                            <!-- Application theme -->
+                            <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
+                                <ComboBox x:Name="ApplicationThemeComboBox" SelectedIndex="0"/>
+                            </communityToolkitControls:SettingsCard>
+
+                            <!-- System backdrop -->
+                            <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                                <ComboBox x:Name="SystemBackdropComboBox" SelectedIndex="0"/>
+                            </communityToolkitControls:SettingsCard>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- About -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <controls:SettingsSectionHeader x:Name="AboutSettingsSectionHeader"
+                                                        Glyph="&#xe946;"
+                                                        Grid.Row="0"/>
+
+                        <!-- Expanders -->
+                        <StackPanel Spacing="2" Grid.Row="1">
+                            <communityToolkitControls:SettingsExpander x:Name="AboutSettingsExpander"
+                                                                       HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
+                                <!-- Content -->
+                                <communityToolkitControls:SettingsExpander.Content>
+                                    <TextBlock x:Name="ApplicationVersionTextBlock"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                </communityToolkitControls:SettingsExpander.Content>
+
+                                <!-- Items -->
+                                <communityToolkitControls:SettingsExpander.Items>
+                                    <communityToolkitControls:SettingsCard x:Name="SessionIdentifierSettingsCard"/>
+                                </communityToolkitControls:SettingsExpander.Items>
+                            </communityToolkitControls:SettingsExpander>
+                        </StackPanel>
+                    </Grid>
+
                     <!-- Hyperlink buttons -->
-                    <StackPanel Margin="0,16,0,0" Spacing="8">
+                    <StackPanel Margin="0,0,0,32" Spacing="8">
                         <!-- Reset preferences -->
                         <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton" Padding="0"/>
 

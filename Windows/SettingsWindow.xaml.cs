@@ -107,8 +107,7 @@ public sealed partial class SettingsWindow : Window
 
         HeaderTextBlock.Text = settingsText;
 
-        AppearanceSettingsExpander.Header      = GetLocalizedString("Common/Appearance");
-        AppearanceSettingsExpander.Description = GetLocalizedString("SettingsWindow/Appearance/Description");
+        AppearanceSettingsSectionHeader.Header = GetLocalizedString("Common/Appearance");
 
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
@@ -120,32 +119,32 @@ public sealed partial class SettingsWindow : Window
 
         SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
 
-        PreferencesSettingsExpander.Header      = GetLocalizedString("Common/Preferences");
-        PreferencesSettingsExpander.Description = GetLocalizedString("SettingsWindow/Preferences/Description");
+        GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
 
-        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Header");
-        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Description");
+        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Header");
+        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Description");
 
         AutoplayOnLaunchToggleSwitch.OnContent  = GetLocalizedString("Common/On");
         AutoplayOnLaunchToggleSwitch.OffContent = GetLocalizedString("Common/Off");
 
-        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Header");
-        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Description");
+        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
+        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
 
         DefaultNoisePresetComboBox.ItemsSource = LocalizedNoisePresets.Keys;
 
         LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/Language/Description");
+        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
 
         LanguageComboBox.ItemsSource = LocalizedLanguages.Keys;
 
-        SoundSettingsExpander.Header      = GetLocalizedString("Common/Sound");
-        SoundSettingsExpander.Description = GetLocalizedString("SettingsWindow/Sound/Description");
+        SoundSettingsSectionHeader.Header = GetLocalizedString("Common/Sound");
 
         AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
         AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Sound/SampleRate/Description");
 
         AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
+
+        AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
 
         AboutSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
         AboutSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
