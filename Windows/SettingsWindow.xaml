@@ -105,20 +105,17 @@
                         <!-- Items -->
                         <communityToolkitControls:SettingsExpander.Items>
                             <communityToolkitControls:SettingsCard x:Name="SessionIdentifierSettingsCard"/>
-
-                            <communityToolkitControls:SettingsCard ContentAlignment="Vertical"
-                                                                   HorizontalContentAlignment="Left">
-                                <!-- Hyperlink buttons -->
-                                <StackPanel Margin="0,4" Spacing="8">
-                                    <!-- Reset preferences -->
-                                    <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton" Padding="0"/>
-
-                                    <!-- Send feedback -->
-                                    <HyperlinkButton x:Name="SendFeedbackHyperlinkButton" Padding="0"/>
-                                </StackPanel>
-                            </communityToolkitControls:SettingsCard>
                         </communityToolkitControls:SettingsExpander.Items>
                     </communityToolkitControls:SettingsExpander>
+                    
+                    <!-- Hyperlink buttons -->
+                    <StackPanel Margin="0,16,0,0" Spacing="8">
+                        <!-- Reset preferences -->
+                        <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton" Padding="0"/>
+
+                        <!-- Send feedback -->
+                        <HyperlinkButton x:Name="SendFeedbackHyperlinkButton" Padding="0"/>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
