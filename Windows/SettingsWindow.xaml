@@ -15,13 +15,6 @@
     
     <!-- Layout root -->
     <Grid>
-        <!-- Resources -->
-        <Grid.Resources>
-            <DataTemplate x:DataType="x:String" x:Key="DefaultItemsRepeaterItemTemplate">
-                <RadioButton Content="{x:Bind}"/>
-            </DataTemplate>
-        </Grid.Resources>
-        
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -52,25 +45,14 @@
                         <communityToolkitControls:SettingsExpander.Items>
                             <!-- Application theme -->
                             <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
-                                                                   ContentAlignment="Vertical"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}"
-                                                                   HorizontalContentAlignment="Left">
-                                <ItemsRepeater x:Name="ApplicationThemeItemsRepeater">
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="x:String">
-                                            <RadioButton Click="ApplicationThemeRadioButton_Click" Content="{x:Bind}"/>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
+                                <ComboBox x:Name="ApplicationThemeComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- System backdrop -->
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
-                                                                   ContentAlignment="Vertical"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}"
-                                                                   HorizontalContentAlignment="Left">
-                                <ItemsRepeater x:Name="SystemBackdropItemsRepeater"
-                                               ItemTemplate="{StaticResource DefaultItemsRepeaterItemTemplate}"/>
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                                <ComboBox x:Name="SystemBackdropComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </communityToolkitControls:SettingsExpander.Items>
                     </communityToolkitControls:SettingsExpander>
@@ -82,7 +64,7 @@
                             <!-- Autoplay on launch -->
                             <communityToolkitControls:SettingsCard x:Name="AutoplayOnLaunchSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
-                                <ToggleSwitch IsOn="True"/>
+                                <ToggleSwitch x:Name="AutoplayOnLaunchToggleSwitch"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- Default noise preset -->
@@ -105,11 +87,8 @@
                         <communityToolkitControls:SettingsExpander.Items>
                             <!-- Sample rate -->
                             <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
-                                                                   ContentAlignment="Vertical"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}"
-                                                                   HorizontalContentAlignment="Left">
-                                <ItemsRepeater x:Name="AudioSampleRateItemsRepeater"
-                                               ItemTemplate="{StaticResource DefaultItemsRepeaterItemTemplate}"/>
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
+                                <ComboBox x:Name="AudioSampleRateComboBox" SelectedIndex="0"/>
                             </communityToolkitControls:SettingsCard>
                         </communityToolkitControls:SettingsExpander.Items>
                     </communityToolkitControls:SettingsExpander>
@@ -126,17 +105,20 @@
                         <!-- Items -->
                         <communityToolkitControls:SettingsExpander.Items>
                             <communityToolkitControls:SettingsCard x:Name="SessionIdentifierSettingsCard"/>
+
+                            <communityToolkitControls:SettingsCard ContentAlignment="Vertical"
+                                                                   HorizontalContentAlignment="Left">
+                                <!-- Hyperlink buttons -->
+                                <StackPanel Margin="0,4" Spacing="8">
+                                    <!-- Reset preferences -->
+                                    <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton" Padding="0"/>
+
+                                    <!-- Send feedback -->
+                                    <HyperlinkButton x:Name="SendFeedbackHyperlinkButton" Padding="0"/>
+                                </StackPanel>
+                            </communityToolkitControls:SettingsCard>
                         </communityToolkitControls:SettingsExpander.Items>
                     </communityToolkitControls:SettingsExpander>
-
-                    <!-- Hyperlink buttons -->
-                    <StackPanel Margin="0,16,0,32" Spacing="4">
-                        <!-- Reset preferences -->
-                        <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton"/>
-
-                        <!-- Send feedback -->
-                        <HyperlinkButton x:Name="SendFeedbackHyperlinkButton"/>
-                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

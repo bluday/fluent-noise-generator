@@ -1,4 +1,6 @@
 ﻿global using BluDay.FluentNoiseRemover.Common;
+global using BluDay.FluentNoiseRemover.Core.Noise.Generators;
+global using BluDay.FluentNoiseRemover.Core.Noise.Settings;
 global using BluDay.FluentNoiseRemover.Windows;
 
 global using BluDay.Net.WinUI3.Common.Extensions;

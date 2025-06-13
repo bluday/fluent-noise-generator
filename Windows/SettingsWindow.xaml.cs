@@ -99,7 +99,13 @@ public sealed partial class SettingsWindow : Window
 
     private void ApplyLocalizedContent()
     {
-        HeaderTextBlock.Text = GetLocalizedString("Common/Settings");
+        TitleBar.Title = GetLocalizedString("General/AppDisplayName");
+
+        string settingsText = GetLocalizedString("Common/Settings");
+
+        Title = settingsText;
+
+        HeaderTextBlock.Text = settingsText;
 
         AppearanceSettingsExpander.Header      = GetLocalizedString("Common/Appearance");
         AppearanceSettingsExpander.Description = GetLocalizedString("SettingsWindow/Appearance/Description");
@@ -107,18 +113,21 @@ public sealed partial class SettingsWindow : Window
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
-        ApplicationThemeItemsRepeater.ItemsSource = LocalizedApplicationThemes.Keys;
+        ApplicationThemeComboBox.ItemsSource = LocalizedApplicationThemes.Keys;
 
         SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Header");
         SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Description");
 
-        SystemBackdropItemsRepeater.ItemsSource = LocalizedSystemBackdrops.Keys;
+        SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
 
         PreferencesSettingsExpander.Header      = GetLocalizedString("Common/Preferences");
         PreferencesSettingsExpander.Description = GetLocalizedString("SettingsWindow/Preferences/Description");
 
         AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Header");
         AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/AutoplayOnLaunch/Description");
+
+        AutoplayOnLaunchToggleSwitch.OnContent  = GetLocalizedString("Common/On");
+        AutoplayOnLaunchToggleSwitch.OffContent = GetLocalizedString("Common/Off");
 
         DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Header");
         DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/Preferences/DefaultNoisePreset/Description");
@@ -136,7 +145,7 @@ public sealed partial class SettingsWindow : Window
         AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
         AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Sound/SampleRate/Description");
 
-        AudioSampleRateItemsRepeater.ItemsSource = LocalizedAudioSampleRates.Keys;
+        AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
 
         AboutSettingsExpander.Header      = GetLocalizedString("General/AppDisplayName");
         AboutSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
@@ -162,11 +171,7 @@ public sealed partial class SettingsWindow : Window
 
         TitleBar.Icon = $"ms-appx:///{iconPath}";
 
-        TitleBar.Title = GetLocalizedString("General/AppDisplayName");
-
         ExtendsContentIntoTitleBar = true;
-
-        Title = GetLocalizedString("Common/Settings");
 
         SetTitleBar(TitleBar);
     }
@@ -259,12 +264,17 @@ public sealed partial class SettingsWindow : Window
     {
         Closed += SettingsWindow_Closed;
 
+        ApplicationThemeComboBox.SelectionChanged += ApplicationThemeComboBox_SelectionChanged;
+
         LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
     }
 
-    private void ApplicationThemeRadioButton_Click(object sender, RoutedEventArgs e)
+    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var key = (string)((RadioButton)sender).Content;
+        if (e.AddedItems.FirstOrDefault() is not string key)
+        {
+            return;
+        }
 
         if (!LocalizedApplicationThemes.TryGetValue(key, out ElementTheme theme))
         {

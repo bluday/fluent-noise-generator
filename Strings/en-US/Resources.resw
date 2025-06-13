@@ -201,4 +201,10 @@
   <data name="Common.Preferences" xml:space="preserve">
     <value>Preferences</value>
   </data>
+  <data name="Common.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Common.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
 </root>
