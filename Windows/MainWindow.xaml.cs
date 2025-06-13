@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        Title = GetLocalizedString("General/AppDisplayName");
+        Title = Package.Current.DisplayName;
 
         SetTitleBar(TopActionBar);
     }
@@ -98,11 +98,13 @@ public sealed partial class MainWindow : Window
         if (_settingsWindow is not null)
         {
             _settingsWindow.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
+            _settingsWindow.SystemBackdropChanged   -= _settingsWindow_SystemBackdropChanged;
         }
 
         _settingsWindow = new SettingsWindow();
 
         _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
+        _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
 
         _settingsWindow.Activate();
     }
@@ -123,10 +125,14 @@ public sealed partial class MainWindow : Window
 
     private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
     {
-        if (Content is FrameworkElement frameworkElement)
+        var frameworkElement = Content as FrameworkElement;
+
+        if (frameworkElement is null || frameworkElement.RequestedTheme == e)
         {
-            frameworkElement.RequestedTheme = e;
+            return;
         }
+
+        frameworkElement.RequestedTheme = e;
 
         if (_settingsWindow?.Content is FrameworkElement settingsFrameworkElement)
         {
@@ -162,6 +168,11 @@ public sealed partial class MainWindow : Window
             settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.White;
             settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
         }
+    }
+
+    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
+    {
+        SystemBackdrop = e;
     }
 
     private void UpdateNonClientInputRegions()

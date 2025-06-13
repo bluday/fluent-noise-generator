@@ -18,12 +18,12 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_HEIGHT = 600;
+    public const int MINIMUM_HEIGHT = 700;
 
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_WIDTH = 600;
+    public const int MINIMUM_WIDTH = 700;
 
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
@@ -51,7 +51,7 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// Gets a read-only dictionary of mapped system backdrops, with localized keys.
     /// </summary>
-    public IReadOnlyDictionary<string, WindowsSystemBackdrop> LocalizedSystemBackdrops { get; private set; }
+    public IReadOnlyDictionary<string, SystemBackdrop> LocalizedSystemBackdrops { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
@@ -59,9 +59,14 @@ public sealed partial class SettingsWindow : Window
     public bool HasClosed => _hasClosed;
 
     /// <summary>
-    /// The event to invoke when a new application theme gets selected.
+    /// Triggers when a new application theme gets selected.
     /// </summary>
     public event EventHandler<ElementTheme> ApplicationThemeChanged;
+
+    /// <summary>
+    /// Triggers when a new system backdrop gets selected.
+    /// </summary>
+    public event EventHandler<SystemBackdrop?> SystemBackdropChanged;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
@@ -76,7 +81,8 @@ public sealed partial class SettingsWindow : Window
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
-        ApplicationThemeChanged = (sender, theme) => { };
+        ApplicationThemeChanged = (sender, e) => { };
+        SystemBackdropChanged   = (sender, e) => { };
 
         LocalizedApplicationThemes = null!;
         LocalizedAudioSampleRates  = null!;
@@ -243,12 +249,12 @@ public sealed partial class SettingsWindow : Window
 
         LocalizedNoisePresets = noisePresets.ToDictionary(preset => preset);
 
-        LocalizedSystemBackdrops = new Dictionary<string, WindowsSystemBackdrop>
+        LocalizedSystemBackdrops = new Dictionary<string, SystemBackdrop>
         {
-            [GetLocalizedString("Common/None")]            = WindowsSystemBackdrop.None,
-            [GetLocalizedString("SystemBackdrop/Mica")]    = WindowsSystemBackdrop.Mica,
-            [GetLocalizedString("SystemBackdrop/MicaAlt")] = WindowsSystemBackdrop.MicaAlt,
-            [GetLocalizedString("SystemBackdrop/Acrylic")] = WindowsSystemBackdrop.Acrylic
+            [GetLocalizedString("SystemBackdrop/Mica")]    = new MicaBackdrop(),
+            [GetLocalizedString("SystemBackdrop/MicaAlt")] = new MicaBackdrop() { Kind = MicaKind.BaseAlt },
+            [GetLocalizedString("SystemBackdrop/Acrylic")] = new DesktopAcrylicBackdrop(),
+            [GetLocalizedString("Common/None")]            = null!,
         };
     }
 
@@ -264,10 +270,6 @@ public sealed partial class SettingsWindow : Window
     private void RegisterEventHandlers()
     {
         Closed += SettingsWindow_Closed;
-
-        ApplicationThemeComboBox.SelectionChanged += ApplicationThemeComboBox_SelectionChanged;
-
-        LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
     }
 
     private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -297,9 +299,33 @@ public sealed partial class SettingsWindow : Window
             return;
         }
 
+        if (ApplicationLanguages.PrimaryLanguageOverride == cultureInfo.Name)
+        {
+            return;
+        }
+
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
 
         RefreshLocalizedContent();
+    }
+
+    private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is not string key)
+        {
+            return;
+        }
+
+        SystemBackdrop? systemBackdrop = LocalizedSystemBackdrops.GetValueOrDefault(key);
+
+        if (SystemBackdrop == systemBackdrop)
+        {
+            return;
+        }
+
+        SystemBackdrop = systemBackdrop;
+
+        SystemBackdropChanged?.Invoke(this, systemBackdrop);
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)

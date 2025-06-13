@@ -35,7 +35,7 @@
             <TextBlock x:Name="HeaderTextBlock"
                         Text="Settings"
                         FontSize="24"
-                        Margin="32,16"
+                        Margin="32,24,32,16"
                         Style="{StaticResource TitleTextBlockStyle}"
                         TextLineBounds="Tight"
                         VerticalAlignment="Center"/>
@@ -65,13 +65,14 @@
                             <!-- Default noise preset -->
                             <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox x:Name="DefaultNoisePresetComboBox" SelectedIndex="0"/>
+                                <ComboBox x:Name="DefaultNoisePresetComboBox"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- Language -->
                             <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox x:Name="LanguageComboBox"/>
+                                <ComboBox x:Name="LanguageComboBox"
+                                          SelectionChanged="LanguageComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -93,7 +94,7 @@
                             <!-- Sample rate -->
                             <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
-                                <ComboBox x:Name="AudioSampleRateComboBox" SelectedIndex="0"/>
+                                <ComboBox x:Name="AudioSampleRateComboBox"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -115,13 +116,15 @@
                             <!-- Application theme -->
                             <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox x:Name="ApplicationThemeComboBox" SelectedIndex="0"/>
+                                <ComboBox x:Name="ApplicationThemeComboBox"
+                                          SelectionChanged="ApplicationThemeComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
 
                             <!-- System backdrop -->
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ComboBox x:Name="SystemBackdropComboBox" SelectedIndex="0"/>
+                                <ComboBox x:Name="SystemBackdropComboBox"
+                                          SelectionChanged="SystemBackdropComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -157,7 +160,7 @@
                     </Grid>
 
                     <!-- Hyperlink buttons -->
-                    <StackPanel Margin="0,0,0,32" Spacing="8">
+                    <StackPanel Margin="0,8,0,32" Spacing="8">
                         <!-- Reset preferences -->
                         <HyperlinkButton x:Name="RepositoryOnGitHubHyperlinkButton" Padding="0"/>
 
