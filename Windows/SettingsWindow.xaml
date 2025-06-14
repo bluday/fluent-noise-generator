@@ -113,6 +113,12 @@
 
                         <!-- Expanders -->
                         <StackPanel Spacing="2" Grid.Row="1">
+                            <!-- Always on top -->
+                            <communityToolkitControls:SettingsCard x:Name="AlwaysOnTopSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                                <ToggleSwitch x:Name="AlwaysOnTopToggleSwitch"/>
+                            </communityToolkitControls:SettingsCard>
+                            
                             <!-- Application theme -->
                             <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
@@ -122,7 +128,7 @@
 
                             <!-- System backdrop -->
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
-                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
                                 <ComboBox x:Name="SystemBackdropComboBox"
                                           SelectionChanged="SystemBackdropComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>

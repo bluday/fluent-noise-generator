@@ -210,4 +210,10 @@
   <data name="Common.About" xml:space="preserve">
     <value>Om</value>
   </data>
+  <data name="SettingsWindow.Appearance.AlwaysOnTop.Header" xml:space="preserve">
+    <value>Alltid överst</value>
+  </data>
+  <data name="SettingsWindow.Appearance.AlwaysOnTop.Description" xml:space="preserve">
+    <value>Bestäm om applikationen alltid ska ligga över andra fönster</value>
+  </data>
 </root>

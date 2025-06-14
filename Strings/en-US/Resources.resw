@@ -210,4 +210,10 @@
   <data name="Common.About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="SettingsWindow.Appearance.AlwaysOnTop.Header" xml:space="preserve">
+    <value>Always on top</value>
+  </data>
+  <data name="SettingsWindow.Appearance.AlwaysOnTop.Description" xml:space="preserve">
+    <value>Decide whether the application should always stay on top of other windows</value>
+  </data>
 </root>

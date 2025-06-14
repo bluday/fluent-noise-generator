@@ -117,6 +117,9 @@ public sealed partial class SettingsWindow : Window
 
         AppearanceSettingsSectionHeader.Header = GetLocalizedString("Common/Appearance");
 
+        AlwaysOnTopSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Header");
+        AlwaysOnTopSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Description");
+
         ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
         ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
