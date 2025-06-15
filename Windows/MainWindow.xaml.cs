@@ -3,10 +3,8 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class MainWindow : Window, IApplicationResourceAware
+public sealed partial class MainWindow : Window
 {
-    private ResourceLoader _resourceLoader;
-
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
@@ -20,18 +18,6 @@ public sealed partial class MainWindow : Window, IApplicationResourceAware
     private readonly Action _settingsWindowFactory;
 
     private readonly Func<ResourceLoader> _resourceLoaderFactory;
-
-    /// <summary>
-    /// Gets a value indicating whether the playback is currently active.
-    /// </summary>
-    public bool IsPlaying { get; private set; }
-
-    ResourceLoader IApplicationResourceAware.ResourceLoader => _resourceLoader;
-
-    /// <summary>
-    /// Triggers when a new settings window has been created.
-    /// </summary>
-    public event EventHandler SettingsWindowCreated;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -140,30 +126,5 @@ public sealed partial class MainWindow : Window, IApplicationResourceAware
                 TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
-    }
-
-    private void MainWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-
-    private void LayoutRoot_LayoutUpdated(object sender, object e)
-    {
-        UpdateNonClientInputRegions();
-    }
-
-    private void PlaybackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
-    {
-        TogglePlayback();
-    }
-
-    private void TopActionBar_CloseButtonClicked(object sender, EventArgs e)
-    {
-        Close();
-    }
-
-    private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
-    {
-        _settingsWindowFactory();
     }
 }
