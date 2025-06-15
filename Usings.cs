@@ -1,6 +1,7 @@
 ﻿global using BluDay.FluentNoiseRemover.Common;
 global using BluDay.FluentNoiseRemover.Core.Noise.Generators;
 global using BluDay.FluentNoiseRemover.Core.Noise.Settings;
+global using BluDay.FluentNoiseRemover.Extensions;
 global using BluDay.FluentNoiseRemover.Windows;
 
 global using BluDay.Net.WinUI3.Common.Extensions;
@@ -23,7 +24,6 @@ global using System.Collections.Generic;
 global using System.Diagnostics;
 global using System.Globalization;
 global using System.Linq;
-global using System.Windows.Input;
 
 global using Windows.ApplicationModel;
 global using Windows.Graphics;

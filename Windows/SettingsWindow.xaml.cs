@@ -3,7 +3,7 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class SettingsWindow : Window
+public sealed partial class SettingsWindow : Window, IApplicationResourceAware
 {
     private ResourceLoader _resourceLoader;
 
@@ -14,6 +14,8 @@ public sealed partial class SettingsWindow : Window
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
+
+    private readonly Func<ResourceLoader> _resourceLoaderFactory;
 
     /// <summary>
     /// The minimum width unscaled in pixels.
@@ -58,6 +60,8 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public bool HasClosed => _hasClosed;
 
+    ResourceLoader IApplicationResourceAware.ResourceLoader => _resourceLoader;
+
     /// <summary>
     /// Triggers when a new application theme gets selected.
     /// </summary>
@@ -71,13 +75,18 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
     /// </summary>
-    public SettingsWindow()
+    /// <param name="resourceLoaderFactory">
+    /// The <see cref="ResourceLoader"/> factory.
+    /// </param>
+    public SettingsWindow(Func<ResourceLoader> resourceLoaderFactory)
     {
         _appWindow = AppWindow;
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        _resourceLoader = new ResourceLoader();
+        _resourceLoaderFactory = resourceLoaderFactory;
+
+        _resourceLoader = resourceLoaderFactory();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
@@ -107,7 +116,7 @@ public sealed partial class SettingsWindow : Window
     {
         string displayName = Package.Current.DisplayName;
 
-        string settingsText = GetLocalizedString("Common/Settings");
+        string settingsText = this.GetLocalizedString("Common/Settings");
 
         TitleBar.Title = displayName;
 
@@ -115,67 +124,67 @@ public sealed partial class SettingsWindow : Window
 
         HeaderTextBlock.Text = settingsText;
 
-        AppearanceSettingsSectionHeader.Header = GetLocalizedString("Common/Appearance");
+        AppearanceSettingsSectionHeader.Header = this.GetLocalizedString("Common/Appearance");
 
-        AlwaysOnTopSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Header");
-        AlwaysOnTopSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Description");
+        AlwaysOnTopSettingsCard.Header      = this.GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Header");
+        AlwaysOnTopSettingsCard.Description = this.GetLocalizedString("SettingsWindow/Appearance/AlwaysOnTop/Description");
 
-        ApplicationThemeSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
-        ApplicationThemeSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
+        ApplicationThemeSettingsCard.Header      = this.GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Header");
+        ApplicationThemeSettingsCard.Description = this.GetLocalizedString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
         ApplicationThemeComboBox.ItemsSource = LocalizedApplicationThemes.Keys;
 
-        SystemBackdropSettingsCard.Header      = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Header");
-        SystemBackdropSettingsCard.Description = GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Description");
+        SystemBackdropSettingsCard.Header      = this.GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Header");
+        SystemBackdropSettingsCard.Description = this.GetLocalizedString("SettingsWindow/Appearance/SystemBackdrop/Description");
 
         SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
 
-        GeneralSettingsSectionHeader.Header = GetLocalizedString("Common/General");
+        GeneralSettingsSectionHeader.Header = this.GetLocalizedString("Common/General");
 
-        AutoplayOnLaunchSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Header");
-        AutoplayOnLaunchSettingsCard.Description = GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Description");
+        AutoplayOnLaunchSettingsCard.Header      = this.GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Header");
+        AutoplayOnLaunchSettingsCard.Description = this.GetLocalizedString("SettingsWindow/General/AutoplayOnLaunch/Description");
 
-        AutoplayOnLaunchToggleSwitch.OnContent  = GetLocalizedString("Common/On");
-        AutoplayOnLaunchToggleSwitch.OffContent = GetLocalizedString("Common/Off");
+        AutoplayOnLaunchToggleSwitch.OnContent  = this.GetLocalizedString("Common/On");
+        AutoplayOnLaunchToggleSwitch.OffContent = this.GetLocalizedString("Common/Off");
 
-        DefaultNoisePresetSettingsCard.Header      = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
-        DefaultNoisePresetSettingsCard.Description = GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
+        DefaultNoisePresetSettingsCard.Header      = this.GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Header");
+        DefaultNoisePresetSettingsCard.Description = this.GetLocalizedString("SettingsWindow/General/DefaultNoisePreset/Description");
 
         DefaultNoisePresetComboBox.ItemsSource = LocalizedNoisePresets.Keys;
 
-        LanguageSettingsCard.Header      = GetLocalizedString("Common/Language");
-        LanguageSettingsCard.Description = GetLocalizedString("SettingsWindow/General/Language/Description");
+        LanguageSettingsCard.Header      = this.GetLocalizedString("Common/Language");
+        LanguageSettingsCard.Description = this.GetLocalizedString("SettingsWindow/General/Language/Description");
 
         LanguageComboBox.ItemsSource = LocalizedLanguages.Keys;
 
-        SoundSettingsSectionHeader.Header = GetLocalizedString("Common/Sound");
+        SoundSettingsSectionHeader.Header = this.GetLocalizedString("Common/Sound");
 
-        AudioSampleRateSettingsCard.Header      = GetLocalizedString("Common/SampleRate");
-        AudioSampleRateSettingsCard.Description = GetLocalizedString("SettingsWindow/Sound/SampleRate/Description");
+        AudioSampleRateSettingsCard.Header      = this.GetLocalizedString("Common/SampleRate");
+        AudioSampleRateSettingsCard.Description = this.GetLocalizedString("SettingsWindow/Sound/SampleRate/Description");
 
         AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
 
-        AboutSettingsSectionHeader.Header = GetLocalizedString("Common/About");
+        AboutSettingsSectionHeader.Header = this.GetLocalizedString("Common/About");
 
         AboutSettingsExpander.Header      = displayName;
-        AboutSettingsExpander.Description = GetLocalizedString("General/CopyrightText");
+        AboutSettingsExpander.Description = this.GetLocalizedString("General/CopyrightText");
 
         ApplicationVersionTextBlock.Text = GetApplicationVersionText();
 
         SessionIdentifierSettingsCard.Header = string.Format(
-            format: GetLocalizedString("SettingsWindow/About/SessionIdentifierFormatString"),
+            format: this.GetLocalizedString("SettingsWindow/About/SessionIdentifierFormatString"),
             args:   [Guid.Empty]
         );
 
-        RepositoryOnGitHubHyperlinkButton.Content     = GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
-        SendFeedbackHyperlinkButton.Content           = GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
-        RepositoryOnGitHubHyperlinkButton.NavigateUri = GetUriFromLocalizedString("General/GitHubRepositoryUrl");
-        SendFeedbackHyperlinkButton.NavigateUri       = GetUriFromLocalizedString("General/SendFeedbackUrl");
+        RepositoryOnGitHubHyperlinkButton.Content     = this.GetLocalizedString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
+        SendFeedbackHyperlinkButton.Content           = this.GetLocalizedString("SettingsWindow/HyperlinkButtons/SendFeedback");
+        RepositoryOnGitHubHyperlinkButton.NavigateUri = this.GetUriFromLocalizedString("General/GitHubRepositoryUrl");
+        SendFeedbackHyperlinkButton.NavigateUri       = this.GetUriFromLocalizedString("General/SendFeedbackUrl");
     }
 
     private void ConfigureTitleBar()
     {
-        string iconPath = GetLocalizedString("Assets/IconPaths/64x64");
+        string iconPath = this.GetLocalizedString("Assets/IconPaths/64x64");
 
         _appWindow.SetIcon(iconPath);
 
@@ -206,16 +215,6 @@ public sealed partial class SettingsWindow : Window
         return $"{version.Major}.{version.Minor}";
     }
 
-    private string GetLocalizedString(string key)
-    {
-        return _resourceLoader.GetString(key);
-    }
-
-    private Uri GetUriFromLocalizedString(string key)
-    {
-        return new Uri(_resourceLoader.GetString(key));
-    }
-
     private void PopulateComboBoxControlsWithLocalizedValues()
     {
         List<int> audioSampleRates = [
@@ -224,12 +223,12 @@ public sealed partial class SettingsWindow : Window
         ];
 
         List<string> noisePresets = [
-            GetLocalizedString("Common/Blue"),
-            GetLocalizedString("Common/Brownian"),
-            GetLocalizedString("Common/White")
+            this.GetLocalizedString("Common/Blue"),
+            this.GetLocalizedString("Common/Brownian"),
+            this.GetLocalizedString("Common/White")
         ];
 
-        string shortHertzText = GetLocalizedString("Units/Hertz/Short");
+        string shortHertzText = this.GetLocalizedString("Units/Hertz/Short");
 
         LocalizedAudioSampleRates = audioSampleRates.ToDictionary(
             keySelector:     value => $"{value} {shortHertzText}",
@@ -238,9 +237,9 @@ public sealed partial class SettingsWindow : Window
 
         LocalizedApplicationThemes = new Dictionary<string, ElementTheme>
         {
-            [GetLocalizedString("Common/System")] = ElementTheme.Default,
-            [GetLocalizedString("Common/Dark")]   = ElementTheme.Dark,
-            [GetLocalizedString("Common/Light")]  = ElementTheme.Light
+            [this.GetLocalizedString("Common/System")] = ElementTheme.Default,
+            [this.GetLocalizedString("Common/Dark")]   = ElementTheme.Dark,
+            [this.GetLocalizedString("Common/Light")]  = ElementTheme.Light
         };
 
         LocalizedLanguages = ApplicationLanguages.ManifestLanguages
@@ -254,10 +253,10 @@ public sealed partial class SettingsWindow : Window
 
         LocalizedSystemBackdrops = new Dictionary<string, SystemBackdrop>
         {
-            [GetLocalizedString("SystemBackdrop/Mica")]    = new MicaBackdrop(),
-            [GetLocalizedString("SystemBackdrop/MicaAlt")] = new MicaBackdrop() { Kind = MicaKind.BaseAlt },
-            [GetLocalizedString("SystemBackdrop/Acrylic")] = new DesktopAcrylicBackdrop(),
-            [GetLocalizedString("Common/None")]            = null!,
+            [this.GetLocalizedString("SystemBackdrop/Mica")]    = new MicaBackdrop(),
+            [this.GetLocalizedString("SystemBackdrop/MicaAlt")] = new MicaBackdrop() { Kind = MicaKind.BaseAlt },
+            [this.GetLocalizedString("SystemBackdrop/Acrylic")] = new DesktopAcrylicBackdrop(),
+            [this.GetLocalizedString("Common/None")]            = null!,
         };
     }
 

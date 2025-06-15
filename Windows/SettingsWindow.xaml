@@ -14,7 +14,7 @@
     </Window.SystemBackdrop>
     
     <!-- Layout root -->
-    <Grid>
+    <Grid x:Name="LayoutRoot">
         <!-- Row defintions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -3,9 +3,9 @@ namespace BluDay.FluentNoiseRemover.Windows;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class MainWindow : Window
+public sealed partial class MainWindow : Window, IApplicationResourceAware
 {
-    private SettingsWindow? _settingsWindow;
+    private ResourceLoader _resourceLoader;
 
     private bool _hasClosed;
 
@@ -17,27 +17,50 @@ public sealed partial class MainWindow : Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
-    private readonly ResourceLoader _resourceLoader;
+    private readonly Action _settingsWindowFactory;
+
+    private readonly Func<ResourceLoader> _resourceLoaderFactory;
 
     /// <summary>
     /// Gets a value indicating whether the playback is currently active.
     /// </summary>
     public bool IsPlaying { get; private set; }
 
+    ResourceLoader IApplicationResourceAware.ResourceLoader => _resourceLoader;
+
+    /// <summary>
+    /// Triggers when a new settings window has been created.
+    /// </summary>
+    public event EventHandler SettingsWindowCreated;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public MainWindow()
+    /// <param name="settingsWindowFactory">
+    /// The <see cref="SettingsWindow"/> factory.
+    /// </param>
+    /// <param name="resourceLoaderFactory">
+    /// The <see cref="ResourceLoader"/> factory.
+    /// </param>
+    public MainWindow(Action settingsWindowFactory, Func<ResourceLoader> resourceLoaderFactory)
     {
+        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
+
         _appWindow = AppWindow;
 
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
         
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        _resourceLoader = new ResourceLoader();
+        _settingsWindowFactory = settingsWindowFactory;
+
+        _resourceLoaderFactory = resourceLoaderFactory;
+
+        _resourceLoader = resourceLoaderFactory();
 
         _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
+
+        SettingsWindowCreated = (sender, e) => { };
 
         RegisterEventHandlers();
 
@@ -50,7 +73,7 @@ public sealed partial class MainWindow : Window
 
     private void ConfigureTitleBar()
     {
-        _appWindow.SetIcon(GetLocalizedString("Assets/IconPaths/64x64"));
+        _appWindow.SetIcon(this.GetLocalizedString("Assets/IconPaths/64x64"));
 
         ExtendsContentIntoTitleBar = true;
 
@@ -85,30 +108,6 @@ public sealed partial class MainWindow : Window
         Closed += MainWindow_Closed;
     }
 
-    private void ShowSettingsWindow()
-    {
-        if (_settingsWindow?.HasClosed is false)
-        {
-            _settingsWindow.Restore();
-            _settingsWindow.Focus();
-
-            return;
-        }
-
-        if (_settingsWindow is not null)
-        {
-            _settingsWindow.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
-            _settingsWindow.SystemBackdropChanged   -= _settingsWindow_SystemBackdropChanged;
-        }
-
-        _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
-        _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
-
-        _settingsWindow.Activate();
-    }
-
     private void TogglePlayback()
     {
         bool isPlaying = !IsPlaying;
@@ -116,63 +115,6 @@ public sealed partial class MainWindow : Window
         IsPlaying = isPlaying;
 
         PlaybackControlPanel.IsPlaying = isPlaying;
-    }
-
-    private string GetLocalizedString(string key)
-    {
-        return _resourceLoader.GetString(key);
-    }
-
-    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
-    {
-        var frameworkElement = Content as FrameworkElement;
-
-        if (frameworkElement is null || frameworkElement.RequestedTheme == e)
-        {
-            return;
-        }
-
-        frameworkElement.RequestedTheme = e;
-
-        if (_settingsWindow?.Content is FrameworkElement settingsFrameworkElement)
-        {
-            settingsFrameworkElement.RequestedTheme = e;
-        }
-
-        AppWindowTitleBar? settingsWindowTitleBar = _settingsWindow?.AppWindow.TitleBar;
-
-        if (settingsWindowTitleBar is null)
-        {
-            return;
-        }
-
-        settingsWindowTitleBar.ButtonBackgroundColor         = Colors.Transparent;
-        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-        if (e is ElementTheme.Light)
-        {
-            settingsWindowTitleBar.ButtonHoverBackgroundColor    = Colors.DarkGray;
-            settingsWindowTitleBar.ButtonPressedBackgroundColor  = Colors.LightGray;
-
-            settingsWindowTitleBar.ButtonForegroundColor        = Colors.Black;
-            settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.Black;
-            settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.Black;
-        }
-        else
-        {
-            settingsWindowTitleBar.ButtonHoverBackgroundColor    = Colors.LightGray;
-            settingsWindowTitleBar.ButtonPressedBackgroundColor  = Colors.Gray;
-
-            settingsWindowTitleBar.ButtonForegroundColor        = Colors.White;
-            settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.White;
-            settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
-        }
-    }
-
-    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
-    {
-        SystemBackdrop = e;
     }
 
     private void UpdateNonClientInputRegions()
@@ -194,13 +136,13 @@ public sealed partial class MainWindow : Window
          * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
         _nonClientPointerSource.SetRegionRects(
-            NonClientRegionKind.Caption,
-            [TopActionBar.GetBoundingBox(_dpiScaleFactor)]
+            region: NonClientRegionKind.Caption,
+            rects:  [TopActionBar.GetBoundingBox(_dpiScaleFactor)]
         );
 
         _nonClientPointerSource.SetRegionRects(
-            NonClientRegionKind.Passthrough,
-            [
+            region: NonClientRegionKind.Passthrough,
+            rects:  [
                 TopActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
                 TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
@@ -229,6 +171,6 @@ public sealed partial class MainWindow : Window
 
     private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
     {
-        ShowSettingsWindow();
+        _settingsWindowFactory();
     }
 }
