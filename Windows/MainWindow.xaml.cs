@@ -89,18 +89,11 @@ public sealed partial class MainWindow : Window, IApplicationResourceAware
         _overlappedPresenter.IsMinimizable = false;
         _overlappedPresenter.IsResizable   = false;
 
-        _overlappedPresenter.SetBorderAndTitleBar(
-            hasBorder:   true,
-            hasTitleBar: false
-        );
+        _overlappedPresenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(
-            width:       200,
-            height:      120,
-            scaleFactor: _dpiScaleFactor
-        );
+        _appWindow.Resize(width: 450, height: 280, _dpiScaleFactor);
     }
 
     private void RegisterEventHandlers()

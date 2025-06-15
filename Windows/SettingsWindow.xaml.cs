@@ -20,12 +20,12 @@ public sealed partial class SettingsWindow : Window, IApplicationResourceAware
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_HEIGHT = 700;
+    public const int MINIMUM_HEIGHT = 1400;
 
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
-    public const int MINIMUM_WIDTH = 700;
+    public const int MINIMUM_WIDTH = 1400;
 
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
@@ -197,8 +197,8 @@ public sealed partial class SettingsWindow : Window, IApplicationResourceAware
 
     private void ConfigureWindow()
     {
-        int scaledMinimumWidth  = (int)(MINIMUM_WIDTH  * _dpiScaleFactor);
-        int scaledMinimumHeight = (int)(MINIMUM_HEIGHT * _dpiScaleFactor);
+        int scaledMinimumWidth  = (int)(MINIMUM_WIDTH  / _dpiScaleFactor);
+        int scaledMinimumHeight = (int)(MINIMUM_HEIGHT / _dpiScaleFactor);
 
         _overlappedPresenter.PreferredMinimumWidth  = scaledMinimumWidth;
         _overlappedPresenter.PreferredMinimumHeight = scaledMinimumHeight;
