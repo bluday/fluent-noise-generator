@@ -1,6 +1,6 @@
 namespace BluDay.FluentNoiseRemover.Windows;
 
-public sealed partial class SettingsWindow
+public partial class SettingsWindow
 {
     /// <summary>
     /// Triggers when a new application theme gets selected.

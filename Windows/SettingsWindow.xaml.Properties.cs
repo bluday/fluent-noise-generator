@@ -1,6 +1,6 @@
 namespace BluDay.FluentNoiseRemover.Windows;
 
-public sealed partial class SettingsWindow
+public partial class SettingsWindow
 {
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
