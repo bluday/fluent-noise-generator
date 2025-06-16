@@ -23,23 +23,6 @@ public partial class App : Application
         InitializeComponent();
     }
 
-    private ResourceLoader CreateResourceLoader() => new();
-
-    private void SetRequestedTheme(Window? window, ElementTheme value)
-    {
-        if (window?.Content is FrameworkElement element)
-        {
-            element.RequestedTheme = value;
-        }
-    }
-
-    private void SetSystemBackdrop(Window? window, SystemBackdrop? value)
-    {
-        if (window is null) return;
-
-        window.SystemBackdrop = value;
-    }
-
     private void ShowSettingsWindow()
     {
         if (_settingsWindow?.HasClosed is false)
@@ -56,7 +39,9 @@ public partial class App : Application
             _settingsWindow.SystemBackdropChanged   -= _settingsWindow_SystemBackdropChanged;
         }
 
-        _settingsWindow = new SettingsWindow(CreateResourceLoader);
+        _settingsWindow = new SettingsWindow(
+            resourceLoaderFactory: () => new ResourceLoader()
+        );
 
         _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
         _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
@@ -95,27 +80,6 @@ public partial class App : Application
         settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
     }
 
-    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
-    {
-        _elementTheme = e;
-
-        SetRequestedTheme(_mainWindow, e);
-        SetRequestedTheme(_settingsWindow, e);
-
-        UpdateSettingsWindowTitleBarColors();
-    }
-
-    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
-    {
-        SetSystemBackdrop(_mainWindow, e);
-        SetSystemBackdrop(_settingsWindow, e);
-    }
-
-    private void App_UnhandledException(object sender, Muxc.UnhandledExceptionEventArgs e)
-    {
-        Debug.WriteLine(e.Exception);
-    }
-
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -124,7 +88,10 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _mainWindow = new MainWindow(ShowSettingsWindow, CreateResourceLoader);
+        _mainWindow = new MainWindow(
+            settingsWindowFactory: ShowSettingsWindow,
+            resourceLoaderFactory: () => new ResourceLoader()
+        );
 
         _mainWindow.Activate();
     }
