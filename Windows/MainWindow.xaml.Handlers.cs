@@ -1,6 +1,6 @@
 namespace BluDay.FluentNoiseRemover.Windows;
 
-public sealed partial class MainWindow
+public partial class MainWindow
 {
     /// <summary>
     /// Triggers when a new settings window has been created.

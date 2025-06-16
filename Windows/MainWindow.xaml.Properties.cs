@@ -1,6 +1,6 @@
 namespace BluDay.FluentNoiseRemover.Windows;
 
-public sealed partial class MainWindow : IApplicationResourceAware
+public partial class MainWindow : IApplicationResourceAware
 {
     private ResourceLoader _resourceLoader;
 
