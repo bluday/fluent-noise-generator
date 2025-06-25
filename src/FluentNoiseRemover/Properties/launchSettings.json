@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Fluent Noise Remover (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Fluent Noise Remover (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
