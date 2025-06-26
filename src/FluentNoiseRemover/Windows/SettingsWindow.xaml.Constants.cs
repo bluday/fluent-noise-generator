@@ -1,6 +1,3 @@
-using Microsoft.UI.Xaml.Media;
-using System;
-
 namespace FluentNoiseRemover.Windows;
 
 public partial class SettingsWindow
@@ -14,9 +11,4 @@ public partial class SettingsWindow
     /// The minimum width unscaled in pixels.
     /// </summary>
     public const int MINIMUM_WIDTH = 1400;
-
-    internal void SetSystemBackdrop(SystemBackdrop? e)
-    {
-        throw new NotImplementedException();
-    }
 }
