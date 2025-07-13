@@ -1,8 +1,7 @@
 # Fluent Noise Remover
 
-Simple WinUI 3-based ambient noise remover app.
+A small WinUI 3-based noise generator app.
 
 **The app does not have any functionality at this time.**
 
-<img src="Assets/Screenshots/0.png?raw=true" height="400"/>
-<img src="Assets/Screenshots/1.png?raw=true" height="400"/>
+![Screenshot 1](/screenshots/1.png?raw=true)
