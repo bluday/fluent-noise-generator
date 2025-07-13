@@ -4,7 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 
-namespace FluentNoiseRemover.Windows;
+namespace FluentNoiseRemover;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
@@ -24,6 +24,21 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     private readonly OverlappedPresenter _overlappedPresenter;
 
     private readonly Action _settingsWindowFactory;
+
+    /// <summary>
+    /// Triggers when a new settings window has been created.
+    /// </summary>
+    public event EventHandler SettingsWindowCreated;
+
+    /// <summary>
+    /// Gets a value indicating whether the window has been closed.
+    /// </summary>
+    public bool HasClosed => _hasClosed;
+
+    /// <summary>
+    /// Gets a value indicating whether the playback is currently active.
+    /// </summary>
+    public bool IsPlaying { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -64,14 +79,11 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
         _overlappedPresenter.IsMinimizable = false;
         _overlappedPresenter.IsResizable   = false;
 
-        _overlappedPresenter.SetBorderAndTitleBar(
-            hasBorder:   true,
-            hasTitleBar: false
-        );
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(width: 450, height: 280, _dpiScaleFactor);
+        _appWindow.Resize(260, 160);
     }
 
     private void ConfigureTitleBar()
@@ -129,5 +141,30 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
                 TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
+    }
+
+    private void MainWindow_Closed(object sender, Microsoft.UI.Xaml.WindowEventArgs args)
+    {
+        _hasClosed = true;
+    }
+
+    private void LayoutRoot_LayoutUpdated(object sender, object e)
+    {
+        UpdateNonClientInputRegions();
+    }
+
+    private void PlaybackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
+    {
+        TogglePlayback();
+    }
+
+    private void TopActionBar_CloseButtonClicked(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
+    {
+        _settingsWindowFactory();
     }
 }

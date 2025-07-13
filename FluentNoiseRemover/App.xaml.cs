@@ -1,14 +1,14 @@
-﻿using FluentNoiseRemover.Windows;
-using Microsoft.UI;
+﻿using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
 
 namespace FluentNoiseRemover;
 
 /// <summary>
-/// Interaction logic for App.xaml and the entrypoint for the application.
+/// Interaction logic for App.xaml.
 /// </summary>
 public partial class App : Application
 {
@@ -17,6 +17,8 @@ public partial class App : Application
     private SettingsWindow? _settingsWindow;
 
     private ElementTheme _elementTheme;
+
+    private SystemBackdrop? _systemBackdrop;
 
     /// <summary>
     /// Gets the absolute path for the 64x64 application icon.
@@ -28,6 +30,8 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        // TODO: Configure and initialize the core.
+
         InitializeComponent();
     }
 
@@ -84,6 +88,38 @@ public partial class App : Application
         settingsWindowTitleBar.ButtonForegroundColor        = Colors.White;
         settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.White;
         settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
+    }
+
+    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
+    {
+        _elementTheme = e;
+
+        if (_mainWindow?.HasClosed is false)
+        {
+            (_mainWindow.Content as FrameworkElement)?.RequestedTheme = e;
+        }
+
+        if (_settingsWindow?.HasClosed is false)
+        {
+            (_settingsWindow.Content as FrameworkElement)?.RequestedTheme = e;
+        }
+
+        UpdateSettingsWindowTitleBarColors();
+    }
+
+    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
+    {
+        _systemBackdrop = e;
+
+        if (_mainWindow?.HasClosed is false)
+        {
+            _mainWindow.SystemBackdrop = e;
+        }
+
+        if (_settingsWindow?.HasClosed is false)
+        {
+            _settingsWindow.SystemBackdrop = e;
+        }
     }
 
     /// <summary>

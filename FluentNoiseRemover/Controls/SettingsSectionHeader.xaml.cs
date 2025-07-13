@@ -15,23 +15,17 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
         nameof(Glyph),
         typeof(ImageSource),
         typeof(SettingsSectionHeader),
-        new PropertyMetadata(
-            defaultValue:            null,
-            propertyChangedCallback: OnGlyphChanged
-        )
+        new PropertyMetadata(defaultValue: string.Empty)
     );
 
     /// <summary>
-    /// Identifies the <see cref="Header"/> dependency property.
+    /// Identifies the <see cref="Text"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
+    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+        nameof(Text),
         typeof(string),
         typeof(SettingsSectionHeader),
-        new PropertyMetadata(
-            defaultValue:            null,
-            propertyChangedCallback: OnHeaderChanged
-        )
+        new PropertyMetadata(defaultValue: string.Empty)
     );
 
     /// <summary>
@@ -46,10 +40,10 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
     /// <summary>
     /// Gets the header.
     /// </summary>
-    public string Header
+    public string Text
     {
-        get => (string)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
     }
 
     /// <summary>
@@ -58,15 +52,5 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
     public SettingsSectionHeader()
     {
         InitializeComponent();
-    }
-
-    private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        ((SettingsSectionHeader)d).HeaderFontIcon.Glyph = e.NewValue as string;
-    }
-
-    private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        ((SettingsSectionHeader)d).HeaderTextBlock.Text = e.NewValue as string;
     }
 }

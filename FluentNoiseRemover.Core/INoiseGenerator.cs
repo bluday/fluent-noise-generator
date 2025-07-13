@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseRemover.Core.Noise.Generators;
+﻿namespace FluentNoiseRemover.Core;
 
 /// <summary>
 /// Represents a noise generator that generates 16-bit PCM (Pulse Code Modulation) audio samples.
@@ -25,7 +25,7 @@ public interface INoiseGenerator
     /// <remarks>
     /// Controls things like amplitude, randomness, and smoothing.
     /// </remarks>
-    Settings.INoiseSettings Settings { get; }
+    INoiseSettings Settings { get; }
 
     /// <summary>
     /// Generates a 16-bit PCM audio sample for playback.

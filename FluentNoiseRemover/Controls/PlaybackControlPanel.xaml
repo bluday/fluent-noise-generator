@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <UserControl mc:Ignorable="d"
              x:Class="FluentNoiseRemover.Controls.PlaybackControlPanel"
              x:DefaultBindMode="OneWay"
@@ -16,29 +16,12 @@
             <Setter Property="Width" Value="32"/>
         </Style>
     </UserControl.Resources>
-    
-    <Grid Padding="8" Grid.Row="1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal"/>
-
-                <VisualState x:Name="Playing">
-                    <VisualState.Setters>
-                        <Setter Target="PlaybackButtonFontIcon.Glyph" Value="&#xf8ae;"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        
-        <Button Grid.Column="1">
+    <StackPanel HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="8"
+                VerticalAlignment="Center">
+        <Button>
             <Button.Flyout>
                 <Flyout AreOpenCloseAnimationsEnabled="True" ShouldConstrainToRootBounds="False">
                     <Grid Width="200">
@@ -52,14 +35,15 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <TextBlock FontSize="16"
                                        Style="{StaticResource BodyStrongTextBlockStyle}"
                                        Text="Noise presets"/>
 
                             <Button Background="Transparent"
                                     BorderBrush="Transparent"
-                                    Content="{communityToolkit:FontIcon FontSize=12, Glyph=&#xe710;}"
+                                    Content="{communityToolkit:FontIcon FontSize=12,
+                                                                        Glyph=&#xe710;}"
                                     Height="24"
                                     Padding="4"
                                     Width="24"
@@ -84,14 +68,16 @@
                                             Width="24"
                                             Grid.Column="0"/>
 
-                                    <TextBlock Text="White" VerticalAlignment="Center" Grid.Column="1"/>
+                                    <TextBlock Text="White"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="1"/>
                                 </Grid>
                             </ListViewItem>
                         </ListView>
                     </Grid>
                 </Flyout>
             </Button.Flyout>
-        
+
             <Viewbox>
                 <FontIcon Glyph="&#xf61f;"/>
             </Viewbox>
@@ -100,24 +86,23 @@
         <Button x:Name="PlaybackButton"
                 Click="PlaybackButton_Click"
                 CornerRadius="40"
-                Height="60"
-                Margin="14,0"
-                Padding="15"
-                Width="60"
-                Style="{StaticResource DefaultButtonStyle}"
-                Grid.Column="2">
+                Height="48"
+                Width="48"
+                Style="{StaticResource DefaultButtonStyle}">
             <Viewbox>
                 <FontIcon x:Name="PlaybackButtonFontIcon" Glyph="&#xf5b0;"/>
             </Viewbox>
         </Button>
 
-        <Button Grid.Column="3">
+        <Button>
             <Button.Flyout>
                 <Flyout AreOpenCloseAnimationsEnabled="True" ShouldConstrainToRootBounds="False">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <Slider Value="50" Width="150"/>
 
-                        <TextBlock Text="50%" VerticalAlignment="Center" Grid.Column="1"/>
+                        <TextBlock Text="50%"
+                                   VerticalAlignment="Center"
+                                   Grid.Column="1"/>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
@@ -126,5 +111,17 @@
                 <FontIcon Glyph="&#xe767;"/>
             </Viewbox>
         </Button>
-    </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal"/>
+
+                <VisualState x:Name="Playing">
+                    <VisualState.Setters>
+                        <Setter Target="PlaybackButtonFontIcon.Glyph" Value="&#xf8ae;"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </StackPanel>
 </UserControl>

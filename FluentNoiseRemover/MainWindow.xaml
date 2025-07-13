@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Window mc:Ignorable="d"
-        x:Class="FluentNoiseRemover.Windows.MainWindow"
+        x:Class="FluentNoiseRemover.MainWindow"
         x:DefaultBindMode="OneWay"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:controls="using:FluentNoiseRemover.Controls"
@@ -10,7 +10,7 @@
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
-    
+
     <Grid x:Name="LayoutRoot" LayoutUpdated="LayoutRoot_LayoutUpdated">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -23,7 +23,7 @@
                                CloseButtonClicked="TopActionBar_CloseButtonClicked"
                                SettingsButtonClicked="TopActionBar_SettingsButtonClicked"
                                Grid.Row="0"/>
-        
+
         <controls:PlaybackControlPanel x:Name="PlaybackControlPanel"
                                        PlaybackButtonClicked="PlaybackControlPanel_PlaybackButtonClicked"
                                        Grid.Row="1"/>
