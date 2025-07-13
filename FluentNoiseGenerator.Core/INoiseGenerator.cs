@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseRemover.Core;
+﻿namespace FluentNoiseGenerator.Core;
 
 /// <summary>
 /// Represents a noise generator that generates 16-bit PCM (Pulse Code Modulation) audio samples.

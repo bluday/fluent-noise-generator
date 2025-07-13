@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.AppDisplayName" xml:space="preserve">
-    <value>Fluent Noise Remover</value>
+    <value>Fluent Noise Generator</value>
   </data>
   <data name="General.CopyrightText" xml:space="preserve">
     <value>© 2025 BluDay</value>
   </data>
   <data name="General.GitHubRepositoryUrl" xml:space="preserve">
-    <value>https://github.com/bluday/fluent-noise-remover</value>
+    <value>https://github.com/bluday/fluent-noise-generator</value>
   </data>
   <data name="General.SendFeedbackUrl" xml:space="preserve">
     <value>https://halopedia.org</value>

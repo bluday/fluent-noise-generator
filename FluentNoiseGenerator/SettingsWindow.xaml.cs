@@ -1,5 +1,5 @@
 using BluDay.Net.WinUI3.Extensions;
-using FluentNoiseRemover.Common;
+using FluentNoiseGenerator.Common;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -13,7 +13,7 @@ using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
 
-namespace FluentNoiseRemover;
+namespace FluentNoiseGenerator;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.

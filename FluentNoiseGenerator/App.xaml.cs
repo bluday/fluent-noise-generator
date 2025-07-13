@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
 
-namespace FluentNoiseRemover;
+namespace FluentNoiseGenerator;
 
 /// <summary>
 /// Interaction logic for App.xaml.

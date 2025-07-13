@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace FluentNoiseRemover.Controls;
+namespace FluentNoiseGenerator.Controls;
 
 /// <summary>
 /// Interaction logic for SettingsSectionHeader.xaml.

@@ -3,7 +3,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Platforms>x64</Platforms>
-		<RootNamespace>FluentNoiseRemover.Core</RootNamespace>
+		<RootNamespace>FluentNoiseGenerator.Core</RootNamespace>
 		<TargetFramework>net9.0</TargetFramework>
 	</PropertyGroup>
 </Project>

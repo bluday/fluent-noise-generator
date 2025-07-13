@@ -11,7 +11,7 @@
 		<PublishAot>false</PublishAot>
 		<PublishProfile>win-x64.pubxml</PublishProfile>
 		<RepositoryUrl>https://github.com/bluday/fluent-noise-remover</RepositoryUrl>
-		<RootNamespace>FluentNoiseRemover</RootNamespace>
+		<RootNamespace>FluentNoiseGenerator</RootNamespace>
 		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
 		<TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FluentNoiseRemover.Core\FluentNoiseRemover.Core.csproj" />
+      <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
     </ItemGroup>
 	
 	<ItemGroup>

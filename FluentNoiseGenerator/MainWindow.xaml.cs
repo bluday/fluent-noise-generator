@@ -4,7 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 
-namespace FluentNoiseRemover;
+namespace FluentNoiseGenerator;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.

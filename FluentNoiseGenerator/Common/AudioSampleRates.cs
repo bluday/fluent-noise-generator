@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseRemover.Common;
+﻿namespace FluentNoiseGenerator.Common;
 
 /// <summary>
 /// Contains constants of available and standard audio sample rates.

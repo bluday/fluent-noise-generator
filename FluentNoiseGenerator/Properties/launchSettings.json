@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "Fluent Noise Remover (Package)": {
+    "Fluent Noise Generator (Package)": {
       "commandName": "MsixPackage"
     },
-    "Fluent Noise Remover (Unpackaged)": {
+    "Fluent Noise Generator (Unpackaged)": {
       "commandName": "Project"
     }
   }

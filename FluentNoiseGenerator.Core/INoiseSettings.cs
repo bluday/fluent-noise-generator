@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseRemover.Core;
+﻿namespace FluentNoiseGenerator.Core;
 
 /// <summary>
 /// Defines adjustable parameters for a noise generator.

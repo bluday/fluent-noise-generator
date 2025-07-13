@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using System;
 
-namespace FluentNoiseRemover.Controls;
+namespace FluentNoiseGenerator.Controls;
 
 /// <summary>
 /// Interaction logic for PlaybackControlPanel.xaml.

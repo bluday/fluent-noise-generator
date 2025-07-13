@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml;
 using System;
 using Windows.Graphics;
 
-namespace FluentNoiseRemover.Controls;
+namespace FluentNoiseGenerator.Controls;
 
 /// <summary>
 /// Interaction logic for TopActionBar.xaml.

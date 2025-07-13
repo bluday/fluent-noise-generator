@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseRemover.Common;
+﻿namespace FluentNoiseGenerator.Common;
 
 /// <summary>
 /// Represents available system backdrop materials.
