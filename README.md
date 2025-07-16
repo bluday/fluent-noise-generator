@@ -4,4 +4,4 @@ Fluent Noise Generator is a lightweight WinUI 3 application designed to suppress
 
 > ⚠️ *Note: This application is currently in early development and does not yet include functional features.*
 
-![Screenshot 1](/screenshots/1.png?raw=true)
+![Screenshot 1](/Screenshots_0.png)
