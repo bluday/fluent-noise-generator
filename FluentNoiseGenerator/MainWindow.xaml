@@ -21,6 +21,7 @@
                                BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                                BorderThickness="0,0,0,1"
                                CloseButtonClicked="TopActionBar_CloseButtonClicked"
+                               Padding="4"
                                SettingsButtonClicked="TopActionBar_SettingsButtonClicked"
                                Grid.Row="0"/>
 
