@@ -1,4 +1,4 @@
-using BluDay.Net.WinUI3.Extensions;
+using FluentNoiseGenerator.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -60,8 +60,6 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         _settingsWindowFactory = settingsWindowFactory;
 
-        _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
-
         SettingsWindowCreated = (sender, e) => { };
 
         RegisterEventHandlers();
@@ -83,7 +81,7 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(260, 160);
+        _appWindow.Resize(new Windows.Graphics.SizeInt32(260, 160));
     }
 
     private void ConfigureTitleBar()

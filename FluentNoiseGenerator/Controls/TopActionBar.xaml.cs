@@ -1,4 +1,4 @@
-using BluDay.Net.WinUI3.Extensions;
+using FluentNoiseGenerator.Extensions;
 using Microsoft.UI.Xaml;
 using System;
 using Windows.Graphics;

@@ -2,9 +2,6 @@
     <Configurations>
         <Platform Name="x64" />
     </Configurations>
-    <Project Path="FluentNoiseGenerator.Core/FluentNoiseGenerator.Core.csproj">
-        <Platform Project="x64" />
-    </Project>
     <Project Path="FluentNoiseGenerator/FluentNoiseGenerator.csproj">
         <Platform Project="x64" />
         <Deploy />

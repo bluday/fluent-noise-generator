@@ -30,8 +30,6 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        // TODO: Configure and initialize the core.
-
         InitializeComponent();
     }
 

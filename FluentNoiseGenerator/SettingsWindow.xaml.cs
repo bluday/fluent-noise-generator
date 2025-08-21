@@ -1,4 +1,3 @@
-using BluDay.Net.WinUI3.Extensions;
 using FluentNoiseGenerator.Common;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
@@ -93,8 +92,6 @@ public sealed partial class SettingsWindow : Window
         _appWindow = AppWindow;
 
         _overlappedPresenter = OverlappedPresenter.Create();
-
-        _dpiScaleFactor = this.GetDpiScaleFactorInDecimal();
 
         ApplicationThemeChanged = (sender, e) => { };
         SystemBackdropChanged   = (sender, e) => { };
@@ -238,7 +235,7 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        _appWindow.Resize(new Windows.Graphics.SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
     }
 
     private void ConfigureTitleBar()
