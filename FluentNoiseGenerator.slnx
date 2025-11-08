@@ -6,4 +6,8 @@
         <Platform Project="x64" />
         <Deploy />
     </Project>
+    <Project Path="FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj" Id="7b83f7c8-5298-42cc-9b5b-6c69d3d315e3">
+        <Platform Project="x64" />
+        <Deploy />
+    </Project>
 </Solution>

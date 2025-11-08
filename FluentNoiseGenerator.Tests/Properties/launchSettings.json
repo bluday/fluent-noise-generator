@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FluentNoiseGenerator.Tests (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FluentNoiseGenerator.Tests (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
