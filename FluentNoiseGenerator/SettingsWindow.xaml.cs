@@ -95,8 +95,8 @@ public sealed partial class SettingsWindow : Window
 
         _resourceLoaderFactory = () => _resourceLoader;
 
-        ApplicationThemeChanged = (sender, e) => { };
-        SystemBackdropChanged = (sender, e) => { };
+        ApplicationThemeChanged = delegate { };
+        SystemBackdropChanged = delegate { };
 
         AudioSampleRates = [
             new NamedValue<int>(48000, GetDisplayableAudioSampleRateString),
