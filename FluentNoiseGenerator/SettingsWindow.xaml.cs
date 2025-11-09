@@ -23,8 +23,6 @@ public sealed partial class SettingsWindow : Window
 
     private bool _hasClosed;
 
-    private double _dpiScaleFactor;
-
     private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
@@ -104,17 +102,10 @@ public sealed partial class SettingsWindow : Window
 
         InitializeComponent();
 
-        PopulateComboBoxControlsWithLocalizedValues();
-
         RegisterEventHandlers();
-
-        ConfigureAppWindow();
-        ConfigureTitleBar();
-
-        ApplyLocalizedContent();
     }
 
-    private void ApplyLocalizedContent()
+    public void ApplyLocalizedContent()
     {
         string displayName  = _resourceLoader.GetString("General/AppDisplayName");
         string settingsText = _resourceLoader.GetString("Common/Settings");
@@ -183,6 +174,13 @@ public sealed partial class SettingsWindow : Window
         SendFeedbackHyperlinkButton.NavigateUri       = new Uri(_resourceLoader.GetString("General/SendFeedbackUrl"));
     }
 
+    private string GetApplicationVersionText()
+    {
+        PackageVersion version = Package.Current.Id.Version;
+
+        return $"{version.Major}.{version.Minor}";
+    }
+
     private void PopulateComboBoxControlsWithLocalizedValues()
     {
         List<int> audioSampleRates = [
@@ -226,43 +224,6 @@ public sealed partial class SettingsWindow : Window
             [_resourceLoader.GetString("SystemBackdrop/Acrylic")] = new DesktopAcrylicBackdrop(),
             [_resourceLoader.GetString("Common/None")]            = null!,
         };
-    }
-
-    private void ConfigureAppWindow()
-    {
-        _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
-        _overlappedPresenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
-
-        _appWindow.SetPresenter(_overlappedPresenter);
-
-        _appWindow.Resize(new Windows.Graphics.SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
-    }
-
-    private void ConfigureTitleBar()
-    {
-        _appWindow.SetIcon(App.IconPath);
-
-        TitleBar.Icon = App.IconPath;
-
-        ExtendsContentIntoTitleBar = true;
-
-        SetTitleBar(TitleBar);
-    }
-
-    private string GetApplicationVersionText()
-    {
-        PackageVersion version = Package.Current.Id.Version;
-
-        return $"{version.Major}.{version.Minor}";
-    }
-
-    private void RefreshLocalizedContent()
-    {
-        _resourceLoader = new ResourceLoader();
-
-        PopulateComboBoxControlsWithLocalizedValues();
-
-        ApplyLocalizedContent();
     }
 
     private void RegisterEventHandlers()
@@ -321,14 +282,42 @@ public sealed partial class SettingsWindow : Window
             return;
         }
 
-        SystemBackdrop = systemBackdrop;
-
         SystemBackdropChanged?.Invoke(this, systemBackdrop);
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)
     {
         _hasClosed = true;
+    }
+
+    public void ConfigureAppWindow()
+    {
+        _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
+        _overlappedPresenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
+
+        _appWindow.SetPresenter(_overlappedPresenter);
+
+        _appWindow.Resize(new Windows.Graphics.SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
+    }
+
+    public void ConfigureTitleBar()
+    {
+        _appWindow.SetIcon(App.IconPath);
+
+        TitleBar.Icon = App.IconPath;
+
+        ExtendsContentIntoTitleBar = true;
+
+        SetTitleBar(TitleBar);
+    }
+
+    public void RefreshLocalizedContent()
+    {
+        _resourceLoader = new ResourceLoader();
+
+        PopulateComboBoxControlsWithLocalizedValues();
+
+        ApplyLocalizedContent();
     }
 
     /// <summary>

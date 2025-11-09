@@ -52,38 +52,10 @@ public partial class App : Application
         _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
         _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
 
+        _settingsWindow.ConfigureAppWindow();
+        _settingsWindow.ConfigureTitleBar();
+        _settingsWindow.RefreshLocalizedContent();
         _settingsWindow.Activate();
-    }
-
-    private void UpdateSettingsWindowTitleBarColors()
-    {
-        if (_settingsWindow?.AppWindow.TitleBar is not AppWindowTitleBar settingsWindowTitleBar)
-        {
-            return;
-        }
-
-        settingsWindowTitleBar.ButtonBackgroundColor         = Colors.Transparent;
-        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-        settingsWindowTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-        if (_elementTheme is ElementTheme.Light)
-        {
-            settingsWindowTitleBar.ButtonHoverBackgroundColor   = Colors.DarkGray;
-            settingsWindowTitleBar.ButtonPressedBackgroundColor = Colors.LightGray;
-
-            settingsWindowTitleBar.ButtonForegroundColor        = Colors.Black;
-            settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.Black;
-            settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.Black;
-
-            return;
-        }
-
-        settingsWindowTitleBar.ButtonHoverBackgroundColor   = Colors.LightGray;
-        settingsWindowTitleBar.ButtonPressedBackgroundColor = Colors.Gray;
-
-        settingsWindowTitleBar.ButtonForegroundColor        = Colors.White;
-        settingsWindowTitleBar.ButtonHoverForegroundColor   = Colors.White;
-        settingsWindowTitleBar.ButtonPressedForegroundColor = Colors.White;
     }
 
     private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
@@ -100,7 +72,33 @@ public partial class App : Application
             (_settingsWindow.Content as FrameworkElement)?.RequestedTheme = e;
         }
 
-        UpdateSettingsWindowTitleBarColors();
+        if (_settingsWindow?.AppWindow.TitleBar is not AppWindowTitleBar titleBar)
+        {
+            return;
+        }
+
+        titleBar.ButtonBackgroundColor         = Colors.Transparent;
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+        if (_elementTheme is ElementTheme.Light)
+        {
+            titleBar.ButtonHoverBackgroundColor   = Colors.DarkGray;
+            titleBar.ButtonPressedBackgroundColor = Colors.LightGray;
+
+            titleBar.ButtonForegroundColor        = Colors.Black;
+            titleBar.ButtonHoverForegroundColor   = Colors.Black;
+            titleBar.ButtonPressedForegroundColor = Colors.Black;
+
+            return;
+        }
+
+        titleBar.ButtonHoverBackgroundColor   = Colors.LightGray;
+        titleBar.ButtonPressedBackgroundColor = Colors.Gray;
+
+        titleBar.ButtonForegroundColor        = Colors.White;
+        titleBar.ButtonHoverForegroundColor   = Colors.White;
+        titleBar.ButtonPressedForegroundColor = Colors.White;
     }
 
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
