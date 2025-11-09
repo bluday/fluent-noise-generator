@@ -54,12 +54,15 @@
 
                             <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox x:Name="DefaultNoisePresetComboBox"/>
+                                <ComboBox x:Name="DefaultNoisePresetComboBox"
+                                          ItemsSource="{x:Bind NoisePresets}"/>
                             </communityToolkitControls:SettingsCard>
 
                             <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox x:Name="LanguageComboBox" SelectionChanged="LanguageComboBox_SelectionChanged"/>
+                                <ComboBox x:Name="LanguageComboBox"
+                                          ItemsSource="{x:Bind Languages}"
+                                          SelectionChanged="LanguageComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -77,7 +80,7 @@
                         <StackPanel Spacing="2" Grid.Row="1">
                             <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
-                                <ComboBox x:Name="AudioSampleRateComboBox"/>
+                                <ComboBox x:Name="AudioSampleRateComboBox" ItemsSource="{x:Bind AudioSampleRates}"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -100,12 +103,16 @@
 
                             <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox x:Name="ApplicationThemeComboBox" SelectionChanged="ApplicationThemeComboBox_SelectionChanged"/>
+                                <ComboBox x:Name="ApplicationThemeComboBox"
+                                          ItemsSource="{x:Bind ApplicationThemes}"
+                                          SelectionChanged="ApplicationThemeComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
 
                             <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
                                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
-                                <ComboBox x:Name="SystemBackdropComboBox" SelectionChanged="SystemBackdropComboBox_SelectionChanged"/>
+                                <ComboBox x:Name="SystemBackdropComboBox"
+                                          ItemsSource="{x:Bind SystemBackdrops}"
+                                          SelectionChanged="SystemBackdropComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
                     </Grid>
@@ -124,7 +131,8 @@
                             <communityToolkitControls:SettingsExpander x:Name="AboutSettingsExpander"
                                                                        HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
                                 <communityToolkitControls:SettingsExpander.Content>
-                                    <TextBlock x:Name="ApplicationVersionTextBlock" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                    <TextBlock x:Name="ApplicationVersionTextBlock"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                                 </communityToolkitControls:SettingsExpander.Content>
 
                                 <communityToolkitControls:SettingsExpander.Items>

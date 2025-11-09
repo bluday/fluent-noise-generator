@@ -27,6 +27,8 @@ public sealed partial class SettingsWindow : Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
+    private readonly Func<ResourceLoader> _resourceLoaderFactory;
+
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
@@ -50,17 +52,17 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
     /// </summary>
-    public IReadOnlyDictionary<string, ElementTheme> LocalizedApplicationThemes { get; private set; }
+    public IReadOnlyList<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped audio sample rates, with localized keys.
     /// </summary>
-    public IReadOnlyDictionary<string, int> LocalizedAudioSampleRates { get; private set; }
+    public IReadOnlyList<NamedValue<int>> AudioSampleRates { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped languages, with localized keys.
     /// </summary>
-    public IReadOnlyDictionary<string, CultureInfo> LocalizedLanguages { get; private set; }
+    public IReadOnlyList<NamedValue<CultureInfo>> Languages { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped noise presets, with localized keys.
@@ -68,12 +70,12 @@ public sealed partial class SettingsWindow : Window
     /// <remarks>
     /// Value type of <see cref="string"/> is used for now, until a type for noise preset is implemented.
     /// </remarks>
-    public IReadOnlyDictionary<string, string> LocalizedNoisePresets { get; private set; }
+    public IReadOnlyList<ResourceNamedValue<string>> NoisePresets { get; private set; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped system backdrops, with localized keys.
     /// </summary>
-    public IReadOnlyDictionary<string, SystemBackdrop> LocalizedSystemBackdrops { get; private set; }
+    public IReadOnlyList<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
@@ -85,20 +87,65 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public SettingsWindow()
     {
-        _resourceLoader = new ResourceLoader();
+        _resourceLoader = null!;
 
         _appWindow = AppWindow;
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        ApplicationThemeChanged = (sender, e) => { };
-        SystemBackdropChanged   = (sender, e) => { };
+        _resourceLoaderFactory = () => _resourceLoader;
 
-        LocalizedApplicationThemes = null!;
-        LocalizedAudioSampleRates  = null!;
-        LocalizedLanguages         = null!;
-        LocalizedNoisePresets      = null!;
-        LocalizedSystemBackdrops   = null!;
+        ApplicationThemeChanged = (sender, e) => { };
+        SystemBackdropChanged = (sender, e) => { };
+
+        AudioSampleRates = [
+            new NamedValue<int>(48000, GetDisplayableAudioSampleRateString),
+            new NamedValue<int>(44100, GetDisplayableAudioSampleRateString)
+        ];
+
+        ApplicationThemes = [
+            new(ElementTheme.Default, "Common/System", _resourceLoaderFactory),
+            new(ElementTheme.Dark, "Common/Dark", _resourceLoaderFactory),
+            new(ElementTheme.Light, "Common/Light", _resourceLoaderFactory)
+        ];
+
+        Languages = ApplicationLanguages.ManifestLanguages
+            .Select(value =>
+            {
+                CultureInfo cultureInfo = new(value);
+
+                return new NamedValue<CultureInfo>(cultureInfo, cultureInfo.NativeName);
+            })
+            .ToList();
+
+        NoisePresets = [
+            new(string.Empty, "Common/Blue", _resourceLoaderFactory),
+            new(string.Empty, "Common/Brownian", _resourceLoaderFactory),
+            new(string.Empty, "Common/White", _resourceLoaderFactory),
+        ];
+
+        SystemBackdrops = [
+            new(
+                new MicaBackdrop(),
+                "SystemBackdrop/Mica",
+                _resourceLoaderFactory
+            ),
+            new(
+                new MicaBackdrop() { Kind = MicaKind.BaseAlt },
+                "SystemBackdrop/MicaAlt",
+                _resourceLoaderFactory
+            ),
+            new(
+                new DesktopAcrylicBackdrop(),
+                "SystemBackdrop/Acrylic",
+                _resourceLoaderFactory
+            ),
+            new(
+                null!,
+                "Common/None",
+                _resourceLoaderFactory
+            ),
+        ];
 
         InitializeComponent();
 
@@ -124,12 +171,8 @@ public sealed partial class SettingsWindow : Window
         ApplicationThemeSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Header");
         ApplicationThemeSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
-        ApplicationThemeComboBox.ItemsSource = LocalizedApplicationThemes.Keys;
-
         SystemBackdropSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Header");
         SystemBackdropSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Description");
-
-        SystemBackdropComboBox.ItemsSource = LocalizedSystemBackdrops.Keys;
 
         GeneralSettingsSectionHeader.Text = _resourceLoader.GetString("Common/General");
 
@@ -142,19 +185,13 @@ public sealed partial class SettingsWindow : Window
         DefaultNoisePresetSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Header");
         DefaultNoisePresetSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Description");
 
-        DefaultNoisePresetComboBox.ItemsSource = LocalizedNoisePresets.Keys;
-
         LanguageSettingsCard.Header      = _resourceLoader.GetString("Common/Language");
         LanguageSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/Language/Description");
-
-        LanguageComboBox.ItemsSource = LocalizedLanguages.Keys;
 
         SoundSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Sound");
 
         AudioSampleRateSettingsCard.Header      = _resourceLoader.GetString("Common/SampleRate");
         AudioSampleRateSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Sound/SampleRate/Description");
-
-        AudioSampleRateComboBox.ItemsSource = LocalizedAudioSampleRates.Keys;
 
         AboutSettingsSectionHeader.Text = _resourceLoader.GetString("Common/About");
 
@@ -181,49 +218,9 @@ public sealed partial class SettingsWindow : Window
         return $"{version.Major}.{version.Minor}";
     }
 
-    private void PopulateComboBoxControlsWithLocalizedValues()
+    private string GetDisplayableAudioSampleRateString(int value)
     {
-        List<int> audioSampleRates = [
-            AudioSampleRates.Rate48000Hz,
-            AudioSampleRates.Rate44100Hz
-        ];
-
-        List<string> noisePresets = [
-            _resourceLoader.GetString("Common/Blue"),
-            _resourceLoader.GetString("Common/Brownian"),
-            _resourceLoader.GetString("Common/White")
-        ];
-
-        string shortHertzText = _resourceLoader.GetString("Units/Hertz/Short");
-
-        LocalizedAudioSampleRates = audioSampleRates.ToDictionary(
-            keySelector:     value => $"{value} {shortHertzText}",
-            elementSelector: value => value
-        );
-
-        LocalizedApplicationThemes = new Dictionary<string, ElementTheme>
-        {
-            [_resourceLoader.GetString("Common/System")] = ElementTheme.Default,
-            [_resourceLoader.GetString("Common/Dark")]   = ElementTheme.Dark,
-            [_resourceLoader.GetString("Common/Light")]  = ElementTheme.Light
-        };
-
-        LocalizedLanguages = ApplicationLanguages.ManifestLanguages
-            .Select(language => new CultureInfo(language))
-            .ToDictionary(
-                keySelector:     cultureInfo => cultureInfo.NativeName,
-                elementSelector: cultureInfo => cultureInfo
-            );
-
-        LocalizedNoisePresets = noisePresets.ToDictionary(preset => preset);
-
-        LocalizedSystemBackdrops = new Dictionary<string, SystemBackdrop>
-        {
-            [_resourceLoader.GetString("SystemBackdrop/Mica")]    = new MicaBackdrop(),
-            [_resourceLoader.GetString("SystemBackdrop/MicaAlt")] = new MicaBackdrop() { Kind = MicaKind.BaseAlt },
-            [_resourceLoader.GetString("SystemBackdrop/Acrylic")] = new DesktopAcrylicBackdrop(),
-            [_resourceLoader.GetString("Common/None")]            = null!,
-        };
+        return $"{value} {_resourceLoader.GetString("Units/Hertz/Short")}";
     }
 
     private void RegisterEventHandlers()
@@ -233,56 +230,34 @@ public sealed partial class SettingsWindow : Window
 
     private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not string key)
+        if (e.AddedItems.FirstOrDefault() is not ResourceNamedValue<ElementTheme> value)
         {
             return;
         }
 
-        if (!LocalizedApplicationThemes.TryGetValue(key, out ElementTheme theme))
-        {
-            return;
-        }
-
-        ApplicationThemeChanged.Invoke(this, theme);
+        ApplicationThemeChanged.Invoke(this, value.Value);
     }
 
     private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not string key)
+        if (e.AddedItems.FirstOrDefault() is not NamedValue<CultureInfo> value)
         {
             return;
         }
 
-        if (!LocalizedLanguages.TryGetValue(key, out CultureInfo? cultureInfo))
-        {
-            return;
-        }
-
-        if (ApplicationLanguages.PrimaryLanguageOverride == cultureInfo!.Name)
-        {
-            return;
-        }
-
-        ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+        ApplicationLanguages.PrimaryLanguageOverride = value.Value.Name;
 
         RefreshLocalizedContent();
     }
 
     private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not string key)
+        if (e.AddedItems.FirstOrDefault() is not ResourceNamedValue<SystemBackdrop> value)
         {
             return;
         }
 
-        SystemBackdrop? systemBackdrop = LocalizedSystemBackdrops.GetValueOrDefault(key);
-
-        if (SystemBackdrop == systemBackdrop)
-        {
-            return;
-        }
-
-        SystemBackdropChanged?.Invoke(this, systemBackdrop);
+        SystemBackdropChanged?.Invoke(this, value.Value);
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)
@@ -314,8 +289,6 @@ public sealed partial class SettingsWindow : Window
     public void RefreshLocalizedContent()
     {
         _resourceLoader = new ResourceLoader();
-
-        PopulateComboBoxControlsWithLocalizedValues();
 
         ApplyLocalizedContent();
     }
