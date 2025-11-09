@@ -63,17 +63,6 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
         Closed += MainWindow_Closed;
 
         InitializeComponent();
-
-        RetrieveAndUpdateDpiScale();
-    }
-
-    private void RetrieveAndUpdateDpiScale()
-    {
-        IntPtr hwnd = WindowNative.GetWindowHandle(this);
-
-        uint value = PInvoke.GetDpiForWindow((Windows.Win32.Foundation.HWND)hwnd);
-
-        _dpiScaleFactor = (double)value / 96;
     }
 
     private void TogglePlayback()
@@ -161,5 +150,14 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
         SetTitleBar(TopActionBar);
+    }
+
+    public void RetrieveAndUpdateDpiScale()
+    {
+        IntPtr hwnd = WindowNative.GetWindowHandle(this);
+
+        uint value = PInvoke.GetDpiForWindow((Windows.Win32.Foundation.HWND)hwnd);
+
+        _dpiScaleFactor = (double)value / 96;
     }
 }

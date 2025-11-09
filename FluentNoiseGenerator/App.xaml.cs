@@ -130,8 +130,9 @@ public partial class App : Application
     {
         _mainWindow = new MainWindow(ShowSettingsWindow);
 
-        _mainWindow.Activate();
+        _mainWindow.RetrieveAndUpdateDpiScale();
         _mainWindow.ConfigureAppWindow();
         _mainWindow.ConfigureTitleBar();
+        _mainWindow.Activate();
     }
 }
