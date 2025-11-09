@@ -18,8 +18,6 @@ public partial class App : Application
 
     private ElementTheme _elementTheme;
 
-    private SystemBackdrop? _systemBackdrop;
-
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
@@ -107,8 +105,6 @@ public partial class App : Application
 
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
     {
-        _systemBackdrop = e;
-
         if (_mainWindow?.HasClosed is false)
         {
             _mainWindow.SystemBackdrop = e;
