@@ -3,6 +3,8 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using Windows.Win32;
+using WinRT.Interop;
 
 namespace FluentNoiseGenerator;
 
@@ -18,8 +20,6 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     private double _dpiScaleFactor;
     
     private readonly InputNonClientPointerSource _nonClientPointerSource;
-
-    private readonly AppWindow _appWindow;
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
@@ -44,7 +44,7 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
     /// <param name="settingsWindowFactory">
-    /// The <see cref="SettingsWindow"/> factory.
+    /// The factory for creating <see cref="SettingsWindow"/> instances.
     /// </param>
     public MainWindow(Action settingsWindowFactory)
     {
@@ -52,9 +52,7 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         _resourceLoader = new ResourceLoader();
 
-        _appWindow = AppWindow;
-
-        _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
+        _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
         
         _overlappedPresenter = OverlappedPresenter.Create();
 
@@ -62,42 +60,20 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         SettingsWindowCreated = (sender, e) => { };
 
-        RegisterEventHandlers();
+        Closed += MainWindow_Closed;
 
         InitializeComponent();
 
-        ConfigureAppWindow();
-        ConfigureTitleBar();
+        RetrieveAndUpdateDpiScale();
     }
 
-    private void ConfigureAppWindow()
+    private void RetrieveAndUpdateDpiScale()
     {
-        _overlappedPresenter.IsAlwaysOnTop = true;
-        _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = false;
-        _overlappedPresenter.IsResizable   = false;
+        IntPtr hwnd = WindowNative.GetWindowHandle(this);
 
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
+        uint value = PInvoke.GetDpiForWindow((Windows.Win32.Foundation.HWND)hwnd);
 
-        _appWindow.SetPresenter(_overlappedPresenter);
-
-        _appWindow.Resize(new Windows.Graphics.SizeInt32(260, 160));
-    }
-
-    private void ConfigureTitleBar()
-    {
-        _appWindow.SetIcon(App.IconPath);
-
-        ExtendsContentIntoTitleBar = true;
-
-        Title = _resourceLoader.GetString("General/AppDisplayName");
-
-        SetTitleBar(TopActionBar);
-    }
-
-    private void RegisterEventHandlers()
-    {
-        Closed += MainWindow_Closed;
+        _dpiScaleFactor = (double)value / 96;
     }
 
     private void TogglePlayback()
@@ -127,18 +103,14 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
          * I am lazy and this is the easiest way of specifying drag regions after setting title
          * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
-        _nonClientPointerSource.SetRegionRects(
-            region: NonClientRegionKind.Caption,
-            rects:  [TopActionBar.GetBoundingBox(_dpiScaleFactor)]
-        );
+        _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [
+            TopActionBar.GetBoundingBox(_dpiScaleFactor)
+        ]);
 
-        _nonClientPointerSource.SetRegionRects(
-            region: NonClientRegionKind.Passthrough,
-            rects:  [
-                TopActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-                TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
-            ]
-        );
+        _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, [
+            TopActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+            TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+        ]);
     }
 
     private void MainWindow_Closed(object sender, Microsoft.UI.Xaml.WindowEventArgs args)
@@ -164,5 +136,30 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
     {
         _settingsWindowFactory();
+    }
+
+    public void ConfigureAppWindow()
+    {
+        _overlappedPresenter.IsAlwaysOnTop = true;
+        _overlappedPresenter.IsMaximizable = false;
+        _overlappedPresenter.IsMinimizable = false;
+        _overlappedPresenter.IsResizable   = false;
+
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
+
+        AppWindow.SetPresenter(_overlappedPresenter);
+
+        AppWindow.Resize(new Windows.Graphics.SizeInt32(260, 160));
+    }
+
+    public void ConfigureTitleBar()
+    {
+        AppWindow.SetIcon(App.IconPath);
+
+        ExtendsContentIntoTitleBar = true;
+
+        Title = _resourceLoader.GetString("General/AppDisplayName");
+
+        SetTitleBar(TopActionBar);
     }
 }

@@ -21,7 +21,7 @@ public partial class App : Application
     private SystemBackdrop? _systemBackdrop;
 
     /// <summary>
-    /// Gets the absolute path for the 64x64 application icon.
+    /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
     public static readonly string IconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Icon-64.ico");
 
@@ -131,5 +131,7 @@ public partial class App : Application
         _mainWindow = new MainWindow(ShowSettingsWindow);
 
         _mainWindow.Activate();
+        _mainWindow.ConfigureAppWindow();
+        _mainWindow.ConfigureTitleBar();
     }
 }
