@@ -47,15 +47,18 @@
                                                         Grid.Row="0"/>
 
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard x:Name="AutoplayOnLaunchSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
+                            <communityToolkitControls:SettingsCard x:Name="AutoplayOnLaunchSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
                                 <ToggleSwitch x:Name="AutoplayOnLaunchToggleSwitch"/>
                             </communityToolkitControls:SettingsCard>
 
-                            <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
+                            <communityToolkitControls:SettingsCard x:Name="DefaultNoisePresetSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
                                 <ComboBox x:Name="DefaultNoisePresetComboBox"/>
                             </communityToolkitControls:SettingsCard>
 
-                            <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
+                            <communityToolkitControls:SettingsCard x:Name="LanguageSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                                 <ComboBox x:Name="LanguageComboBox" SelectionChanged="LanguageComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
@@ -72,7 +75,8 @@
                                                         Grid.Row="0"/>
 
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
+                            <communityToolkitControls:SettingsCard x:Name="AudioSampleRateSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
                                 <ComboBox x:Name="AudioSampleRateComboBox"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
@@ -89,15 +93,18 @@
                                                         Grid.Row="0"/>
 
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsCard x:Name="AlwaysOnTopSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
+                            <communityToolkitControls:SettingsCard x:Name="AlwaysOnTopSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
                                 <ToggleSwitch x:Name="AlwaysOnTopToggleSwitch"/>
                             </communityToolkitControls:SettingsCard>
 
-                            <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
+                            <communityToolkitControls:SettingsCard x:Name="ApplicationThemeSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
                                 <ComboBox x:Name="ApplicationThemeComboBox" SelectionChanged="ApplicationThemeComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
 
-                            <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
+                            <communityToolkitControls:SettingsCard x:Name="SystemBackdropSettingsCard"
+                                                                   HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
                                 <ComboBox x:Name="SystemBackdropComboBox" SelectionChanged="SystemBackdropComboBox_SelectionChanged"/>
                             </communityToolkitControls:SettingsCard>
                         </StackPanel>
@@ -114,7 +121,8 @@
                                                         Grid.Row="0"/>
 
                         <StackPanel Spacing="2" Grid.Row="1">
-                            <communityToolkitControls:SettingsExpander x:Name="AboutSettingsExpander" HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
+                            <communityToolkitControls:SettingsExpander x:Name="AboutSettingsExpander"
+                                                                       HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
                                 <communityToolkitControls:SettingsExpander.Content>
                                     <TextBlock x:Name="ApplicationVersionTextBlock" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                                 </communityToolkitControls:SettingsExpander.Content>
