@@ -27,8 +27,6 @@ public sealed partial class SettingsWindow : Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
-    private readonly Func<ResourceLoader> _resourceLoaderFactory;
-
     /// <summary>
     /// The minimum width unscaled in pixels.
     /// </summary>
@@ -93,16 +91,8 @@ public sealed partial class SettingsWindow : Window
 
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        _resourceLoaderFactory = () => _resourceLoader;
-
         ApplicationThemeChanged = delegate { };
         SystemBackdropChanged   = delegate { };
-
-        ApplicationThemes = new ResourceNamedValueCollectionBuilder<ElementTheme>(_resourceLoaderFactory)
-            .Add("Common/System", ElementTheme.Default)
-            .Add("Common/Dark", ElementTheme.Dark)
-            .Add("Common/Light", ElementTheme.Light)
-            .Build();
 
         AudioSampleRates = new List<NamedValue<int>>
         {
@@ -114,31 +104,36 @@ public sealed partial class SettingsWindow : Window
             .Select(value => new NamedValue<CultureInfo>(new(value), value => value.NativeName))
             .ToList();
 
-        NoisePresets = new ResourceNamedValueCollectionBuilder<string>(_resourceLoaderFactory)
+        Func<ResourceLoader> resourceLoaderFactory = () => _resourceLoader;
+
+        ApplicationThemes = new ResourceNamedValueCollectionBuilder<ElementTheme>(resourceLoaderFactory)
+            .Add("Common/System", ElementTheme.Default)
+            .Add("Common/Dark", ElementTheme.Dark)
+            .Add("Common/Light", ElementTheme.Light)
+            .Build();
+
+        NoisePresets = new ResourceNamedValueCollectionBuilder<string>(resourceLoaderFactory)
             .Add("Common/Blue", null!)
             .Add("Common/Brownian", null!)
             .Add("Common/White", null!)
             .Build();
 
-        SystemBackdrops = new ResourceNamedValueCollectionBuilder<SystemBackdrop>(_resourceLoaderFactory)
+        SystemBackdrops = new ResourceNamedValueCollectionBuilder<SystemBackdrop>(resourceLoaderFactory)
             .Add("SystemBackdrop/Mica", new MicaBackdrop())
-            .Add("SystemBackdrop/MicaAlt", new MicaBackdrop() { Kind = MicaKind.BaseAlt })
+            .Add("SystemBackdrop/MicaAlt", new MicaBackdrop()
+            {
+                Kind = MicaKind.BaseAlt
+            })
             .Add("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop())
             .Add("Common/None", null!)
             .Build();
 
         InitializeComponent();
 
-        ApplicationThemeComboBox.SelectedIndex   = 0;
-        AudioSampleRateComboBox.SelectedIndex    = 0;
-        DefaultNoisePresetComboBox.SelectedIndex = 0;
-        LanguageComboBox.SelectedIndex           = 0;
-        SystemBackdropComboBox.SelectedIndex     = 0;
-
         RegisterEventHandlers();
     }
 
-    public void ApplyLocalizedContent()
+    private void ApplyLocalizedContent()
     {
         string displayName  = _resourceLoader.GetString("General/AppDisplayName");
         string settingsText = _resourceLoader.GetString("Common/Settings");
@@ -216,34 +211,28 @@ public sealed partial class SettingsWindow : Window
 
     private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not ResourceNamedValue<ElementTheme> value)
+        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
         {
-            return;
+            ApplicationThemeChanged.Invoke(this, namedValue.Value);
         }
-
-        ApplicationThemeChanged.Invoke(this, value.Value);
     }
 
     private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not NamedValue<CultureInfo> value)
+        if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
         {
-            return;
+            ApplicationLanguages.PrimaryLanguageOverride = namedValue.Value.Name;
+
+            RefreshLocalizedContent();
         }
-
-        ApplicationLanguages.PrimaryLanguageOverride = value.Value.Name;
-
-        RefreshLocalizedContent();
     }
 
     private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems.FirstOrDefault() is not ResourceNamedValue<SystemBackdrop> value)
+        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
         {
-            return;
+            SystemBackdropChanged?.Invoke(this, namedValue.Value);
         }
-
-        SystemBackdropChanged?.Invoke(this, value.Value);
     }
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs args)

@@ -23,8 +23,6 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
     private readonly OverlappedPresenter _overlappedPresenter;
 
-    private readonly Action _settingsWindowFactory;
-
     /// <summary>
     /// Triggers when a new settings window has been created.
     /// </summary>
@@ -41,28 +39,31 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     public bool IsPlaying { get; private set; }
 
     /// <summary>
+    /// The factory for creating a <see cref="SettingsWindow"/> instance.
+    /// </summary>
+    public Action? SettingsWindowFactory { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    /// <param name="settingsWindowFactory">
-    /// The factory for creating <see cref="SettingsWindow"/> instances.
-    /// </param>
-    public MainWindow(Action settingsWindowFactory)
+    public MainWindow()
     {
-        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
-
-        _resourceLoader = new ResourceLoader();
+        _resourceLoader = null!;
 
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
         
         _overlappedPresenter = OverlappedPresenter.Create();
 
-        _settingsWindowFactory = settingsWindowFactory;
-
-        SettingsWindowCreated = (sender, e) => { };
+        SettingsWindowCreated = delegate { };
 
         Closed += MainWindow_Closed;
 
         InitializeComponent();
+    }
+
+    public void ApplyLocalizedContent()
+    {
+        // TODO: Use localied strings.
     }
 
     private void TogglePlayback()
@@ -124,7 +125,7 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
     private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
     {
-        _settingsWindowFactory();
+        SettingsWindowFactory?.Invoke();
     }
 
     public void ConfigureAppWindow()
@@ -150,6 +151,13 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
         SetTitleBar(TopActionBar);
+    }
+
+    public void RefreshLocalizedContent()
+    {
+        _resourceLoader = new ResourceLoader();
+
+        ApplyLocalizedContent();
     }
 
     public void RetrieveAndUpdateDpiScale()

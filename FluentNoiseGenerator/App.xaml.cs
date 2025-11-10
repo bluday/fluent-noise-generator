@@ -122,8 +122,12 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _mainWindow = new MainWindow(ShowSettingsWindow);
+        _mainWindow = new MainWindow
+        {
+            SettingsWindowFactory = ShowSettingsWindow
+        };
 
+        _mainWindow.RefreshLocalizedContent();
         _mainWindow.RetrieveAndUpdateDpiScale();
         _mainWindow.ConfigureAppWindow();
         _mainWindow.ConfigureTitleBar();
