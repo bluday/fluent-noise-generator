@@ -96,37 +96,36 @@ public sealed partial class SettingsWindow : Window
         _resourceLoaderFactory = () => _resourceLoader;
 
         ApplicationThemeChanged = delegate { };
-        SystemBackdropChanged = delegate { };
+        SystemBackdropChanged   = delegate { };
 
-        AudioSampleRates = [
-            new NamedValue<int>(48000, GetDisplayableAudioSampleRateString),
-            new NamedValue<int>(44100, GetDisplayableAudioSampleRateString)
-        ];
+        AudioSampleRates = new List<NamedValue<int>>
+        {
+            new(48000, GetDisplayableAudioSampleRateString),
+            new(44100, GetDisplayableAudioSampleRateString)
+        };
 
-        ApplicationThemes = [
+        ApplicationThemes = new List<ResourceNamedValue<ElementTheme>>
+        {
             new(ElementTheme.Default, "Common/System", _resourceLoaderFactory),
             new(ElementTheme.Dark, "Common/Dark", _resourceLoaderFactory),
             new(ElementTheme.Light, "Common/Light", _resourceLoaderFactory)
-        ];
+        };
 
         Languages = ApplicationLanguages.ManifestLanguages
-            .Select(value =>
-            {
-                CultureInfo cultureInfo = new(value);
-
-                return new NamedValue<CultureInfo>(cultureInfo, cultureInfo.NativeName);
-            })
+            .Select(value => new NamedValue<CultureInfo>(new(value), value => value.NativeName))
             .ToList();
 
-        NoisePresets = [
+        NoisePresets = new List<ResourceNamedValue<string>>
+        {
             new(string.Empty, "Common/Blue", _resourceLoaderFactory),
             new(string.Empty, "Common/Brownian", _resourceLoaderFactory),
             new(string.Empty, "Common/White", _resourceLoaderFactory),
-        ];
+        };
 
-        SystemBackdrops = [
+        SystemBackdrops = new List<ResourceNamedValue<SystemBackdrop>>
+        {
             new(
-                new MicaBackdrop(),
+                new MicaBackdrop() { Kind = MicaKind.Base },
                 "SystemBackdrop/Mica",
                 _resourceLoaderFactory
             ),
@@ -144,8 +143,8 @@ public sealed partial class SettingsWindow : Window
                 null!,
                 "Common/None",
                 _resourceLoaderFactory
-            ),
-        ];
+            )
+        };
 
         InitializeComponent();
 
