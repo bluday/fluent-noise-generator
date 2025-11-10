@@ -129,6 +129,12 @@ public sealed partial class SettingsWindow : Window
 
         InitializeComponent();
 
+        ApplicationThemeComboBox.SelectedIndex   = 0;
+        AudioSampleRateComboBox.SelectedIndex    = 0;
+        DefaultNoisePresetComboBox.SelectedIndex = 0;
+        LanguageComboBox.SelectedIndex           = 0;
+        SystemBackdropComboBox.SelectedIndex     = 0;
+
         RegisterEventHandlers();
     }
 
