@@ -98,53 +98,34 @@ public sealed partial class SettingsWindow : Window
         ApplicationThemeChanged = delegate { };
         SystemBackdropChanged   = delegate { };
 
+        ApplicationThemes = new ResourceNamedValueCollectionBuilder<ElementTheme>(_resourceLoaderFactory)
+            .Add("Common/System", ElementTheme.Default)
+            .Add("Common/Dark", ElementTheme.Dark)
+            .Add("Common/Light", ElementTheme.Light)
+            .Build();
+
         AudioSampleRates = new List<NamedValue<int>>
         {
-            new(48000, GetDisplayableAudioSampleRateString),
-            new(44100, GetDisplayableAudioSampleRateString)
-        };
-
-        ApplicationThemes = new List<ResourceNamedValue<ElementTheme>>
-        {
-            new(ElementTheme.Default, "Common/System", _resourceLoaderFactory),
-            new(ElementTheme.Dark, "Common/Dark", _resourceLoaderFactory),
-            new(ElementTheme.Light, "Common/Light", _resourceLoaderFactory)
+            new(Common.AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateString),
+            new(Common.AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateString)
         };
 
         Languages = ApplicationLanguages.ManifestLanguages
             .Select(value => new NamedValue<CultureInfo>(new(value), value => value.NativeName))
             .ToList();
 
-        NoisePresets = new List<ResourceNamedValue<string>>
-        {
-            new(string.Empty, "Common/Blue", _resourceLoaderFactory),
-            new(string.Empty, "Common/Brownian", _resourceLoaderFactory),
-            new(string.Empty, "Common/White", _resourceLoaderFactory),
-        };
+        NoisePresets = new ResourceNamedValueCollectionBuilder<string>(_resourceLoaderFactory)
+            .Add("Common/Blue", null!)
+            .Add("Common/Brownian", null!)
+            .Add("Common/White", null!)
+            .Build();
 
-        SystemBackdrops = new List<ResourceNamedValue<SystemBackdrop>>
-        {
-            new(
-                new MicaBackdrop() { Kind = MicaKind.Base },
-                "SystemBackdrop/Mica",
-                _resourceLoaderFactory
-            ),
-            new(
-                new MicaBackdrop() { Kind = MicaKind.BaseAlt },
-                "SystemBackdrop/MicaAlt",
-                _resourceLoaderFactory
-            ),
-            new(
-                new DesktopAcrylicBackdrop(),
-                "SystemBackdrop/Acrylic",
-                _resourceLoaderFactory
-            ),
-            new(
-                null!,
-                "Common/None",
-                _resourceLoaderFactory
-            )
-        };
+        SystemBackdrops = new ResourceNamedValueCollectionBuilder<SystemBackdrop>(_resourceLoaderFactory)
+            .Add("SystemBackdrop/Mica", new MicaBackdrop())
+            .Add("SystemBackdrop/MicaAlt", new MicaBackdrop() { Kind = MicaKind.BaseAlt })
+            .Add("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop())
+            .Add("Common/None", null!)
+            .Build();
 
         InitializeComponent();
 
