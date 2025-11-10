@@ -24,6 +24,16 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
     private readonly OverlappedPresenter _overlappedPresenter;
 
     /// <summary>
+    /// The default height in pixels, unscaled.
+    /// </summary>
+    public const int DEFAULT_HEIGHT = 160;
+
+    /// <summary>
+    /// The default width in pixels, unscaled.
+    /// </summary>
+    public const int DEFAULT_WIDTH = 260;
+
+    /// <summary>
     /// Triggers when a new settings window has been created.
     /// </summary>
     public event EventHandler SettingsWindowCreated;
@@ -139,7 +149,7 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         AppWindow.SetPresenter(_overlappedPresenter);
 
-        AppWindow.Resize(new Windows.Graphics.SizeInt32(260, 160));
+        AppWindow.Resize(new Windows.Graphics.SizeInt32(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
 
     public void ConfigureTitleBar()

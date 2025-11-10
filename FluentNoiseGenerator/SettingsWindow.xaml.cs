@@ -28,12 +28,12 @@ public sealed partial class SettingsWindow : Window
     private readonly OverlappedPresenter _overlappedPresenter;
 
     /// <summary>
-    /// The minimum width unscaled in pixels.
+    /// The minimum height in pixels, unscaled.
     /// </summary>
     public const int MINIMUM_HEIGHT = 1000;
 
     /// <summary>
-    /// The minimum width unscaled in pixels.
+    /// The minimum width in pixels, unscaled.
     /// </summary>
     public const int MINIMUM_WIDTH = 1000;
 

@@ -11,7 +11,7 @@
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
 
-    <Grid x:Name="LayoutRoot" LayoutUpdated="LayoutRoot_LayoutUpdated">
+    <Grid x:Name="LayoutRoot" LayoutUpdated="LayoutRoot_LayoutUpdated" IsTabStop="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
