@@ -3,6 +3,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using Windows.Graphics;
 using Windows.Win32;
 using WinRT.Interop;
 
@@ -149,7 +150,18 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
 
         AppWindow.SetPresenter(_overlappedPresenter);
 
-        AppWindow.Resize(new Windows.Graphics.SizeInt32(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        SizeInt32 size = new(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
+        RectInt32 workArea = DisplayArea
+            .GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary)
+            .WorkArea;
+
+        AppWindow.Resize(size);
+
+        AppWindow.Move(new PointInt32(
+            (workArea.Width - size.Width) / 2,
+            (workArea.Height - size.Height) / 2
+        ));
     }
 
     public void ConfigureTitleBar()
