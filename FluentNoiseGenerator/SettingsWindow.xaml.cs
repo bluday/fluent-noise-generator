@@ -52,17 +52,22 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// Gets a read-only dictionary of mapped application themes, with localized keys.
     /// </summary>
-    public IReadOnlyList<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; private set; }
+    public IReadOnlyList<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped audio sample rates, with localized keys.
     /// </summary>
-    public IReadOnlyList<NamedValue<int>> AudioSampleRates { get; private set; }
+    public IReadOnlyList<NamedValue<int>> AudioSampleRates { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the window has been closed.
+    /// </summary>
+    public bool HasClosed => _hasClosed;
 
     /// <summary>
     /// Gets a read-only dictionary of mapped languages, with localized keys.
     /// </summary>
-    public IReadOnlyList<NamedValue<CultureInfo>> Languages { get; private set; }
+    public IReadOnlyList<NamedValue<CultureInfo>> Languages { get; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped noise presets, with localized keys.
@@ -70,17 +75,12 @@ public sealed partial class SettingsWindow : Window
     /// <remarks>
     /// Value type of <see cref="string"/> is used for now, until a type for noise preset is implemented.
     /// </remarks>
-    public IReadOnlyList<ResourceNamedValue<string>> NoisePresets { get; private set; }
+    public IReadOnlyList<ResourceNamedValue<string>> NoisePresets { get; }
 
     /// <summary>
     /// Gets a read-only dictionary of mapped system backdrops, with localized keys.
     /// </summary>
-    public IReadOnlyList<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; private set; }
-
-    /// <summary>
-    /// Gets a value indicating whether the window has been closed.
-    /// </summary>
-    public bool HasClosed => _hasClosed;
+    public IReadOnlyList<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
