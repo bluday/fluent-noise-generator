@@ -1,4 +1,5 @@
 using FluentNoiseGenerator.Common;
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -266,6 +267,34 @@ public sealed partial class SettingsWindow : Window
         _resourceLoader = new ResourceLoader();
 
         ApplyLocalizedContent();
+    }
+
+    public void RefreshTitleBarTheme(ElementTheme elementTheme)
+    {
+        AppWindowTitleBar titleBar = AppWindow.TitleBar;
+
+        titleBar.ButtonBackgroundColor         = Colors.Transparent;
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+        if (elementTheme is ElementTheme.Light)
+        {
+            titleBar.ButtonHoverBackgroundColor   = Colors.DarkGray;
+            titleBar.ButtonPressedBackgroundColor = Colors.LightGray;
+
+            titleBar.ButtonForegroundColor        = Colors.Black;
+            titleBar.ButtonHoverForegroundColor   = Colors.Black;
+            titleBar.ButtonPressedForegroundColor = Colors.Black;
+
+            return;
+        }
+
+        titleBar.ButtonHoverBackgroundColor   = Colors.LightGray;
+        titleBar.ButtonPressedBackgroundColor = Colors.Gray;
+
+        titleBar.ButtonForegroundColor        = Colors.White;
+        titleBar.ButtonHoverForegroundColor   = Colors.White;
+        titleBar.ButtonPressedForegroundColor = Colors.White;
     }
 
     /// <summary>

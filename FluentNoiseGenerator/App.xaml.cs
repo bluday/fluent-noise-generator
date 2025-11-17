@@ -1,6 +1,4 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
 namespace FluentNoiseGenerator;
@@ -70,35 +68,9 @@ public partial class App : Application
         if (_settingsWindow?.HasClosed is false)
         {
             (_settingsWindow.Content as FrameworkElement)?.RequestedTheme = e;
+
+            _settingsWindow.RefreshTitleBarTheme(e);
         }
-
-        if (_settingsWindow?.AppWindow.TitleBar is not AppWindowTitleBar titleBar)
-        {
-            return;
-        }
-
-        titleBar.ButtonBackgroundColor         = Colors.Transparent;
-        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-        if (_elementTheme is ElementTheme.Light)
-        {
-            titleBar.ButtonHoverBackgroundColor   = Colors.DarkGray;
-            titleBar.ButtonPressedBackgroundColor = Colors.LightGray;
-
-            titleBar.ButtonForegroundColor        = Colors.Black;
-            titleBar.ButtonHoverForegroundColor   = Colors.Black;
-            titleBar.ButtonPressedForegroundColor = Colors.Black;
-
-            return;
-        }
-
-        titleBar.ButtonHoverBackgroundColor   = Colors.LightGray;
-        titleBar.ButtonPressedBackgroundColor = Colors.Gray;
-
-        titleBar.ButtonForegroundColor        = Colors.White;
-        titleBar.ButtonHoverForegroundColor   = Colors.White;
-        titleBar.ButtonPressedForegroundColor = Colors.White;
     }
 
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
