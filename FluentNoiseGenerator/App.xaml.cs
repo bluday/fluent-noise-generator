@@ -2,8 +2,6 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.IO;
 
 namespace FluentNoiseGenerator;
 
@@ -21,7 +19,9 @@ public partial class App : Application
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
-    public static readonly string IconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Icon-64.ico");
+    public static readonly string IconPath = System.IO.Path.Combine(
+        System.AppContext.BaseDirectory, "Assets", "Icon-64.ico"
+    );
 
     /// <summary>
     /// Initializes a new instance of the <see cref="App"/> class.
