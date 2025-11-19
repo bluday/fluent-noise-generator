@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
+using Windows.UI;
 
 namespace FluentNoiseGenerator;
 
@@ -273,28 +274,32 @@ public sealed partial class SettingsWindow : Window
     {
         AppWindowTitleBar titleBar = AppWindow.TitleBar;
 
+        Color buttonForegroundColor;
+        Color hoverPressedBackgroundColor;
+
         titleBar.ButtonBackgroundColor         = Colors.Transparent;
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
         if (elementTheme is ElementTheme.Light)
         {
-            titleBar.ButtonHoverBackgroundColor   = Colors.DarkGray;
-            titleBar.ButtonPressedBackgroundColor = Colors.LightGray;
+            hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0xDD, 0xDD, 0xDD);
 
-            titleBar.ButtonForegroundColor        = Colors.Black;
-            titleBar.ButtonHoverForegroundColor   = Colors.Black;
-            titleBar.ButtonPressedForegroundColor = Colors.Black;
+            buttonForegroundColor = Colors.Black;
+        }
+        else
+        {
+            hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0x33, 0x33, 0x33);
 
-            return;
+            buttonForegroundColor = Colors.White;
         }
 
-        titleBar.ButtonHoverBackgroundColor   = Colors.LightGray;
-        titleBar.ButtonPressedBackgroundColor = Colors.Gray;
+        titleBar.ButtonHoverBackgroundColor   = hoverPressedBackgroundColor;
+        titleBar.ButtonPressedBackgroundColor = hoverPressedBackgroundColor;
 
-        titleBar.ButtonForegroundColor        = Colors.White;
-        titleBar.ButtonHoverForegroundColor   = Colors.White;
-        titleBar.ButtonPressedForegroundColor = Colors.White;
+        titleBar.ButtonForegroundColor        = buttonForegroundColor;
+        titleBar.ButtonHoverForegroundColor   = buttonForegroundColor;
+        titleBar.ButtonPressedForegroundColor = buttonForegroundColor;
     }
 
     /// <summary>
