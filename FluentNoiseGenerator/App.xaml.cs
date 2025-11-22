@@ -63,6 +63,8 @@ public partial class App : Application
         if (_mainWindow?.HasClosed is false)
         {
             (_mainWindow.Content as FrameworkElement)?.RequestedTheme = e;
+
+            _mainWindow.RefreshBackgroundColor();
         }
 
         if (_settingsWindow?.HasClosed is false)
@@ -70,6 +72,7 @@ public partial class App : Application
             (_settingsWindow.Content as FrameworkElement)?.RequestedTheme = e;
 
             _settingsWindow.RefreshTitleBarTheme(e);
+            _settingsWindow.RefreshBackgroundColor();
         }
     }
 
@@ -78,11 +81,15 @@ public partial class App : Application
         if (_mainWindow?.HasClosed is false)
         {
             _mainWindow.SystemBackdrop = e;
+
+            _mainWindow.RefreshBackgroundColor();
         }
 
         if (_settingsWindow?.HasClosed is false)
         {
             _settingsWindow.SystemBackdrop = e;
+
+            _settingsWindow.RefreshBackgroundColor();
         }
     }
 

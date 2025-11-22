@@ -1,6 +1,9 @@
 using FluentNoiseGenerator.Extensions;
+using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using Windows.Graphics;
@@ -173,6 +176,20 @@ public sealed partial class MainWindow : Microsoft.UI.Xaml.Window
         Title = _resourceLoader.GetString("General/AppDisplayName");
 
         SetTitleBar(TopActionBar);
+    }
+
+    public void RefreshBackgroundColor()
+    {
+        if (SystemBackdrop is not null)
+        {
+            LayoutRoot.Background = null;
+
+            return;
+        }
+
+        LayoutRoot.Background = LayoutRoot.RequestedTheme is ElementTheme.Light
+            ? new SolidColorBrush(Colors.White)
+            : new SolidColorBrush(Colors.Black);
     }
 
     public void RefreshLocalizedContent()

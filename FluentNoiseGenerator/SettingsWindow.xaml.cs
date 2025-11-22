@@ -263,6 +263,20 @@ public sealed partial class SettingsWindow : Window
         SetTitleBar(TitleBar);
     }
 
+    public void RefreshBackgroundColor()
+    {
+        if (SystemBackdrop is not null)
+        {
+            LayoutRoot.Background = null;
+
+            return;
+        }
+
+        LayoutRoot.Background = LayoutRoot.RequestedTheme is ElementTheme.Light
+            ? new SolidColorBrush(Colors.White)
+            : new SolidColorBrush(Colors.Black);
+    }
+
     public void RefreshLocalizedContent()
     {
         _resourceLoader = new ResourceLoader();
