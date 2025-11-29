@@ -65,6 +65,11 @@ public sealed class WindowManager
         ApplicationThemeChangeRequest?.Invoke(e);
     }
 
+    private void _settingsWindow_Closed(object sender, WindowEventArgs args)
+    {
+        UnregisterSettingsWindowEventHandlers();
+    }
+
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
     {
         SystemBackdropChangeRequest?.Invoke(e);
@@ -72,20 +77,8 @@ public sealed class WindowManager
     #endregion
 
     #region Methods
-    /// <summary>
-    /// Displays the main window, setting up necessary configurations like DPI scaling, native
-    /// app window settings, and the title bar.
-    /// </summary>
-    public void ShowMainWindow()
+    private void CreateMainWindow()
     {
-        if (_mainWindow?.HasClosed is false)
-        {
-            _mainWindow.Restore();
-            _mainWindow.Focus();
-
-            return;
-        }
-
         _mainWindow = new MainWindow
         {
             SettingsWindowFactory = ShowSettingsWindow
@@ -96,6 +89,61 @@ public sealed class WindowManager
         _mainWindow.ConfigureAppWindow();
         _mainWindow.ConfigureTitleBar();
         _mainWindow.Activate();
+    }
+
+    private void CreateSettingsWindow()
+    {
+        _settingsWindow = new SettingsWindow();
+
+        RegisterSettingsWindowEventHandlers();
+
+        _settingsWindow.ConfigureAppWindow();
+        _settingsWindow.ConfigureTitleBar();
+        _settingsWindow.RefreshLocalizedContent();
+        _settingsWindow.Activate();
+    }
+
+    private void RegisterSettingsWindowEventHandlers()
+    {
+        _settingsWindow!.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
+        _settingsWindow.Closed                   += _settingsWindow_Closed;
+        _settingsWindow.SystemBackdropChanged    += _settingsWindow_SystemBackdropChanged;
+    }
+
+    private void RestoreMainWindow()
+    {
+        _mainWindow!.Restore();
+        _mainWindow.Focus();
+    }
+
+    private void RestoreSettingsWindow()
+    {
+        _settingsWindow!.Restore();
+        _settingsWindow.Focus();
+    }
+
+    private void UnregisterSettingsWindowEventHandlers()
+    {
+        _settingsWindow!.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
+        _settingsWindow.SystemBackdropChanged    -= _settingsWindow_SystemBackdropChanged;
+
+        _settingsWindow = null;
+    }
+
+    /// <summary>
+    /// Displays the main window, setting up necessary configurations like DPI scaling, native
+    /// app window settings, and the title bar.
+    /// </summary>
+    public void ShowMainWindow()
+    {
+        if (_mainWindow?.HasClosed is false)
+        {
+            RestoreMainWindow();
+
+            return;
+        }
+
+        CreateMainWindow();
     }
 
     /// <summary>
@@ -110,27 +158,12 @@ public sealed class WindowManager
     {
         if (_settingsWindow?.HasClosed is false)
         {
-            _settingsWindow.Restore();
-            _settingsWindow.Focus();
+            RestoreSettingsWindow();
 
             return;
         }
 
-        if (_settingsWindow is not null)
-        {
-            _settingsWindow.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
-            _settingsWindow.SystemBackdropChanged   -= _settingsWindow_SystemBackdropChanged;
-        }
-
-        _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
-        _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
-
-        _settingsWindow.ConfigureAppWindow();
-        _settingsWindow.ConfigureTitleBar();
-        _settingsWindow.RefreshLocalizedContent();
-        _settingsWindow.Activate();
+        CreateSettingsWindow();
     }
 
     /// <summary>
