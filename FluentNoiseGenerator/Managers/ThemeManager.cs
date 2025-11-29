@@ -48,18 +48,18 @@ public sealed class ThemeManager
     /// <summary>
     /// The method that will handle the system backdrop change event.
     /// </summary>
-    /// <param name="systemBackdrop">
+    /// <param name="value">
     /// The new <see cref="SystemBackdrop"/> that is being applied.
     /// </param>
-    public delegate void CurrentSystemBackdropChangedHandler(SystemBackdrop? systemBackdrop);
+    public delegate void CurrentSystemBackdropChangedHandler(SystemBackdrop? value);
 
     /// <summary>
     /// The method that will handle the theme change event.
     /// </summary>
-    /// <param name="theme">
+    /// <param name="value">
     /// The new <see cref="ElementTheme"/> that is being applied.
     /// </param>
-    public delegate void CurrentThemeChangedHandler(ElementTheme theme);
+    public delegate void CurrentThemeChangedHandler(ElementTheme value);
     #endregion
 
     #region Events

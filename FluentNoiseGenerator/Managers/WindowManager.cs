@@ -14,55 +14,30 @@ public sealed class WindowManager
     private MainWindow? _mainWindow;
 
     private SettingsWindow? _settingsWindow;
-    #endregion
 
-    #region Delegates
-    /// <summary>
-    /// The method that will handle the application theme change request.
-    /// </summary>
-    /// <param name="theme">
-    /// The new <see cref="ElementTheme"/> to apply.
-    /// </param>
-    public delegate void ApplicationThemeChangeRequestHandler(ElementTheme theme);
-
-    /// <summary>
-    /// The method that will handle the system backdrop change request.
-    /// </summary>
-    /// <param name="systemBackdrop">
-    /// The new <see cref="SystemBackdrop"/> to apply.
-    /// </param>
-    public delegate void SystemBackdropChangeRequestHandler(SystemBackdrop? systemBackdrop);
-    #endregion
-
-    #region Events
-    /// <summary>
-    /// Fires when the <see cref="SettingsWindow.ApplicationThemeChanged"/> event gets
-    /// fired.
-    /// </summary>
-    public event ApplicationThemeChangeRequestHandler ApplicationThemeChangeRequest;
-
-    /// <summary>
-    /// Fires when the <see cref="SettingsWindow.SystemBackdropChanged"/> event gets
-    /// fired.
-    /// </summary>
-    public event SystemBackdropChangeRequestHandler SystemBackdropChangeRequest;
+    private readonly ThemeManager _themeManager;
     #endregion
 
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="WindowManager"/> class.
     /// </summary>
-    public WindowManager()
+    /// <param name="themeManager">
+    /// The application theme manager for updating the current theme across all windows
+    /// and views.
+    /// </param>
+    public WindowManager(ThemeManager themeManager)
     {
-        ApplicationThemeChangeRequest = delegate { };
-        SystemBackdropChangeRequest   = delegate { };
+        _themeManager = themeManager;
+
+        RegisterEventHandlers();
     }
     #endregion
 
     #region Event handlers
     private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
     {
-        ApplicationThemeChangeRequest?.Invoke(e);
+        _themeManager.CurrentTheme = e;
     }
 
     private void _settingsWindow_Closed(object sender, WindowEventArgs args)
@@ -72,11 +47,33 @@ public sealed class WindowManager
 
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
     {
-        SystemBackdropChangeRequest?.Invoke(e);
+        _themeManager.CurrentSystemBackdrop = e;
+    }
+
+    private void _themeManager_CurrentThemeChanged(ElementTheme value)
+    {
+        BulkApplyRequestedTheme(value);
+    }
+
+    private void _themeManager_CurrentSystemBackdropChanged(SystemBackdrop? value)
+    {
+        BulkApplySystemBackdrop(value);
     }
     #endregion
 
     #region Methods
+    private void BulkApplyRequestedTheme(ElementTheme value)
+    {
+        _mainWindow?.UpdateRequestedTheme(value);
+        _settingsWindow?.UpdateRequestedTheme(value);
+    }
+
+    private void BulkApplySystemBackdrop(SystemBackdrop? value)
+    {
+        _mainWindow?.UpdateSystemBackdrop(value);
+        _settingsWindow?.UpdateSystemBackdrop(value);
+    }
+
     private void CreateMainWindow()
     {
         _mainWindow = new MainWindow
@@ -101,6 +98,12 @@ public sealed class WindowManager
         _settingsWindow.ConfigureTitleBar();
         _settingsWindow.RefreshLocalizedContent();
         _settingsWindow.Activate();
+    }
+
+    private void RegisterEventHandlers()
+    {
+        _themeManager.CurrentSystemBackdropChanged += _themeManager_CurrentSystemBackdropChanged;
+        _themeManager.CurrentThemeChanged          += _themeManager_CurrentThemeChanged;
     }
 
     private void RegisterSettingsWindowEventHandlers()
@@ -164,30 +167,6 @@ public sealed class WindowManager
         }
 
         CreateSettingsWindow();
-    }
-
-    /// <summary>
-    /// Applies the specified <see cref="ElementTheme"/> to all active windows.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="ElementTheme"/> to apply on each window.
-    /// </param>
-    public void BulkApplyRequestedTheme(ElementTheme value)
-    {
-        _mainWindow?.UpdateRequestedTheme(value);
-        _settingsWindow?.UpdateRequestedTheme(value);
-    }
-
-    /// <summary>
-    /// Applies the specified <see cref="SystemBackdrop"/> to all active windows.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="SystemBackdrop"/> to apply on each window.
-    /// </param>
-    public void BulkApplySystemBackdrop(SystemBackdrop? value)
-    {
-        _mainWindow?.UpdateSystemBackdrop(value);
-        _settingsWindow?.UpdateSystemBackdrop(value);
     }
     #endregion
 }
