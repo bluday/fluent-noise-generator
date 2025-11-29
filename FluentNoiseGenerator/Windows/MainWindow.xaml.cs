@@ -231,7 +231,7 @@ public sealed partial class MainWindow : Window
     /// Retrieves and updates the current DPI scale factor based on the set DPI value of the
     /// display that the window currently is displayed on.
     /// </summary>
-    public void RetrieveAndUpdateDpiScale()
+    public void RetrieveAndUpdateDpiScaleFactor()
     {
         var hwnd = (HWND)WindowNative.GetWindowHandle(this);
 

@@ -85,7 +85,7 @@ public sealed class WindowManager
         };
 
         _mainWindow.RefreshLocalizedContent();
-        _mainWindow.RetrieveAndUpdateDpiScale();
+        _mainWindow.RetrieveAndUpdateDpiScaleFactor();
         _mainWindow.ConfigureAppWindow();
         _mainWindow.ConfigureTitleBar();
         _mainWindow.Activate();
