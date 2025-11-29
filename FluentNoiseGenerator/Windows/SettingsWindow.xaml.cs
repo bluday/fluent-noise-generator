@@ -12,9 +12,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
+using Windows.Graphics;
 using Windows.UI;
 
-namespace FluentNoiseGenerator;
+namespace FluentNoiseGenerator.Windows;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
@@ -50,14 +51,14 @@ public sealed partial class SettingsWindow : Window
     public event EventHandler<SystemBackdrop?> SystemBackdropChanged;
 
     /// <summary>
-    /// Gets a read-only dictionary of mapped application themes, with localized keys.
+    /// Gets a read-only collection of mapped application themes, with localized keys.
     /// </summary>
-    public IReadOnlyList<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; }
+    public IReadOnlyCollection<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; }
 
     /// <summary>
-    /// Gets a read-only dictionary of mapped audio sample rates, with localized keys.
+    /// Gets a read-only collection of mapped audio sample rates, with localized keys.
     /// </summary>
-    public IReadOnlyList<NamedValue<int>> AudioSampleRates { get; }
+    public IReadOnlyCollection<NamedValue<int>> AudioSampleRates { get; }
 
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
@@ -65,22 +66,22 @@ public sealed partial class SettingsWindow : Window
     public bool HasClosed => _hasClosed;
 
     /// <summary>
-    /// Gets a read-only dictionary of mapped languages, with localized keys.
+    /// Gets a read-only collection of mapped languages, with localized keys.
     /// </summary>
-    public IReadOnlyList<NamedValue<CultureInfo>> Languages { get; }
+    public IReadOnlyCollection<NamedValue<CultureInfo>> Languages { get; }
 
     /// <summary>
-    /// Gets a read-only dictionary of mapped noise presets, with localized keys.
+    /// Gets a read-only collection of mapped noise presets, with localized keys.
     /// </summary>
     /// <remarks>
     /// Value type of <see cref="string"/> is used for now, until a type for noise preset is implemented.
     /// </remarks>
-    public IReadOnlyList<ResourceNamedValue<string>> NoisePresets { get; }
+    public IReadOnlyCollection<ResourceNamedValue<string>> NoisePresets { get; }
 
     /// <summary>
-    /// Gets a read-only dictionary of mapped system backdrops, with localized keys.
+    /// Gets a read-only collection of mapped system backdrops, with localized keys.
     /// </summary>
-    public IReadOnlyList<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; }
+    public IReadOnlyCollection<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
@@ -96,6 +97,8 @@ public sealed partial class SettingsWindow : Window
         ApplicationThemeChanged = delegate { };
         SystemBackdropChanged   = delegate { };
 
+        Closed += SettingsWindow_Closed;
+
         AudioSampleRates = new List<NamedValue<int>>
         {
             new(Common.AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateString),
@@ -103,7 +106,12 @@ public sealed partial class SettingsWindow : Window
         };
 
         Languages = ApplicationLanguages.ManifestLanguages
-            .Select(value => new NamedValue<CultureInfo>(new(value), value => value.NativeName))
+            .Select(
+                value => new NamedValue<CultureInfo>(
+                    value:     new CultureInfo(value),
+                    formatter: value => value.NativeName
+                )
+            )
             .ToList();
 
         Func<ResourceLoader> resourceLoaderFactory = () => _resourceLoader;
@@ -131,10 +139,42 @@ public sealed partial class SettingsWindow : Window
             .Build();
 
         InitializeComponent();
-
-        RegisterEventHandlers();
     }
 
+    #region Event handlers
+    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
+        {
+            ApplicationThemeChanged.Invoke(this, namedValue.Value);
+        }
+    }
+
+    private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
+        {
+            ApplicationLanguages.PrimaryLanguageOverride = namedValue.Value.Name;
+
+            RefreshLocalizedContent();
+        }
+    }
+
+    private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
+        {
+            SystemBackdropChanged?.Invoke(this, namedValue.Value);
+        }
+    }
+
+    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
+    {
+        _hasClosed = true;
+    }
+    #endregion
+
+    #region Methods
     private void ApplyLocalizedContent()
     {
         string displayName  = _resourceLoader.GetString("General/AppDisplayName");
@@ -206,42 +246,9 @@ public sealed partial class SettingsWindow : Window
         return $"{value} {_resourceLoader.GetString("Units/Hertz/Short")}";
     }
 
-    private void RegisterEventHandlers()
-    {
-        Closed += SettingsWindow_Closed;
-    }
-
-    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
-        {
-            ApplicationThemeChanged.Invoke(this, namedValue.Value);
-        }
-    }
-
-    private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
-        {
-            ApplicationLanguages.PrimaryLanguageOverride = namedValue.Value.Name;
-
-            RefreshLocalizedContent();
-        }
-    }
-
-    private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
-        {
-            SystemBackdropChanged?.Invoke(this, namedValue.Value);
-        }
-    }
-
-    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-
+    /// <summary>
+    /// Applies configuration to the underlying, native window specific to the settings window.
+    /// </summary>
     public void ConfigureAppWindow()
     {
         _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
@@ -249,9 +256,14 @@ public sealed partial class SettingsWindow : Window
 
         _appWindow.SetPresenter(_overlappedPresenter);
 
-        _appWindow.Resize(new Windows.Graphics.SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
+        _appWindow.Resize(new SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
     }
 
+    /// <summary>
+    /// Configures the native title bar and specifies the custom <see cref="TitleBar"/>
+    /// control as the primary title bar to ensure that the bounds for the custom title bar
+    /// is set correctly.
+    /// </summary>
     public void ConfigureTitleBar()
     {
         _appWindow.SetIcon(App.IconPath);
@@ -263,20 +275,27 @@ public sealed partial class SettingsWindow : Window
         SetTitleBar(TitleBar);
     }
 
-    public void RefreshBackgroundColor()
+    /// <summary>
+    /// Refreshes the background brush of the root element based on its current
+    /// <see cref="FrameworkElement.RequestedTheme"/> value.
+    /// </summary>
+    public void RefreshBackgroundBrush()
     {
-        if (SystemBackdrop is not null)
-        {
-            LayoutRoot.Background = null;
-
-            return;
-        }
-
-        LayoutRoot.Background = LayoutRoot.RequestedTheme is ElementTheme.Light
-            ? new SolidColorBrush(Colors.White)
-            : new SolidColorBrush(Colors.Black);
+        LayoutRoot.Background = SystemBackdrop is not null
+            ? null
+            : LayoutRoot.RequestedTheme is ElementTheme.Light
+                ? new SolidColorBrush(Colors.White)
+                : new SolidColorBrush(Colors.Black);
     }
 
+    /// <summary>
+    /// Creates a new <see cref="ResourceLoader"/> instances and refreshes all named values
+    /// with localized strings from the new resource loader.
+    /// </summary>
+    /// <remarks>
+    /// This enables complete and real-time update of localized content, rather than forcing
+    /// the user to restart the whole application after updating the application language.
+    /// </remarks>
     public void RefreshLocalizedContent()
     {
         _resourceLoader = new ResourceLoader();
@@ -284,7 +303,10 @@ public sealed partial class SettingsWindow : Window
         ApplyLocalizedContent();
     }
 
-    public void RefreshTitleBarTheme(ElementTheme elementTheme)
+    /// <summary>
+    /// Refreshes 
+    /// </summary>
+    public void RefreshTitleBarColors()
     {
         AppWindowTitleBar titleBar = AppWindow.TitleBar;
 
@@ -295,7 +317,7 @@ public sealed partial class SettingsWindow : Window
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        if (elementTheme is ElementTheme.Light)
+        if ((Content as FrameworkElement)?.RequestedTheme is ElementTheme.Light)
         {
             hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0xDD, 0xDD, 0xDD);
 
@@ -329,4 +351,33 @@ public sealed partial class SettingsWindow : Window
     {
         _overlappedPresenter.Restore();
     }
+
+    /// <summary>
+    /// Updates the current theme within the window using the specified value.
+    /// </summary>
+    /// <param name="value">
+    /// The new <see cref="ElementTheme"/> to apply on the window.
+    /// </param>
+    public void UpdateRequestedTheme(ElementTheme value)
+    {
+        (Content as FrameworkElement)?.RequestedTheme = value;
+
+        RefreshBackgroundBrush();
+        RefreshTitleBarColors();
+    }
+
+    /// <summary>
+    /// Updates the current system backdrop within the window using the specified value.
+    /// </summary>
+    /// <param name="value">
+    /// The new <see cref="SystemBackdrop"/> to apply on the window.
+    /// </param>
+    public void UpdateSystemBackdrop(SystemBackdrop? value)
+    {
+        SystemBackdrop = value;
+
+        RefreshBackgroundBrush();
+        RefreshTitleBarColors();
+    }
+    #endregion
 }

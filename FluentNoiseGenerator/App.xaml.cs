@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using FluentNoiseGenerator.Managers;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System;
 
 namespace FluentNoiseGenerator;
 
@@ -8,91 +10,61 @@ namespace FluentNoiseGenerator;
 /// </summary>
 public partial class App : Application
 {
-    private MainWindow? _mainWindow;
+    #region Fields
+    private readonly ThemeManager _themeManager;
 
-    private SettingsWindow? _settingsWindow;
-
-    private ElementTheme _elementTheme;
+    private readonly WindowManager _windowManager;
 
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
     public static readonly string IconPath = System.IO.Path.Combine(
-        System.AppContext.BaseDirectory, "Assets", "Icon-64.ico"
+        AppContext.BaseDirectory, "Assets", "Icon-64.ico"
     );
+    #endregion
 
+    #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="App"/> class.
     /// </summary>
     public App()
     {
+        _themeManager  = new ThemeManager();
+        _windowManager = new WindowManager();
+
+        _themeManager.CurrentSystemBackdropChanged += _themeManager_CurrentSystemBackdropChanged;
+        _themeManager.CurrentThemeChanged          += _themeManager_CurrentThemeChanged;
+
+        _windowManager.ApplicationThemeChangeRequest += _windowManager_ApplicationThemeChangeRequest;
+        _windowManager.SystemBackdropChangeRequest   += _windowManager_SystemBackdropChangeRequest;
+
         InitializeComponent();
     }
+    #endregion
 
-    private void ShowSettingsWindow()
+    #region Event handlers
+    private void _themeManager_CurrentSystemBackdropChanged(SystemBackdrop? systemBackdrop)
     {
-        if (_settingsWindow?.HasClosed is false)
-        {
-            _settingsWindow.Restore();
-            _settingsWindow.Focus();
-
-            return;
-        }
-
-        if (_settingsWindow is not null)
-        {
-            _settingsWindow.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
-            _settingsWindow.SystemBackdropChanged   -= _settingsWindow_SystemBackdropChanged;
-        }
-
-        _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
-        _settingsWindow.SystemBackdropChanged   += _settingsWindow_SystemBackdropChanged;
-
-        _settingsWindow.ConfigureAppWindow();
-        _settingsWindow.ConfigureTitleBar();
-        _settingsWindow.RefreshLocalizedContent();
-        _settingsWindow.Activate();
+        _windowManager.BulkApplySystemBackdrop(systemBackdrop);
     }
 
-    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
+    private void _themeManager_CurrentThemeChanged(ElementTheme theme)
     {
-        _elementTheme = e;
-
-        if (_mainWindow?.HasClosed is false)
-        {
-            (_mainWindow.Content as FrameworkElement)?.RequestedTheme = e;
-
-            _mainWindow.RefreshBackgroundColor();
-        }
-
-        if (_settingsWindow?.HasClosed is false)
-        {
-            (_settingsWindow.Content as FrameworkElement)?.RequestedTheme = e;
-
-            _settingsWindow.RefreshTitleBarTheme(e);
-            _settingsWindow.RefreshBackgroundColor();
-        }
+        _windowManager.BulkApplyRequestedTheme(theme);
     }
 
-    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
+    private void _windowManager_ApplicationThemeChangeRequest(ElementTheme theme)
     {
-        if (_mainWindow?.HasClosed is false)
-        {
-            _mainWindow.SystemBackdrop = e;
-
-            _mainWindow.RefreshBackgroundColor();
-        }
-
-        if (_settingsWindow?.HasClosed is false)
-        {
-            _settingsWindow.SystemBackdrop = e;
-
-            _settingsWindow.RefreshBackgroundColor();
-        }
+        _themeManager.CurrentTheme = theme;
     }
 
+    private void _windowManager_SystemBackdropChangeRequest(SystemBackdrop? systemBackdrop)
+    {
+        _themeManager.CurrentSystemBackdrop = systemBackdrop;
+    }
+    #endregion
+
+    #region Methods
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -101,15 +73,7 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _mainWindow = new MainWindow
-        {
-            SettingsWindowFactory = ShowSettingsWindow
-        };
-
-        _mainWindow.RefreshLocalizedContent();
-        _mainWindow.RetrieveAndUpdateDpiScale();
-        _mainWindow.ConfigureAppWindow();
-        _mainWindow.ConfigureTitleBar();
-        _mainWindow.Activate();
+        _windowManager.ShowMainWindow();
     }
+    #endregion
 }
