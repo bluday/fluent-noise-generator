@@ -2,33 +2,33 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace FluentNoiseGenerator.Managers;
+namespace FluentNoiseGenerator.Services;
 
 /// <summary>
 /// Manages the main and settings windows. This class ensures that windows are properly
 /// created, restored, and updated when necessary.
 /// </summary>
-public sealed class WindowManager
+internal sealed class WindowService
 {
     #region Fields
     private MainWindow? _mainWindow;
 
     private SettingsWindow? _settingsWindow;
 
-    private readonly ThemeManager _themeManager;
+    private readonly ThemeService _themeService;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="WindowManager"/> class.
+    /// Initializes a new instance of the <see cref="WindowService"/> class.
     /// </summary>
-    /// <param name="themeManager">
+    /// <param name="themeService">
     /// The application theme manager for updating the current theme across all windows
     /// and views.
     /// </param>
-    public WindowManager(ThemeManager themeManager)
+    internal WindowService(ThemeService themeService)
     {
-        _themeManager = themeManager;
+        _themeService = themeService;
 
         RegisterEventHandlers();
     }
@@ -37,7 +37,7 @@ public sealed class WindowManager
     #region Event handlers
     private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
     {
-        _themeManager.CurrentTheme = e;
+        _themeService.CurrentTheme = e;
     }
 
     private void _settingsWindow_Closed(object sender, WindowEventArgs args)
@@ -47,15 +47,15 @@ public sealed class WindowManager
 
     private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
     {
-        _themeManager.CurrentSystemBackdrop = e;
+        _themeService.CurrentSystemBackdrop = e;
     }
 
-    private void _themeManager_CurrentThemeChanged(ElementTheme value)
+    private void _themeService_CurrentThemeChanged(ElementTheme value)
     {
         BulkApplyRequestedTheme(value);
     }
 
-    private void _themeManager_CurrentSystemBackdropChanged(SystemBackdrop? value)
+    private void _themeService_CurrentSystemBackdropChanged(SystemBackdrop? value)
     {
         BulkApplySystemBackdrop(value);
     }
@@ -102,8 +102,8 @@ public sealed class WindowManager
 
     private void RegisterEventHandlers()
     {
-        _themeManager.CurrentSystemBackdropChanged += _themeManager_CurrentSystemBackdropChanged;
-        _themeManager.CurrentThemeChanged          += _themeManager_CurrentThemeChanged;
+        _themeService.CurrentSystemBackdropChanged += _themeService_CurrentSystemBackdropChanged;
+        _themeService.CurrentThemeChanged          += _themeService_CurrentThemeChanged;
     }
 
     private void RegisterSettingsWindowEventHandlers()

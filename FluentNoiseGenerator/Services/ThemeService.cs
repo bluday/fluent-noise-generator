@@ -1,12 +1,12 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace FluentNoiseGenerator.Managers;
+namespace FluentNoiseGenerator.Services;
 
 /// <summary>
 /// Manages the current theme of the application.
 /// </summary>
-public sealed class ThemeManager
+internal sealed class ThemeService
 {
     #region Fields
     private SystemBackdrop? _currentSystemBackdrop;
@@ -76,9 +76,9 @@ public sealed class ThemeManager
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="ThemeManager"/> class.
+    /// Initializes a new instance of the <see cref="ThemeService"/> class.
     /// </summary>
-    public ThemeManager()
+    internal ThemeService()
     {
         CurrentSystemBackdropChanged = delegate { };
         CurrentThemeChanged          = delegate { };

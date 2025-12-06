@@ -1,4 +1,4 @@
-﻿using FluentNoiseGenerator.Managers;
+﻿using FluentNoiseGenerator.Services;
 using Microsoft.UI.Xaml;
 using System;
 
@@ -10,9 +10,9 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly ThemeManager _themeManager;
+    private readonly ThemeService _themeService;
 
-    private readonly WindowManager _windowManager;
+    private readonly WindowService _windowService;
 
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
@@ -28,8 +28,8 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _themeManager  = new ThemeManager();
-        _windowManager = new WindowManager(_themeManager);
+        _themeService  = new ThemeService();
+        _windowService = new WindowService(_themeService);
 
         InitializeComponent();
     }
@@ -44,7 +44,7 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _windowManager.ShowMainWindow();
+        _windowService.ShowMainWindow();
     }
     #endregion
 }
