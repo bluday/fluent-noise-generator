@@ -11,7 +11,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
 
-namespace FluentNoiseGenerator.Windows;
+namespace FluentNoiseGenerator.UI.Windows;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.

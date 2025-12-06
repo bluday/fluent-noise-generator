@@ -1,4 +1,4 @@
-﻿using FluentNoiseGenerator.Windows;
+﻿using FluentNoiseGenerator.UI.Windows;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 

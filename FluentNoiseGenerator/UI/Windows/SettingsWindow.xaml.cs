@@ -15,7 +15,7 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.UI;
 
-namespace FluentNoiseGenerator.Windows;
+namespace FluentNoiseGenerator.UI.Windows;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.

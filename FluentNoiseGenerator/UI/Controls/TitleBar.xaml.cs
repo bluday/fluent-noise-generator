@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 
-namespace FluentNoiseGenerator.Controls;
+namespace FluentNoiseGenerator.UI.Controls;
 
 /// <summary>
 /// Interaction logic for TitleBar.xaml.

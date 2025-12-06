@@ -44,7 +44,7 @@
         <ProjectCapability Include="Msix" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Windows\" />
+      <Folder Include="UI\" />
     </ItemGroup>
     
     <!--
