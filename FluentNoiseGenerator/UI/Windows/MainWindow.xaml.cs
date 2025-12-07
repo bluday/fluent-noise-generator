@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using System.IO;
 using Windows.Graphics;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -181,7 +182,7 @@ public sealed partial class MainWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        AppWindow.SetIcon(App.IconPath);
+        AppWindow.SetIcon(((App)Application.Current).IconPath);
 
         ExtendsContentIntoTitleBar = true;
 

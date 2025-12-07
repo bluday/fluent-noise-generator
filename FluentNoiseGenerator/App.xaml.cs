@@ -1,6 +1,5 @@
 ﻿using FluentNoiseGenerator.Services;
 using Microsoft.UI.Xaml;
-using System;
 
 namespace FluentNoiseGenerator;
 
@@ -17,9 +16,13 @@ public partial class App : Application
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
-    public static readonly string IconPath = System.IO.Path.Combine(
-        AppContext.BaseDirectory, "Assets", "Icon-64.ico"
-    );
+    public string IconPath
+    {
+        get => System.IO.Path.Combine(
+            System.AppContext.BaseDirectory,
+            (string)Resources["AppIconPath"]
+        );
+    }
     #endregion
 
     #region Constructor

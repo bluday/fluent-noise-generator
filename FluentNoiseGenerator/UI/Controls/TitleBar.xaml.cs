@@ -16,10 +16,7 @@ public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
         nameof(Icon),
         typeof(ImageSource),
         typeof(TitleBar),
-        new PropertyMetadata(
-            defaultValue:            null,
-            propertyChangedCallback: OnIconChanged
-        )
+        new PropertyMetadata(null, OnIconChanged)
     );
 
     /// <summary>
@@ -29,10 +26,7 @@ public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
         nameof(Title),
         typeof(string),
         typeof(TitleBar),
-        new PropertyMetadata(
-            defaultValue:            null,
-            propertyChangedCallback: OnTitleChanged
-        )
+        new PropertyMetadata(null, OnTitleChanged)
     );
 
     /// <summary>
@@ -65,7 +59,7 @@ public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
     {
         var control = (TitleBar)d;
 
-        if (!Uri.TryCreate(e.NewValue as string, UriKind.Absolute, out Uri? uri))
+        if (!Uri.TryCreate((string)e.NewValue, UriKind.Absolute, out Uri? uri))
         {
             control.IconImage.Source = null;
 

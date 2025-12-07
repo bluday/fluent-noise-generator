@@ -22,14 +22,7 @@ namespace FluentNoiseGenerator.UI.Windows;
 /// </summary>
 public sealed partial class SettingsWindow : Window
 {
-    private ResourceLoader _resourceLoader;
-
-    private bool _hasClosed;
-
-    private readonly AppWindow _appWindow;
-
-    private readonly OverlappedPresenter _overlappedPresenter;
-
+    #region Constants
     /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
@@ -39,17 +32,19 @@ public sealed partial class SettingsWindow : Window
     /// The minimum width in pixels, unscaled.
     /// </summary>
     public const int MINIMUM_WIDTH = 1000;
+    #endregion
 
-    /// <summary>
-    /// Triggers when a new application theme gets selected.
-    /// </summary>
-    public event EventHandler<ElementTheme> ApplicationThemeChanged;
+    #region Fields
+    private ResourceLoader _resourceLoader;
 
-    /// <summary>
-    /// Triggers when a new system backdrop gets selected.
-    /// </summary>
-    public event EventHandler<SystemBackdrop?> SystemBackdropChanged;
+    private bool _hasClosed;
 
+    private readonly AppWindow _appWindow;
+
+    private readonly OverlappedPresenter _overlappedPresenter;
+    #endregion
+
+    #region Properties
     /// <summary>
     /// Gets a read-only collection of mapped application themes, with localized keys.
     /// </summary>
@@ -82,7 +77,21 @@ public sealed partial class SettingsWindow : Window
     /// Gets a read-only collection of mapped system backdrops, with localized keys.
     /// </summary>
     public IReadOnlyCollection<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; }
+    #endregion
 
+    #region Events
+    /// <summary>
+    /// Triggers when a new application theme gets selected.
+    /// </summary>
+    public event EventHandler<ElementTheme> ApplicationThemeChanged;
+
+    /// <summary>
+    /// Triggers when a new system backdrop gets selected.
+    /// </summary>
+    public event EventHandler<SystemBackdrop?> SystemBackdropChanged;
+    #endregion
+
+    #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
     /// </summary>
@@ -140,6 +149,7 @@ public sealed partial class SettingsWindow : Window
 
         InitializeComponent();
     }
+    #endregion
 
     #region Event handlers
     private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -266,9 +276,11 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        _appWindow.SetIcon(App.IconPath);
+        string iconPath = ((App)Application.Current).IconPath;
 
-        TitleBar.Icon = App.IconPath;
+        _appWindow.SetIcon(iconPath);
+
+        TitleBar.Icon = iconPath;
 
         ExtendsContentIntoTitleBar = true;
 

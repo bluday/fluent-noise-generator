@@ -42,8 +42,7 @@
 
                             <Button Background="Transparent"
                                     BorderBrush="Transparent"
-                                    Content="{communityToolkit:FontIcon FontSize=12,
-                                                                        Glyph=&#xe710;}"
+                                    Content="{communityToolkit:FontIcon FontSize=12, Glyph=&#xe710;}"
                                     Height="24"
                                     Padding="4"
                                     Width="24"

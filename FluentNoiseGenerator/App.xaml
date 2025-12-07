@@ -10,7 +10,7 @@
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Other app resources here -->
+            <x:String x:Key="AppIconPath">Assets/Icon-64.ico</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
