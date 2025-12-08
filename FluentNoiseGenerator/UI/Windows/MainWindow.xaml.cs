@@ -1,4 +1,5 @@
 using FluentNoiseGenerator.Extensions;
+using FluentNoiseGenerator.Services;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
@@ -6,8 +7,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.IO;
-using Windows.Graphics;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -20,15 +19,19 @@ namespace FluentNoiseGenerator.UI.Windows;
 public sealed partial class MainWindow : Window
 {
     #region Fields
-    private ResourceLoader _resourceLoader;
+    private ResourceLoader? _resourceLoader;
 
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
-    
+
+    private readonly Action _settingsWindowFactory;
+
     private readonly InputNonClientPointerSource _nonClientPointerSource;
 
-    private readonly OverlappedPresenter _overlappedPresenter;
+    private readonly OverlappedPresenter _overlappedPresenter = OverlappedPresenter.Create();
+
+    private readonly ResourceService _resourceService;
     #endregion
 
     #region Properties
@@ -41,33 +44,48 @@ public sealed partial class MainWindow : Window
     /// Gets a value indicating whether the playback is currently active.
     /// </summary>
     public bool IsPlaying { get; private set; }
-
-    /// <summary>
-    /// The factory for creating a <see cref="SettingsWindow"/> instance.
-    /// </summary>
-    public Action? SettingsWindowFactory { get; set; }
     #endregion
 
     #region Events
     /// <summary>
     /// Triggers when a new settings window has been created.
     /// </summary>
-    public event EventHandler SettingsWindowCreated;
+    public event EventHandler SettingsWindowCreated = delegate { };
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using default
+    /// paramaeter values.
     /// </summary>
-    public MainWindow()
+    /// <remarks>
+    /// This parameterless constructor is required for design-time support in Visual Studio and
+    /// to play nice with the XAML designer.
+    /// </remarks>
+    public MainWindow() : this(null!, null!) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using the specified
+    /// resource service instance.
+    /// </summary>
+    /// <param name="resourceService">
+    /// A <see cref="ResourceService"/> instance for accessing common application resources.
+    /// </param>
+    /// <param name="settingsWindowFactory">
+    /// A factory for creating or restoring the settings window.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when one of the parameters is <c>null</c>.
+    /// </exception>
+    public MainWindow(ResourceService resourceService, Action settingsWindowFactory)
     {
-        _resourceLoader = null!;
+        ArgumentNullException.ThrowIfNull(resourceService);
+        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
+
+        _resourceService       = resourceService;
+        _settingsWindowFactory = settingsWindowFactory;
 
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
-        
-        _overlappedPresenter = OverlappedPresenter.Create();
-
-        SettingsWindowCreated = delegate { };
 
         Closed += MainWindow_Closed;
 
@@ -98,7 +116,7 @@ public sealed partial class MainWindow : Window
 
     private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
     {
-        SettingsWindowFactory?.Invoke();
+        _settingsWindowFactory();
     }
     #endregion
 
@@ -106,6 +124,8 @@ public sealed partial class MainWindow : Window
     private void ApplyLocalizedContent()
     {
         // TODO: Use localied strings.
+
+        if (_resourceLoader is null) return;
 
         Title = _resourceLoader.GetString("General/AppDisplayName");
     }
@@ -154,25 +174,14 @@ public sealed partial class MainWindow : Window
     {
         _overlappedPresenter.IsAlwaysOnTop = true;
         _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = false;
+        _overlappedPresenter.IsMinimizable = true;
         _overlappedPresenter.IsResizable   = false;
 
         _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
         AppWindow.SetPresenter(_overlappedPresenter);
-
-        SizeInt32 size = new(260, 160);
-
-        RectInt32 workArea = DisplayArea
-            .GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary)
-            .WorkArea;
-
-        AppWindow.Resize(size);
-
-        AppWindow.Move(new PointInt32(
-            (workArea.Width - size.Width) / 2,
-            (workArea.Height - size.Height) / 2
-        ));
+        AppWindow.Resize(width: 260, height: 160);
+        AppWindow.MoveToCenter();
     }
 
     /// <summary>
@@ -182,7 +191,7 @@ public sealed partial class MainWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        AppWindow.SetIcon(((App)Application.Current).IconPath);
+        AppWindow.SetIcon(_resourceService.IconPath);
 
         ExtendsContentIntoTitleBar = true;
 
@@ -206,11 +215,18 @@ public sealed partial class MainWindow : Window
     /// </summary>
     public void RefreshBackgroundBrush()
     {
-        LayoutRoot.Background = SystemBackdrop is not null
-            ? null
-            : LayoutRoot.RequestedTheme is ElementTheme.Light
-                ? new SolidColorBrush(Colors.White)
-                : new SolidColorBrush(Colors.Black);
+        if (SystemBackdrop is not null)
+        {
+            LayoutRoot.Background = null;
+
+            return;
+        }
+
+        LayoutRoot.Background = new SolidColorBrush(
+            LayoutRoot.RequestedTheme is ElementTheme.Light
+                ? Colors.White
+                : Colors.Black
+        );
     }
 
     /// <summary>

@@ -1,12 +1,13 @@
 ﻿using FluentNoiseGenerator.UI.Windows;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System;
 
 namespace FluentNoiseGenerator.Services;
 
 /// <summary>
-/// Manages the main and settings windows. This class ensures that windows are properly
-/// created, restored, and updated when necessary.
+/// Service for managing the main and settings windows. This class ensures that windows are
+/// properly created, restored, and updated when necessary.
 /// </summary>
 internal sealed class WindowService
 {
@@ -14,6 +15,8 @@ internal sealed class WindowService
     private MainWindow? _mainWindow;
 
     private SettingsWindow? _settingsWindow;
+
+    private readonly ResourceService _resourceService;
 
     private readonly ThemeService _themeService;
     #endregion
@@ -23,12 +26,21 @@ internal sealed class WindowService
     /// Initializes a new instance of the <see cref="WindowService"/> class.
     /// </summary>
     /// <param name="themeService">
-    /// The application theme manager for updating the current theme across all windows
-    /// and views.
+    /// The theme service for retrieving and updating the current application theme.
     /// </param>
-    internal WindowService(ThemeService themeService)
+    /// <param name="resourceService">
+    /// The resource service for retrieving application resources.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when any of the specified parameters are <c>null</c>.
+    /// </exception>
+    internal WindowService(ThemeService themeService, ResourceService resourceService)
     {
-        _themeService = themeService;
+        ArgumentNullException.ThrowIfNull(themeService);
+        ArgumentNullException.ThrowIfNull(resourceService);
+
+        _resourceService = resourceService;
+        _themeService    = themeService;
 
         RegisterEventHandlers();
     }
@@ -76,10 +88,7 @@ internal sealed class WindowService
 
     private void CreateMainWindow()
     {
-        _mainWindow = new MainWindow
-        {
-            SettingsWindowFactory = ShowSettingsWindow
-        };
+        _mainWindow = new MainWindow(_resourceService, ShowSettingsWindow);
 
         _mainWindow.RefreshLocalizedContent();
         _mainWindow.RetrieveAndUpdateDpiScaleFactor();
@@ -90,7 +99,7 @@ internal sealed class WindowService
 
     private void CreateSettingsWindow()
     {
-        _settingsWindow = new SettingsWindow();
+        _settingsWindow = new SettingsWindow(_resourceService);
 
         RegisterSettingsWindowEventHandlers();
 

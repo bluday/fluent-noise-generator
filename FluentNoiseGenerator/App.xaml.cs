@@ -9,20 +9,11 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly ThemeService _themeService;
+    private readonly ResourceService _resourceService;
+
+    private readonly ThemeService _themeService = new();
 
     private readonly WindowService _windowService;
-
-    /// <summary>
-    /// Absolute path for the 64x64 sized application icon as a string.
-    /// </summary>
-    public string IconPath
-    {
-        get => System.IO.Path.Combine(
-            System.AppContext.BaseDirectory,
-            (string)Resources["AppIconPath"]
-        );
-    }
     #endregion
 
     #region Constructor
@@ -31,8 +22,8 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _themeService  = new ThemeService();
-        _windowService = new WindowService(_themeService);
+        _resourceService = new ResourceService(() => Resources);
+        _windowService   = new WindowService(_themeService, _resourceService);
 
         InitializeComponent();
     }

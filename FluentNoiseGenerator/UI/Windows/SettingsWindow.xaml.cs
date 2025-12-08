@@ -1,4 +1,6 @@
 using FluentNoiseGenerator.Common;
+using FluentNoiseGenerator.Extensions;
+using FluentNoiseGenerator.Services;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
@@ -12,7 +14,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
-using Windows.Graphics;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Windows;
@@ -35,124 +36,151 @@ public sealed partial class SettingsWindow : Window
     #endregion
 
     #region Fields
-    private ResourceLoader _resourceLoader;
+    private ResourceLoader? _resourceLoader;
 
     private bool _hasClosed;
 
-    private readonly AppWindow _appWindow;
+    private readonly OverlappedPresenter _overlappedPresenter = OverlappedPresenter.Create();
 
-    private readonly OverlappedPresenter _overlappedPresenter;
+    private readonly ResourceService _resourceService;
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets a read-only collection of mapped application themes, with localized keys.
+    /// Gets a read-only collection of available, mapped application themes, with localized
+    /// keys.
     /// </summary>
-    public IReadOnlyCollection<ResourceNamedValue<ElementTheme>> ApplicationThemes { get; }
+    public IReadOnlyCollection<ResourceNamedValue<ElementTheme>> AvailableApplicationThemes { get; }
 
     /// <summary>
-    /// Gets a read-only collection of mapped audio sample rates, with localized keys.
+    /// Gets a read-only collection of available, mapped audio sample rates, with localized
+    /// keys.
     /// </summary>
-    public IReadOnlyCollection<NamedValue<int>> AudioSampleRates { get; }
+    public IReadOnlyCollection<NamedValue<int>> AvailableAudioSampleRates { get; }
+
+    /// <summary>
+    /// Gets a read-only collection of available, mapped languages, with localized keys.
+    /// </summary>
+    public IReadOnlyCollection<NamedValue<CultureInfo>> AvailableLanguages { get; }
+
+    /// <summary>
+    /// Gets a read-only collection of available, mapped noise presets, with localized keys.
+    /// </summary>
+    /// <remarks>
+    /// Value type of <see cref="string"/> is used for now, until a type for noise
+    /// preset is implemented.
+    /// </remarks>
+    public IReadOnlyCollection<ResourceNamedValue<string>> AvailableNoisePresets { get; }
+
+    /// <summary>
+    /// Gets a read-only collection of available, mapped system backdrops, with localized keys.
+    /// </summary>
+    public IReadOnlyCollection<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops { get; }
 
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
     public bool HasClosed => _hasClosed;
-
-    /// <summary>
-    /// Gets a read-only collection of mapped languages, with localized keys.
-    /// </summary>
-    public IReadOnlyCollection<NamedValue<CultureInfo>> Languages { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of mapped noise presets, with localized keys.
-    /// </summary>
-    /// <remarks>
-    /// Value type of <see cref="string"/> is used for now, until a type for noise preset is implemented.
-    /// </remarks>
-    public IReadOnlyCollection<ResourceNamedValue<string>> NoisePresets { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of mapped system backdrops, with localized keys.
-    /// </summary>
-    public IReadOnlyCollection<ResourceNamedValue<SystemBackdrop>> SystemBackdrops { get; }
     #endregion
 
     #region Events
     /// <summary>
     /// Triggers when a new application theme gets selected.
     /// </summary>
-    public event EventHandler<ElementTheme> ApplicationThemeChanged;
+    public event EventHandler<ElementTheme> ApplicationThemeChanged = delegate { };
 
     /// <summary>
     /// Triggers when a new system backdrop gets selected.
     /// </summary>
-    public event EventHandler<SystemBackdrop?> SystemBackdropChanged;
+    public event EventHandler<SystemBackdrop?> SystemBackdropChanged = delegate { };
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using default
+    /// paramaeter values.
     /// </summary>
-    public SettingsWindow()
+    /// <remarks>
+    /// This parameterless constructor is required for design-time support in Visual Studio and
+    /// to play nice with the XAML designer.
+    /// </remarks>
+    public SettingsWindow() : this(null!) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using the specified
+    /// resource service instance.
+    /// </summary>
+    /// <param name="resourceService">
+    /// A <see cref="ResourceService"/> instance for accessing common application resources.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="resourceService"/> is <c>null</c>.
+    /// </exception>
+    public SettingsWindow(ResourceService resourceService)
     {
-        _resourceLoader = null!;
+        ArgumentNullException.ThrowIfNull(resourceService);
 
-        _appWindow = AppWindow;
-
-        _overlappedPresenter = OverlappedPresenter.Create();
-
-        ApplicationThemeChanged = delegate { };
-        SystemBackdropChanged   = delegate { };
+        _resourceService = resourceService;
 
         Closed += SettingsWindow_Closed;
 
-        AudioSampleRates = new List<NamedValue<int>>
-        {
-            new(Common.AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateString),
-            new(Common.AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateString)
-        };
+        ResourceLoader GetResourceLoaderFactory() => _resourceLoader!;
 
-        Languages = ApplicationLanguages.ManifestLanguages
-            .Select(
-                value => new NamedValue<CultureInfo>(
-                    value:     new CultureInfo(value),
-                    formatter: value => value.NativeName
+        AvailableAudioSampleRates = [
+            new NamedValue<int>(AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateString),
+            new NamedValue<int>(AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateString)
+        ];
+
+        AvailableLanguages = [
+            ..ApplicationLanguages.ManifestLanguages.Select(
+                language => new NamedValue<CultureInfo>(
+                    value:     new(language),
+                    formatter: language => language.NativeName
                 )
             )
-            .ToList();
+        ];
 
-        Func<ResourceLoader> resourceLoaderFactory = () => _resourceLoader;
+        AvailableApplicationThemes = [
+            new ResourceNamedValue<ElementTheme>(ElementTheme.Default, "Common/System", GetResourceLoaderFactory),
+            new ResourceNamedValue<ElementTheme>(ElementTheme.Dark, "Common/Dark", GetResourceLoaderFactory),
+            new ResourceNamedValue<ElementTheme>(ElementTheme.Light, "Common/Light", GetResourceLoaderFactory)
+        ];
 
-        ApplicationThemes = new ResourceNamedValueCollectionBuilder<ElementTheme>(resourceLoaderFactory)
-            .Add("Common/System", ElementTheme.Default)
-            .Add("Common/Dark", ElementTheme.Dark)
-            .Add("Common/Light", ElementTheme.Light)
-            .Build();
+        AvailableNoisePresets = [
+            new ResourceNamedValue<string>(null, "Common/Blue", GetResourceLoaderFactory),
+            new ResourceNamedValue<string>(null, "Common/Brownian", GetResourceLoaderFactory),
+            new ResourceNamedValue<string>(null, "Common/White", GetResourceLoaderFactory)
+        ];
 
-        NoisePresets = new ResourceNamedValueCollectionBuilder<string>(resourceLoaderFactory)
-            .Add("Common/Blue", null!)
-            .Add("Common/Brownian", null!)
-            .Add("Common/White", null!)
-            .Build();
-
-        SystemBackdrops = new ResourceNamedValueCollectionBuilder<SystemBackdrop>(resourceLoaderFactory)
-            .Add("SystemBackdrop/Mica", new MicaBackdrop())
-            .Add("SystemBackdrop/MicaAlt", new MicaBackdrop()
-            {
-                Kind = MicaKind.BaseAlt
-            })
-            .Add("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop())
-            .Add("Common/None", null!)
-            .Build();
+        AvailableSystemBackdrops = [
+            new ResourceNamedValue<SystemBackdrop>(
+                new MicaBackdrop(),
+                "SystemBackdrop/Mica",
+                GetResourceLoaderFactory
+            ),
+            new ResourceNamedValue<SystemBackdrop>(
+                new MicaBackdrop { Kind = MicaKind.BaseAlt },
+                "SystemBackdrop/MicaAlt",
+                GetResourceLoaderFactory
+            ),
+            new ResourceNamedValue<SystemBackdrop>(
+                new DesktopAcrylicBackdrop(),
+                "SystemBackdrop/Acrylic",
+                GetResourceLoaderFactory
+            ),
+            new ResourceNamedValue<SystemBackdrop>(
+                null,
+                "Common/None",
+                GetResourceLoaderFactory
+            )
+        ];
 
         InitializeComponent();
     }
     #endregion
 
     #region Event handlers
-    private void ApplicationThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void AvailableApplicationThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
         {
@@ -160,7 +188,7 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void AvailableLanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
         {
@@ -170,7 +198,7 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void SystemBackdropComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void AvailableSystemBackdropsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
         {
@@ -187,6 +215,8 @@ public sealed partial class SettingsWindow : Window
     #region Methods
     private void ApplyLocalizedContent()
     {
+        if (_resourceLoader is null) return;
+
         string displayName  = _resourceLoader.GetString("General/AppDisplayName");
         string settingsText = _resourceLoader.GetString("Common/Settings");
 
@@ -253,6 +283,11 @@ public sealed partial class SettingsWindow : Window
 
     private string GetDisplayableAudioSampleRateString(int value)
     {
+        if (_resourceLoader is null)
+        {
+            return value.ToString();
+        }
+
         return $"{value} {_resourceLoader.GetString("Units/Hertz/Short")}";
     }
 
@@ -264,9 +299,8 @@ public sealed partial class SettingsWindow : Window
         _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
         _overlappedPresenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
 
-        _appWindow.SetPresenter(_overlappedPresenter);
-
-        _appWindow.Resize(new SizeInt32(MINIMUM_WIDTH, MINIMUM_HEIGHT));
+        AppWindow.SetPresenter(_overlappedPresenter);
+        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
     }
 
     /// <summary>
@@ -276,9 +310,9 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        string iconPath = ((App)Application.Current).IconPath;
+        string iconPath = _resourceService.IconPath;
 
-        _appWindow.SetIcon(iconPath);
+        AppWindow.SetIcon(iconPath);
 
         TitleBar.Icon = iconPath;
 
@@ -293,11 +327,18 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void RefreshBackgroundBrush()
     {
-        LayoutRoot.Background = SystemBackdrop is not null
-            ? null
-            : LayoutRoot.RequestedTheme is ElementTheme.Light
-                ? new SolidColorBrush(Colors.White)
-                : new SolidColorBrush(Colors.Black);
+        if (SystemBackdrop is not null)
+        {
+            LayoutRoot.Background = null;
+
+            return;
+        }
+
+        LayoutRoot.Background = new SolidColorBrush(
+            LayoutRoot.RequestedTheme is ElementTheme.Light
+                ? Colors.White
+                : Colors.Black
+        );
     }
 
     /// <summary>

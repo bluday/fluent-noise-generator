@@ -30,7 +30,7 @@ public readonly struct ResourceNamedValue<TValue>
     /// <summary>
     /// Gets the underlying value stored in this <see cref="ResourceNamedValue{TValue}"/>.
     /// </summary>
-    public TValue Value { get; }
+    public TValue? Value { get; }
     #endregion
 
     #region Constructor
@@ -59,7 +59,7 @@ public readonly struct ResourceNamedValue<TValue>
     /// Thrown if <paramref name="resourceLoaderFactory"/> is <c>null</c>.
     /// </exception>
     public ResourceNamedValue(
-        TValue                value,
+        TValue?               value,
         string                resourceId,
         Func<ResourceLoader>  resourceLoaderFactory)
     {

@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Media;
 namespace FluentNoiseGenerator.Services;
 
 /// <summary>
-/// Manages the current theme of the application.
+/// Service for managing the current theme of the application.
 /// </summary>
 internal sealed class ThemeService
 {
