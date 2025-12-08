@@ -38,7 +38,7 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _windowService.ShowMainWindow();
+        _windowService.ShowPlaybackWindow();
     }
     #endregion
 }

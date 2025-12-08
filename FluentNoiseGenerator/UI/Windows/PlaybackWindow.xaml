@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Window mc:Ignorable="d"
-        x:Class="FluentNoiseGenerator.UI.Windows.MainWindow"
+        x:Class="FluentNoiseGenerator.UI.Windows.PlaybackWindow"
         x:DefaultBindMode="OneWay"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:controls="using:FluentNoiseGenerator.UI.Controls"

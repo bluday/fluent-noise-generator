@@ -12,7 +12,7 @@ namespace FluentNoiseGenerator.Services;
 internal sealed class WindowService
 {
     #region Fields
-    private MainWindow? _mainWindow;
+    private PlaybackWindow? _mainWindow;
 
     private SettingsWindow? _settingsWindow;
 
@@ -86,9 +86,9 @@ internal sealed class WindowService
         _settingsWindow?.UpdateSystemBackdrop(value);
     }
 
-    private void CreateMainWindow()
+    private void CreatePlaybackWindow()
     {
-        _mainWindow = new MainWindow(_resourceService, ShowSettingsWindow);
+        _mainWindow = new PlaybackWindow(_resourceService, ShowSettingsWindow);
 
         _mainWindow.RefreshLocalizedContent();
         _mainWindow.RetrieveAndUpdateDpiScaleFactor();
@@ -122,7 +122,7 @@ internal sealed class WindowService
         _settingsWindow.SystemBackdropChanged    += _settingsWindow_SystemBackdropChanged;
     }
 
-    private void RestoreMainWindow()
+    private void RestorePlaybackWindow()
     {
         _mainWindow!.Restore();
         _mainWindow.Focus();
@@ -143,19 +143,19 @@ internal sealed class WindowService
     }
 
     /// <summary>
-    /// Displays the main window, setting up necessary configurations like DPI scaling, native
+    /// Displays the playback window, setting up necessary configurations like DPI scaling, native
     /// app window settings, and the title bar.
     /// </summary>
-    public void ShowMainWindow()
+    public void ShowPlaybackWindow()
     {
         if (_mainWindow?.HasClosed is false)
         {
-            RestoreMainWindow();
+            RestorePlaybackWindow();
 
             return;
         }
 
-        CreateMainWindow();
+        CreatePlaybackWindow();
     }
 
     /// <summary>

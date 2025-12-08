@@ -16,7 +16,7 @@ namespace FluentNoiseGenerator.UI.Windows;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class MainWindow : Window
+public sealed partial class PlaybackWindow : Window
 {
     #region Fields
     private ResourceLoader? _resourceLoader;
@@ -62,7 +62,7 @@ public sealed partial class MainWindow : Window
     /// This parameterless constructor is required for design-time support in Visual Studio and
     /// to play nice with the XAML designer.
     /// </remarks>
-    public MainWindow() : this(null!, null!) { }
+    public PlaybackWindow() : this(null!, null!) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/> class using the specified
@@ -77,7 +77,7 @@ public sealed partial class MainWindow : Window
     /// <exception cref="ArgumentNullException">
     /// Thrown when one of the parameters is <c>null</c>.
     /// </exception>
-    public MainWindow(ResourceService resourceService, Action settingsWindowFactory)
+    public PlaybackWindow(ResourceService resourceService, Action settingsWindowFactory)
     {
         ArgumentNullException.ThrowIfNull(resourceService);
         ArgumentNullException.ThrowIfNull(settingsWindowFactory);
@@ -87,14 +87,14 @@ public sealed partial class MainWindow : Window
 
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
 
-        Closed += MainWindow_Closed;
+        Closed += PlaybackWindow_Closed;
 
         InitializeComponent();
     }
     #endregion
 
     #region Event handlers
-    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
     {
         _hasClosed = true;
     }
@@ -168,7 +168,7 @@ public sealed partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Applies configuration to the underlying, native window specific to the main window.
+    /// Applies configuration to the underlying, native window specific to the playback window.
     /// </summary>
     public void ConfigureAppWindow()
     {
