@@ -274,7 +274,7 @@ public sealed partial class PlaybackWindow : Window
          * without making external calls to the Win32 API.
          * 
          * I am lazy and this is the easiest way of specifying drag regions after setting title
-         * bar to false using <see cref="OverlappedPresenter.SetBorderAndSettingsTitleBar(bool, bool)"/>.
+         * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
         _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [
             playbackTopBar.GetBoundingBox(_dpiScaleFactor)
