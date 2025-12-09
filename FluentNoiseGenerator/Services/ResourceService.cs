@@ -19,24 +19,20 @@ public sealed class ResourceService
     public string AppIconPath => System.IO.Path.Combine(
         AppContext.BaseDirectory, Get<string>("AppIconPath")
     );
+
+    /// <summary>
+    /// Gets the root <see cref="ResourceDictionary"/> instance.
+    /// </summary>
+    public ResourceDictionary Resources => _resourceDictionaryFactory();
     #endregion
 
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="ResourceService"/> class.
     /// </summary>
-    /// <param name="resourceDictionaryFactory">
-    /// A factory for accessing the top-level <see cref="ResourceDictionary"/> instance
-    /// through 
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when <paramref name="resourceDictionaryFactory"/> is <c>null</c>.
-    /// </exception>
-    public ResourceService(Func<ResourceDictionary> resourceDictionaryFactory)
+    public ResourceService()
     {
-        ArgumentNullException.ThrowIfNull(resourceDictionaryFactory);
-
-        _resourceDictionaryFactory = resourceDictionaryFactory;
+        _resourceDictionaryFactory = () => Application.Current.Resources;
     }
     #endregion
 
