@@ -55,7 +55,7 @@ public sealed partial class PlaybackWindow : Window
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using default
+    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class using default
     /// paramaeter values.
     /// </summary>
     /// <remarks>
@@ -65,7 +65,7 @@ public sealed partial class PlaybackWindow : Window
     public PlaybackWindow() : this(null!, null!) { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using the specified
+    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class using the specified
     /// resource service instance.
     /// </summary>
     /// <param name="resourceService">
