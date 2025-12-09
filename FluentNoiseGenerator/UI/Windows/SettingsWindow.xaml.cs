@@ -67,8 +67,8 @@ public sealed partial class SettingsWindow : Window
     /// Gets a read-only collection of available, mapped noise presets, with localized keys.
     /// </summary>
     /// <remarks>
-    /// Value type of <see cref="string"/> is used for now, until a type for noise
-    /// preset is implemented.
+    /// Value type of <see cref="string"/> is used for now, until a type for noise preset is
+    /// implemented.
     /// </remarks>
     public IReadOnlyCollection<ResourceNamedValue<string>> AvailableNoisePresets { get; }
 

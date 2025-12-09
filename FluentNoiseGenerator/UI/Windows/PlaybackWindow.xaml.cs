@@ -18,6 +18,23 @@ namespace FluentNoiseGenerator.UI.Windows;
 /// </summary>
 public sealed partial class PlaybackWindow : Window
 {
+    #region Constants
+    /// <summary>
+    /// The standard or user-default screen DPI value.
+    /// </summary>
+    public const int DEFAULT_DPI_SCALE = 96;
+
+    /// <summary>
+    /// The minimum height in pixels, unscaled.
+    /// </summary>
+    public const int MINIMUM_HEIGHT = 160;
+
+    /// <summary>
+    /// The minimum width in pixels, unscaled.
+    /// </summary>
+    public const int MINIMUM_WIDTH = 260;
+    #endregion
+
     #region Fields
     private ResourceLoader? _resourceLoader;
 
@@ -180,7 +197,7 @@ public sealed partial class PlaybackWindow : Window
         _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
         AppWindow.SetPresenter(_overlappedPresenter);
-        AppWindow.Resize(width: 260, height: 160);
+        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
         AppWindow.MoveToCenter();
     }
 
@@ -254,7 +271,7 @@ public sealed partial class PlaybackWindow : Window
 
         uint value = PInvoke.GetDpiForWindow(hwnd);
 
-        _dpiScaleFactor = (double)value / 96;
+        _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
     }
 
     /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
