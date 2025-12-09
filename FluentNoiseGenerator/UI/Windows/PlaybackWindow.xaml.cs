@@ -191,7 +191,7 @@ public sealed partial class PlaybackWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        AppWindow.SetIcon(_resourceService.IconPath);
+        AppWindow.SetIcon(_resourceService.AppIconPath);
 
         ExtendsContentIntoTitleBar = true;
 

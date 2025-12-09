@@ -16,7 +16,7 @@ public sealed class ResourceService
     /// <summary>
     /// Absolute path for the 64x64 sized application icon as a string.
     /// </summary>
-    public string IconPath => System.IO.Path.Combine(
+    public string AppIconPath => System.IO.Path.Combine(
         AppContext.BaseDirectory, Get<string>("AppIconPath")
     );
     #endregion

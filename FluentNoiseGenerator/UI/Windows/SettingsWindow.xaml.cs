@@ -310,7 +310,7 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void ConfigureTitleBar()
     {
-        string iconPath = _resourceService.IconPath;
+        string iconPath = _resourceService.AppIconPath;
 
         AppWindow.SetIcon(iconPath);
 
