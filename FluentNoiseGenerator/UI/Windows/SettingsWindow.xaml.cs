@@ -138,10 +138,17 @@ public sealed partial class SettingsWindow : Window
 
         ResourceLoader GetResourceLoaderFactory() => _resourceLoader!;
 
-        AvailableAudioSampleRates = [
-            new NamedValue<int>(AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateString),
-            new NamedValue<int>(AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateString)
-        ];
+        AvailableAudioSampleRates = new List<NamedValue<int>>
+        {
+            new(
+                value:     AudioSampleRates.Rate48000Hz,
+                formatter: GetDisplayableAudioSampleRateString
+            ),
+            new(
+                value:     AudioSampleRates.Rate44100Hz,
+                formatter: GetDisplayableAudioSampleRateString
+            )
+        };
 
         AvailableLanguages = ApplicationLanguages.ManifestLanguages
             .Select(
@@ -153,40 +160,67 @@ public sealed partial class SettingsWindow : Window
             .ToList()
             .AsReadOnly();
 
-        AvailableApplicationThemes = [
-            new ResourceNamedValue<ElementTheme>(ElementTheme.Default, "Common/System", GetResourceLoaderFactory),
-            new ResourceNamedValue<ElementTheme>(ElementTheme.Dark, "Common/Dark", GetResourceLoaderFactory),
-            new ResourceNamedValue<ElementTheme>(ElementTheme.Light, "Common/Light", GetResourceLoaderFactory)
-        ];
-
-        AvailableNoisePresets = [
-            new ResourceNamedValue<string>(null, "Common/Blue", GetResourceLoaderFactory),
-            new ResourceNamedValue<string>(null, "Common/Brownian", GetResourceLoaderFactory),
-            new ResourceNamedValue<string>(null, "Common/White", GetResourceLoaderFactory)
-        ];
-
-        AvailableSystemBackdrops = [
-            new ResourceNamedValue<SystemBackdrop>(
-                new MicaBackdrop(),
-                "SystemBackdrop/Mica",
-                GetResourceLoaderFactory
+        AvailableApplicationThemes = new List<ResourceNamedValue<ElementTheme>>
+        {
+            new(
+                value:                 ElementTheme.Default,
+                resourceId:            "Common/System",
+                resourceLoaderFactory: GetResourceLoaderFactory
             ),
-            new ResourceNamedValue<SystemBackdrop>(
-                new MicaBackdrop { Kind = MicaKind.BaseAlt },
-                "SystemBackdrop/MicaAlt",
-                GetResourceLoaderFactory
+            new(
+                value:                 ElementTheme.Dark,
+                resourceId:            "Common/Dark",
+                resourceLoaderFactory: GetResourceLoaderFactory
             ),
-            new ResourceNamedValue<SystemBackdrop>(
-                new DesktopAcrylicBackdrop(),
-                "SystemBackdrop/Acrylic",
-                GetResourceLoaderFactory
-            ),
-            new ResourceNamedValue<SystemBackdrop>(
-                null,
-                "Common/None",
-                GetResourceLoaderFactory
+            new(
+                value:                 ElementTheme.Light,
+                resourceId:            "Common/Light",
+                resourceLoaderFactory: GetResourceLoaderFactory
             )
-        ];
+        };
+
+        AvailableNoisePresets = new List<ResourceNamedValue<string>>
+        {
+            new(
+                value:                 null,
+                resourceId:            "Common/Blue",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            ),
+            new(
+                value:                 null,
+                resourceId:            "Common/Brownian",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            ),
+            new(
+                value:                 null,
+                resourceId:            "Common/White",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            )
+        };
+
+        AvailableSystemBackdrops = new List<ResourceNamedValue<SystemBackdrop>>
+        {
+            new(
+                value:                 new MicaBackdrop(),
+                resourceId:            "SystemBackdrop/Mica",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            ),
+            new(
+                value:                 new MicaBackdrop { Kind = MicaKind.BaseAlt },
+                resourceId:            "SystemBackdrop/MicaAlt",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            ),
+            new(
+                value:                 new DesktopAcrylicBackdrop(),
+                resourceId:            "SystemBackdrop/Acrylic",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            ),
+            new(
+                value:                 null,
+                resourceId:            "Common/None",
+                resourceLoaderFactory: GetResourceLoaderFactory
+            )
+        };
 
         RegisterEventHanders();
         ConfigureAppWindow();

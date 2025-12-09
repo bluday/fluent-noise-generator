@@ -232,9 +232,7 @@ public sealed partial class PlaybackWindow : Window
 
     private void RetrieveAndUpdateDpiScaleFactor()
     {
-        var hwnd = (HWND)WindowNative.GetWindowHandle(this);
-
-        uint value = PInvoke.GetDpiForWindow(hwnd);
+        uint value = PInvoke.GetDpiForWindow((HWND)WindowNative.GetWindowHandle(this));
 
         _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
     }
