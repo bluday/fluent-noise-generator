@@ -8,6 +8,7 @@ namespace FluentNoiseGenerator.UI.Controls;
 /// </summary>
 public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.UserControl
 {
+    #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="Glyph"> dependency property.
     /// </summary>
@@ -27,9 +28,11 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
         typeof(SettingsSectionHeader),
         new PropertyMetadata(defaultValue: string.Empty)
     );
+    #endregion
 
+    #region Properties
     /// <summary>
-    /// Gets the font icon glyph.
+    /// Gets the font icon glyph placed beside the header text.
     /// </summary>
     public string Glyph
     {
@@ -38,14 +41,16 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
     }
 
     /// <summary>
-    /// Gets the header.
+    /// Gets the header text.
     /// </summary>
     public string Text
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
+    #endregion
 
+    #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsSectionHeader"/> class.
     /// </summary>
@@ -53,4 +58,5 @@ public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.U
     {
         InitializeComponent();
     }
+    #endregion
 }
