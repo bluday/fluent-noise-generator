@@ -290,11 +290,11 @@ public sealed partial class PlaybackWindow : Window
     /// Programmatically focuses the root element of the window.
     /// </summary>
     /// <remarks>
-    /// Returns immediately if content is <c>null</c>.
+    /// Short circuits if the content is <c>null</c>.
     /// </remarks>
     public void Focus()
     {
-        Content?.Focus(FocusState.Programmatic);
+        layoutRoot?.Focus(FocusState.Programmatic);
     }
 
     /// <inheritdoc cref="OverlappedPresenter.Restore()"/>

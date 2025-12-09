@@ -143,14 +143,15 @@ public sealed partial class SettingsWindow : Window
             new NamedValue<int>(AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateString)
         ];
 
-        AvailableLanguages = [
-            ..ApplicationLanguages.ManifestLanguages.Select(
+        AvailableLanguages = ApplicationLanguages.ManifestLanguages
+            .Select(
                 language => new NamedValue<CultureInfo>(
                     value:     new(language),
                     formatter: language => language.NativeName
                 )
             )
-        ];
+            .ToList()
+            .AsReadOnly();
 
         AvailableApplicationThemes = [
             new ResourceNamedValue<ElementTheme>(ElementTheme.Default, "Common/System", GetResourceLoaderFactory),
@@ -414,11 +415,14 @@ public sealed partial class SettingsWindow : Window
     }
 
     /// <summary>
-    /// Focuses the root element of the window.
+    /// Programmatically focuses the root element of the window.
     /// </summary>
+    /// <remarks>
+    /// Short circuits if the content is <c>null</c>.
+    /// </remarks>
     public void Focus()
     {
-        Content?.Focus(FocusState.Programmatic);
+        layoutRoot?.Focus(FocusState.Programmatic);
     }
 
     /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
