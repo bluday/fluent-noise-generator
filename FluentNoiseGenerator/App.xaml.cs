@@ -1,4 +1,5 @@
-﻿using FluentNoiseGenerator.Services;
+﻿using FluentNoiseGenerator.Factories;
+using FluentNoiseGenerator.Services;
 using Microsoft.UI.Xaml;
 
 namespace FluentNoiseGenerator;
@@ -9,7 +10,9 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly ResourceService _resourceService;
+    private readonly LanguageService _languageService = new();
+
+    private readonly ResourceService _resourceService = new();
 
     private readonly ThemeService _themeService = new();
 
@@ -22,8 +25,18 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _resourceService = new ResourceService(() => Resources);
-        _windowService   = new WindowService(_themeService, _resourceService);
+        _windowService = new WindowService(
+            new PlaybackWindowFactory(
+                _languageService,
+                _resourceService,
+                _themeService
+            ),
+            new SettingsWindowFactory(
+                _languageService,
+                _resourceService,
+                _themeService
+            )
+        );
 
         InitializeComponent();
     }

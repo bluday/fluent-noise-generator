@@ -1,6 +1,6 @@
-﻿using FluentNoiseGenerator.UI.Windows;
+﻿using FluentNoiseGenerator.Factories;
+using FluentNoiseGenerator.UI.Windows;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace FluentNoiseGenerator.Services;
@@ -12,134 +12,92 @@ namespace FluentNoiseGenerator.Services;
 internal sealed class WindowService
 {
     #region Fields
-    private PlaybackWindow? _mainWindow;
+    private PlaybackWindow? _playbackWindow;
 
     private SettingsWindow? _settingsWindow;
 
-    private readonly ResourceService _resourceService;
+    private readonly SettingsWindowFactory _settingsWindowFactory;
 
-    private readonly ThemeService _themeService;
+    private readonly PlaybackWindowFactory _playbackWindowFactory;
     #endregion
 
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="WindowService"/> class.
     /// </summary>
-    /// <param name="themeService">
-    /// The theme service for retrieving and updating the current application theme.
+    /// <param name="playbackWindowFactory">
+    /// The <see cref="PlaybackWindowFactory"/> factory for creating new instances.
     /// </param>
-    /// <param name="resourceService">
-    /// The resource service for retrieving application resources.
+    /// <param name="settingsWindowFactory">
+    /// The <see cref="SettingsWindowFactory"/> factory for creating new instances.
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Thrown when any of the specified parameters are <c>null</c>.
     /// </exception>
-    internal WindowService(ThemeService themeService, ResourceService resourceService)
+    internal WindowService(
+        PlaybackWindowFactory playbackWindowFactory,
+        SettingsWindowFactory settingsWindowFactory)
     {
-        ArgumentNullException.ThrowIfNull(themeService);
-        ArgumentNullException.ThrowIfNull(resourceService);
+        ArgumentNullException.ThrowIfNull(playbackWindowFactory);
+        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
 
-        _resourceService = resourceService;
-        _themeService    = themeService;
-
-        RegisterEventHandlers();
+        _playbackWindowFactory = playbackWindowFactory;
+        _settingsWindowFactory = settingsWindowFactory;
     }
     #endregion
 
     #region Event handlers
-    private void _settingsWindow_ApplicationThemeChanged(object? sender, ElementTheme e)
+    private void _playbackWindow_Closed(object sender, WindowEventArgs args)
     {
-        _themeService.CurrentTheme = e;
+        _playbackWindow!.Closed               -= _playbackWindow_Closed;
+        _playbackWindow.SettingsButtonClicked -= _playbackWindow_SettingsButtonClicked;
+    }
+
+    private void _playbackWindow_SettingsButtonClicked(object? sender, EventArgs e)
+    {
+        ShowSettingsWindow();
     }
 
     private void _settingsWindow_Closed(object sender, WindowEventArgs args)
     {
-        UnregisterSettingsWindowEventHandlers();
-    }
-
-    private void _settingsWindow_SystemBackdropChanged(object? sender, SystemBackdrop? e)
-    {
-        _themeService.CurrentSystemBackdrop = e;
-    }
-
-    private void _themeService_CurrentThemeChanged(ElementTheme value)
-    {
-        BulkApplyRequestedTheme(value);
-    }
-
-    private void _themeService_CurrentSystemBackdropChanged(SystemBackdrop? value)
-    {
-        BulkApplySystemBackdrop(value);
+        _settingsWindow!.Closed -= _settingsWindow_Closed;
     }
     #endregion
 
     #region Methods
-    private void BulkApplyRequestedTheme(ElementTheme value)
-    {
-        _mainWindow?.UpdateRequestedTheme(value);
-        _settingsWindow?.UpdateRequestedTheme(value);
-    }
-
-    private void BulkApplySystemBackdrop(SystemBackdrop? value)
-    {
-        _mainWindow?.UpdateSystemBackdrop(value);
-        _settingsWindow?.UpdateSystemBackdrop(value);
-    }
-
     private void CreatePlaybackWindow()
     {
-        _mainWindow = new PlaybackWindow(_resourceService, ShowSettingsWindow);
+        _playbackWindow = _playbackWindowFactory.Create();
 
-        _mainWindow.RefreshLocalizedContent();
-        _mainWindow.RetrieveAndUpdateDpiScaleFactor();
-        _mainWindow.ConfigureAppWindow();
-        _mainWindow.ConfigureSettingsTitleBar();
-        _mainWindow.Activate();
+        _playbackWindow.Closed                += _playbackWindow_Closed;
+        _playbackWindow.SettingsButtonClicked += _playbackWindow_SettingsButtonClicked;
+
+        _playbackWindow.Activate();
     }
 
     private void CreateSettingsWindow()
     {
-        _settingsWindow = new SettingsWindow(_resourceService);
+        _settingsWindow = _settingsWindowFactory.Create();
 
-        RegisterSettingsWindowEventHandlers();
+        _settingsWindow.Closed += _settingsWindow_Closed;
 
-        _settingsWindow.ConfigureAppWindow();
-        _settingsWindow.ConfigureSettingsTitleBar();
-        _settingsWindow.RefreshLocalizedContent();
         _settingsWindow.Activate();
-    }
-
-    private void RegisterEventHandlers()
-    {
-        _themeService.CurrentSystemBackdropChanged += _themeService_CurrentSystemBackdropChanged;
-        _themeService.CurrentThemeChanged          += _themeService_CurrentThemeChanged;
-    }
-
-    private void RegisterSettingsWindowEventHandlers()
-    {
-        _settingsWindow!.ApplicationThemeChanged += _settingsWindow_ApplicationThemeChanged;
-        _settingsWindow.Closed                   += _settingsWindow_Closed;
-        _settingsWindow.SystemBackdropChanged    += _settingsWindow_SystemBackdropChanged;
     }
 
     private void RestorePlaybackWindow()
     {
-        _mainWindow!.Restore();
-        _mainWindow.Focus();
+        if (_playbackWindow is null) return;
+
+        _playbackWindow.Restore();
+        _playbackWindow.Focus();
     }
 
     private void RestoreSettingsWindow()
     {
-        _settingsWindow!.Restore();
+        if (_settingsWindow is null) return;
+
+        _settingsWindow.Restore();
         _settingsWindow.Focus();
-    }
-
-    private void UnregisterSettingsWindowEventHandlers()
-    {
-        _settingsWindow!.ApplicationThemeChanged -= _settingsWindow_ApplicationThemeChanged;
-        _settingsWindow.SystemBackdropChanged    -= _settingsWindow_SystemBackdropChanged;
-
-        _settingsWindow = null;
     }
 
     /// <summary>
@@ -148,7 +106,7 @@ internal sealed class WindowService
     /// </summary>
     public void ShowPlaybackWindow()
     {
-        if (_mainWindow?.HasClosed is false)
+        if (_playbackWindow?.HasClosed is false)
         {
             RestorePlaybackWindow();
 

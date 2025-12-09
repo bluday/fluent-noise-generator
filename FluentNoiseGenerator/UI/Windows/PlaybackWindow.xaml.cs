@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using System.Globalization;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -42,13 +43,15 @@ public sealed partial class PlaybackWindow : Window
 
     private double _dpiScaleFactor;
 
-    private readonly Action _settingsWindowFactory;
-
     private readonly InputNonClientPointerSource _nonClientPointerSource;
 
     private readonly OverlappedPresenter _overlappedPresenter = OverlappedPresenter.Create();
 
+    private readonly LanguageService _languageService;
+
     private readonly ResourceService _resourceService;
+
+    private readonly ThemeService _themeService;
     #endregion
 
     #region Properties
@@ -65,9 +68,9 @@ public sealed partial class PlaybackWindow : Window
 
     #region Events
     /// <summary>
-    /// Triggers when a new settings window has been created.
+    /// Triggers when the settings button has been clicked.
     /// </summary>
-    public event EventHandler SettingsWindowCreated = delegate { };
+    public event EventHandler SettingsButtonClicked = delegate { };
     #endregion
 
     #region Constructor
@@ -79,38 +82,64 @@ public sealed partial class PlaybackWindow : Window
     /// This parameterless constructor is required for design-time support in Visual Studio and
     /// to play nice with the XAML designer.
     /// </remarks>
-    public PlaybackWindow() : this(null!, null!) { }
+    public PlaybackWindow() : this(null!, null!, null!) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackWindow"/> class using the specified
     /// resource service instance.
     /// </summary>
-    /// <param name="resourceService">
-    /// A <see cref="ResourceService"/> instance for accessing common application resources.
+    /// <param name="languageService">
+    /// The language service for retrieving and updating application language info.
     /// </param>
-    /// <param name="settingsWindowFactory">
-    /// A factory for creating or restoring the settings window.
+    /// <param name="resourceService">
+    /// The resource service for retrieving application resources.
+    /// </param>
+    /// <param name="themeService">
+    /// The theme service for retrieving and updating the current application theme.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when one of the parameters is <c>null</c>.
+    /// Thrown when any of the specified parameters are <c>null</c>.
     /// </exception>
-    public PlaybackWindow(ResourceService resourceService, Action settingsWindowFactory)
+    public PlaybackWindow(
+        LanguageService languageService,
+        ResourceService resourceService,
+        ThemeService    themeService)
     {
-        ArgumentNullException.ThrowIfNull(resourceService);
-        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
-
-        _resourceService       = resourceService;
-        _settingsWindowFactory = settingsWindowFactory;
-
         _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
 
-        Closed += PlaybackWindow_Closed;
+        _languageService = languageService;
+        _resourceService = resourceService;
+        _themeService    = themeService;
 
+        RegisterEventHanders();
+        RetrieveAndUpdateDpiScaleFactor();
+        ConfigureAppWindow();
+        RefreshLocalizedContent();
         InitializeComponent();
+        ConfigureTitleBar();
     }
     #endregion
 
     #region Event handlers
+    private void _languageService_CurrentCultureInfoChanged(CultureInfo? value)
+    {
+        RefreshLocalizedContent();
+    }
+
+    private void _themeService_CurrentThemeChanged(ElementTheme value)
+    {
+        layoutRoot.RequestedTheme = value;
+
+        RefreshBackgroundBrush();
+    }
+
+    private void _themeService_CurrentSystemBackdropChanged(SystemBackdrop? value)
+    {
+        SystemBackdrop = value;
+
+        RefreshBackgroundBrush();
+    }
+
     private void layoutRoot_LayoutUpdated(object sender, object e)
     {
         UpdateNonClientInputRegions();
@@ -128,7 +157,7 @@ public sealed partial class PlaybackWindow : Window
 
     private void playbackTopBar_SettingsButtonClicked(object sender, EventArgs e)
     {
-        _settingsWindowFactory();
+        SettingsButtonClicked.Invoke(this, EventArgs.Empty);
     }
 
     private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
@@ -140,11 +169,74 @@ public sealed partial class PlaybackWindow : Window
     #region Methods
     private void ApplyLocalizedContent()
     {
-        // TODO: Use localied strings.
-
         if (_resourceLoader is null) return;
 
         Title = _resourceLoader.GetString("General/AppDisplayName");
+    }
+
+    private void ConfigureAppWindow()
+    {
+        _overlappedPresenter.IsAlwaysOnTop = true;
+        _overlappedPresenter.IsMaximizable = false;
+        _overlappedPresenter.IsMinimizable = true;
+        _overlappedPresenter.IsResizable   = false;
+
+        _overlappedPresenter.SetBorderAndTitleBar(true, false);
+
+        AppWindow.SetPresenter(_overlappedPresenter);
+        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        AppWindow.MoveToCenter();
+    }
+
+    private void ConfigureTitleBar()
+    {
+        AppWindow.SetIcon(_resourceService.AppIconPath);
+
+        ExtendsContentIntoTitleBar = true;
+
+        SetTitleBar(playbackTopBar);
+    }
+
+    private void RefreshBackgroundBrush()
+    {
+        if (SystemBackdrop is not null)
+        {
+            layoutRoot.Background = null;
+
+            return;
+        }
+
+        layoutRoot.Background = new SolidColorBrush(
+            layoutRoot.RequestedTheme is ElementTheme.Light
+                ? Colors.White
+                : Colors.Black
+        );
+    }
+
+    private void RefreshLocalizedContent()
+    {
+        _resourceLoader = new ResourceLoader();
+
+        ApplyLocalizedContent();
+    }
+
+    private void RegisterEventHanders()
+    {
+        _languageService?.CurrentCultureInfoChanged += _languageService_CurrentCultureInfoChanged;
+
+        _themeService?.CurrentSystemBackdropChanged += _themeService_CurrentSystemBackdropChanged;
+        _themeService?.CurrentThemeChanged          += _themeService_CurrentThemeChanged;
+
+        Closed += PlaybackWindow_Closed;
+    }
+
+    private void RetrieveAndUpdateDpiScaleFactor()
+    {
+        var hwnd = (HWND)WindowNative.GetWindowHandle(this);
+
+        uint value = PInvoke.GetDpiForWindow(hwnd);
+
+        _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
     }
 
     private void TogglePlayback()
@@ -154,6 +246,16 @@ public sealed partial class PlaybackWindow : Window
         IsPlaying = isPlaying;
 
         playbackControlPanel.IsPlaying = isPlaying;
+    }
+
+    private void UnregisterEventHanders()
+    {
+        _languageService?.CurrentCultureInfoChanged -= _languageService_CurrentCultureInfoChanged;
+
+        _themeService?.CurrentSystemBackdropChanged -= _themeService_CurrentSystemBackdropChanged;
+        _themeService?.CurrentThemeChanged          -= _themeService_CurrentThemeChanged;
+
+        Closed -= PlaybackWindow_Closed;
     }
 
     private void UpdateNonClientInputRegions()
@@ -185,37 +287,6 @@ public sealed partial class PlaybackWindow : Window
     }
 
     /// <summary>
-    /// Applies configuration to the underlying, native window specific to the playback window.
-    /// </summary>
-    public void ConfigureAppWindow()
-    {
-        _overlappedPresenter.IsAlwaysOnTop = true;
-        _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = true;
-        _overlappedPresenter.IsResizable   = false;
-
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
-
-        AppWindow.SetPresenter(_overlappedPresenter);
-        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
-        AppWindow.MoveToCenter();
-    }
-
-    /// <summary>
-    /// Configures the native title bar and specifies the custom <see cref="PlaybackTopBar"/>
-    /// control as the primary title bar to ensure that the bounds for the custom title bar
-    /// is set correctly.
-    /// </summary>
-    public void ConfigureSettingsTitleBar()
-    {
-        AppWindow.SetIcon(_resourceService.AppIconPath);
-
-        ExtendsContentIntoTitleBar = true;
-
-        SetTitleBar(playbackTopBar);
-    }
-
-    /// <summary>
     /// Programmatically focuses the root element of the window.
     /// </summary>
     /// <remarks>
@@ -226,84 +297,10 @@ public sealed partial class PlaybackWindow : Window
         Content?.Focus(FocusState.Programmatic);
     }
 
-    /// <summary>
-    /// Updates the background brush of the root element based on its current
-    /// <see cref="FrameworkElement.RequestedTheme"/> value.
-    /// </summary>
-    public void RefreshBackgroundBrush()
-    {
-        if (SystemBackdrop is not null)
-        {
-            layoutRoot.Background = null;
-
-            return;
-        }
-
-        layoutRoot.Background = new SolidColorBrush(
-            layoutRoot.RequestedTheme is ElementTheme.Light
-                ? Colors.White
-                : Colors.Black
-        );
-    }
-
-    /// <summary>
-    /// Creates a new <see cref="ResourceLoader"/> instances and refreshes all named values
-    /// with localized strings from the new resource loader.
-    /// </summary>
-    /// <remarks>
-    /// This enables complete and real-time update of localized content, rather than forcing
-    /// the user to restart the whole application after updating the application language.
-    /// </remarks>
-    public void RefreshLocalizedContent()
-    {
-        _resourceLoader = new ResourceLoader();
-
-        ApplyLocalizedContent();
-    }
-
-    /// <summary>
-    /// Retrieves and updates the current DPI scale factor based on the set DPI value of the
-    /// display that the window currently is displayed on.
-    /// </summary>
-    public void RetrieveAndUpdateDpiScaleFactor()
-    {
-        var hwnd = (HWND)WindowNative.GetWindowHandle(this);
-
-        uint value = PInvoke.GetDpiForWindow(hwnd);
-
-        _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
-    }
-
     /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
     public void Restore()
     {
         _overlappedPresenter.Restore();
-    }
-
-    /// <summary>
-    /// Updates the current theme within the window using the specified value.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="ElementTheme"/> to apply on the window.
-    /// </param>
-    public void UpdateRequestedTheme(ElementTheme value)
-    {
-        (Content as FrameworkElement)?.RequestedTheme = value;
-
-        RefreshBackgroundBrush();
-    }
-
-    /// <summary>
-    /// Updates the current system backdrop within the window using the specified value.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="SystemBackdrop"/> to apply on the window.
-    /// </param>
-    public void UpdateSystemBackdrop(SystemBackdrop? value)
-    {
-        SystemBackdrop = value;
-
-        RefreshBackgroundBrush();
     }
     #endregion
 }
