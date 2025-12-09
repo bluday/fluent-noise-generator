@@ -6,7 +6,7 @@ namespace FluentNoiseGenerator.Services;
 /// <summary>
 /// Service for managing the current theme of the application.
 /// </summary>
-internal sealed class ThemeService
+public sealed class ThemeService
 {
     #region Fields
     private SystemBackdrop? _currentSystemBackdrop;
@@ -46,7 +46,7 @@ internal sealed class ThemeService
 
     #region Delegates
     /// <summary>
-    /// The method that will handle the system backdrop change event.
+    /// Method signature for the <see cref="CurrentSystemBackdropChanged"/> event.
     /// </summary>
     /// <param name="value">
     /// The new <see cref="SystemBackdrop"/> that is being applied.
@@ -54,7 +54,7 @@ internal sealed class ThemeService
     public delegate void CurrentSystemBackdropChangedHandler(SystemBackdrop? value);
 
     /// <summary>
-    /// The method that will handle the theme change event.
+    /// Method signature for the <see cref="CurrentThemeChanged"/> event.
     /// </summary>
     /// <param name="value">
     /// The new <see cref="ElementTheme"/> that is being applied.
@@ -66,22 +66,11 @@ internal sealed class ThemeService
     /// <summary>
     /// Fires when <see cref="CurrentTheme"/> gets updated.
     /// </summary>
-    public event CurrentThemeChangedHandler CurrentThemeChanged;
+    public event CurrentThemeChangedHandler CurrentThemeChanged = delegate { };
 
     /// <summary>
     /// Fires when <see cref="CurrentSystemBackdrop"/> gets updated.
     /// </summary>
-    public event CurrentSystemBackdropChangedHandler CurrentSystemBackdropChanged;
-    #endregion
-
-    #region Constructor
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ThemeService"/> class.
-    /// </summary>
-    internal ThemeService()
-    {
-        CurrentSystemBackdropChanged = delegate { };
-        CurrentThemeChanged          = delegate { };
-    }
+    public event CurrentSystemBackdropChangedHandler CurrentSystemBackdropChanged = delegate { };
     #endregion
 }
