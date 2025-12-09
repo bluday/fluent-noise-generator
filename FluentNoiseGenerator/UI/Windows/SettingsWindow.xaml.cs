@@ -81,6 +81,19 @@ public sealed partial class SettingsWindow : Window
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
     public bool HasClosed => _hasClosed;
+
+    /// <summary>
+    /// Gets a displayable application version text.
+    /// </summary>
+    public string ApplicationVersionText
+    {
+        get
+        {
+            PackageVersion version = Package.Current.Id.Version;
+
+            return $"{version.Major}.{version.Minor}";
+        }
+    }
     #endregion
 
     #region Events
@@ -261,8 +274,6 @@ public sealed partial class SettingsWindow : Window
         AboutSettingsExpander.Header      = displayName;
         AboutSettingsExpander.Description = _resourceLoader.GetString("General/CopyrightText");
 
-        ApplicationVersionTextBlock.Text = GetApplicationVersionText();
-
         SessionIdentifierSettingsCard.Header = string.Format(
             format: _resourceLoader.GetString("SettingsWindow/About/SessionIdentifierFormatString"),
             args:   [Guid.Empty]
@@ -272,13 +283,6 @@ public sealed partial class SettingsWindow : Window
         SendFeedbackHyperlinkButton.Content           = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/SendFeedback");
         RepositoryOnGitHubHyperlinkButton.NavigateUri = new Uri(_resourceLoader.GetString("General/GitHubRepositoryUrl"));
         SendFeedbackHyperlinkButton.NavigateUri       = new Uri(_resourceLoader.GetString("General/SendFeedbackUrl"));
-    }
-
-    private string GetApplicationVersionText()
-    {
-        PackageVersion version = Package.Current.Id.Version;
-
-        return $"{version.Major}.{version.Minor}";
     }
 
     private string GetDisplayableAudioSampleRateString(int value)
