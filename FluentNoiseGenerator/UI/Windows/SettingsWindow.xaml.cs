@@ -193,7 +193,7 @@ public sealed partial class SettingsWindow : Window
     #endregion
 
     #region Event handlers
-    private void AvailableApplicationThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void availableApplicationThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
         {
@@ -201,7 +201,7 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void AvailableLanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void availableLanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
         {
@@ -211,7 +211,7 @@ public sealed partial class SettingsWindow : Window
         }
     }
 
-    private void AvailableSystemBackdropsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void availableSystemBackdropsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
         {
@@ -235,54 +235,54 @@ public sealed partial class SettingsWindow : Window
 
         Title = settingsText;
 
-        TitleBar.Title = displayName;
+        titleBar.Title = displayName;
 
-        HeaderTextBlock.Text = settingsText;
+        headerTextBlock.Text = settingsText;
 
-        AppearanceSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Appearance");
+        appearanceSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Appearance");
 
-        AlwaysOnTopSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Header");
-        AlwaysOnTopSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Description");
+        alwaysOnTopSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Header");
+        alwaysOnTopSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Description");
 
-        ApplicationThemeSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Header");
-        ApplicationThemeSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Description");
+        applicationThemeSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Header");
+        applicationThemeSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Description");
 
-        SystemBackdropSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Header");
-        SystemBackdropSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Description");
+        systemBackdropSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Header");
+        systemBackdropSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Description");
 
-        GeneralSettingsSectionHeader.Text = _resourceLoader.GetString("Common/General");
+        generalSettingsSectionHeader.Text = _resourceLoader.GetString("Common/General");
 
-        AutoplayOnLaunchSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Header");
-        AutoplayOnLaunchSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Description");
+        autoplayOnLaunchSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Header");
+        autoplayOnLaunchSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Description");
 
-        AutoplayOnLaunchToggleSwitch.OnContent  = _resourceLoader.GetString("Common/On");
-        AutoplayOnLaunchToggleSwitch.OffContent = _resourceLoader.GetString("Common/Off");
+        autoplayOnLaunchToggleSwitch.OnContent  = _resourceLoader.GetString("Common/On");
+        autoplayOnLaunchToggleSwitch.OffContent = _resourceLoader.GetString("Common/Off");
 
-        DefaultNoisePresetSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Header");
-        DefaultNoisePresetSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Description");
+        defaultNoisePresetSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Header");
+        defaultNoisePresetSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Description");
 
-        LanguageSettingsCard.Header      = _resourceLoader.GetString("Common/Language");
-        LanguageSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/Language/Description");
+        languageSettingsCard.Header      = _resourceLoader.GetString("Common/Language");
+        languageSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/Language/Description");
 
-        SoundSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Sound");
+        soundSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Sound");
 
-        AudioSampleRateSettingsCard.Header      = _resourceLoader.GetString("Common/SampleRate");
-        AudioSampleRateSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Sound/SampleRate/Description");
+        audioSampleRateSettingsCard.Header      = _resourceLoader.GetString("Common/SampleRate");
+        audioSampleRateSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Sound/SampleRate/Description");
 
-        AboutSettingsSectionHeader.Text = _resourceLoader.GetString("Common/About");
+        aboutSettingsSectionHeader.Text = _resourceLoader.GetString("Common/About");
 
-        AboutSettingsExpander.Header      = displayName;
-        AboutSettingsExpander.Description = _resourceLoader.GetString("General/CopyrightText");
+        aboutSettingsExpander.Header      = displayName;
+        aboutSettingsExpander.Description = _resourceLoader.GetString("General/CopyrightText");
 
-        SessionIdentifierSettingsCard.Header = string.Format(
+        sessionIdentifierSettingsCard.Header = string.Format(
             format: _resourceLoader.GetString("SettingsWindow/About/SessionIdentifierFormatString"),
             args:   [Guid.Empty]
         );
 
-        RepositoryOnGitHubHyperlinkButton.Content     = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
-        SendFeedbackHyperlinkButton.Content           = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/SendFeedback");
-        RepositoryOnGitHubHyperlinkButton.NavigateUri = new Uri(_resourceLoader.GetString("General/GitHubRepositoryUrl"));
-        SendFeedbackHyperlinkButton.NavigateUri       = new Uri(_resourceLoader.GetString("General/SendFeedbackUrl"));
+        repositoryOnGitHubHyperlinkButton.Content     = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
+        sendFeedbackHyperlinkButton.Content           = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/SendFeedback");
+        repositoryOnGitHubHyperlinkButton.NavigateUri = new Uri(_resourceLoader.GetString("General/GitHubRepositoryUrl"));
+        sendFeedbackHyperlinkButton.NavigateUri       = new Uri(_resourceLoader.GetString("General/SendFeedbackUrl"));
     }
 
     private string GetDisplayableAudioSampleRateString(int value)
@@ -318,11 +318,11 @@ public sealed partial class SettingsWindow : Window
 
         AppWindow.SetIcon(iconPath);
 
-        TitleBar.Icon = iconPath;
+        titleBar.Icon = iconPath;
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(TitleBar);
+        SetTitleBar(titleBar);
     }
 
     /// <summary>
@@ -333,13 +333,13 @@ public sealed partial class SettingsWindow : Window
     {
         if (SystemBackdrop is not null)
         {
-            LayoutRoot.Background = null;
+            layoutRoot.Background = null;
 
             return;
         }
 
-        LayoutRoot.Background = new SolidColorBrush(
-            LayoutRoot.RequestedTheme is ElementTheme.Light
+        layoutRoot.Background = new SolidColorBrush(
+            layoutRoot.RequestedTheme is ElementTheme.Light
                 ? Colors.White
                 : Colors.Black
         );

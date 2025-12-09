@@ -111,27 +111,27 @@ public sealed partial class PlaybackWindow : Window
     #endregion
 
     #region Event handlers
+    private void layoutRoot_LayoutUpdated(object sender, object e)
+    {
+        UpdateNonClientInputRegions();
+    }
+
+    private void playbackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
+    {
+        TogglePlayback();
+    }
+
     private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
     {
         _hasClosed = true;
     }
 
-    private void LayoutRoot_LayoutUpdated(object sender, object e)
-    {
-        UpdateNonClientInputRegions();
-    }
-
-    private void PlaybackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
-    {
-        TogglePlayback();
-    }
-
-    private void TopActionBar_CloseButtonClicked(object sender, EventArgs e)
+    private void topActionBar_CloseButtonClicked(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void TopActionBar_SettingsButtonClicked(object sender, EventArgs e)
+    private void topActionBar_SettingsButtonClicked(object sender, EventArgs e)
     {
         _settingsWindowFactory();
     }
@@ -153,7 +153,7 @@ public sealed partial class PlaybackWindow : Window
 
         IsPlaying = isPlaying;
 
-        PlaybackControlPanel.IsPlaying = isPlaying;
+        playbackControlPanel.IsPlaying = isPlaying;
     }
 
     private void UpdateNonClientInputRegions()
@@ -175,12 +175,12 @@ public sealed partial class PlaybackWindow : Window
          * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
         _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [
-            TopActionBar.GetBoundingBox(_dpiScaleFactor)
+            topActionBar.GetBoundingBox(_dpiScaleFactor)
         ]);
 
         _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, [
-            TopActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-            TopActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+            topActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+            topActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
         ]);
     }
 
@@ -212,7 +212,7 @@ public sealed partial class PlaybackWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(TopActionBar);
+        SetTitleBar(topActionBar);
     }
 
     /// <summary>
@@ -234,13 +234,13 @@ public sealed partial class PlaybackWindow : Window
     {
         if (SystemBackdrop is not null)
         {
-            LayoutRoot.Background = null;
+            layoutRoot.Background = null;
 
             return;
         }
 
-        LayoutRoot.Background = new SolidColorBrush(
-            LayoutRoot.RequestedTheme is ElementTheme.Light
+        layoutRoot.Background = new SolidColorBrush(
+            layoutRoot.RequestedTheme is ElementTheme.Light
                 ? Colors.White
                 : Colors.Black
         );
