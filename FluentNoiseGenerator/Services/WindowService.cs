@@ -93,7 +93,7 @@ internal sealed class WindowService
         _mainWindow.RefreshLocalizedContent();
         _mainWindow.RetrieveAndUpdateDpiScaleFactor();
         _mainWindow.ConfigureAppWindow();
-        _mainWindow.ConfigureTitleBar();
+        _mainWindow.ConfigureSettingsTitleBar();
         _mainWindow.Activate();
     }
 
@@ -104,7 +104,7 @@ internal sealed class WindowService
         RegisterSettingsWindowEventHandlers();
 
         _settingsWindow.ConfigureAppWindow();
-        _settingsWindow.ConfigureTitleBar();
+        _settingsWindow.ConfigureSettingsTitleBar();
         _settingsWindow.RefreshLocalizedContent();
         _settingsWindow.Activate();
     }

@@ -235,7 +235,7 @@ public sealed partial class SettingsWindow : Window
 
         Title = settingsText;
 
-        titleBar.Title = displayName;
+        settingsTitleBar.Title = displayName;
 
         headerTextBlock.Text = settingsText;
 
@@ -308,21 +308,21 @@ public sealed partial class SettingsWindow : Window
     }
 
     /// <summary>
-    /// Configures the native title bar and specifies the custom <see cref="TitleBar"/>
+    /// Configures the native title bar and specifies the custom <see cref="SettingsTitleBar"/>
     /// control as the primary title bar to ensure that the bounds for the custom title bar
     /// is set correctly.
     /// </summary>
-    public void ConfigureTitleBar()
+    public void ConfigureSettingsTitleBar()
     {
         string iconPath = _resourceService.AppIconPath;
 
         AppWindow.SetIcon(iconPath);
 
-        titleBar.Icon = iconPath;
+        settingsTitleBar.Icon = iconPath;
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(titleBar);
+        SetTitleBar(settingsTitleBar);
     }
 
     /// <summary>
@@ -361,7 +361,7 @@ public sealed partial class SettingsWindow : Window
     }
 
     /// <summary>
-    /// Refreshes 
+    /// Updates all title bar colors according to the current application theme.
     /// </summary>
     public void RefreshTitleBarColors()
     {

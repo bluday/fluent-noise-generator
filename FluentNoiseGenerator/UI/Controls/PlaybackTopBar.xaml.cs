@@ -6,42 +6,45 @@ using Windows.Graphics;
 namespace FluentNoiseGenerator.UI.Controls;
 
 /// <summary>
-/// Interaction logic for TopActionBar.xaml.
+/// Interaction logic for PlaybackTopBar.xaml.
 /// </summary>
-public sealed partial class TopActionBar : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserControl
 {
+    #region Events
     /// <summary>
     /// Triggered when the close button is clicked.
     /// </summary>
-    public event EventHandler CloseButtonClicked;
+    public event EventHandler CloseButtonClicked = delegate { };
 
     /// <summary>
     /// Triggered when the settings button is clicked.
     /// </summary>
-    public event EventHandler SettingsButtonClicked;
+    public event EventHandler SettingsButtonClicked = delegate { };
+    #endregion
 
+    #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="TopActionBar"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackTopBar"/> class.
     /// </summary>
-    public TopActionBar()
+    public PlaybackTopBar()
     {
-        CloseButtonClicked = (sender, e) => { };
-
-        SettingsButtonClicked = (sender, e) => { };
-
         InitializeComponent();
     }
+    #endregion
 
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    #region Event handlers
+    private void closeButton_Click(object sender, RoutedEventArgs e)
     {
         CloseButtonClicked.Invoke(this, EventArgs.Empty);
     }
 
-    private void SettingsButton_Click(object sender, RoutedEventArgs e)
+    private void settingsButton_Click(object sender, RoutedEventArgs e)
     {
         SettingsButtonClicked.Invoke(this, EventArgs.Empty);
     }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// Gets the bounding box for the settings button.
     /// </summary>
@@ -53,7 +56,7 @@ public sealed partial class TopActionBar : Microsoft.UI.Xaml.Controls.UserContro
     /// </returns>
     public RectInt32 GetBoundingRectForCloseButton(double scaleFactor)
     {
-        return CloseButton.GetBoundingBox(scaleFactor);
+        return closeButton.GetBoundingBox(scaleFactor);
     }
 
     /// <inheritdoc cref="GetBoundingRectForCloseButton(double)"/>
@@ -62,6 +65,7 @@ public sealed partial class TopActionBar : Microsoft.UI.Xaml.Controls.UserContro
     /// </summary>
     public RectInt32 GetBoundingRectForSettingsButton(double scaleFactor)
     {
-        return SettingsButton.GetBoundingBox(scaleFactor);
+        return settingsButton.GetBoundingBox(scaleFactor);
     }
+    #endregion
 }

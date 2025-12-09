@@ -121,19 +121,19 @@ public sealed partial class PlaybackWindow : Window
         TogglePlayback();
     }
 
-    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-
-    private void topActionBar_CloseButtonClicked(object sender, EventArgs e)
+    private void playbackTopBar_CloseButtonClicked(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void topActionBar_SettingsButtonClicked(object sender, EventArgs e)
+    private void playbackTopBar_SettingsButtonClicked(object sender, EventArgs e)
     {
         _settingsWindowFactory();
+    }
+
+    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
+    {
+        _hasClosed = true;
     }
     #endregion
 
@@ -172,15 +172,15 @@ public sealed partial class PlaybackWindow : Window
          * without making external calls to the Win32 API.
          * 
          * I am lazy and this is the easiest way of specifying drag regions after setting title
-         * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
+         * bar to false using <see cref="OverlappedPresenter.SetBorderAndSettingsTitleBar(bool, bool)"/>.
          */
         _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [
-            topActionBar.GetBoundingBox(_dpiScaleFactor)
+            playbackTopBar.GetBoundingBox(_dpiScaleFactor)
         ]);
 
         _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, [
-            topActionBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-            topActionBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+            playbackTopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+            playbackTopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
         ]);
     }
 
@@ -202,17 +202,17 @@ public sealed partial class PlaybackWindow : Window
     }
 
     /// <summary>
-    /// Configures the native title bar and specifies the custom <see cref="TopActionBar"/>
+    /// Configures the native title bar and specifies the custom <see cref="PlaybackTopBar"/>
     /// control as the primary title bar to ensure that the bounds for the custom title bar
     /// is set correctly.
     /// </summary>
-    public void ConfigureTitleBar()
+    public void ConfigureSettingsTitleBar()
     {
         AppWindow.SetIcon(_resourceService.AppIconPath);
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(topActionBar);
+        SetTitleBar(playbackTopBar);
     }
 
     /// <summary>

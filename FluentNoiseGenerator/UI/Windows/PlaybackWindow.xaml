@@ -19,13 +19,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:TopActionBar x:Name="topActionBar"
-                               Grid.Row="0"
-                               Padding="4"
-                               BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-                               BorderThickness="0,0,0,1"
-                               CloseButtonClicked="topActionBar_CloseButtonClicked"
-                               SettingsButtonClicked="topActionBar_SettingsButtonClicked"/>
+        <controls:PlaybackTopBar x:Name="playbackTopBar"
+                                 Grid.Row="0"
+                                 Padding="4"
+                                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+                                 BorderThickness="0,0,0,1"
+                                 CloseButtonClicked="playbackTopBar_CloseButtonClicked"
+                                 SettingsButtonClicked="playbackTopBar_SettingsButtonClicked"/>
 
         <controls:PlaybackControlPanel x:Name="playbackControlPanel"
                                        Grid.Row="1"

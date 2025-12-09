@@ -5,17 +5,18 @@ using System;
 namespace FluentNoiseGenerator.UI.Controls;
 
 /// <summary>
-/// Interaction logic for TitleBar.xaml.
+/// Interaction logic for SettingsTitleBar.xaml.
 /// </summary>
-public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class SettingsTitleBar : Microsoft.UI.Xaml.Controls.UserControl
 {
+    #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="Icon"> dependency property.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
         nameof(Icon),
         typeof(ImageSource),
-        typeof(TitleBar),
+        typeof(SettingsTitleBar),
         new PropertyMetadata(null, OnIconChanged)
     );
 
@@ -25,10 +26,12 @@ public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
         nameof(Title),
         typeof(string),
-        typeof(TitleBar),
+        typeof(SettingsTitleBar),
         new PropertyMetadata(null, OnTitleChanged)
     );
+    #endregion
 
+    #region Properties
     /// <summary>
     /// Gets the image source for the icon.
     /// </summary>
@@ -46,31 +49,36 @@ public sealed partial class TitleBar : Microsoft.UI.Xaml.Controls.UserControl
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+    #endregion
 
+    #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="TitleBar"/> class.
+    /// Initializes a new instance of the <see cref="SettingsTitleBar"/> class.
     /// </summary>
-    public TitleBar()
+    public SettingsTitleBar()
     {
         InitializeComponent();
     }
+    #endregion
 
+    #region Methods
     private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var control = (TitleBar)d;
+        var control = (SettingsTitleBar)d;
 
         if (!Uri.TryCreate((string)e.NewValue, UriKind.Absolute, out Uri? uri))
         {
-            control.IconImage.Source = null;
+            control.iconImage.Source = null;
 
             return;
         }
 
-        control.IconImage.Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(uri);
+        control.iconImage.Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(uri);
     }
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((TitleBar)d).TitleTextBlock.Text = e.NewValue as string;
+        ((SettingsTitleBar)d).titleTextBlock.Text = e.NewValue as string;
     }
+    #endregion
 }
