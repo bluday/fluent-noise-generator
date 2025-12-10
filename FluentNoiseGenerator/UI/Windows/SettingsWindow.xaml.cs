@@ -4,7 +4,6 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Windows;
@@ -82,8 +81,8 @@ public sealed partial class SettingsWindow : Window
         _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
         _overlappedPresenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
 
-        AppWindow.SetPresenter(_overlappedPresenter);
-        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        _appWindow.SetPresenter(_overlappedPresenter);
+        _appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
     }
 
     private void ConfigureTitleBar()
