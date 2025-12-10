@@ -8,7 +8,8 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+        <Style BasedOn="{StaticResource DefaultButtonStyle}"
+               TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -33,7 +34,7 @@
 
         <Button x:Name="settingsButton"
                 Grid.Column="0"
-                Click="settingsButton_Click">
+                Command="{x:Bind SettingsButtonClickCommand}">
             <FontIcon Glyph="&#xe713;"/>
         </Button>
 
@@ -47,8 +48,9 @@
 
         <Button x:Name="closeButton"
                 Grid.Column="2"
-                Click="closeButton_Click">
-            <FontIcon FontSize="10" Glyph="&#xe8bb;"/>
+                Command="{x:Bind CloseButtonClickCommand}">
+            <FontIcon FontSize="10"
+                      Glyph="&#xe8bb;"/>
         </Button>
     </Grid>
 </UserControl>

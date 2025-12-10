@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentNoiseGenerator.Common;
+namespace FluentNoiseGenerator.Common.Localization;
 
 /// <summary>
 /// Represents a value of type <typeparamref name="TValue"/> with an optional displayable name
@@ -25,12 +25,6 @@ public readonly struct NamedValue<TValue>
     /// Gets the value stored in this <see cref="NamedValue{TValue}"/>.
     /// </summary>
     public TValue Value => _value;
-
-    /// <summary>
-    /// Gets the optional formatter function that can be used to convert the value to a string
-    /// when <see cref="ToString"/> is called. 
-    /// </summary>
-    public Func<TValue, string>? Formatter => _formatter;
     #endregion
 
     #region Constructors

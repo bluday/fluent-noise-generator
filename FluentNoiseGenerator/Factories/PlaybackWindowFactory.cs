@@ -1,4 +1,6 @@
-﻿using FluentNoiseGenerator.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.StringResources;
+using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
 
@@ -10,41 +12,32 @@ namespace FluentNoiseGenerator.Factories;
 internal sealed class PlaybackWindowFactory
 {
     #region Fields
-    private readonly LanguageService _languageService;
+    private readonly IMessenger _messenger;
 
-    private readonly ResourceService _resourceService;
-
-    private readonly ThemeService _themeService;
+    private readonly AppStringResources _stringResources;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackWindowFactory"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
+    /// specified string resource collection and event messenger.
     /// </summary>
-    /// <param name="languageService">
-    /// The language service for retrieving and updating application language info.
+    /// <param name="stringResources">
+    /// The string resource collection instance for retreiving localized resources.
     /// </param>
-    /// <param name="resourceService">
-    /// The resource service for retrieving application resources.
-    /// </param>
-    /// <param name="themeService">
-    /// The theme service for retrieving and updating the current application theme.
+    /// <param name="messenger">
+    /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when any of the specified parameters are <c>null</c>.
+    /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    internal PlaybackWindowFactory(
-        LanguageService languageService,
-        ResourceService resourceService,
-        ThemeService    themeService)
+    internal PlaybackWindowFactory(AppStringResources stringResources, IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(languageService);
-        ArgumentNullException.ThrowIfNull(resourceService);
-        ArgumentNullException.ThrowIfNull(themeService);
+        ArgumentNullException.ThrowIfNull(stringResources);
+        ArgumentNullException.ThrowIfNull(messenger);
 
-        _languageService = languageService;
-        _resourceService = resourceService;
-        _themeService    = themeService;
+        _messenger       = messenger;
+        _stringResources = stringResources;
     }
     #endregion
 
@@ -57,7 +50,13 @@ internal sealed class PlaybackWindowFactory
     /// </returns>
     public PlaybackWindow Create()
     {
-        return new(_languageService, _resourceService, _themeService);
+        return new()
+        {
+            ViewModel = new PlaybackViewModel(
+                _stringResources.PlaybackWindow,
+                _messenger
+            )
+        };
     }
     #endregion
 }

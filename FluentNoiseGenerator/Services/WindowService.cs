@@ -1,6 +1,8 @@
-﻿using FluentNoiseGenerator.Factories;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Extensions;
+using FluentNoiseGenerator.Factories;
+using FluentNoiseGenerator.Messages;
 using FluentNoiseGenerator.UI.Windows;
-using Microsoft.UI.Xaml;
 using System;
 
 namespace FluentNoiseGenerator.Services;
@@ -19,6 +21,8 @@ internal sealed class WindowService
     private readonly SettingsWindowFactory _settingsWindowFactory;
 
     private readonly PlaybackWindowFactory _playbackWindowFactory;
+
+    private readonly IMessenger _messenger;
     #endregion
 
     #region Constructor
@@ -31,73 +35,39 @@ internal sealed class WindowService
     /// <param name="settingsWindowFactory">
     /// The <see cref="SettingsWindowFactory"/> factory for creating new instances.
     /// </param>
+    /// <param name="messenger">
+    /// The messenger instance used for sending messages within the application.
+    /// This is typically a <see cref="WeakReferenceMessenger"/>.
+    /// </param>
     /// <exception cref="ArgumentNullException">
     /// Thrown when any of the specified parameters are <c>null</c>.
     /// </exception>
     internal WindowService(
         PlaybackWindowFactory playbackWindowFactory,
-        SettingsWindowFactory settingsWindowFactory)
+        SettingsWindowFactory settingsWindowFactory,
+        IMessenger            messenger)
     {
         ArgumentNullException.ThrowIfNull(playbackWindowFactory);
         ArgumentNullException.ThrowIfNull(settingsWindowFactory);
 
         _playbackWindowFactory = playbackWindowFactory;
         _settingsWindowFactory = settingsWindowFactory;
-    }
-    #endregion
+        _messenger             = messenger;
 
-    #region Event handlers
-    private void _playbackWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _playbackWindow!.Closed               -= _playbackWindow_Closed;
-        _playbackWindow.SettingsButtonClicked -= _playbackWindow_SettingsButtonClicked;
-    }
-
-    private void _playbackWindow_SettingsButtonClicked(object? sender, EventArgs e)
-    {
-        ShowSettingsWindow();
-    }
-
-    private void _settingsWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _settingsWindow!.Closed -= _settingsWindow_Closed;
+        _messenger.Register<OpenSettingsWindowMessage>(this, HandleOpenSettingsWindowMessage);
+        _messenger.Register<ClosePlaybackWindowMessage>(this, HandleClosePlaybackWindowMessage);
     }
     #endregion
 
     #region Methods
-    private void CreatePlaybackWindow()
+    private void HandleOpenSettingsWindowMessage(object recipient, OpenSettingsWindowMessage message)
     {
-        _playbackWindow = _playbackWindowFactory.Create();
-
-        _playbackWindow.Closed                += _playbackWindow_Closed;
-        _playbackWindow.SettingsButtonClicked += _playbackWindow_SettingsButtonClicked;
-
-        _playbackWindow.Activate();
+        ShowSettingsWindow();
     }
 
-    private void CreateSettingsWindow()
+    private void HandleClosePlaybackWindowMessage(object recipient, ClosePlaybackWindowMessage message)
     {
-        _settingsWindow = _settingsWindowFactory.Create();
-
-        _settingsWindow.Closed += _settingsWindow_Closed;
-
-        _settingsWindow.Activate();
-    }
-
-    private void RestorePlaybackWindow()
-    {
-        if (_playbackWindow is null) return;
-
-        _playbackWindow.Restore();
-        _playbackWindow.Focus();
-    }
-
-    private void RestoreSettingsWindow()
-    {
-        if (_settingsWindow is null) return;
-
-        _settingsWindow.Restore();
-        _settingsWindow.Focus();
+        _playbackWindow?.Close();
     }
 
     /// <summary>
@@ -108,12 +78,14 @@ internal sealed class WindowService
     {
         if (_playbackWindow?.HasClosed is false)
         {
-            RestorePlaybackWindow();
+            _playbackWindow.Restore();
 
             return;
         }
 
-        CreatePlaybackWindow();
+        _playbackWindow = _playbackWindowFactory.Create();
+
+        _playbackWindow.Activate();
     }
 
     /// <summary>
@@ -128,12 +100,14 @@ internal sealed class WindowService
     {
         if (_settingsWindow?.HasClosed is false)
         {
-            RestoreSettingsWindow();
+            _settingsWindow.Restore();
 
             return;
         }
 
-        CreateSettingsWindow();
+        _settingsWindow = _settingsWindowFactory.Create();
+
+        _settingsWindow.Activate();
     }
     #endregion
 }

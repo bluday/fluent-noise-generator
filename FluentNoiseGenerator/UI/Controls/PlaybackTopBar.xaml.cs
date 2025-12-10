@@ -1,6 +1,6 @@
 using FluentNoiseGenerator.Extensions;
 using Microsoft.UI.Xaml;
-using System;
+using System.Windows.Input;
 using Windows.Graphics;
 
 namespace FluentNoiseGenerator.UI.Controls;
@@ -10,16 +10,46 @@ namespace FluentNoiseGenerator.UI.Controls;
 /// </summary>
 public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserControl
 {
-    #region Events
+    #region Dependency properties
     /// <summary>
-    /// Triggered when the close button is clicked.
+    /// Identifies the <see cref="CloseButtonClickCommand"/> dependency property.
     /// </summary>
-    public event EventHandler CloseButtonClicked = delegate { };
+    public static readonly DependencyProperty CloseButtonClickCommandProperty = DependencyProperty.Register(
+        nameof(CloseButtonClickCommand),
+        typeof(ICommand),
+        typeof(PlaybackTopBar),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
-    /// Triggered when the settings button is clicked.
+    /// Identifies the <see cref="SettingsButtonClickCommand"/> dependency property.
     /// </summary>
-    public event EventHandler SettingsButtonClicked = delegate { };
+    public static readonly DependencyProperty SettingsButtonClickCommandProperty = DependencyProperty.Register(
+        nameof(SettingsButtonClickCommand),
+        typeof(ICommand),
+        typeof(PlaybackTopBar),
+        new PropertyMetadata(defaultValue: null)
+    );
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// Gets or sets the command to be executed when the close button gets clicked.
+    /// </summary>
+    public ICommand CloseButtonClickCommand
+    {
+        get => (ICommand)GetValue(CloseButtonClickCommandProperty);
+        set => SetValue(CloseButtonClickCommandProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the command to be executed when the settings button gets clicked.
+    /// </summary>
+    public ICommand SettingsButtonClickCommand
+    {
+        get => (ICommand)GetValue(SettingsButtonClickCommandProperty);
+        set => SetValue(SettingsButtonClickCommandProperty, value);
+    }
     #endregion
 
     #region Constructor
@@ -29,18 +59,6 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     public PlaybackTopBar()
     {
         InitializeComponent();
-    }
-    #endregion
-
-    #region Event handlers
-    private void closeButton_Click(object sender, RoutedEventArgs e)
-    {
-        CloseButtonClicked.Invoke(this, EventArgs.Empty);
-    }
-
-    private void settingsButton_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsButtonClicked.Invoke(this, EventArgs.Empty);
     }
     #endregion
 

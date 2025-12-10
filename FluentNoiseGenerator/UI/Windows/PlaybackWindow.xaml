@@ -5,6 +5,7 @@
         xmlns:controls="using:FluentNoiseGenerator.UI.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="{x:Bind ViewModel.StringResources.Title.Value}"
         x:DefaultBindMode="OneWay"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
@@ -24,11 +25,13 @@
                                  Padding="4"
                                  BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                                  BorderThickness="0,0,0,1"
-                                 CloseButtonClicked="playbackTopBar_CloseButtonClicked"
-                                 SettingsButtonClicked="playbackTopBar_SettingsButtonClicked"/>
+                                 CloseButtonClickCommand="{x:Bind ViewModel.CloseWindowCommand}"
+                                 SettingsButtonClickCommand="{x:Bind ViewModel.ShowSettingsCommand}"/>
 
-        <controls:PlaybackControlPanel x:Name="playbackControlPanel"
-                                       Grid.Row="1"
-                                       PlaybackButtonClicked="playbackControlPanel_PlaybackButtonClicked"/>
+        <controls:PlaybackControlPanel Grid.Row="1"
+                                       IsPlaying="{x:Bind ViewModel.IsPlaying}"
+                                       NoisePresetItemsSource="{x:Bind ViewModel.NoisePresets}"
+                                       PlaybackButtonClickCommand="{x:Bind ViewModel.TogglePlaybackCommand}"
+                                       Volume="{x:Bind ViewModel.CurrentVolume}"/>
     </Grid>
 </Window>

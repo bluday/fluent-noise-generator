@@ -1,5 +1,5 @@
 using Microsoft.UI.Xaml;
-using System;
+using System.Windows.Input;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
@@ -33,6 +33,36 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
             propertyChangedCallback: OnIsPlayingChanged
         )
     );
+
+    /// <summary>
+    /// Identifies the <see cref="NoisePresetItemsSource"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty NoisePresetItemsSourceProperty = DependencyProperty.Register(
+        nameof(NoisePresetItemsSource),
+        typeof(object),
+        typeof(PlaybackControlPanel),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="PlaybackButtonClickCommand"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty PlaybackButtonClickCommandProperty = DependencyProperty.Register(
+        nameof(PlaybackButtonClickCommand),
+        typeof(ICommand),
+        typeof(PlaybackControlPanel),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="Volume"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty VolumeProperty = DependencyProperty.Register(
+        nameof(Volume),
+        typeof(uint),
+        typeof(PlaybackControlPanel),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
     #region Properties
@@ -44,13 +74,33 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
         get => (bool)GetValue(IsPlayingProperty);
         set => SetValue(IsPlayingProperty, value);
     }
-    #endregion
 
-    #region Events
     /// <summary>
-    /// Invokes when the playback button has been clicked.
+    /// Gets or sets the items source instance for the noise preset collection.
     /// </summary>
-    public event EventHandler PlaybackButtonClicked = delegate { };
+    public object NoisePresetItemsSource
+    {
+        get => GetValue(NoisePresetItemsSourceProperty);
+        set => SetValue(NoisePresetItemsSourceProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the command to be executed when the close button gets clicked.
+    /// </summary>
+    public ICommand PlaybackButtonClickCommand
+    {
+        get => (ICommand)GetValue(PlaybackButtonClickCommandProperty);
+        set => SetValue(PlaybackButtonClickCommandProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the volume value as an unsigned integer.
+    /// </summary>
+    public uint Volume
+    {
+        get => (uint)GetValue(VolumeProperty);
+        set => SetValue(VolumeProperty, value);
+    }
     #endregion
 
     #region Constructor
@@ -71,13 +121,6 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
             stateName:      IsPlaying ? STATE_NAME_PLAYING : STATE_NAME_NORMAL,
             useTransitions: true
         );
-    }
-    #endregion
-
-    #region Event handlers
-    private void PlaybackButton_Click(object sender, RoutedEventArgs e)
-    {
-        PlaybackButtonClicked?.Invoke(this, EventArgs.Empty);
     }
     #endregion
 

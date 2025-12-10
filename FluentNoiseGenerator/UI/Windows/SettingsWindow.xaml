@@ -7,6 +7,8 @@
         xmlns:controls="using:FluentNoiseGenerator.UI.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="{x:Bind ViewModel.StringResources.WindowCaptionTitle.Value}"
+        x:DefaultBindMode="OneWay"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="Base"/>
@@ -18,132 +20,70 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsTitleBar x:Name="settingsTitleBar" Grid.Row="0"/>
+        <controls:SettingsTitleBar x:Name="settingsTitleBar"
+                                   Title="{x:Bind ViewModel.StringResources.InAppWindowTitle.Value}"
+                                   Grid.Row="0"
+                                   IconPath="{x:Bind ViewModel.TitleBarIconPath}"/>
 
-        <Grid Grid.Row="1" MaxWidth="800">
+        <Grid Grid.Row="1"
+              MaxWidth="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="headerTextBlock"
-                       Margin="32,24,32,16"
+            <TextBlock Margin="32,24,32,16"
                        VerticalAlignment="Center"
                        FontSize="24"
                        Style="{StaticResource TitleTextBlockStyle}"
-                       Text="Settings"
+                       Text="{x:Bind ViewModel.StringResources.Header.Value}"
                        TextLineBounds="Tight"/>
 
-            <ScrollViewer Grid.Row="1" Padding="32,0">
-                <StackPanel Orientation="Vertical" Spacing="16">
-                    <Grid Margin="0,8,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1"
+                          Padding="32,0">
+                <StackPanel Orientation="Vertical"
+                            Spacing="16">
+                    <controls:SettingsGeneralSection Margin="0,8,0,0"
+                                                     AutoplayOnLaunchSettingsCardDescription="{x:Bind ViewModel.StringResources.General.AutoplayOnLaunchSettingsCardDescription.Value}"
+                                                     AutoplayOnLaunchSettingsCardHeader="{x:Bind ViewModel.StringResources.General.AutoplayOnLaunchSettingsCardHeader.Value}"
+                                                     AutoplayOnLaunchToggleSwitchOff="{x:Bind ViewModel.StringResources.General.AutoplayOnLaunchToggleSwitchOff.Value}"
+                                                     AutoplayOnLaunchToggleSwitchOn="{x:Bind ViewModel.StringResources.General.AutoplayOnLaunchToggleSwitchOn.Value}"
+                                                     AvailableLanguages="{x:Bind ViewModel.AvailableLanguages}"
+                                                     AvailableNoisePresets="{x:Bind ViewModel.AvailableNoisePresets}"
+                                                     DefaultNoisePresetSettingsCardDescription="{x:Bind ViewModel.StringResources.General.DefaultNoisePresetSettingsCardDescription.Value}"
+                                                     DefaultNoisePresetSettingsCardHeader="{x:Bind ViewModel.StringResources.General.DefaultNoisePresetSettingsCardHeader.Value}"
+                                                     Header="{x:Bind ViewModel.StringResources.General.Header.Value}"
+                                                     LanguageSettingsCardDescription="{x:Bind ViewModel.StringResources.General.LanguageSettingsCardDescription.Value}"
+                                                     LanguageSettingsCardHeader="{x:Bind ViewModel.StringResources.General.LanguageSettingsCardHeader.Value}"/>
 
-                        <controls:SettingsSectionHeader x:Name="generalSettingsSectionHeader"
-                                                        Grid.Row="0"
-                                                        Glyph="&#xf8a6;"/>
+                    <controls:SettingsSoundSection AudioSampleRateSettingsCardDescription="{x:Bind ViewModel.StringResources.Sound.AudioSampleRateSettingsCardDescription.Value}"
+                                                   AudioSampleRateSettingsCardHeader="{x:Bind ViewModel.StringResources.Sound.AudioSampleRateSettingsCardHeader.Value}"
+                                                   AvailableAudioSampleRates="{x:Bind ViewModel.AvailableAudioSampleRates}"
+                                                   Header="{x:Bind ViewModel.StringResources.Sound.Header.Value}"/>
 
-                        <StackPanel Grid.Row="1" Spacing="2">
-                            <communityToolkitControls:SettingsCard x:Name="autoplayOnLaunchSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
-                                <ToggleSwitch x:Name="autoplayOnLaunchToggleSwitch"/>
-                            </communityToolkitControls:SettingsCard>
+                    <controls:SettingsAppearanceSection AlwaysOnTopSettingsCardDescription="{x:Bind ViewModel.StringResources.Appearance.AlwaysOnTopSettingsCardDescription.Value}"
+                                                        AlwaysOnTopSettingsCardHeader="{x:Bind ViewModel.StringResources.Appearance.AlwaysOnTopSettingsCardHeader.Value}"
+                                                        ApplicationThemeSettingsCardDescription="{x:Bind ViewModel.StringResources.Appearance.ApplicationThemeSettingsCardDescription.Value}"
+                                                        ApplicationThemeSettingsCardHeader="{x:Bind ViewModel.StringResources.Appearance.ApplicationThemeSettingsCardHeader.Value}"
+                                                        AvailableApplicationThemes="{x:Bind ViewModel.AvailableApplicationThemes}"
+                                                        AvailableSystemBackdrops="{x:Bind ViewModel.AvailableSystemBackdrops}"
+                                                        Header="{x:Bind ViewModel.StringResources.Appearance.Header.Value}"
+                                                        SystemBackdropSettingsCardDescription="{x:Bind ViewModel.StringResources.Appearance.SystemBackdropSettingsCardDescription.Value}"
+                                                        SystemBackdropSettingsCardHeader="{x:Bind ViewModel.StringResources.Appearance.SystemBackdropSettingsCardHeader.Value}"/>
 
-                            <communityToolkitControls:SettingsCard x:Name="defaultNoisePresetSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                                <ComboBox x:Name="availableNoisePresetsComboBox"
-                                          ItemsSource="{x:Bind AvailableNoisePresets}"
-                                          SelectedIndex="0"/>
-                            </communityToolkitControls:SettingsCard>
+                    <controls:SettingsAboutSection AboutDescription="{x:Bind ViewModel.StringResources.About.AboutDescription.Value}"
+                                                   AppDisplayName="{x:Bind ViewModel.StringResources.About.AppDisplayName.Value}"
+                                                   ApplicationVersionText="{x:Bind ViewModel.StringResources.About.ApplicationVersionText}"
+                                                   Header="{x:Bind ViewModel.StringResources.About.Header.Value}"
+                                                   SessionIdentifierFormatString="{x:Bind ViewModel.StringResources.About.SessionIdentifierFormatString.Value}"/>
 
-                            <communityToolkitControls:SettingsCard x:Name="languageSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                                <ComboBox x:Name="availableLanguagesComboBox"
-                                          ItemsSource="{x:Bind AvailableLanguages}"
-                                          SelectedIndex="0"
-                                          SelectionChanged="availableLanguagesComboBox_SelectionChanged"/>
-                            </communityToolkitControls:SettingsCard>
-                        </StackPanel>
-                    </Grid>
+                    <StackPanel Margin="0,8,0,32"
+                                Spacing="8">
+                        <HyperlinkButton Padding="0"
+                                         Content="{x:Bind ViewModel.StringResources.RepositoryOnGitHubHyperlinkButton.Value}"/>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <controls:SettingsSectionHeader x:Name="soundSettingsSectionHeader"
-                                                        Grid.Row="0"
-                                                        Glyph="&#xe8d6;"/>
-
-                        <StackPanel Grid.Row="1" Spacing="2">
-                            <communityToolkitControls:SettingsCard x:Name="audioSampleRateSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
-                                <ComboBox x:Name="availableAudioSampleRatesComboBox"
-                                          ItemsSource="{x:Bind AvailableAudioSampleRates}"
-                                          SelectedIndex="0"/>
-                            </communityToolkitControls:SettingsCard>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <controls:SettingsSectionHeader x:Name="appearanceSettingsSectionHeader"
-                                                        Grid.Row="0"
-                                                        Glyph="&#xead5;"/>
-
-                        <StackPanel Grid.Row="1" Spacing="2">
-                            <communityToolkitControls:SettingsCard x:Name="alwaysOnTopSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
-                                <ToggleSwitch x:Name="alwaysOnTopToggleSwitch"/>
-                            </communityToolkitControls:SettingsCard>
-
-                            <communityToolkitControls:SettingsCard x:Name="applicationThemeSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                                <ComboBox x:Name="availableApplicationThemesComboBox"
-                                          ItemsSource="{x:Bind AvailableApplicationThemes}"
-                                          SelectedIndex="0"
-                                          SelectionChanged="availableApplicationThemesComboBox_SelectionChanged"/>
-                            </communityToolkitControls:SettingsCard>
-
-                            <communityToolkitControls:SettingsCard x:Name="systemBackdropSettingsCard" HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
-                                <ComboBox x:Name="availableSystemBackdropsComboBox"
-                                          ItemsSource="{x:Bind AvailableSystemBackdrops}"
-                                          SelectedIndex="0"
-                                          SelectionChanged="availableSystemBackdropsComboBox_SelectionChanged"/>
-                            </communityToolkitControls:SettingsCard>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <controls:SettingsSectionHeader x:Name="aboutSettingsSectionHeader"
-                                                        Grid.Row="0"
-                                                        Glyph="&#xe946;"/>
-
-                        <StackPanel Grid.Row="1" Spacing="2">
-                            <communityToolkitControls:SettingsExpander x:Name="aboutSettingsExpander" HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
-                                <communityToolkitControls:SettingsExpander.Content>
-                                    <TextBlock x:Name="applicationVersionTextBlock"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind ApplicationVersionText}"/>
-                                </communityToolkitControls:SettingsExpander.Content>
-
-                                <communityToolkitControls:SettingsExpander.Items>
-                                    <communityToolkitControls:SettingsCard x:Name="sessionIdentifierSettingsCard"/>
-                                </communityToolkitControls:SettingsExpander.Items>
-                            </communityToolkitControls:SettingsExpander>
-                        </StackPanel>
-                    </Grid>
-
-                    <StackPanel Margin="0,8,0,32" Spacing="8">
-                        <HyperlinkButton x:Name="repositoryOnGitHubHyperlinkButton" Padding="0"/>
-                        <HyperlinkButton x:Name="sendFeedbackHyperlinkButton" Padding="0"/>
+                        <HyperlinkButton Padding="0"
+                                         Content="{x:Bind ViewModel.StringResources.SendFeedbackHyperlinkButton.Value}"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

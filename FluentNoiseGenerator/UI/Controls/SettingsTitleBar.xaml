@@ -12,16 +12,16 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="iconImage"
-               Grid.Column="0"
+        <Image Grid.Column="0"
                Width="16"
                Height="16"
                Margin="8,4"
-               VerticalAlignment="Center"/>
+               VerticalAlignment="Center"
+               Source="{x:Bind IconPath}"/>
 
-        <TextBlock x:Name="titleTextBlock"
-                   Grid.Column="1"
+        <TextBlock Grid.Column="1"
                    VerticalAlignment="Center"
-                   FontSize="12"/>
+                   FontSize="12"
+                   Text="{x:Bind Title}"/>
     </Grid>
 </UserControl>

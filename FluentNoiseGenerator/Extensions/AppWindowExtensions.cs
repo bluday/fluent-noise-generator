@@ -66,7 +66,7 @@ public static class AppWindowExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        source.Resize(new Windows.Graphics.SizeInt32(width, height));
+        source.Resize(new SizeInt32(width, height));
     }
 
     /// <summary>
@@ -86,6 +86,26 @@ public static class AppWindowExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        source.Resize(new Windows.Graphics.SizeInt32(size.Width, size.Height));
+        source.Resize(new SizeInt32(size.Width, size.Height));
+    }
+
+    /// <summary>
+    /// Restores the window on the desktop from the taskbar.
+    /// </summary>
+    /// <remarks>
+    /// This only works if the window uses a presenter of type <see cref="OverlappedPresenter"/>,
+    /// and will short circuit if it uses any other type of presenter.
+    /// </remarks>
+    /// <param name="source">
+    /// The targeted <see cref="AppWindow"/> instance to resize.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="source"/> is <c>null</c>.
+    /// </exception>
+    public static void Restore(this AppWindow source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        (source.Presenter as OverlappedPresenter)?.Restore();
     }
 }

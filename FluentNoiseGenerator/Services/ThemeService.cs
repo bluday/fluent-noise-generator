@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System;
 
 namespace FluentNoiseGenerator.Services;
 
@@ -12,6 +14,8 @@ public sealed class ThemeService
     private SystemBackdrop? _currentSystemBackdrop;
 
     private ElementTheme _currentTheme;
+
+    private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
@@ -72,5 +76,24 @@ public sealed class ThemeService
     /// Fires when <see cref="CurrentSystemBackdrop"/> gets updated.
     /// </summary>
     public event CurrentSystemBackdropChangedHandler CurrentSystemBackdropChanged = delegate { };
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThemeService"/> class.
+    /// </summary>
+    /// <param name="messenger">
+    /// The messenger instance used for sending messages within the application.
+    /// This is typically a <see cref="WeakReferenceMessenger"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws when any of the parameters is <c>null</c>.
+    /// </exception>
+    public ThemeService(IMessenger messenger)
+    {
+        ArgumentNullException.ThrowIfNull(messenger);
+
+        _messenger = messenger;
+    }
     #endregion
 }

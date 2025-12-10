@@ -1,19 +1,10 @@
-using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Extensions;
-using FluentNoiseGenerator.Services;
+using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.Windows.ApplicationModel.Resources;
-using Microsoft.Windows.Globalization;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Windows.ApplicationModel;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Windows;
@@ -23,7 +14,7 @@ namespace FluentNoiseGenerator.UI.Windows;
 /// </summary>
 public sealed partial class SettingsWindow : Window
 {
-    #region Constantsd
+    #region Constants
     /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
@@ -36,311 +27,56 @@ public sealed partial class SettingsWindow : Window
     #endregion
 
     #region Fields
-    private ResourceLoader? _resourceLoader;
+    private SettingsViewModel? _viewModel;
 
     private bool _hasClosed;
 
-    private readonly OverlappedPresenter _overlappedPresenter = OverlappedPresenter.Create();
+    private readonly AppWindow _appWindow;
 
-    private readonly LanguageService _languageService;
-
-    private readonly ResourceService _resourceService;
-
-    private readonly ThemeService _themeService;
+    private readonly OverlappedPresenter _overlappedPresenter;
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets a displayable application version text.
-    /// </summary>
-    public string ApplicationVersionText
-    {
-        get
-        {
-            PackageVersion version = Package.Current.Id.Version;
-
-            return $"{version.Major}.{version.Minor}";
-        }
-    }
-
-    /// <summary>
-    /// Gets a read-only collection of available, mapped application themes, with localized
-    /// keys.
-    /// </summary>
-    public IReadOnlyCollection<ResourceNamedValue<ElementTheme>> AvailableApplicationThemes { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of available, mapped audio sample rates, with localized
-    /// keys.
-    /// </summary>
-    public IReadOnlyCollection<NamedValue<int>> AvailableAudioSampleRates { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of available, mapped languages, with localized keys.
-    /// </summary>
-    public IReadOnlyCollection<NamedValue<CultureInfo>> AvailableLanguages { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of available, mapped noise presets, with localized keys.
-    /// </summary>
-    /// <remarks>
-    /// Value type of <see cref="string"/> is used for now, until a type for noise preset is
-    /// implemented.
-    /// </remarks>
-    public IReadOnlyCollection<ResourceNamedValue<string>> AvailableNoisePresets { get; }
-
-    /// <summary>
-    /// Gets a read-only collection of available, mapped system backdrops, with localized keys.
-    /// </summary>
-    public IReadOnlyCollection<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops { get; }
-
-    /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
     public bool HasClosed => _hasClosed;
+
+    /// <summary>
+    /// Gets or sets the view model instance associated with this window type.
+    /// </summary>
+    public SettingsViewModel? ViewModel
+    {
+        get => _viewModel;
+        set
+        {
+            _viewModel = value;
+
+            ConfigureTitleBar();
+        }
+    }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using default
-    /// paramaeter values.
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
     /// </summary>
-    /// <remarks>
-    /// This parameterless constructor is required for design-time support in Visual Studio and
-    /// to play nice with the XAML designer.
-    /// </remarks>
-    public SettingsWindow() : this(null!, null!, null!) { }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class using the specified
-    /// resource service instance.
-    /// </summary>
-    /// <param name="languageService">
-    /// The language service for retrieving and updating application language info.
-    /// </param>
-    /// <param name="resourceService">
-    /// The resource service for retrieving application resources.
-    /// </param>
-    /// <param name="themeService">
-    /// The theme service for retrieving and updating the current application theme.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when any of the specified parameters are <c>null</c>.
-    /// </exception>
-    public SettingsWindow(
-        LanguageService languageService,
-        ResourceService resourceService,
-        ThemeService    themeService)
+    public SettingsWindow()
     {
-        _languageService = languageService;
-        _resourceService = resourceService;
-        _themeService    = themeService;
+        _appWindow = AppWindow;
 
-        ResourceLoader GetResourceLoaderFactory() => _resourceLoader!;
+        _overlappedPresenter = OverlappedPresenter.Create();
 
-        AvailableAudioSampleRates = new List<NamedValue<int>>
-        {
-            new(
-                value:     AudioSampleRates.Rate48000Hz,
-                formatter: GetDisplayableAudioSampleRateString
-            ),
-            new(
-                value:     AudioSampleRates.Rate44100Hz,
-                formatter: GetDisplayableAudioSampleRateString
-            )
-        };
+        Closed += SettingsWindow_Closed;
 
-        AvailableLanguages = ApplicationLanguages.ManifestLanguages
-            .Select(
-                language => new NamedValue<CultureInfo>(
-                    value:     new(language),
-                    formatter: language => language.NativeName
-                )
-            )
-            .ToList()
-            .AsReadOnly();
-
-        AvailableApplicationThemes = new List<ResourceNamedValue<ElementTheme>>
-        {
-            new(
-                value:                 ElementTheme.Default,
-                resourceId:            "Common/System",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 ElementTheme.Dark,
-                resourceId:            "Common/Dark",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 ElementTheme.Light,
-                resourceId:            "Common/Light",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            )
-        };
-
-        AvailableNoisePresets = new List<ResourceNamedValue<string>>
-        {
-            new(
-                value:                 null,
-                resourceId:            "Common/Blue",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 null,
-                resourceId:            "Common/Brownian",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 null,
-                resourceId:            "Common/White",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            )
-        };
-
-        AvailableSystemBackdrops = new List<ResourceNamedValue<SystemBackdrop>>
-        {
-            new(
-                value:                 new MicaBackdrop(),
-                resourceId:            "SystemBackdrop/Mica",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 new MicaBackdrop { Kind = MicaKind.BaseAlt },
-                resourceId:            "SystemBackdrop/MicaAlt",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 new DesktopAcrylicBackdrop(),
-                resourceId:            "SystemBackdrop/Acrylic",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            ),
-            new(
-                value:                 null,
-                resourceId:            "Common/None",
-                resourceLoaderFactory: GetResourceLoaderFactory
-            )
-        };
-
-        RegisterEventHanders();
-        ConfigureAppWindow();
         InitializeComponent();
+
+        ConfigureAppWindow();
         ConfigureTitleBar();
     }
     #endregion
 
-    #region Event handlers
-    private void _languageService_CurrentCultureInfoChanged(CultureInfo? value)
-    {
-        RefreshLocalizedContent();
-    }
-
-    private void _themeService_CurrentThemeChanged(ElementTheme value)
-    {
-        layoutRoot.RequestedTheme = value;
-
-        RefreshBackgroundBrush();
-        RefreshTitleBarColors();
-    }
-
-    private void _themeService_CurrentSystemBackdropChanged(SystemBackdrop? value)
-    {
-        SystemBackdrop = value;
-
-        RefreshBackgroundBrush();
-        RefreshTitleBarColors();
-    }
-
-    private void availableApplicationThemesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<ElementTheme> namedValue)
-        {
-            _themeService.CurrentTheme = namedValue.Value;
-        }
-    }
-
-    private void availableLanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is NamedValue<CultureInfo> namedValue)
-        {
-            _languageService.CurrentCultureInfo = namedValue.Value;
-        }
-    }
-
-    private void availableSystemBackdropsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.FirstOrDefault() is ResourceNamedValue<SystemBackdrop> namedValue)
-        {
-            _themeService.CurrentSystemBackdrop = namedValue.Value;
-        }
-    }
-
-    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-    #endregion
-
     #region Methods
-    private void ApplyLocalizedContent()
-    {
-        if (_resourceLoader is null) return;
-
-        string displayName  = _resourceLoader.GetString("General/AppDisplayName");
-        string settingsText = _resourceLoader.GetString("Common/Settings");
-
-        Title = settingsText;
-
-        settingsTitleBar.Title = displayName;
-
-        headerTextBlock.Text = settingsText;
-
-        appearanceSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Appearance");
-
-        alwaysOnTopSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Header");
-        alwaysOnTopSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/AlwaysOnTop/Description");
-
-        applicationThemeSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Header");
-        applicationThemeSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/ApplicationTheme/Description");
-
-        systemBackdropSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Header");
-        systemBackdropSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Appearance/SystemBackdrop/Description");
-
-        generalSettingsSectionHeader.Text = _resourceLoader.GetString("Common/General");
-
-        autoplayOnLaunchSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Header");
-        autoplayOnLaunchSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/AutoplayOnLaunch/Description");
-
-        autoplayOnLaunchToggleSwitch.OnContent  = _resourceLoader.GetString("Common/On");
-        autoplayOnLaunchToggleSwitch.OffContent = _resourceLoader.GetString("Common/Off");
-
-        defaultNoisePresetSettingsCard.Header      = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Header");
-        defaultNoisePresetSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/DefaultNoisePreset/Description");
-
-        languageSettingsCard.Header      = _resourceLoader.GetString("Common/Language");
-        languageSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/General/Language/Description");
-
-        soundSettingsSectionHeader.Text = _resourceLoader.GetString("Common/Sound");
-
-        audioSampleRateSettingsCard.Header      = _resourceLoader.GetString("Common/SampleRate");
-        audioSampleRateSettingsCard.Description = _resourceLoader.GetString("SettingsWindow/Sound/SampleRate/Description");
-
-        aboutSettingsSectionHeader.Text = _resourceLoader.GetString("Common/About");
-
-        aboutSettingsExpander.Header      = displayName;
-        aboutSettingsExpander.Description = _resourceLoader.GetString("General/CopyrightText");
-
-        sessionIdentifierSettingsCard.Header = string.Format(
-            format: _resourceLoader.GetString("SettingsWindow/About/SessionIdentifierFormatString"),
-            args:   [Guid.Empty]
-        );
-
-        repositoryOnGitHubHyperlinkButton.Content     = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/RepositoryOnGitHub");
-        sendFeedbackHyperlinkButton.Content           = _resourceLoader.GetString("SettingsWindow/HyperlinkButtons/SendFeedback");
-        repositoryOnGitHubHyperlinkButton.NavigateUri = new Uri(_resourceLoader.GetString("General/GitHubRepositoryUrl"));
-        sendFeedbackHyperlinkButton.NavigateUri       = new Uri(_resourceLoader.GetString("General/SendFeedbackUrl"));
-    }
-
     private void ConfigureAppWindow()
     {
         _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
@@ -352,25 +88,14 @@ public sealed partial class SettingsWindow : Window
 
     private void ConfigureTitleBar()
     {
-        string iconPath = _resourceService.AppIconPath;
-
-        AppWindow.SetIcon(iconPath);
-
-        settingsTitleBar.Icon = iconPath;
+        if (_viewModel?.TitleBarIconPath is string iconPath)
+        {
+            _appWindow.SetIcon(iconPath);
+        }
 
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(settingsTitleBar);
-    }
-
-    private string GetDisplayableAudioSampleRateString(int value)
-    {
-        if (_resourceLoader is null)
-        {
-            return value.ToString();
-        }
-
-        return $"{value} {_resourceLoader.GetString("Units/Hertz/Short")}";
     }
 
     private void RefreshBackgroundBrush()
@@ -389,16 +114,9 @@ public sealed partial class SettingsWindow : Window
         );
     }
 
-    private void RefreshLocalizedContent()
-    {
-        _resourceLoader = new ResourceLoader();
-
-        ApplyLocalizedContent();
-    }
-
     private void RefreshTitleBarColors()
     {
-        AppWindowTitleBar titleBar = AppWindow.TitleBar;
+        AppWindowTitleBar titleBar = _appWindow.TitleBar;
 
         Color buttonForegroundColor;
         Color hoverPressedBackgroundColor;
@@ -427,42 +145,14 @@ public sealed partial class SettingsWindow : Window
         titleBar.ButtonHoverForegroundColor   = buttonForegroundColor;
         titleBar.ButtonPressedForegroundColor = buttonForegroundColor;
     }
+    #endregion
 
-    private void RegisterEventHanders()
+    #region Event handlers
+    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
     {
-        _languageService?.CurrentCultureInfoChanged += _languageService_CurrentCultureInfoChanged;
-
-        _themeService?.CurrentSystemBackdropChanged += _themeService_CurrentSystemBackdropChanged;
-        _themeService?.CurrentThemeChanged          += _themeService_CurrentThemeChanged;
-
-        Closed += SettingsWindow_Closed;
-    }
-
-    private void UnregisterEventHanders()
-    {
-        _languageService?.CurrentCultureInfoChanged -= _languageService_CurrentCultureInfoChanged;
-
-        _themeService?.CurrentSystemBackdropChanged -= _themeService_CurrentSystemBackdropChanged;
-        _themeService?.CurrentThemeChanged          -= _themeService_CurrentThemeChanged;
+        _hasClosed = true;
 
         Closed -= SettingsWindow_Closed;
-    }
-
-    /// <summary>
-    /// Programmatically focuses the root element of the window.
-    /// </summary>
-    /// <remarks>
-    /// Short circuits if the content is <c>null</c>.
-    /// </remarks>
-    public void Focus()
-    {
-        layoutRoot?.Focus(FocusState.Programmatic);
-    }
-
-    /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
-    public void Restore()
-    {
-        _overlappedPresenter.Restore();
     }
     #endregion
 }

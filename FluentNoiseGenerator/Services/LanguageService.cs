@@ -1,4 +1,6 @@
-﻿using Microsoft.Windows.Globalization;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Windows.Globalization;
+using System;
 using System.Globalization;
 
 namespace FluentNoiseGenerator.Services;
@@ -10,6 +12,8 @@ public sealed class LanguageService
 {
     #region Fields
     private CultureInfo? _currentCultureInfo;
+
+    private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
@@ -45,5 +49,24 @@ public sealed class LanguageService
     /// A <see cref="CultureInfo"/> instance for the new, targeted language.
     /// </param>
     public delegate void CurrentCultureInfoChangedHandler(CultureInfo? value);
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LanguageService"/> class.
+    /// </summary>
+    /// <param name="messenger">
+    /// The messenger instance used for sending messages within the application.
+    /// This is typically a <see cref="WeakReferenceMessenger"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws when any of the parameters is <c>null</c>.
+    /// </exception>
+    public LanguageService(IMessenger messenger)
+    {
+        ArgumentNullException.ThrowIfNull(messenger);
+
+        _messenger = messenger;
+    }
     #endregion
 }

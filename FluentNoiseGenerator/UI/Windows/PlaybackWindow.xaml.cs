@@ -1,13 +1,10 @@
 using FluentNoiseGenerator.Extensions;
-using FluentNoiseGenerator.Services;
+using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.Windows.ApplicationModel.Resources;
-using System;
-using System.Globalization;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -37,21 +34,17 @@ public sealed partial class PlaybackWindow : Window
     #endregion
 
     #region Fields
-    private ResourceLoader? _resourceLoader;
+    private PlaybackViewModel? _viewModel;
 
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
 
-    private readonly InputNonClientPointerSource _nonClientPointerSource;
+    private readonly AppWindow _appWindow;
 
-    private readonly OverlappedPresenter _overlappedPresenter = OverlappedPresenter.Create();
+    private readonly InputNonClientPointerSource _inputNonClientPointerSource;
 
-    private readonly LanguageService _languageService;
-
-    private readonly ResourceService _resourceService;
-
-    private readonly ThemeService _themeService;
+    private readonly OverlappedPresenter _overlappedPresenter;
     #endregion
 
     #region Properties
@@ -61,119 +54,42 @@ public sealed partial class PlaybackWindow : Window
     public bool HasClosed => _hasClosed;
 
     /// <summary>
-    /// Gets a value indicating whether the playback is currently active.
+    /// Gets or sets the view model instance associated with this window type.
     /// </summary>
-    public bool IsPlaying { get; private set; }
-    #endregion
+    public PlaybackViewModel? ViewModel
+    {
+        get => _viewModel;
+        set
+        {
+            _viewModel = value;
 
-    #region Events
-    /// <summary>
-    /// Triggers when the settings button has been clicked.
-    /// </summary>
-    public event EventHandler SettingsButtonClicked = delegate { };
+            ConfigureTitleBar();
+        }
+    }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class using default
-    /// paramaeter values.
-    /// </summary>
-    /// <remarks>
-    /// This parameterless constructor is required for design-time support in Visual Studio and
-    /// to play nice with the XAML designer.
-    /// </remarks>
-    public PlaybackWindow() : this(null!, null!, null!) { }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class using the specified
-    /// resource service instance.
-    /// </summary>
-    /// <param name="languageService">
-    /// The language service for retrieving and updating application language info.
-    /// </param>
-    /// <param name="resourceService">
-    /// The resource service for retrieving application resources.
-    /// </param>
-    /// <param name="themeService">
-    /// The theme service for retrieving and updating the current application theme.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when any of the specified parameters are <c>null</c>.
-    /// </exception>
-    public PlaybackWindow(
-        LanguageService languageService,
-        ResourceService resourceService,
-        ThemeService    themeService)
+    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class.
+    public PlaybackWindow()
     {
-        _nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+        _appWindow = AppWindow;
 
-        _languageService = languageService;
-        _resourceService = resourceService;
-        _themeService    = themeService;
+        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
 
-        RegisterEventHanders();
+        _overlappedPresenter = OverlappedPresenter.CreateForToolWindow();
+
+        Closed += PlaybackWindow_Closed;
+
+        InitializeComponent();
+
         RetrieveAndUpdateDpiScaleFactor();
         ConfigureAppWindow();
-        RefreshLocalizedContent();
-        InitializeComponent();
         ConfigureTitleBar();
     }
     #endregion
 
-    #region Event handlers
-    private void _languageService_CurrentCultureInfoChanged(CultureInfo? value)
-    {
-        RefreshLocalizedContent();
-    }
-
-    private void _themeService_CurrentThemeChanged(ElementTheme value)
-    {
-        layoutRoot.RequestedTheme = value;
-
-        RefreshBackgroundBrush();
-    }
-
-    private void _themeService_CurrentSystemBackdropChanged(SystemBackdrop? value)
-    {
-        SystemBackdrop = value;
-
-        RefreshBackgroundBrush();
-    }
-
-    private void layoutRoot_LayoutUpdated(object sender, object e)
-    {
-        UpdateNonClientInputRegions();
-    }
-
-    private void playbackControlPanel_PlaybackButtonClicked(object sender, EventArgs e)
-    {
-        TogglePlayback();
-    }
-
-    private void playbackTopBar_CloseButtonClicked(object sender, EventArgs e)
-    {
-        Close();
-    }
-
-    private void playbackTopBar_SettingsButtonClicked(object sender, EventArgs e)
-    {
-        SettingsButtonClicked.Invoke(this, EventArgs.Empty);
-    }
-
-    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-    }
-    #endregion
-
     #region Methods
-    private void ApplyLocalizedContent()
-    {
-        if (_resourceLoader is null) return;
-
-        Title = _resourceLoader.GetString("General/AppDisplayName");
-    }
-
     private void ConfigureAppWindow()
     {
         _overlappedPresenter.IsAlwaysOnTop = true;
@@ -183,14 +99,17 @@ public sealed partial class PlaybackWindow : Window
 
         _overlappedPresenter.SetBorderAndTitleBar(true, false);
 
-        AppWindow.SetPresenter(_overlappedPresenter);
-        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
-        AppWindow.MoveToCenter();
+        _appWindow.SetPresenter(_overlappedPresenter);
+        _appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        _appWindow.MoveToCenter();
     }
 
     private void ConfigureTitleBar()
     {
-        AppWindow.SetIcon(_resourceService.AppIconPath);
+        if (_viewModel?.TitleBarIconPath is string iconPath)
+        {
+            _appWindow.SetIcon(iconPath);
+        }
 
         ExtendsContentIntoTitleBar = true;
 
@@ -213,47 +132,11 @@ public sealed partial class PlaybackWindow : Window
         );
     }
 
-    private void RefreshLocalizedContent()
-    {
-        _resourceLoader = new ResourceLoader();
-
-        ApplyLocalizedContent();
-    }
-
-    private void RegisterEventHanders()
-    {
-        _languageService?.CurrentCultureInfoChanged += _languageService_CurrentCultureInfoChanged;
-
-        _themeService?.CurrentSystemBackdropChanged += _themeService_CurrentSystemBackdropChanged;
-        _themeService?.CurrentThemeChanged          += _themeService_CurrentThemeChanged;
-
-        Closed += PlaybackWindow_Closed;
-    }
-
     private void RetrieveAndUpdateDpiScaleFactor()
     {
         uint value = PInvoke.GetDpiForWindow((HWND)WindowNative.GetWindowHandle(this));
 
         _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
-    }
-
-    private void TogglePlayback()
-    {
-        bool isPlaying = !IsPlaying;
-
-        IsPlaying = isPlaying;
-
-        playbackControlPanel.IsPlaying = isPlaying;
-    }
-
-    private void UnregisterEventHanders()
-    {
-        _languageService?.CurrentCultureInfoChanged -= _languageService_CurrentCultureInfoChanged;
-
-        _themeService?.CurrentSystemBackdropChanged -= _themeService_CurrentSystemBackdropChanged;
-        _themeService?.CurrentThemeChanged          -= _themeService_CurrentThemeChanged;
-
-        Closed -= PlaybackWindow_Closed;
     }
 
     private void UpdateNonClientInputRegions()
@@ -264,7 +147,7 @@ public sealed partial class PlaybackWindow : Window
          */
         if (_hasClosed) return;
 
-        _nonClientPointerSource.ClearAllRegionRects();
+        _inputNonClientPointerSource.ClearAllRegionRects();
 
         /**
          * Region kind for drag must be set to `Caption` in order to set a drag region for the
@@ -274,31 +157,32 @@ public sealed partial class PlaybackWindow : Window
          * I am lazy and this is the easiest way of specifying drag regions after setting title
          * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
-        _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, [
-            playbackTopBar.GetBoundingBox(_dpiScaleFactor)
-        ]);
+        _inputNonClientPointerSource.SetRegionRects(
+            region: NonClientRegionKind.Caption,
+            rects: [playbackTopBar.GetBoundingBox(_dpiScaleFactor)]
+        );
 
-        _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, [
-            playbackTopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-            playbackTopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
-        ]);
+        _inputNonClientPointerSource.SetRegionRects(
+            region: NonClientRegionKind.Passthrough,
+            rects: [
+                playbackTopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+                playbackTopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+            ]
+        );
+    }
+    #endregion
+
+    #region Event handlers
+    private void layoutRoot_LayoutUpdated(object sender, object e)
+    {
+        UpdateNonClientInputRegions();
     }
 
-    /// <summary>
-    /// Programmatically focuses the root element of the window.
-    /// </summary>
-    /// <remarks>
-    /// Short circuits if the content is <c>null</c>.
-    /// </remarks>
-    public void Focus()
+    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
     {
-        layoutRoot?.Focus(FocusState.Programmatic);
-    }
+        _hasClosed = true;
 
-    /// <inheritdoc cref="OverlappedPresenter.Restore()"/>
-    public void Restore()
-    {
-        _overlappedPresenter.Restore();
+        Closed -= PlaybackWindow_Closed;
     }
     #endregion
 }

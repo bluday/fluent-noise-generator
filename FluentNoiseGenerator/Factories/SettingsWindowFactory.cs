@@ -1,4 +1,7 @@
-﻿using FluentNoiseGenerator.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.Localization;
+using FluentNoiseGenerator.Common.StringResources;
+using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
 
@@ -10,41 +13,42 @@ namespace FluentNoiseGenerator.Factories;
 internal sealed class SettingsWindowFactory
 {
     #region Fields
-    private readonly LanguageService _languageService;
+    private readonly IMessenger _messenger;
 
-    private readonly ResourceService _resourceService;
+    private readonly AppStringResources _stringResources;
 
-    private readonly ThemeService _themeService;
+    private readonly LocalizedResourceProvider _localizedResourceProvider;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindowFactory"/> class.
+    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using the
+    /// specified string resource collection and event messenger.
     /// </summary>
-    /// <param name="languageService">
-    /// The language service for retrieving and updating application language info.
+    /// <param name="stringResources">
+    /// The string resource collection instance for retreiving localized resources.
     /// </param>
-    /// <param name="resourceService">
-    /// The resource service for retrieving application resources.
+    /// <param name="localizedResourceProvider">
+    /// The localized resource provider for retrieving localized resource values.
     /// </param>
-    /// <param name="themeService">
-    /// The theme service for retrieving and updating the current application theme.
+    /// <param name="messenger">
+    /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when any of the specified parameters are <c>null</c>.
+    /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     internal SettingsWindowFactory(
-        LanguageService languageService,
-        ResourceService resourceService,
-        ThemeService    themeService)
+        AppStringResources        stringResources,
+        LocalizedResourceProvider localizedResourceProvider,
+        IMessenger                messenger)
     {
-        ArgumentNullException.ThrowIfNull(languageService);
-        ArgumentNullException.ThrowIfNull(resourceService);
-        ArgumentNullException.ThrowIfNull(themeService);
+        ArgumentNullException.ThrowIfNull(stringResources);
+        ArgumentNullException.ThrowIfNull(localizedResourceProvider);
+        ArgumentNullException.ThrowIfNull(messenger);
 
-        _languageService = languageService;
-        _resourceService = resourceService;
-        _themeService    = themeService;
+        _messenger                 = messenger;
+        _stringResources           = stringResources;
+        _localizedResourceProvider = localizedResourceProvider;
     }
     #endregion
 
@@ -57,7 +61,14 @@ internal sealed class SettingsWindowFactory
     /// </returns>
     public SettingsWindow Create()
     {
-        return new(_languageService, _resourceService, _themeService);
+        return new()
+        {
+            ViewModel = new SettingsViewModel(
+                _stringResources.SettingsWindow,
+                _localizedResourceProvider,
+                _messenger
+            )
+        };
     }
     #endregion
 }
