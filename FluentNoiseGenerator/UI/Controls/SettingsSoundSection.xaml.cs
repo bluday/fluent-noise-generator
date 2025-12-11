@@ -1,5 +1,6 @@
 using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
+using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
@@ -34,7 +35,7 @@ public sealed partial class SettingsSoundSection : Microsoft.UI.Xaml.Controls.Us
     /// </summary>
     public static readonly DependencyProperty AvailableAudioSampleRatesProperty = DependencyProperty.Register(
         nameof(AvailableAudioSampleRates),
-        typeof(object),
+        typeof(IEnumerable<NamedValue<int>>),
         typeof(SettingsSoundSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -45,6 +46,16 @@ public sealed partial class SettingsSoundSection : Microsoft.UI.Xaml.Controls.Us
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
         nameof(Header),
         typeof(string),
+        typeof(SettingsSoundSection),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedAudioSampleRate"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedAudioSampleRateProperty = DependencyProperty.Register(
+        nameof(SelectedAudioSampleRate),
+        typeof(object),
         typeof(SettingsSoundSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -72,9 +83,9 @@ public sealed partial class SettingsSoundSection : Microsoft.UI.Xaml.Controls.Us
     /// <summary>
     /// Gets or sets the items source instance for the available audio sample rate collection.
     /// </summary>
-    public object AvailableAudioSampleRates
+    public IEnumerable<NamedValue<int>> AvailableAudioSampleRates
     {
-        get => GetValue(AvailableAudioSampleRatesProperty);
+        get => (IEnumerable<NamedValue<int>>)GetValue(AvailableAudioSampleRatesProperty);
         set => SetValue(AvailableAudioSampleRatesProperty, value);
     }
 
@@ -85,6 +96,15 @@ public sealed partial class SettingsSoundSection : Microsoft.UI.Xaml.Controls.Us
     {
         get => (string)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected audio sample rate.
+    /// </summary>
+    public object? SelectedAudioSampleRate
+    {
+        get => GetValue(SelectedAudioSampleRateProperty);
+        set => SetValue(SelectedAudioSampleRateProperty, value);
     }
     #endregion
 

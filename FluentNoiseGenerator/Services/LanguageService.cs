@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Messages;
 using Microsoft.Windows.Globalization;
 using System;
 using System.Globalization;
@@ -11,44 +12,27 @@ namespace FluentNoiseGenerator.Services;
 public sealed class LanguageService
 {
     #region Fields
-    private CultureInfo? _currentCultureInfo;
+    private CultureInfo? _culture;
 
     private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets or sets the current <see cref="CultureInfo"/> instance.
+    /// Gets or sets the culture.
     /// </summary>
-    public CultureInfo? CurrentCultureInfo
+    public CultureInfo? Culture
     {
-        get => _currentCultureInfo;
+        get => _culture;
         set
         {
-            _currentCultureInfo = value;
+            _culture = value;
 
             ApplicationLanguages.PrimaryLanguageOverride = value?.Name;
 
-            CurrentCultureInfoChanged?.Invoke(value);
+            _messenger.Send(new ApplicationLanguageChangedMessage());
         }
     }
-    #endregion
-
-    #region Events
-    /// <summary>
-    /// Fires when <see cref="CurrentCultureInfo"/> gets updated.
-    /// </summary>
-    public event CurrentCultureInfoChangedHandler CurrentCultureInfoChanged = delegate { };
-    #endregion
-
-    #region Delegates
-    /// <summary>
-    /// Method signature for the <see cref="CurrentCultureInfoChanged"/> event.
-    /// </summary>
-    /// <param name="value">
-    /// A <see cref="CultureInfo"/> instance for the new, targeted language.
-    /// </param>
-    public delegate void CurrentCultureInfoChangedHandler(CultureInfo? value);
     #endregion
 
     #region Constructor
@@ -57,7 +41,6 @@ public sealed class LanguageService
     /// </summary>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
-    /// This is typically a <see cref="WeakReferenceMessenger"/>.
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
@@ -67,6 +50,20 @@ public sealed class LanguageService
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
+
+        _messenger.Register<UpdateApplicationLanguageMessage>(
+            this,
+            HandleUpdateApplicationLanguageMessage
+        );
+    }
+    #endregion
+
+    #region Message handlers
+    private void HandleUpdateApplicationLanguageMessage(
+        object                           recipient,
+        UpdateApplicationLanguageMessage message)
+    {
+        Culture = message.Culture;
     }
     #endregion
 }

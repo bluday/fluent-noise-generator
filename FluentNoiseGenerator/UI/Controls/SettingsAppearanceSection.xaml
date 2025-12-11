@@ -31,14 +31,14 @@
                                                    Header="{x:Bind ApplicationThemeSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
                 <ComboBox ItemsSource="{x:Bind AvailableApplicationThemes}"
-                          SelectedIndex="0"/>
+                          SelectedItem="{x:Bind SelectedApplicationTheme, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
             <communityToolkitControls:SettingsCard Description="{x:Bind SystemBackdropSettingsCardDescription}"
                                                    Header="{x:Bind SystemBackdropSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
                 <ComboBox ItemsSource="{x:Bind AvailableSystemBackdrops}"
-                          SelectedIndex="0"/>
+                          SelectedItem="{x:Bind SelectedSystemBackdrop, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>

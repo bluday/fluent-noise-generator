@@ -9,7 +9,17 @@ namespace FluentNoiseGenerator.Common.Localization;
 public sealed class LocalizedResourceProvider
 {
     #region Fields
-    private readonly ResourceLoader _resourceLoader = new();
+    private ResourceLoader _resourceLoader = null!;
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LanguageService"/> class.
+    /// </summary>
+    public LocalizedResourceProvider()
+    {
+        UpdateResourceLoader();
+    }
     #endregion
 
     #region Methods
@@ -22,6 +32,17 @@ public sealed class LocalizedResourceProvider
     /// <returns>
     /// The localized resource value as a <see cref="string"/>.
     /// </returns>
-    public string Get(string key) => _resourceLoader.GetString(key);
+    public string Get(string key)
+    {
+        return _resourceLoader.GetString(key);
+    }
+
+    /// <summary>
+    /// Updates the current <see cref="ResourceLoader"/> instance.
+    /// </summary>
+    public void UpdateResourceLoader()
+    {
+        _resourceLoader = new ResourceLoader();
+    }
     #endregion
 }

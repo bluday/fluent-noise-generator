@@ -34,8 +34,13 @@ public sealed class AppStringResources
     {
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
 
-        PlaybackWindow = new PlaybackWindowStringResources(localizedResourceProvider);
-        SettingsWindow = new SettingsWindowStringResources(localizedResourceProvider);
+        PlaybackWindow = new PlaybackWindowStringResources(
+            localizedResourceProvider
+        );
+
+        SettingsWindow = new SettingsWindowStringResources(
+            localizedResourceProvider
+        );
     }
     #endregion
 }

@@ -1,4 +1,7 @@
+using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
@@ -53,7 +56,7 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
     /// </summary>
     public static readonly DependencyProperty AvailableLanguagesProperty = DependencyProperty.Register(
         nameof(AvailableLanguages),
-        typeof(object),
+        typeof(IEnumerable<NamedValue<CultureInfo>>),
         typeof(SettingsGeneralSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -63,7 +66,7 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
     /// </summary>
     public static readonly DependencyProperty AvailableNoisePresetsProperty = DependencyProperty.Register(
         nameof(AvailableNoisePresets),
-        typeof(object),
+        typeof(IEnumerable<ResourceNamedValue<string>>),
         typeof(SettingsGeneralSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -117,6 +120,26 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
         typeof(SettingsGeneralSection),
         new PropertyMetadata(defaultValue: null)
     );
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedDefaultNoisePreset"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedDefaultNoisePresetProperty = DependencyProperty.Register(
+        nameof(SelectedDefaultNoisePreset),
+        typeof(object),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedLanguage"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedLanguageProperty = DependencyProperty.Register(
+        nameof(SelectedLanguage),
+        typeof(object),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
     #region Properties
@@ -159,18 +182,18 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
     /// <summary>
     /// Gets or sets the items source instance for the available language collection.
     /// </summary>
-    public object AvailableLanguages
+    public IEnumerable<NamedValue<CultureInfo>> AvailableLanguages
     {
-        get => GetValue(AvailableLanguagesProperty);
+        get => (IEnumerable<NamedValue<CultureInfo>>)GetValue(AvailableLanguagesProperty);
         set => SetValue(AvailableLanguagesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the items source instance for the available noise preset collection.
     /// </summary>
-    public object AvailableNoisePresets
+    public IEnumerable<ResourceNamedValue<string>> AvailableNoisePresets
     {
-        get => GetValue(AvailableNoisePresetsProperty);
+        get => (IEnumerable<ResourceNamedValue<string>>)GetValue(AvailableNoisePresetsProperty);
         set => SetValue(AvailableNoisePresetsProperty, value);
     }
 
@@ -217,6 +240,24 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
     {
         get => (string)GetValue(LanguageSettingsCardHeaderProperty);
         set => SetValue(LanguageSettingsCardHeaderProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected default noise preset.
+    /// </summary>
+    public object? SelectedDefaultNoisePreset
+    {
+        get => GetValue(SelectedDefaultNoisePresetProperty);
+        set => SetValue(SelectedDefaultNoisePresetProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected application language.
+    /// </summary>
+    public object? SelectedLanguage
+    {
+        get => GetValue(SelectedLanguageProperty);
+        set => SetValue(SelectedLanguageProperty, value);
     }
     #endregion
 

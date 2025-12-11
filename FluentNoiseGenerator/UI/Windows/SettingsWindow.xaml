@@ -54,12 +54,15 @@
                                                      DefaultNoisePresetSettingsCardHeader="{x:Bind ViewModel.StringResources.General.DefaultNoisePresetSettingsCardHeader.Value}"
                                                      Header="{x:Bind ViewModel.StringResources.General.Header.Value}"
                                                      LanguageSettingsCardDescription="{x:Bind ViewModel.StringResources.General.LanguageSettingsCardDescription.Value}"
-                                                     LanguageSettingsCardHeader="{x:Bind ViewModel.StringResources.General.LanguageSettingsCardHeader.Value}"/>
+                                                     LanguageSettingsCardHeader="{x:Bind ViewModel.StringResources.General.LanguageSettingsCardHeader.Value}"
+                                                     SelectedDefaultNoisePreset="{x:Bind ViewModel.SelectedDefaultNoisePreset, Mode=TwoWay}"
+                                                     SelectedLanguage="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"/>
 
                     <controls:SettingsSoundSection AudioSampleRateSettingsCardDescription="{x:Bind ViewModel.StringResources.Sound.AudioSampleRateSettingsCardDescription.Value}"
                                                    AudioSampleRateSettingsCardHeader="{x:Bind ViewModel.StringResources.Sound.AudioSampleRateSettingsCardHeader.Value}"
                                                    AvailableAudioSampleRates="{x:Bind ViewModel.AvailableAudioSampleRates}"
-                                                   Header="{x:Bind ViewModel.StringResources.Sound.Header.Value}"/>
+                                                   Header="{x:Bind ViewModel.StringResources.Sound.Header.Value}"
+                                                   SelectedAudioSampleRate="{x:Bind ViewModel.SelectedAudioSampleRate, Mode=TwoWay}"/>
 
                     <controls:SettingsAppearanceSection AlwaysOnTopSettingsCardDescription="{x:Bind ViewModel.StringResources.Appearance.AlwaysOnTopSettingsCardDescription.Value}"
                                                         AlwaysOnTopSettingsCardHeader="{x:Bind ViewModel.StringResources.Appearance.AlwaysOnTopSettingsCardHeader.Value}"
@@ -68,6 +71,8 @@
                                                         AvailableApplicationThemes="{x:Bind ViewModel.AvailableApplicationThemes}"
                                                         AvailableSystemBackdrops="{x:Bind ViewModel.AvailableSystemBackdrops}"
                                                         Header="{x:Bind ViewModel.StringResources.Appearance.Header.Value}"
+                                                        SelectedApplicationTheme="{x:Bind ViewModel.SelectedApplicationTheme, Mode=TwoWay}"
+                                                        SelectedSystemBackdrop="{x:Bind ViewModel.SelectedSystemBackdrop, Mode=TwoWay}"
                                                         SystemBackdropSettingsCardDescription="{x:Bind ViewModel.StringResources.Appearance.SystemBackdropSettingsCardDescription.Value}"
                                                         SystemBackdropSettingsCardHeader="{x:Bind ViewModel.StringResources.Appearance.SystemBackdropSettingsCardHeader.Value}"/>
 
@@ -76,6 +81,7 @@
                                                    ApplicationVersionText="{x:Bind ViewModel.StringResources.About.ApplicationVersionText}"
                                                    Header="{x:Bind ViewModel.StringResources.About.Header.Value}"
                                                    SessionIdentifierFormatString="{x:Bind ViewModel.StringResources.About.SessionIdentifierFormatString.Value}"/>
+
 
                     <StackPanel Margin="0,8,0,32"
                                 Spacing="8">

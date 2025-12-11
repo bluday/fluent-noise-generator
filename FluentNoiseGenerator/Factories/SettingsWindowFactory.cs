@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.StringResources;
+using FluentNoiseGenerator.Services;
 using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
@@ -13,11 +14,11 @@ namespace FluentNoiseGenerator.Factories;
 internal sealed class SettingsWindowFactory
 {
     #region Fields
+    private readonly LocalizedResourceProvider _localizedResourceProvider;
+
     private readonly IMessenger _messenger;
 
     private readonly AppStringResources _stringResources;
-
-    private readonly LocalizedResourceProvider _localizedResourceProvider;
     #endregion
 
     #region Constructor
@@ -46,9 +47,9 @@ internal sealed class SettingsWindowFactory
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
         ArgumentNullException.ThrowIfNull(messenger);
 
+        _localizedResourceProvider = localizedResourceProvider;
         _messenger                 = messenger;
         _stringResources           = stringResources;
-        _localizedResourceProvider = localizedResourceProvider;
     }
     #endregion
 

@@ -1,4 +1,7 @@
+using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
@@ -53,7 +56,7 @@ public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Contro
     /// </summary>
     public static readonly DependencyProperty AvailableApplicationThemesProperty = DependencyProperty.Register(
         nameof(AvailableApplicationThemes),
-        typeof(object),
+        typeof(IEnumerable<ResourceNamedValue<ElementTheme>>),
         typeof(SettingsAppearanceSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -63,7 +66,7 @@ public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Contro
     /// </summary>
     public static readonly DependencyProperty AvailableSystemBackdropsProperty = DependencyProperty.Register(
         nameof(AvailableSystemBackdrops),
-        typeof(object),
+        typeof(IEnumerable<ResourceNamedValue<SystemBackdrop>>),
         typeof(SettingsAppearanceSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -74,6 +77,26 @@ public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Contro
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
         nameof(Header),
         typeof(string),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedApplicationTheme"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedApplicationThemeProperty = DependencyProperty.Register(
+        nameof(SelectedApplicationTheme),
+        typeof(object),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
+
+    /// <summary>
+    /// Identifies the <see cref="SelectedSystemBackdrop"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty SelectedSystemBackdropProperty = DependencyProperty.Register(
+        nameof(SelectedSystemBackdrop),
+        typeof(object),
         typeof(SettingsAppearanceSection),
         new PropertyMetadata(defaultValue: null)
     );
@@ -139,18 +162,18 @@ public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Contro
     /// <summary>
     /// Gets or sets the items source instance for the available application themes collection.
     /// </summary>
-    public object AvailableApplicationThemes
+    public IEnumerable<ResourceNamedValue<ElementTheme>> AvailableApplicationThemes
     {
-        get => GetValue(AvailableApplicationThemesProperty);
+        get => (IEnumerable<ResourceNamedValue<ElementTheme>>)GetValue(AvailableApplicationThemesProperty);
         set => SetValue(AvailableApplicationThemesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the items source instance for the available system backdrops collection.
     /// </summary>
-    public object AvailableSystemBackdrops
+    public IEnumerable<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops
     {
-        get => GetValue(AvailableSystemBackdropsProperty);
+        get => (IEnumerable<ResourceNamedValue<SystemBackdrop>>)GetValue(AvailableSystemBackdropsProperty);
         set => SetValue(AvailableSystemBackdropsProperty, value);
     }
 
@@ -161,6 +184,24 @@ public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Contro
     {
         get => (string)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected application theme.
+    /// </summary>
+    public object? SelectedApplicationTheme
+    {
+        get => GetValue(SelectedApplicationThemeProperty);
+        set => SetValue(SelectedApplicationThemeProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the selected system backdrop.
+    /// </summary>
+    public object? SelectedSystemBackdrop
+    {
+        get => GetValue(SelectedSystemBackdropProperty);
+        set => SetValue(SelectedSystemBackdropProperty, value);
     }
 
     /// <summary>

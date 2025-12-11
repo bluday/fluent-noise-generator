@@ -29,7 +29,10 @@ public sealed class PlaybackWindowStringResources
     {
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
 
-        Title = new StringResource("General/AppDisplayName", localizedResourceProvider);
+        Title = new StringResource(
+            "General/AppDisplayName",
+            localizedResourceProvider
+        );
     }
     #endregion
 }

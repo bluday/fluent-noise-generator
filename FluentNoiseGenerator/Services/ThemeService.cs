@@ -11,25 +11,25 @@ namespace FluentNoiseGenerator.Services;
 public sealed class ThemeService
 {
     #region Fields
-    private SystemBackdrop? _currentSystemBackdrop;
+    private SystemBackdrop? _systemBackdrop;
 
-    private ElementTheme _currentTheme;
+    private ElementTheme _theme;
 
     private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets or sets the current system backdrop to be used for all windows.
+    /// Gets or sets the system backdrop to be used for all windows.
     /// </summary>
-    public SystemBackdrop? CurrentSystemBackdrop
+    public SystemBackdrop? SystemBackdrop
     {
-        get => _currentSystemBackdrop;
+        get => _systemBackdrop;
         set
         {
-            _currentSystemBackdrop = value;
+            _systemBackdrop = value;
 
-            CurrentSystemBackdropChanged?.Invoke(value);
+            // TODO: Send message.
         }
     }
 
@@ -38,44 +38,14 @@ public sealed class ThemeService
     /// </summary>
     public ElementTheme CurrentTheme
     {
-        get => _currentTheme;
+        get => _theme;
         set
         {
-            _currentTheme = value;
+            _theme = value;
 
-            CurrentThemeChanged?.Invoke(value);
+            // TODO: Send message.
         }
     }
-    #endregion
-
-    #region Delegates
-    /// <summary>
-    /// Method signature for the <see cref="CurrentSystemBackdropChanged"/> event.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="SystemBackdrop"/> that is being applied.
-    /// </param>
-    public delegate void CurrentSystemBackdropChangedHandler(SystemBackdrop? value);
-
-    /// <summary>
-    /// Method signature for the <see cref="CurrentThemeChanged"/> event.
-    /// </summary>
-    /// <param name="value">
-    /// The new <see cref="ElementTheme"/> that is being applied.
-    /// </param>
-    public delegate void CurrentThemeChangedHandler(ElementTheme value);
-    #endregion
-
-    #region Events
-    /// <summary>
-    /// Fires when <see cref="CurrentTheme"/> gets updated.
-    /// </summary>
-    public event CurrentThemeChangedHandler CurrentThemeChanged = delegate { };
-
-    /// <summary>
-    /// Fires when <see cref="CurrentSystemBackdrop"/> gets updated.
-    /// </summary>
-    public event CurrentSystemBackdropChangedHandler CurrentSystemBackdropChanged = delegate { };
     #endregion
 
     #region Constructor

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.StringResources;
 using FluentNoiseGenerator.Factories;
 using FluentNoiseGenerator.Services;
@@ -15,6 +14,8 @@ public partial class App : Application
     #region Fields
     private readonly LanguageService _languageService;
 
+    private readonly LocalizationService _localizationService;
+
     private readonly ThemeService _themeService;
 
     private readonly WindowService _windowService;
@@ -28,9 +29,9 @@ public partial class App : Application
     {
         IMessenger messenger = WeakReferenceMessenger.Default;
 
-        LocalizedResourceProvider localizedResourceProvider = new();
+        _localizationService = new(messenger);
 
-        AppStringResources appStringResources = new(localizedResourceProvider);
+        AppStringResources appStringResources = new(_localizationService.ResourceProvider);
 
         _languageService = new LanguageService(messenger);
 
@@ -40,7 +41,7 @@ public partial class App : Application
             new PlaybackWindowFactory(appStringResources, messenger),
             new SettingsWindowFactory(
                 appStringResources,
-                localizedResourceProvider,
+                _localizationService.ResourceProvider,
                 messenger
             ),
             messenger

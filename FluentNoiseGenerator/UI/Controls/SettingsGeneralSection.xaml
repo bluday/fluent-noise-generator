@@ -31,14 +31,14 @@
                                                    Header="{x:Bind DefaultNoisePresetSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
                 <ComboBox ItemsSource="{x:Bind AvailableNoisePresets}"
-                          SelectedIndex="0"/>
+                          SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
             <communityToolkitControls:SettingsCard Description="{x:Bind LanguageSettingsCardDescription}"
                                                    Header="{x:Bind LanguageSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                 <ComboBox ItemsSource="{x:Bind AvailableLanguages}"
-                          SelectedIndex="0"/>
+                          SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>
