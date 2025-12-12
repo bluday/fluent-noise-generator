@@ -60,27 +60,27 @@ public sealed partial class SettingsViewModel : ObservableObject
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<ElementTheme>> AvailableApplicationThemes { get; }
+    public IEnumerable<ResourceNamedValue<ElementTheme>>? AvailableApplicationThemes { get; private set; }
 
     /// <summary>
     /// Gets an enumerable of available audio sample rates.
     /// </summary>
-    public IEnumerable<NamedValue<int>> AvailableAudioSampleRates { get; }
+    public IEnumerable<NamedValue<int>>? AvailableAudioSampleRates { get; private set; }
 
     /// <summary>
     /// Gets an enumerable of available languages.
     /// </summary>
-    public IEnumerable<NamedValue<CultureInfo>> AvailableLanguages { get; }
+    public IEnumerable<NamedValue<CultureInfo>>? AvailableLanguages { get; private set; }
 
     /// <summary>
     /// Gets an enumerable of available noise presets.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<string>> AvailableNoisePresets { get; }
+    public IEnumerable<ResourceNamedValue<string>>? AvailableNoisePresets { get; private set; }
 
     /// <summary>
     /// Gets an enumerable of available system backdrops.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops { get; }
+    public IEnumerable<ResourceNamedValue<SystemBackdrop>>? AvailableSystemBackdrops { get; private set; }
 
     /// <summary>
     /// Gets the string resource collection instance specific to this window.
@@ -123,29 +123,16 @@ public sealed partial class SettingsViewModel : ObservableObject
 
         _messenger = messenger;
 
-        AvailableApplicationThemes = CreateAvailableApplicationThemes(localizedResourceProvider);
-        AvailableAudioSampleRates  = CreateAvailableAudioSampleRates(localizedResourceProvider);
-        AvailableLanguages         = CreateAvailableLanguages();
-        AvailableNoisePresets      = CreateAvailableNoisePresets(localizedResourceProvider);
-        AvailableSystemBackdrops   = CreateAvailableSystemBackrops(localizedResourceProvider);
-
-        SelectedApplicationTheme   = AvailableApplicationThemes.First();
-        SelectedAudioSampleRate    = AvailableAudioSampleRates.First();
-        SelectedDefaultNoisePreset = AvailableNoisePresets.First();
-        SelectedLanguage           = AvailableLanguages.First();
-        SelectedSystemBackdrop     = AvailableSystemBackdrops.First();
-
         StringResources = stringResources;
 
-        TitleBarIconPath = System.IO.Path.Combine(
-            AppContext.BaseDirectory,
-            "Assets/Icon-64.ico"
-        );
+        TitleBarIconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
 
-        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
-            this,
-            HandleLocalizedResourceProviderUpdatedMessage
-        );
+        InitializeValueNamedOptions(localizedResourceProvider);
+        InitializeResourceNamedOptions(localizedResourceProvider);
+
+        RefreshLocalizedContent();
+
+        SubscribeToMessages();
 
         _isInitializing = false;
     }
@@ -161,92 +148,90 @@ public sealed partial class SettingsViewModel : ObservableObject
     }
     #endregion
 
-    #region Methods
-    private static IEnumerable<ResourceNamedValue<ElementTheme>> CreateAvailableApplicationThemes(
-        LocalizedResourceProvider localizedResourceProvider)
-    {
-        return [
-            new(
-                new StringResource("Common/System", localizedResourceProvider),
-                ElementTheme.Default
-            ),
-            new(
-                new StringResource("Common/Dark", localizedResourceProvider),
-                ElementTheme.Dark
-            ),
-            new(
-                new StringResource("Common/Light", localizedResourceProvider),
-                ElementTheme.Light
-            )
-        ];
-    }
-
-    private static IEnumerable<NamedValue<int>> CreateAvailableAudioSampleRates(
-        LocalizedResourceProvider localizedResourceProvider)
+    #region Instance methods
+    private void InitializeValueNamedOptions(LocalizedResourceProvider localizedResourceProvider)
     {
         string audioSampleRateUnit = localizedResourceProvider.Get("Units/Hertz/Short");
 
-        string GetDisplayableAudioSampleRateValue(int value)
+        string GetUnitSuffixedStringFormat(int value)
         {
             return $"{value} {audioSampleRateUnit}";
         }
 
-        return [
-            new(AudioSampleRates.Rate48000Hz, GetDisplayableAudioSampleRateValue),
-            new(AudioSampleRates.Rate44100Hz, GetDisplayableAudioSampleRateValue)
+        AvailableAudioSampleRates = [
+            new(AudioSampleRates.Rate48000Hz, GetUnitSuffixedStringFormat),
+            new(AudioSampleRates.Rate44100Hz, GetUnitSuffixedStringFormat)
         ];
-    }
 
-    private static IEnumerable<NamedValue<CultureInfo>> CreateAvailableLanguages()
-    {
-        return ApplicationLanguages.ManifestLanguages.Select(
+        AvailableLanguages = ApplicationLanguages.ManifestLanguages.Select(
             language => new NamedValue<CultureInfo>(
                 new(language),
                 language => language.NativeName
             )
         );
+
+        SelectedAudioSampleRate = AvailableAudioSampleRates.First();
+        SelectedLanguage        = AvailableLanguages.First();
     }
 
-    private static IEnumerable<ResourceNamedValue<string>> CreateAvailableNoisePresets(
-        LocalizedResourceProvider localizedResourceProvider)
+    private void InitializeResourceNamedOptions(LocalizedResourceProvider localizedResourceProvider)
     {
-        return [
-            new(
-                new StringResource("Common/Blue", localizedResourceProvider),
-                null
-            ),
-            new(
-                new StringResource("Common/Brownian", localizedResourceProvider),
-                null
-            ),
-            new(
-                new StringResource("Common/White", localizedResourceProvider),
-                null
-            )
-        ];
+        AvailableApplicationThemes = CreateResourceNamedOptions(localizedResourceProvider, [
+            ("Common/System", ElementTheme.Default),
+            ("Common/Dark",   ElementTheme.Dark),
+            ("Common/Light",  ElementTheme.Light)
+        ]);
+
+        AvailableNoisePresets = CreateResourceNamedOptions(localizedResourceProvider, [
+            ("Common/Blue",     string.Empty),
+            ("Common/Brownian", string.Empty),
+            ("Common/White",    string.Empty)
+        ]);
+
+        AvailableSystemBackdrops = CreateResourceNamedOptions(localizedResourceProvider, [
+            ("SystemBackdrop/Mica",    new MicaBackdrop()),
+            ("SystemBackdrop/MicaAlt", new MicaBackdrop { Kind = MicaKind.BaseAlt }),
+            ("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop()),
+            ("Common/None",            (SystemBackdrop)null!)
+        ]);
+
+        SelectedApplicationTheme   = AvailableApplicationThemes.First();
+        SelectedDefaultNoisePreset = AvailableNoisePresets.First();
+        SelectedSystemBackdrop     = AvailableSystemBackdrops.First();
     }
 
-    private static IEnumerable<ResourceNamedValue<SystemBackdrop>> CreateAvailableSystemBackrops(
-        LocalizedResourceProvider localizedResourceProvider)
+    private void RefreshLocalizedContent()
     {
-        return [
-            new(
-                new StringResource("SystemBackdrop/Mica", localizedResourceProvider),
-                new MicaBackdrop()
-            ),
-            new(
-                new StringResource("SystemBackdrop/MicaAlt", localizedResourceProvider),
-                new MicaBackdrop { Kind = MicaKind.BaseAlt }
-            ),
-            new(
-                new StringResource("SystemBackdrop/Acrylic", localizedResourceProvider),
-                new DesktopAcrylicBackdrop()
-            ),
-            new(
-                new StringResource("Common/None", localizedResourceProvider),
-                null
-            )
-        ];
+        OnPropertyChanged(nameof(AvailableApplicationThemes));
+        OnPropertyChanged(nameof(AvailableAudioSampleRates));
+        OnPropertyChanged(nameof(AvailableLanguages));
+        OnPropertyChanged(nameof(AvailableNoisePresets));
+        OnPropertyChanged(nameof(AvailableSystemBackdrops));
+
+        OnPropertyChanged(nameof(StringResources));
+    }
+
+    private void SubscribeToMessages()
+    {
+        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
+            this,
+            HandleLocalizedResourceProviderUpdatedMessage
+        );
+    }
+    #endregion
+
+    #region Static methods
+    private static IEnumerable<ResourceNamedValue<TValue>> CreateResourceNamedOptions<TValue>(
+        LocalizedResourceProvider     localizedResourceProvider,
+        IEnumerable<(string, TValue)> options)
+    {
+        foreach (var (resourceId, value) in options)
+        {
+            yield return new(
+                new StringResource(resourceId, localizedResourceProvider),
+                value
+            );
+        }
     }
     #endregion
 
@@ -255,7 +240,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         object                                  recipient,
         LocalizedResourceProviderUpdatedMessage message)
     {
-        OnPropertyChanged(nameof(StringResources));
+        RefreshLocalizedContent();
     }
     #endregion
 }
