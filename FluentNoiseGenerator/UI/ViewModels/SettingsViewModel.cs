@@ -23,6 +23,8 @@ public sealed partial class SettingsViewModel : ObservableObject
     #region Fields
     private readonly bool _isInitializing;
 
+    private readonly LocalizedResourceProvider _localizedResourceProvider;
+
     private readonly IMessenger _messenger;
     #endregion
 
@@ -123,12 +125,14 @@ public sealed partial class SettingsViewModel : ObservableObject
 
         _messenger = messenger;
 
+        _localizedResourceProvider = localizedResourceProvider;
+
         StringResources = stringResources;
 
         TitleBarIconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
 
-        InitializeValueNamedOptions(localizedResourceProvider);
-        InitializeResourceNamedOptions(localizedResourceProvider);
+        InitializeValueNamedOptions();
+        InitializeResourceNamedOptions();
 
         RefreshLocalizedContent();
 
@@ -149,9 +153,21 @@ public sealed partial class SettingsViewModel : ObservableObject
     #endregion
 
     #region Instance methods
-    private void InitializeValueNamedOptions(LocalizedResourceProvider localizedResourceProvider)
+    private IEnumerable<ResourceNamedValue<TValue>> CreateResourceNamedOptions<TValue>(
+        IEnumerable<(string, TValue)> options)
     {
-        string audioSampleRateUnit = localizedResourceProvider.Get("Units/Hertz/Short");
+        foreach (var (resourceId, value) in options)
+        {
+            yield return new(
+                new StringResource(resourceId, _localizedResourceProvider),
+                value
+            );
+        }
+    }
+
+    private void InitializeValueNamedOptions()
+    {
+        string audioSampleRateUnit = _localizedResourceProvider.Get("Units/Hertz/Short");
 
         string GetUnitSuffixedStringFormat(int value)
         {
@@ -174,21 +190,21 @@ public sealed partial class SettingsViewModel : ObservableObject
         SelectedLanguage        = AvailableLanguages.First();
     }
 
-    private void InitializeResourceNamedOptions(LocalizedResourceProvider localizedResourceProvider)
+    private void InitializeResourceNamedOptions()
     {
-        AvailableApplicationThemes = CreateResourceNamedOptions(localizedResourceProvider, [
+        AvailableApplicationThemes = CreateResourceNamedOptions([
             ("Common/System", ElementTheme.Default),
             ("Common/Dark",   ElementTheme.Dark),
             ("Common/Light",  ElementTheme.Light)
         ]);
 
-        AvailableNoisePresets = CreateResourceNamedOptions(localizedResourceProvider, [
+        AvailableNoisePresets = CreateResourceNamedOptions([
             ("Common/Blue",     string.Empty),
             ("Common/Brownian", string.Empty),
             ("Common/White",    string.Empty)
         ]);
 
-        AvailableSystemBackdrops = CreateResourceNamedOptions(localizedResourceProvider, [
+        AvailableSystemBackdrops = CreateResourceNamedOptions([
             ("SystemBackdrop/Mica",    new MicaBackdrop()),
             ("SystemBackdrop/MicaAlt", new MicaBackdrop { Kind = MicaKind.BaseAlt }),
             ("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop()),
@@ -217,21 +233,6 @@ public sealed partial class SettingsViewModel : ObservableObject
             this,
             HandleLocalizedResourceProviderUpdatedMessage
         );
-    }
-    #endregion
-
-    #region Static methods
-    private static IEnumerable<ResourceNamedValue<TValue>> CreateResourceNamedOptions<TValue>(
-        LocalizedResourceProvider     localizedResourceProvider,
-        IEnumerable<(string, TValue)> options)
-    {
-        foreach (var (resourceId, value) in options)
-        {
-            yield return new(
-                new StringResource(resourceId, localizedResourceProvider),
-                value
-            );
-        }
     }
     #endregion
 
