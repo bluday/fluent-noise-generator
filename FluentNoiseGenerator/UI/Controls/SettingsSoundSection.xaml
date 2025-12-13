@@ -25,7 +25,8 @@
                                                    Header="{x:Bind AudioSampleRateSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
                 <ComboBox ItemsSource="{x:Bind AvailableAudioSampleRates}"
-                          SelectedItem="{x:Bind SelectedAudioSampleRate, Mode=TwoWay}"/>
+                          SelectedItem="{x:Bind SelectedAudioSampleRate, Mode=TwoWay}"
+                          SelectedValuePath="Value"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>

@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Messages;
+﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for when the application language has been changed.

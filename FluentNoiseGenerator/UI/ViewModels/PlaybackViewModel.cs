@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.StringResources;
-using FluentNoiseGenerator.Messages;
+using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using System;
 using System.Collections.Generic;
 using System.IO;

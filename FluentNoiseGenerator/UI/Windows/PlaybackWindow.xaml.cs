@@ -1,4 +1,4 @@
-using FluentNoiseGenerator.Extensions;
+using FluentNoiseGenerator.Common.MethodExtensions;
 using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Input;

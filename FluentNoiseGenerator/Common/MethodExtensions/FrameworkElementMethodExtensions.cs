@@ -3,12 +3,12 @@ using System;
 using Windows.Foundation;
 using Windows.Graphics;
 
-namespace FluentNoiseGenerator.Extensions;
+namespace FluentNoiseGenerator.Common.MethodExtensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="FrameworkElement"/> instances.
 /// </summary>
-public static class FrameworkElementExtensions
+public static class FrameworkElementMethodExtensions
 {
     /// <summary>
     /// Computes the bounding box of the element in screen coordinates and returns it as an integer

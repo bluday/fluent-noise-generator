@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Messages;
+﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for when the shared <see cref="Common.Localization.LocalizedResourceProvider"/>

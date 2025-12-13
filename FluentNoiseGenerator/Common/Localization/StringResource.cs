@@ -12,20 +12,20 @@ public readonly struct StringResource
     #region Fields
     private readonly LocalizedResourceProvider? _localizedResourceProvider;
 
-    private readonly string _key;
+    private readonly string _id;
     #endregion
 
     #region Properties
     /// <summary>
     /// Gets the unique identifier of the localized resource used to resolve the display
-    /// name for this value when calling <see cref="ToString"/>.
+    /// name for this value when calling <see cref="string.ToString()"/>.
     /// </summary>
-    public string Key => _key;
+    public string Id => _id;
 
     /// <summary>
     /// Gets the localized resource value.
     /// </summary>
-    public string? Value => _localizedResourceProvider?.Get(_key);
+    public string? Value => _localizedResourceProvider?.Get(_id);
     #endregion
 
     #region Constructor
@@ -37,17 +37,17 @@ public readonly struct StringResource
     /// The unique identifier of the resource.
     /// </param>
     /// <exception cref="ArgumentException">
-    /// Thrown when <paramref name="key"/> is <c>null</c> or contains only whitespace.
+    /// Thrown when <paramref name="id"/> is <c>null</c> or contains only whitespace.
     /// </exception>
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="localizedResourceProvider"/> is <c>null</c>.
     /// </exception>
-    public StringResource(string key, LocalizedResourceProvider localizedResourceProvider)
+    public StringResource(string id, LocalizedResourceProvider localizedResourceProvider)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
 
-        _key = key;
+        _id = id;
 
         _localizedResourceProvider = localizedResourceProvider;
     }

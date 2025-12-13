@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace FluentNoiseGenerator.Messages;
+namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for updating the current application language.

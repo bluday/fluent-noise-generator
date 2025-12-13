@@ -2,14 +2,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Localization;
-using FluentNoiseGenerator.Common.StringResources;
-using FluentNoiseGenerator.Messages;
+using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Common.Services;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.Globalization;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -21,9 +21,19 @@ namespace FluentNoiseGenerator.UI.ViewModels;
 public sealed partial class SettingsViewModel : ObservableObject
 {
     #region Fields
+    private ResourceNamedValue<ElementTheme>[] _availableApplicationThemes;
+
+    private NamedValue<int>[] _availableAudioSampleRates;
+
+    private NamedValue<CultureInfo>[] _availableLanguages;
+
+    private ResourceNamedValue<string>[] _availableNoisePresets;
+
+    private ResourceNamedValue<SystemBackdrop>[] _availableSystemBackdrops;
+
     private readonly bool _isInitializing;
 
-    private readonly LocalizedResourceProvider _localizedResourceProvider;
+    private readonly LanguageService _languageService;
 
     private readonly IMessenger _messenger;
     #endregion
@@ -60,29 +70,44 @@ public sealed partial class SettingsViewModel : ObservableObject
     public partial ResourceNamedValue<SystemBackdrop>? SelectedSystemBackdrop { get; set; }
 
     /// <summary>
-    /// Gets an enumerable of available application themes.
+    /// Gets an observable collection of available application themes.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<ElementTheme>>? AvailableApplicationThemes { get; private set; }
+    public ObservableCollection<ResourceNamedValue<ElementTheme>> AvailableApplicationThemes
+    {
+        get => [.._availableApplicationThemes];
+    }
 
     /// <summary>
-    /// Gets an enumerable of available audio sample rates.
+    /// Gets an observable collection of available audio sample rates.
     /// </summary>
-    public IEnumerable<NamedValue<int>>? AvailableAudioSampleRates { get; private set; }
+    public ObservableCollection<NamedValue<int>> AvailableAudioSampleRates
+    {
+        get => [.. _availableAudioSampleRates];
+    }
 
     /// <summary>
-    /// Gets an enumerable of available languages.
+    /// Gets an observable collection of available languages.
     /// </summary>
-    public IEnumerable<NamedValue<CultureInfo>>? AvailableLanguages { get; private set; }
+    public ObservableCollection<NamedValue<CultureInfo>> AvailableLanguages
+    {
+        get => [.. _availableLanguages];
+    }
 
     /// <summary>
-    /// Gets an enumerable of available noise presets.
+    /// Gets an observable collection of available noise presets.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<string>>? AvailableNoisePresets { get; private set; }
+    public ObservableCollection<ResourceNamedValue<string>> AvailableNoisePresets
+    {
+        get => [.. _availableNoisePresets];
+    }
 
     /// <summary>
-    /// Gets an enumerable of available system backdrops.
+    /// Gets an observable collection of available system backdrops.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<SystemBackdrop>>? AvailableSystemBackdrops { get; private set; }
+    public ObservableCollection<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops
+    {
+        get => [.. _availableSystemBackdrops];
+    }
 
     /// <summary>
     /// Gets the string resource collection instance specific to this window.
@@ -106,6 +131,9 @@ public sealed partial class SettingsViewModel : ObservableObject
     /// <param name="localizedResourceProvider">
     /// The localized resource provider for retrieving localized resource values.
     /// </param>
+    /// <param name="languageService">
+    /// The language service for managing the current application language.
+    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// </param>
@@ -115,133 +143,147 @@ public sealed partial class SettingsViewModel : ObservableObject
     public SettingsViewModel(
         SettingsWindowStringResources stringResources,
         LocalizedResourceProvider     localizedResourceProvider,
+        LanguageService               languageService,
         IMessenger                    messenger)
     {
         ArgumentNullException.ThrowIfNull(stringResources);
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
+        ArgumentNullException.ThrowIfNull(languageService);
         ArgumentNullException.ThrowIfNull(messenger);
+
+        _availableApplicationThemes = [];
+        _availableAudioSampleRates  = [];
+        _availableLanguages         = [];
+        _availableNoisePresets      = [];
+        _availableSystemBackdrops   = [];
 
         _isInitializing = true;
 
-        _messenger = messenger;
+        _languageService = languageService;
 
-        _localizedResourceProvider = localizedResourceProvider;
+        _messenger = messenger;
 
         StringResources = stringResources;
 
-        TitleBarIconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
+        TitleBarIconPath = System.IO.Path.Combine(
+            AppContext.BaseDirectory,
+            "Assets/Icon-64.ico"
+        );
 
-        InitializeValueNamedOptions();
-        InitializeResourceNamedOptions();
-
-        RefreshLocalizedContent();
-
-        SubscribeToMessages();
+        InitializeValueNamedOptions(localizedResourceProvider);
+        InitializeResourceNamedOptions(localizedResourceProvider);
 
         _isInitializing = false;
     }
     #endregion
 
     #region Property changing and changed methods
-    partial void OnSelectedLanguageChanged(NamedValue<CultureInfo>? value)
+    partial void OnSelectedLanguageChanged(
+        NamedValue<CultureInfo>? oldValue,
+        NamedValue<CultureInfo>? newValue)
     {
-        if (!_isInitializing && value?.Value is CultureInfo cultureInfo)
+        if (oldValue?.Value == newValue?.Value || _isInitializing)
         {
-            _messenger.Send(new UpdateApplicationLanguageMessage(cultureInfo));
+            return;
         }
+
+        if (newValue?.Value is not CultureInfo culture)
+        {
+            return;
+        }
+
+        try
+        {
+            _languageService.Culture = culture;
+
+            RefreshLocalizedContent();
+        } catch { }
     }
     #endregion
 
     #region Instance methods
-    private IEnumerable<ResourceNamedValue<TValue>> CreateResourceNamedOptions<TValue>(
-        IEnumerable<(string, TValue)> options)
+    private void InitializeResourceNamedOptions(LocalizedResourceProvider localizedResourceProvider)
     {
-        foreach (var (resourceId, value) in options)
+        _availableApplicationThemes = new ResourceNamedValue<ElementTheme>[]
         {
-            yield return new(
-                new StringResource(resourceId, _localizedResourceProvider),
-                value
-            );
-        }
+            new(
+                new StringResource("Common/System", localizedResourceProvider),
+                ElementTheme.Default
+            ),
+            new(
+                new StringResource("Common/Dark", localizedResourceProvider),
+                ElementTheme.Dark
+            ),
+            new(
+                new StringResource("Common/Light", localizedResourceProvider),
+                ElementTheme.Light
+            )
+        };
+
+        _availableNoisePresets = new ResourceNamedValue<string>[]
+        {
+            new(
+                new StringResource("Common/Blue", localizedResourceProvider),
+                string.Empty
+            ),
+            new(
+                new StringResource("Common/Brownian", localizedResourceProvider),
+                string.Empty
+            ),
+            new(
+                new StringResource("Common/White", localizedResourceProvider),
+                string.Empty
+            )
+        };
+
+        _availableSystemBackdrops = new ResourceNamedValue<SystemBackdrop>[]
+        {
+            new(
+                new StringResource("SystemBackdrop/Mica", localizedResourceProvider),
+                new MicaBackdrop()
+            ),
+            new(
+                new StringResource("SystemBackdrop/MicaAlt", localizedResourceProvider),
+                new MicaBackdrop { Kind = MicaKind.BaseAlt }
+            ),
+            new(
+                new StringResource("SystemBackdrop/Acrylic", localizedResourceProvider),
+                new DesktopAcrylicBackdrop()
+            ),
+            new(
+                new StringResource("Common/None", localizedResourceProvider),
+                null!
+            )
+        };
+
     }
 
-    private void InitializeValueNamedOptions()
+    private void InitializeValueNamedOptions(LocalizedResourceProvider localizedResourceProvider)
     {
-        string audioSampleRateUnit = _localizedResourceProvider.Get("Units/Hertz/Short");
+        string audioSampleRateUnit = localizedResourceProvider.Get("Units/Hertz/Short");
 
         string GetUnitSuffixedStringFormat(int value)
         {
             return $"{value} {audioSampleRateUnit}";
         }
 
-        AvailableAudioSampleRates = [
+        _availableAudioSampleRates = new NamedValue<int>[]
+        {
             new(AudioSampleRates.Rate48000Hz, GetUnitSuffixedStringFormat),
             new(AudioSampleRates.Rate44100Hz, GetUnitSuffixedStringFormat)
-        ];
+        };
 
-        AvailableLanguages = ApplicationLanguages.ManifestLanguages.Select(
-            language => new NamedValue<CultureInfo>(
-                new(language),
-                language => language.NativeName
-            )
-        );
-
-        SelectedAudioSampleRate = AvailableAudioSampleRates.First();
-        SelectedLanguage        = AvailableLanguages.First();
-    }
-
-    private void InitializeResourceNamedOptions()
-    {
-        AvailableApplicationThemes = CreateResourceNamedOptions([
-            ("Common/System", ElementTheme.Default),
-            ("Common/Dark",   ElementTheme.Dark),
-            ("Common/Light",  ElementTheme.Light)
-        ]);
-
-        AvailableNoisePresets = CreateResourceNamedOptions([
-            ("Common/Blue",     string.Empty),
-            ("Common/Brownian", string.Empty),
-            ("Common/White",    string.Empty)
-        ]);
-
-        AvailableSystemBackdrops = CreateResourceNamedOptions([
-            ("SystemBackdrop/Mica",    new MicaBackdrop()),
-            ("SystemBackdrop/MicaAlt", new MicaBackdrop { Kind = MicaKind.BaseAlt }),
-            ("SystemBackdrop/Acrylic", new DesktopAcrylicBackdrop()),
-            ("Common/None",            (SystemBackdrop)null!)
-        ]);
-
-        SelectedApplicationTheme   = AvailableApplicationThemes.First();
-        SelectedDefaultNoisePreset = AvailableNoisePresets.First();
-        SelectedSystemBackdrop     = AvailableSystemBackdrops.First();
+        _availableLanguages = ApplicationLanguages.ManifestLanguages
+            .Select(language => new NamedValue<CultureInfo>(
+                value:     new CultureInfo(language),
+                formatter: language => language.NativeName
+            ))
+            .ToArray();
     }
 
     private void RefreshLocalizedContent()
     {
-        OnPropertyChanged(nameof(AvailableApplicationThemes));
-        OnPropertyChanged(nameof(AvailableAudioSampleRates));
-        OnPropertyChanged(nameof(AvailableLanguages));
-        OnPropertyChanged(nameof(AvailableNoisePresets));
-        OnPropertyChanged(nameof(AvailableSystemBackdrops));
-
         OnPropertyChanged(nameof(StringResources));
-    }
-
-    private void SubscribeToMessages()
-    {
-        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
-            this,
-            HandleLocalizedResourceProviderUpdatedMessage
-        );
-    }
-    #endregion
-
-    #region Message handlers
-    private void HandleLocalizedResourceProviderUpdatedMessage(
-        object                                  recipient,
-        LocalizedResourceProviderUpdatedMessage message)
-    {
-        RefreshLocalizedContent();
     }
     #endregion
 }

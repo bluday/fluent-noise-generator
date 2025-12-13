@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Messages;
+﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a request-like message for opening the settings window.

@@ -2,7 +2,7 @@
 using System;
 using Windows.ApplicationModel;
 
-namespace FluentNoiseGenerator.Common.StringResources;
+namespace FluentNoiseGenerator.Common.Resources;
 
 /// <summary>
 /// Represents a collection of string resources used for the about section in settings.

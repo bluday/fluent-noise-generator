@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.StringResources;
+using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
 
-namespace FluentNoiseGenerator.Factories;
+namespace FluentNoiseGenerator.UI.Factories;
 
 /// <summary>
 /// Represents a factory for creating <see cref="PlaybackWindow"/> instances.

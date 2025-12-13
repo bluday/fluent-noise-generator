@@ -30,15 +30,18 @@
             <communityToolkitControls:SettingsCard Description="{x:Bind DefaultNoisePresetSettingsCardDescription}"
                                                    Header="{x:Bind DefaultNoisePresetSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                <ComboBox ItemsSource="{x:Bind AvailableNoisePresets}"
-                          SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"/>
+                <ComboBox DisplayMemberPath="Resource.Value"
+                          ItemsSource="{x:Bind AvailableNoisePresets}"
+                          SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"
+                          SelectedValuePath="Value"/>
             </communityToolkitControls:SettingsCard>
 
             <communityToolkitControls:SettingsCard Description="{x:Bind LanguageSettingsCardDescription}"
                                                    Header="{x:Bind LanguageSettingsCardHeader}"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                 <ComboBox ItemsSource="{x:Bind AvailableLanguages}"
-                          SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"/>
+                          SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"
+                          SelectedValuePath="Value"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>

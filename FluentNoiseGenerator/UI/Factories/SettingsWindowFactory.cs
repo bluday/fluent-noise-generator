@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Localization;
-using FluentNoiseGenerator.Common.StringResources;
-using FluentNoiseGenerator.Services;
+using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
 
-namespace FluentNoiseGenerator.Factories;
+namespace FluentNoiseGenerator.UI.Factories;
 
 /// <summary>
 /// Represents a factory for creating <see cref="SettingsWindow"/> instances.
@@ -14,6 +14,8 @@ namespace FluentNoiseGenerator.Factories;
 internal sealed class SettingsWindowFactory
 {
     #region Fields
+    private readonly LanguageService _languageService;
+
     private readonly LocalizedResourceProvider _localizedResourceProvider;
 
     private readonly IMessenger _messenger;
@@ -32,6 +34,9 @@ internal sealed class SettingsWindowFactory
     /// <param name="localizedResourceProvider">
     /// The localized resource provider for retrieving localized resource values.
     /// </param>
+    /// <param name="languageService">
+    /// The language service for managing the current application language.
+    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// </param>
@@ -41,12 +46,15 @@ internal sealed class SettingsWindowFactory
     internal SettingsWindowFactory(
         AppStringResources        stringResources,
         LocalizedResourceProvider localizedResourceProvider,
+        LanguageService           languageService,
         IMessenger                messenger)
     {
         ArgumentNullException.ThrowIfNull(stringResources);
         ArgumentNullException.ThrowIfNull(localizedResourceProvider);
+        ArgumentNullException.ThrowIfNull(languageService);
         ArgumentNullException.ThrowIfNull(messenger);
 
+        _languageService           = languageService;
         _localizedResourceProvider = localizedResourceProvider;
         _messenger                 = messenger;
         _stringResources           = stringResources;
@@ -67,6 +75,7 @@ internal sealed class SettingsWindowFactory
             ViewModel = new SettingsViewModel(
                 _stringResources.SettingsWindow,
                 _localizedResourceProvider,
+                _languageService,
                 _messenger
             )
         };

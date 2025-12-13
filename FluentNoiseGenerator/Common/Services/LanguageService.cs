@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Messages;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.Windows.Globalization;
 using System;
 using System.Globalization;
 
-namespace FluentNoiseGenerator.Services;
+namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
 /// Service for retrieving and updating the current application language info.

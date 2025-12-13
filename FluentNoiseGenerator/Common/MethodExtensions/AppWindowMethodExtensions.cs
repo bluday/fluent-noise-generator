@@ -3,12 +3,12 @@ using System;
 using System.Drawing;
 using Windows.Graphics;
 
-namespace FluentNoiseGenerator.Extensions;
+namespace FluentNoiseGenerator.Common.MethodExtensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="AppWindow"/> instances.
 /// </summary>
-public static class AppWindowExtensions
+public static class AppWindowMethodExtensions
 {
     /// <summary>
     /// Moves the window to the center of its current display area.

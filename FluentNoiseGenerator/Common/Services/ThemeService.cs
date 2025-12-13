@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 
-namespace FluentNoiseGenerator.Services;
+namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
 /// Service for managing the current theme of the application.

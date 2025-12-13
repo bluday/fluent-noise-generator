@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Extensions;
-using FluentNoiseGenerator.Factories;
-using FluentNoiseGenerator.Messages;
+using FluentNoiseGenerator.Infrastructure.Messages;
+using FluentNoiseGenerator.UI.Factories;
 using FluentNoiseGenerator.UI.Windows;
 using System;
+using FluentNoiseGenerator.Common.MethodExtensions;
 
-namespace FluentNoiseGenerator.Services;
+namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
 /// Service for managing the main and settings windows. This class ensures that windows are

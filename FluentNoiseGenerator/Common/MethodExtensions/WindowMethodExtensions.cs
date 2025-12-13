@@ -2,12 +2,12 @@
 using Microsoft.UI.Xaml;
 using System;
 
-namespace FluentNoiseGenerator.Extensions;
+namespace FluentNoiseGenerator.Common.MethodExtensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="Window"/> instances.
 /// </summary>
-public static class WindowExtensions
+public static class WindowMethodExtensions
 {
     /// <summary>
     /// Focuses on the window programmatically.

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.StringResources;
-using FluentNoiseGenerator.Factories;
-using FluentNoiseGenerator.Services;
+using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Common.Services;
+using FluentNoiseGenerator.UI.Factories;
 using Microsoft.UI.Xaml;
 
 namespace FluentNoiseGenerator;
@@ -42,6 +42,7 @@ public partial class App : Application
             new SettingsWindowFactory(
                 appStringResources,
                 _localizationService.ResourceProvider,
+                _languageService,
                 messenger
             ),
             messenger
@@ -61,6 +62,7 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _windowService.ShowPlaybackWindow();
+        _windowService.ShowSettingsWindow();
     }
     #endregion
 }
