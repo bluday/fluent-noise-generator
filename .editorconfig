@@ -12,3 +12,4 @@ indent_style = space
 
 [*.cs]
 dotnet_diagnostic.IDE0300.severity = none
+dotnet_diagnostic.IDE0305.severity = none
