@@ -44,17 +44,6 @@
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <ProjectCapability Include="Msix" />
     </ItemGroup>
-    <ItemGroup>
-      <Page Update="UI\Controls\SettingsAboutSection.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="UI\Controls\SettingsAppearanceSection.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="UI\Controls\SettingsSoundSection.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-    </ItemGroup>
     
     <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

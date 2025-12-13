@@ -23,6 +23,11 @@ public sealed class SettingsSoundSectionStringResources
     /// Gets the string resource for the header text of the sound settings section.
     /// </summary>
     public StringResource Header { get; }
+
+    /// <summary>
+    /// Gets the string resource for the "Hz" unit.
+    /// </summary>
+    public StringResource SampleRateHertzUnit { get; }
     #endregion
 
     #region Constructor
@@ -51,6 +56,11 @@ public sealed class SettingsSoundSectionStringResources
 
         Header = new StringResource(
             "Common/Sound",
+            localizedResourceProvider
+        );
+
+        SampleRateHertzUnit = new StringResource(
+            "Units/Hertz/Short",
             localizedResourceProvider
         );
     }

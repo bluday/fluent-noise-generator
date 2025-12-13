@@ -1,62 +1,68 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
 /// <summary>
 /// Interaction logic for SettingsAboutSection.xaml.
 /// </summary>
-public sealed partial class SettingsAboutSection : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class SettingsAboutSection : UserControl
 {
     #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="AboutDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AboutDescriptionProperty = DependencyProperty.Register(
-        nameof(AboutDescription),
-        typeof(string),
-        typeof(SettingsAboutSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AboutDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(AboutDescription),
+            typeof(string),
+            typeof(SettingsAboutSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AppDisplayName"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AppDisplayNameProperty = DependencyProperty.Register(
-        nameof(AppDisplayName),
-        typeof(string),
-        typeof(SettingsAboutSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AppDisplayNameProperty =
+        DependencyProperty.Register(
+            nameof(AppDisplayName),
+            typeof(string),
+            typeof(SettingsAboutSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="ApplicationVersionText"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ApplicationVersionTextProperty = DependencyProperty.Register(
-        nameof(ApplicationVersionText),
-        typeof(string),
-        typeof(SettingsAboutSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty ApplicationVersionTextProperty =
+        DependencyProperty.Register(
+            nameof(ApplicationVersionText),
+            typeof(string),
+            typeof(SettingsAboutSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="Header"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsAboutSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty HeaderProperty =
+        DependencyProperty.Register(
+            nameof(Header),
+            typeof(string),
+            typeof(SettingsAboutSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SessionIdentifierFormatString"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SessionIdentifierFormatStringProperty = DependencyProperty.Register(
-        nameof(SessionIdentifierFormatString),
-        typeof(string),
-        typeof(SettingsAboutSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SessionIdentifierFormatStringProperty =
+        DependencyProperty.Register(
+            nameof(SessionIdentifierFormatString),
+            typeof(string),
+            typeof(SettingsAboutSection),
+            new PropertyMetadata(defaultValue: null)
+        );
     #endregion
 
     #region Properties

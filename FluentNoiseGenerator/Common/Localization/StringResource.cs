@@ -10,7 +10,7 @@ namespace FluentNoiseGenerator.Common.Localization;
 public readonly struct StringResource
 {
     #region Fields
-    private readonly LocalizedResourceProvider? _localizedResourceProvider;
+    private readonly LocalizedResourceProvider _localizedResourceProvider;
 
     private readonly string _id;
     #endregion
@@ -25,7 +25,7 @@ public readonly struct StringResource
     /// <summary>
     /// Gets the localized resource value.
     /// </summary>
-    public string? Value => _localizedResourceProvider?.Get(_id);
+    public string Value => _localizedResourceProvider.Get(_id);
     #endregion
 
     #region Constructor

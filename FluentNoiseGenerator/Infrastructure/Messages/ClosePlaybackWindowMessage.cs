@@ -1,6 +1,6 @@
 ﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
-/// Represents a request-like message for closing the playback window.
+/// Represents a message for closing the playback window.
 /// </summary>
-public sealed class ClosePlaybackWindowMessage { }
+public sealed record ClosePlaybackWindowMessage();

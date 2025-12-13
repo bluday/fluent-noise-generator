@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.Globalization;
 using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.Windows.Globalization;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace FluentNoiseGenerator.Common.Services;
 
@@ -12,26 +15,41 @@ namespace FluentNoiseGenerator.Common.Services;
 public sealed class LanguageService
 {
     #region Fields
-    private CultureInfo? _culture;
+    private ILanguage? _currentLanguage;
 
     private readonly IMessenger _messenger;
+
+    private readonly ImmutableList<ILanguage> _availableLanguages;
     #endregion
 
     #region Properties
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
-    public CultureInfo? Culture
+    public ILanguage? CurrentLanguage
     {
-        get => _culture;
+        get => _currentLanguage;
         set
         {
-            _culture = value;
+            if (value is not null && !_availableLanguages.Contains(value))
+            {
+                // TODO: Throw invalid operation exception.
+            }
+
+            _currentLanguage = value;
 
             ApplicationLanguages.PrimaryLanguageOverride = value?.Name;
 
             _messenger.Send(new ApplicationLanguageChangedMessage());
         }
+    }
+
+    /// <summary>
+    /// Gets a read-only list of available languages.
+    /// </summary>
+    public IReadOnlyList<ILanguage> AvailableLanguages
+    {
+        get => _availableLanguages.AsReadOnly();
     }
     #endregion
 
@@ -49,21 +67,18 @@ public sealed class LanguageService
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
+        _availableLanguages = [
+            ..ApplicationLanguages.ManifestLanguages.Select(
+                language => new Language(language)
+            )
+        ];
+
         _messenger = messenger;
 
-        _messenger.Register<UpdateApplicationLanguageMessage>(
-            this,
-            HandleUpdateApplicationLanguageMessage
+        messenger.Register<UpdateApplicationLanguageMessage>(
+            recipient: this,
+            handler:   (_, message) => CurrentLanguage = message.Value
         );
-    }
-    #endregion
-
-    #region Message handlers
-    private void HandleUpdateApplicationLanguageMessage(
-        object                           recipient,
-        UpdateApplicationLanguageMessage message)
-    {
-        Culture = message.Culture;
     }
     #endregion
 }

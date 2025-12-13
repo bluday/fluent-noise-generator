@@ -2,10 +2,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.Infrastructure.Messages;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace FluentNoiseGenerator.UI.ViewModels;
 
@@ -18,31 +19,37 @@ public sealed partial class PlaybackViewModel : ObservableObject
     private readonly IMessenger _messenger;
     #endregion
 
-    #region Properties
+    #region Observable properties
+    /// <summary>
+    /// Gets the current <see cref="ElementTheme"/> for the application.
+    /// </summary>
+    [ObservableProperty]
+    public partial ElementTheme CurrentTheme { get; private set; }
+
     /// <summary>
     /// Gets or sets the current non-negative volume value.
     /// </summary>
-    public uint CurrentVolume { get; }
+    [ObservableProperty]
+    public partial uint CurrentVolume { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the playback is currently active.
     /// </summary>
-    public bool IsPlaying { get; private set; }
+    [ObservableProperty]
+    public partial bool IsPlaying { get; private set; }
 
     /// <summary>
     /// Gets a read-only collection of noise presets.
     /// </summary>
-    public IReadOnlyCollection<object> NoisePresets { get; }
+    [ObservableProperty]
+    public partial IReadOnlyCollection<object> NoisePresets { get; private set; }
+    #endregion
 
+    #region Properties
     /// <summary>
     /// Gets the string resource collection instance specific to this window.
     /// </summary>
-    public PlaybackWindowStringResources StringResources { get; }
-
-    /// <summary>
-    /// Gets the path for the title bar icon.
-    /// </summary>
-    public string TitleBarIconPath { get; }
+    public PlaybackWindowStringResources StringResources { get; private set; }
     #endregion
 
     #region Constructor
@@ -50,6 +57,9 @@ public sealed partial class PlaybackViewModel : ObservableObject
     /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
     /// specified string resource collection and event messenger.
     /// </summary>
+    /// <param name="noisePlaybackService">
+    /// The noise playback service for managing playback within the app.
+    /// </param>
     /// <param name="stringResources">
     /// The string resource collection instance for retreiving localized resources
     /// specifically for this view.
@@ -61,8 +71,13 @@ public sealed partial class PlaybackViewModel : ObservableObject
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public PlaybackViewModel(PlaybackWindowStringResources stringResources, IMessenger messenger)
+    public PlaybackViewModel(
+        NoisePlaybackService          noisePlaybackService,
+        PlaybackWindowStringResources stringResources,
+        IMessenger                    messenger)
     {
+        ArgumentNullException.ThrowIfNull(noisePlaybackService);
+        ArgumentNullException.ThrowIfNull(stringResources);
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
@@ -71,7 +86,7 @@ public sealed partial class PlaybackViewModel : ObservableObject
 
         StringResources = stringResources;
 
-        TitleBarIconPath = Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
+        SubscribeToMessages();
     }
     #endregion
 
@@ -101,6 +116,37 @@ public sealed partial class PlaybackViewModel : ObservableObject
     private void ShowSettings()
     {
         _messenger.Send(new OpenSettingsWindowMessage());
+    }
+    #endregion
+
+    #region Methods
+    private void SubscribeToMessages()
+    {
+        _messenger.Register<ApplicationThemeUpdatedMessage>(
+            this,
+            HandleApplicationThemeUpdatedMessage
+        );
+
+        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
+            this,
+            HandleLocalizedResourceProviderUpdatedMessage
+        );
+    }
+    #endregion
+
+    #region Message handlers
+    private void HandleApplicationThemeUpdatedMessage(
+        object                         recipient,
+        ApplicationThemeUpdatedMessage message)
+    {
+        CurrentTheme = message.Value;
+    }
+
+    private void HandleLocalizedResourceProviderUpdatedMessage(
+        object                                  recipient,
+        LocalizedResourceProviderUpdatedMessage message)
+    {
+        OnPropertyChanged(nameof(StringResources));
     }
     #endregion
 }

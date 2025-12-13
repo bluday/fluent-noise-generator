@@ -1,5 +1,6 @@
 using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
 
@@ -8,118 +9,129 @@ namespace FluentNoiseGenerator.UI.Controls;
 /// <summary>
 /// Interaction logic for SettingsAppearanceSection.xaml.
 /// </summary>
-public sealed partial class SettingsAppearanceSection : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class SettingsAppearanceSection : UserControl
 {
     #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="AlwaysOnTopSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AlwaysOnTopSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(AlwaysOnTopSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AlwaysOnTopSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(AlwaysOnTopSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AlwaysOnTopSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AlwaysOnTopSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(AlwaysOnTopSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AlwaysOnTopSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(AlwaysOnTopSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="ApplicationThemeSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ApplicationThemeSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(ApplicationThemeSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty ApplicationThemeSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(ApplicationThemeSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="ApplicationThemeSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ApplicationThemeSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(ApplicationThemeSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty ApplicationThemeSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(ApplicationThemeSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AvailableApplicationThemes"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableApplicationThemesProperty = DependencyProperty.Register(
-        nameof(AvailableApplicationThemes),
-        typeof(IEnumerable<ResourceNamedValue<ElementTheme>>),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AvailableApplicationThemesProperty =
+        DependencyProperty.Register(
+            nameof(AvailableApplicationThemes),
+            typeof(IEnumerable<ResourceNamedValue<ElementTheme>>),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AvailableSystemBackdrops"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableSystemBackdropsProperty = DependencyProperty.Register(
-        nameof(AvailableSystemBackdrops),
-        typeof(IEnumerable<ResourceNamedValue<SystemBackdrop>>),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AvailableSystemBackdropsProperty =
+        DependencyProperty.Register(
+            nameof(AvailableSystemBackdrops),
+            typeof(IEnumerable<ResourceNamedValue<SystemBackdrop>>),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="Header"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty HeaderProperty =
+        DependencyProperty.Register(
+            nameof(Header),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SelectedApplicationTheme"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedApplicationThemeProperty = DependencyProperty.Register(
-        nameof(SelectedApplicationTheme),
-        typeof(object),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SelectedApplicationThemeProperty =
+        DependencyProperty.Register(
+            nameof(SelectedApplicationTheme),
+            typeof(object),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SelectedSystemBackdrop"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedSystemBackdropProperty = DependencyProperty.Register(
-        nameof(SelectedSystemBackdrop),
-        typeof(object),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SelectedSystemBackdropProperty =
+        DependencyProperty.Register(
+            nameof(SelectedSystemBackdrop),
+            typeof(object),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SystemBackdropSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SystemBackdropSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(SystemBackdropSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SystemBackdropSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(SystemBackdropSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SystemBackdropSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SystemBackdropSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(SystemBackdropSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsAppearanceSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SystemBackdropSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(SystemBackdropSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsAppearanceSection),
+            new PropertyMetadata(defaultValue: null)
+        );
     #endregion
 
     #region Properties

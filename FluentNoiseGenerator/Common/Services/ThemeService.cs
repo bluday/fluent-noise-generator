@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -11,9 +12,9 @@ namespace FluentNoiseGenerator.Common.Services;
 public sealed class ThemeService
 {
     #region Fields
-    private SystemBackdrop? _systemBackdrop;
+    private SystemBackdrop? _currentSystemBackdrop;
 
-    private ElementTheme _theme;
+    private ElementTheme _currentTheme;
 
     private readonly IMessenger _messenger;
     #endregion
@@ -22,12 +23,14 @@ public sealed class ThemeService
     /// <summary>
     /// Gets or sets the system backdrop to be used for all windows.
     /// </summary>
-    public SystemBackdrop? SystemBackdrop
+    public SystemBackdrop? CurrentSystemBackdrop
     {
-        get => _systemBackdrop;
+        get => _currentSystemBackdrop;
         set
         {
-            _systemBackdrop = value;
+            if (_currentSystemBackdrop == value) return;
+
+            _currentSystemBackdrop = value;
 
             // TODO: Send message.
         }
@@ -38,12 +41,14 @@ public sealed class ThemeService
     /// </summary>
     public ElementTheme CurrentTheme
     {
-        get => _theme;
+        get => _currentTheme;
         set
         {
-            _theme = value;
+            if (_currentTheme == value) return;
 
-            // TODO: Send message.
+            _currentTheme = value;
+
+            _messenger.Send(new ApplicationThemeUpdatedMessage(value));
         }
     }
     #endregion
@@ -54,10 +59,9 @@ public sealed class ThemeService
     /// </summary>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
-    /// This is typically a <see cref="WeakReferenceMessenger"/>.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
+    /// Throws when <paramref name="messenger"> is <c>null</c>.
     /// </exception>
     public ThemeService(IMessenger messenger)
     {

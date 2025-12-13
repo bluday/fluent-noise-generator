@@ -9,12 +9,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="{x:Bind ViewModel.StringResources.WindowCaptionTitle.Value}"
         x:DefaultBindMode="OneWay"
+        Closed="Window_Closed"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
 
-    <Grid x:Name="layoutRoot">
+    <Grid RequestedTheme="{x:Bind ViewModel.CurrentTheme}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -23,7 +24,7 @@
         <controls:SettingsTitleBar x:Name="settingsTitleBar"
                                    Title="{x:Bind ViewModel.StringResources.InAppWindowTitle.Value}"
                                    Grid.Row="0"
-                                   IconPath="{x:Bind ViewModel.TitleBarIconPath}"/>
+                                   IconPath="{x:Bind TitleBarIconPath}"/>
 
         <Grid Grid.Row="1"
               MaxWidth="800">

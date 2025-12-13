@@ -1,10 +1,10 @@
 using FluentNoiseGenerator.Common.MethodExtensions;
 using FluentNoiseGenerator.UI.ViewModels;
-using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
+using System;
+using System.IO;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -34,17 +34,11 @@ public sealed partial class PlaybackWindow : Window
     #endregion
 
     #region Fields
-    private PlaybackViewModel? _viewModel;
-
     private bool _hasClosed;
 
     private double _dpiScaleFactor;
 
-    private readonly AppWindow _appWindow;
-
     private readonly InputNonClientPointerSource _inputNonClientPointerSource;
-
-    private readonly OverlappedPresenter _overlappedPresenter;
     #endregion
 
     #region Properties
@@ -56,16 +50,7 @@ public sealed partial class PlaybackWindow : Window
     /// <summary>
     /// Gets or sets the view model instance associated with this window type.
     /// </summary>
-    public PlaybackViewModel? ViewModel
-    {
-        get => _viewModel;
-        set
-        {
-            _viewModel = value;
-
-            ConfigureTitleBar();
-        }
-    }
+    public PlaybackViewModel? ViewModel { get; set; }
     #endregion
 
     #region Constructor
@@ -73,65 +58,19 @@ public sealed partial class PlaybackWindow : Window
     /// Initializes a new instance of the <see cref="PlaybackWindow"/> class.
     public PlaybackWindow()
     {
-        _appWindow = AppWindow;
-
-        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(_appWindow.Id);
-
-        _overlappedPresenter = OverlappedPresenter.CreateForToolWindow();
-
-        Closed += PlaybackWindow_Closed;
-
-        InitializeComponent();
-
-        RetrieveAndUpdateDpiScaleFactor();
-        ConfigureAppWindow();
-        ConfigureTitleBar();
-    }
-    #endregion
-
-    #region Methods
-    private void ConfigureAppWindow()
-    {
-        _overlappedPresenter.IsAlwaysOnTop = true;
-        _overlappedPresenter.IsMaximizable = false;
-        _overlappedPresenter.IsMinimizable = true;
-        _overlappedPresenter.IsResizable   = false;
-
-        _overlappedPresenter.SetBorderAndTitleBar(true, false);
-
-        _appWindow.SetPresenter(_overlappedPresenter);
-        _appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
-        _appWindow.MoveToCenter();
-    }
-
-    private void ConfigureTitleBar()
-    {
-        if (_viewModel?.TitleBarIconPath is string iconPath)
-        {
-            _appWindow.SetIcon(iconPath);
-        }
+        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
 
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(playbackTopBar);
+
+        RetrieveAndUpdateDpiScaleFactor();
+
+        InitializeComponent();
     }
+    #endregion
 
-    private void RefreshBackgroundBrush()
-    {
-        if (SystemBackdrop is not null)
-        {
-            layoutRoot.Background = null;
-
-            return;
-        }
-
-        layoutRoot.Background = new SolidColorBrush(
-            layoutRoot.RequestedTheme is ElementTheme.Light
-                ? Colors.White
-                : Colors.Black
-        );
-    }
-
+    #region Methods
     private void RetrieveAndUpdateDpiScaleFactor()
     {
         uint value = PInvoke.GetDpiForWindow((HWND)WindowNative.GetWindowHandle(this));
@@ -170,19 +109,48 @@ public sealed partial class PlaybackWindow : Window
             ]
         );
     }
+
+    /// <summary>
+    /// Configures the underlying, native title bar for the window.
+    /// </summary>
+    public void ConfigureNativeTitleBar()
+    {
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico"));
+    }
+
+    /// <summary>
+    /// Configures the underlying, native window.
+    /// </summary>
+    public void ConfigureNativeWindow()
+    {
+        if (AppWindow.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.CreateForToolWindow();
+
+            AppWindow.SetPresenter(presenter);
+        }
+
+        presenter.IsAlwaysOnTop = true;
+        presenter.IsMaximizable = false;
+        presenter.IsMinimizable = true;
+        presenter.IsResizable   = false;
+
+        presenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
+
+        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        AppWindow.MoveToCenter();
+    }
     #endregion
 
     #region Event handlers
-    private void layoutRoot_LayoutUpdated(object sender, object e)
+    private void LayoutUpdated(object sender, object e)
     {
         UpdateNonClientInputRegions();
     }
 
-    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
+    private void Window_Closed(object sender, WindowEventArgs args)
     {
         _hasClosed = true;
-
-        Closed -= PlaybackWindow_Closed;
     }
     #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.ViewModels;
 using FluentNoiseGenerator.UI.Windows;
 using System;
@@ -14,6 +15,8 @@ internal sealed class PlaybackWindowFactory
     #region Fields
     private readonly IMessenger _messenger;
 
+    private readonly NoisePlaybackService _noisePlaybackService;
+
     private readonly AppStringResources _stringResources;
     #endregion
 
@@ -22,6 +25,9 @@ internal sealed class PlaybackWindowFactory
     /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
     /// specified string resource collection and event messenger.
     /// </summary>
+    /// <param name="noisePlaybackService">
+    /// The noise playback service for managing playback within the app.
+    /// </param>
     /// <param name="stringResources">
     /// The string resource collection instance for retreiving localized resources.
     /// </param>
@@ -31,13 +37,18 @@ internal sealed class PlaybackWindowFactory
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    internal PlaybackWindowFactory(AppStringResources stringResources, IMessenger messenger)
+    internal PlaybackWindowFactory(
+        NoisePlaybackService noisePlaybackService,
+        AppStringResources   stringResources,
+        IMessenger           messenger)
     {
+        ArgumentNullException.ThrowIfNull(noisePlaybackService);
         ArgumentNullException.ThrowIfNull(stringResources);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _messenger       = messenger;
-        _stringResources = stringResources;
+        _noisePlaybackService = noisePlaybackService;
+        _messenger            = messenger;
+        _stringResources      = stringResources;
     }
     #endregion
 
@@ -53,6 +64,7 @@ internal sealed class PlaybackWindowFactory
         return new()
         {
             ViewModel = new PlaybackViewModel(
+                _noisePlaybackService,
                 _stringResources.PlaybackWindow,
                 _messenger
             )

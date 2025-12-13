@@ -3,7 +3,9 @@ using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
+using System;
+using System.ComponentModel;
+using System.IO;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Windows;
@@ -22,36 +24,42 @@ public sealed partial class SettingsWindow : Window
     /// <summary>
     /// The minimum width in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_WIDTH = 1000;
+    public const int MINIMUM_WIDTH = MINIMUM_HEIGHT;
     #endregion
 
     #region Fields
-    private SettingsViewModel? _viewModel;
-
-    private bool _hasClosed;
-
-    private readonly AppWindow _appWindow;
-
-    private readonly OverlappedPresenter _overlappedPresenter;
+    private SettingsViewModel? _settingsViewModel;
     #endregion
 
     #region Properties
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
-    public bool HasClosed => _hasClosed;
+    public bool HasClosed { get; private set; }
+
+    /// <summary>
+    /// Gets the path for the title bar icon.
+    /// </summary>
+    public string TitleBarIconPath { get; }
 
     /// <summary>
     /// Gets or sets the view model instance associated with this window type.
     /// </summary>
     public SettingsViewModel? ViewModel
     {
-        get => _viewModel;
+        get => _settingsViewModel;
         set
         {
-            _viewModel = value;
+            if (_settingsViewModel == value) return;
 
-            ConfigureTitleBar();
+            if (value is null)
+            {
+                _settingsViewModel?.PropertyChanged -= SettingsViewModel_PropertyChanged;
+            }
+
+            _settingsViewModel = value;
+
+            value?.PropertyChanged += SettingsViewModel_PropertyChanged;
         }
     }
     #endregion
@@ -62,60 +70,20 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public SettingsWindow()
     {
-        _appWindow = AppWindow;
+        ExtendsContentIntoTitleBar = true;
 
-        _overlappedPresenter = OverlappedPresenter.Create();
+        TitleBarIconPath = Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
 
-        Closed += SettingsWindow_Closed;
+        SetTitleBar(settingsTitleBar);
 
         InitializeComponent();
-
-        ConfigureAppWindow();
-        ConfigureTitleBar();
     }
     #endregion
 
     #region Methods
-    private void ConfigureAppWindow()
+    private void RefreshTitleBarColors(ElementTheme elementTheme)
     {
-        _overlappedPresenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
-        _overlappedPresenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
-
-        _appWindow.SetPresenter(_overlappedPresenter);
-        _appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
-    }
-
-    private void ConfigureTitleBar()
-    {
-        if (_viewModel?.TitleBarIconPath is string iconPath)
-        {
-            _appWindow.SetIcon(iconPath);
-        }
-
-        ExtendsContentIntoTitleBar = true;
-
-        SetTitleBar(settingsTitleBar);
-    }
-
-    private void RefreshBackgroundBrush()
-    {
-        if (SystemBackdrop is not null)
-        {
-            layoutRoot.Background = null;
-
-            return;
-        }
-
-        layoutRoot.Background = new SolidColorBrush(
-            layoutRoot.RequestedTheme is ElementTheme.Light
-                ? Colors.White
-                : Colors.Black
-        );
-    }
-
-    private void RefreshTitleBarColors()
-    {
-        AppWindowTitleBar titleBar = _appWindow.TitleBar;
+        AppWindowTitleBar titleBar = AppWindow.TitleBar;
 
         Color buttonForegroundColor;
         Color hoverPressedBackgroundColor;
@@ -124,7 +92,7 @@ public sealed partial class SettingsWindow : Window
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        if (layoutRoot.RequestedTheme is ElementTheme.Light)
+        if (elementTheme is ElementTheme.Light)
         {
             hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0xDD, 0xDD, 0xDD);
 
@@ -144,14 +112,46 @@ public sealed partial class SettingsWindow : Window
         titleBar.ButtonHoverForegroundColor   = buttonForegroundColor;
         titleBar.ButtonPressedForegroundColor = buttonForegroundColor;
     }
+
+    /// <summary>
+    /// Configures the underlying, native title bar for the window.
+    /// </summary>
+    public void ConfigureNativeTitleBar()
+    {
+        AppWindow.SetIcon(TitleBarIconPath);
+    }
+
+    /// <summary>
+    /// Configures the underlying native window.
+    /// </summary>
+    public void ConfigureNativeWindow()
+    {
+        if (AppWindow.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.Create();
+
+            AppWindow.SetPresenter(presenter);
+        }
+
+        presenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
+        presenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
+
+        AppWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+    }
     #endregion
 
     #region Event handlers
-    private void SettingsWindow_Closed(object sender, WindowEventArgs args)
+    private void SettingsViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        _hasClosed = true;
+        if (e.PropertyName is nameof(_settingsViewModel.CurrentTheme))
+        {
+            RefreshTitleBarColors(_settingsViewModel!.CurrentTheme);
+        }
+    }
 
-        Closed -= SettingsWindow_Closed;
+    private void Window_Closed(object sender, WindowEventArgs args)
+    {
+        HasClosed = true;
     }
     #endregion
 }

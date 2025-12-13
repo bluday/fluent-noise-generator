@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Services;
+using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Factories;
 using Microsoft.UI.Xaml;
 
@@ -12,11 +13,9 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly LanguageService _languageService;
-
     private readonly LocalizationService _localizationService;
 
-    private readonly ThemeService _themeService;
+    private readonly NoisePlaybackService _noisePlaybackService;
 
     private readonly WindowService _windowService;
     #endregion
@@ -29,20 +28,28 @@ public partial class App : Application
     {
         IMessenger messenger = WeakReferenceMessenger.Default;
 
+        LanguageService languageService = new(messenger);
+
+        ThemeService themeService = new(messenger);
+
+        _noisePlaybackService = new NoisePlaybackService(messenger);
+
         _localizationService = new(messenger);
 
         AppStringResources appStringResources = new(_localizationService.ResourceProvider);
 
-        _languageService = new LanguageService(messenger);
-
-        _themeService = new ThemeService(messenger);
-
         _windowService = new WindowService(
-            new PlaybackWindowFactory(appStringResources, messenger),
-            new SettingsWindowFactory(
+            new PlaybackWindowFactory(
+                _noisePlaybackService,
                 appStringResources,
+                messenger
+            ),
+            new SettingsWindowFactory(
+                _noisePlaybackService,
+                languageService,
+                themeService,
                 _localizationService.ResourceProvider,
-                _languageService,
+                appStringResources,
                 messenger
             ),
             messenger

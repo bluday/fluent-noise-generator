@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace FluentNoiseGenerator.UI.Controls;
@@ -6,7 +7,7 @@ namespace FluentNoiseGenerator.UI.Controls;
 /// <summary>
 /// Interaction logic for SettingsSectionHeader.xaml.
 /// </summary>
-public sealed partial class SettingsSectionHeader : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class SettingsSectionHeader : UserControl
 {
     #region Dependency properties
     /// <summary>

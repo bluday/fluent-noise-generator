@@ -1,145 +1,159 @@
+using FluentNoiseGenerator.Common.Globalization;
 using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace FluentNoiseGenerator.UI.Controls;
 
 /// <summary>
 /// Interaction logic for SettingsGeneralSection.xaml.
 /// </summary>
-public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class SettingsGeneralSection : UserControl
 {
     #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="AutoplayOnLaunchSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AutoplayOnLaunchSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(AutoplayOnLaunchSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AutoplayOnLaunchSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(AutoplayOnLaunchSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AutoplayOnLaunchSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AutoplayOnLaunchSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(AutoplayOnLaunchSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AutoplayOnLaunchSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(AutoplayOnLaunchSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AutoplayOnLaunchToggleSwitchOff"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AutoplayOnLaunchToggleSwitchOffProperty = DependencyProperty.Register(
-        nameof(AutoplayOnLaunchToggleSwitchOff),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AutoplayOnLaunchToggleSwitchOffProperty =
+        DependencyProperty.Register(
+            nameof(AutoplayOnLaunchToggleSwitchOff),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AutoplayOnLaunchToggleSwitchOn"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AutoplayOnLaunchToggleSwitchOnProperty = DependencyProperty.Register(
-        nameof(AutoplayOnLaunchToggleSwitchOn),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AutoplayOnLaunchToggleSwitchOnProperty =
+        DependencyProperty.Register(
+            nameof(AutoplayOnLaunchToggleSwitchOn),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AvailableLanguages"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableLanguagesProperty = DependencyProperty.Register(
-        nameof(AvailableLanguages),
-        typeof(IEnumerable<NamedValue<CultureInfo>>),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AvailableLanguagesProperty =
+        DependencyProperty.Register(
+            nameof(AvailableLanguages),
+            typeof(IEnumerable<NamedValue<ILanguage>>),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AvailableNoisePresets"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableNoisePresetsProperty = DependencyProperty.Register(
-        nameof(AvailableNoisePresets),
-        typeof(IEnumerable<ResourceNamedValue<string>>),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AvailableNoisePresetsProperty =
+        DependencyProperty.Register(
+            nameof(AvailableNoisePresets),
+            typeof(IEnumerable<ResourceNamedValue<string>>),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="DefaultNoisePresetSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty DefaultNoisePresetSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(DefaultNoisePresetSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty DefaultNoisePresetSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(DefaultNoisePresetSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="DefaultNoisePresetSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty DefaultNoisePresetSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(DefaultNoisePresetSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty DefaultNoisePresetSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(DefaultNoisePresetSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="Header"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty HeaderProperty =
+        DependencyProperty.Register(
+            nameof(Header),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="LanguageSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty LanguageSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(LanguageSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty LanguageSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(LanguageSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="LanguageSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty LanguageSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(LanguageSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty LanguageSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(LanguageSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SelectedDefaultNoisePreset"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedDefaultNoisePresetProperty = DependencyProperty.Register(
-        nameof(SelectedDefaultNoisePreset),
-        typeof(object),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SelectedDefaultNoisePresetProperty =
+        DependencyProperty.Register(
+            nameof(SelectedDefaultNoisePreset),
+            typeof(object),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SelectedLanguage"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedLanguageProperty = DependencyProperty.Register(
-        nameof(SelectedLanguage),
-        typeof(object),
-        typeof(SettingsGeneralSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SelectedLanguageProperty =
+        DependencyProperty.Register(
+            nameof(SelectedLanguage),
+            typeof(object),
+            typeof(SettingsGeneralSection),
+            new PropertyMetadata(defaultValue: null)
+        );
     #endregion
 
     #region Properties
@@ -182,9 +196,9 @@ public sealed partial class SettingsGeneralSection : Microsoft.UI.Xaml.Controls.
     /// <summary>
     /// Gets or sets the items source instance for the available language collection.
     /// </summary>
-    public IEnumerable<NamedValue<CultureInfo>> AvailableLanguages
+    public IEnumerable<NamedValue<ILanguage>> AvailableLanguages
     {
-        get => (IEnumerable<NamedValue<CultureInfo>>)GetValue(AvailableLanguagesProperty);
+        get => (IEnumerable<NamedValue<ILanguage>>)GetValue(AvailableLanguagesProperty);
         set => SetValue(AvailableLanguagesProperty, value);
     }
 

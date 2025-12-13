@@ -54,20 +54,22 @@ internal sealed class WindowService
         _settingsWindowFactory = settingsWindowFactory;
         _messenger             = messenger;
 
-        _messenger.Register<OpenSettingsWindowMessage>(this, HandleOpenSettingsWindowMessage);
-        _messenger.Register<ClosePlaybackWindowMessage>(this, HandleClosePlaybackWindowMessage);
+        SubscribeToMessages();
     }
     #endregion
 
     #region Methods
-    private void HandleOpenSettingsWindowMessage(object recipient, OpenSettingsWindowMessage message)
+    private void SubscribeToMessages()
     {
-        ShowSettingsWindow();
-    }
+        _messenger.Register<OpenSettingsWindowMessage>(
+            this,
+            HandleOpenSettingsWindowMessage
+        );
 
-    private void HandleClosePlaybackWindowMessage(object recipient, ClosePlaybackWindowMessage message)
-    {
-        _playbackWindow?.Close();
+        _messenger.Register<ClosePlaybackWindowMessage>(
+            this,
+            HandleClosePlaybackWindowMessage
+        );
     }
 
     /// <summary>
@@ -84,6 +86,9 @@ internal sealed class WindowService
         }
 
         _playbackWindow = _playbackWindowFactory.Create();
+
+        _playbackWindow.ConfigureNativeWindow();
+        _playbackWindow.ConfigureNativeTitleBar();
 
         _playbackWindow.Activate();
     }
@@ -107,7 +112,22 @@ internal sealed class WindowService
 
         _settingsWindow = _settingsWindowFactory.Create();
 
+        _settingsWindow.ConfigureNativeWindow();
+        _settingsWindow.ConfigureNativeTitleBar();
+
         _settingsWindow.Activate();
+    }
+    #endregion
+
+    #region Message handlers
+    private void HandleOpenSettingsWindowMessage(object recipient, OpenSettingsWindowMessage message)
+    {
+        ShowSettingsWindow();
+    }
+
+    private void HandleClosePlaybackWindowMessage(object recipient, ClosePlaybackWindowMessage message)
+    {
+        _playbackWindow?.Close();
     }
     #endregion
 }

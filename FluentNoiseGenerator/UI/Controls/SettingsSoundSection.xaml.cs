@@ -13,52 +13,57 @@ public sealed partial class SettingsSoundSection : Microsoft.UI.Xaml.Controls.Us
     /// <summary>
     /// Identifies the <see cref="AudioSampleRateSettingsCardDescription"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AudioSampleRateSettingsCardDescriptionProperty = DependencyProperty.Register(
-        nameof(AudioSampleRateSettingsCardDescription),
-        typeof(string),
-        typeof(SettingsSoundSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AudioSampleRateSettingsCardDescriptionProperty =
+        DependencyProperty.Register(
+            nameof(AudioSampleRateSettingsCardDescription),
+            typeof(string),
+            typeof(SettingsSoundSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AudioSampleRateSettingsCardHeader"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AudioSampleRateSettingsCardHeaderProperty = DependencyProperty.Register(
-        nameof(AudioSampleRateSettingsCardHeader),
-        typeof(string),
-        typeof(SettingsSoundSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AudioSampleRateSettingsCardHeaderProperty =
+        DependencyProperty.Register(
+            nameof(AudioSampleRateSettingsCardHeader),
+            typeof(string),
+            typeof(SettingsSoundSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="AvailableAudioSampleRates"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableAudioSampleRatesProperty = DependencyProperty.Register(
-        nameof(AvailableAudioSampleRates),
-        typeof(IEnumerable<NamedValue<int>>),
-        typeof(SettingsSoundSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty AvailableAudioSampleRatesProperty =
+        DependencyProperty.Register(
+            nameof(AvailableAudioSampleRates),
+            typeof(IEnumerable<NamedValue<int>>),
+            typeof(SettingsSoundSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="Header"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsSoundSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty HeaderProperty =
+        DependencyProperty.Register(
+            nameof(Header),
+            typeof(string),
+            typeof(SettingsSoundSection),
+            new PropertyMetadata(defaultValue: null)
+        );
 
     /// <summary>
     /// Identifies the <see cref="SelectedAudioSampleRate"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedAudioSampleRateProperty = DependencyProperty.Register(
-        nameof(SelectedAudioSampleRate),
-        typeof(object),
-        typeof(SettingsSoundSection),
-        new PropertyMetadata(defaultValue: null)
-    );
+    public static readonly DependencyProperty SelectedAudioSampleRateProperty =
+        DependencyProperty.Register(
+            nameof(SelectedAudioSampleRate),
+            typeof(object),
+            typeof(SettingsSoundSection),
+            new PropertyMetadata(defaultValue: null)
+        );
     #endregion
 
     #region Properties
