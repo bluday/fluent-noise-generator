@@ -9,3 +9,6 @@ end_of_line = lf
 [*]
 indent_size = 4
 indent_style = space
+
+[*.cs]
+dotnet_diagnostic.IDE0300.severity = none
