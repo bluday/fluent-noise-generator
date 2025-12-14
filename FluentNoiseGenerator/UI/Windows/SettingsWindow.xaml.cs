@@ -3,9 +3,7 @@ using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
 using System.ComponentModel;
-using System.IO;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Windows;
@@ -72,7 +70,7 @@ public sealed partial class SettingsWindow : Window
     {
         ExtendsContentIntoTitleBar = true;
 
-        TitleBarIconPath = Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico");
+        TitleBarIconPath = Common.Constants.IconPath;
 
         SetTitleBar(settingsTitleBar);
 
@@ -83,6 +81,11 @@ public sealed partial class SettingsWindow : Window
     #region Methods
     private void RefreshTitleBarColors(ElementTheme elementTheme)
     {
+        if (!AppWindowTitleBar.IsCustomizationSupported())
+        {
+            return;
+        }
+
         AppWindowTitleBar titleBar = AppWindow.TitleBar;
 
         Color buttonForegroundColor;

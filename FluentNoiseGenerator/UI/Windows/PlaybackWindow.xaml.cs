@@ -3,8 +3,6 @@ using FluentNoiseGenerator.UI.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
-using System.IO;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -66,6 +64,9 @@ public sealed partial class PlaybackWindow : Window
 
         RetrieveAndUpdateDpiScaleFactor();
 
+        ConfigureNativeWindow();
+        ConfigureNativeTitleBar();
+
         InitializeComponent();
     }
     #endregion
@@ -81,7 +82,7 @@ public sealed partial class PlaybackWindow : Window
     private void UpdateNonClientInputRegions()
     {
         /**
-         * Required to prevent the window from throwing a <see cref="ObjectDisposedException"/>.
+         * Required to prevent the window from throwing a <see cref="System.ObjectDisposedException"/>.
          * Operations on the pointer source are not allowed once the window has been closed.
          */
         if (_hasClosed) return;
@@ -115,7 +116,7 @@ public sealed partial class PlaybackWindow : Window
     /// </summary>
     public void ConfigureNativeTitleBar()
     {
-        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Icon-64.ico"));
+        AppWindow.SetIcon(Common.Constants.IconPath);
     }
 
     /// <summary>
