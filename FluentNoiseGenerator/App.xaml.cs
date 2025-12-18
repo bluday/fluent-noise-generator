@@ -2,7 +2,8 @@
 using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
-using FluentNoiseGenerator.UI.Factories;
+using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.UI.Xaml;
 
 namespace FluentNoiseGenerator;
@@ -13,9 +14,15 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
+    private readonly LanguageService _languageService;
+
     private readonly LocalizationService _localizationService;
 
     private readonly NoisePlaybackService _noisePlaybackService;
+
+    private readonly SettingsService _settingsService;
+
+    private readonly ThemeService _themeService;
 
     private readonly WindowService _windowService;
     #endregion
@@ -28,28 +35,23 @@ public partial class App : Application
     {
         IMessenger messenger = WeakReferenceMessenger.Default;
 
-        LanguageService languageService = new(messenger);
+        _languageService = new LanguageService(messenger);
 
-        ThemeService themeService = new(messenger);
+        _localizationService = new LocalizationService(messenger);
 
         _noisePlaybackService = new NoisePlaybackService(messenger);
 
-        _localizationService = new(messenger);
+        _settingsService = new SettingsService(messenger);
 
-        AppStringResources appStringResources = new(_localizationService.ResourceProvider);
+        _themeService = new ThemeService(messenger);
+
+        AppResources appResources = new();
 
         _windowService = new WindowService(
-            new PlaybackWindowFactory(
-                _noisePlaybackService,
-                appStringResources,
-                messenger
-            ),
+            new PlaybackWindowFactory(appResources, messenger),
             new SettingsWindowFactory(
-                _noisePlaybackService,
-                languageService,
-                themeService,
-                _localizationService.ResourceProvider,
-                appStringResources,
+                appResources,
+                _settingsService.CurrentSettings,
                 messenger
             ),
             messenger

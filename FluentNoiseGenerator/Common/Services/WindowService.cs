@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.Extensions;
 using FluentNoiseGenerator.Infrastructure.Messages;
-using FluentNoiseGenerator.UI.Factories;
-using FluentNoiseGenerator.UI.Windows;
+using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Settings.Windows;
 using System;
-using FluentNoiseGenerator.Common.MethodExtensions;
 
 namespace FluentNoiseGenerator.Common.Services;
 
@@ -11,7 +11,7 @@ namespace FluentNoiseGenerator.Common.Services;
 /// Service for managing the main and settings windows. This class ensures that windows are
 /// properly created, restored, and updated when necessary.
 /// </summary>
-internal sealed class WindowService
+public sealed partial class WindowService : IDisposable
 {
     #region Fields
     private PlaybackWindow? _playbackWindow;
@@ -42,7 +42,7 @@ internal sealed class WindowService
     /// <exception cref="ArgumentNullException">
     /// Thrown when any of the specified parameters are <c>null</c>.
     /// </exception>
-    internal WindowService(
+    public WindowService(
         PlaybackWindowFactory playbackWindowFactory,
         SettingsWindowFactory settingsWindowFactory,
         IMessenger            messenger)
@@ -54,22 +54,21 @@ internal sealed class WindowService
         _settingsWindowFactory = settingsWindowFactory;
         _messenger             = messenger;
 
-        SubscribeToMessages();
+        RegisterMessageHandlers();
     }
     #endregion
 
     #region Methods
-    private void SubscribeToMessages()
+    private void RegisterMessageHandlers()
     {
-        _messenger.Register<OpenSettingsWindowMessage>(
-            this,
-            HandleOpenSettingsWindowMessage
-        );
+        _messenger.Register<OpenSettingsWindowMessage>(this, HandleOpenSettingsWindowMessage);
+        _messenger.Register<ClosePlaybackWindowMessage>(this, HandleClosePlaybackWindowMessage);
+    }
 
-        _messenger.Register<ClosePlaybackWindowMessage>(
-            this,
-            HandleClosePlaybackWindowMessage
-        );
+    /// <inheritdoc cref="IDisposable.Dispose()"/>
+    public void Dispose()
+    {
+        _messenger.UnregisterAll(this);
     }
 
     /// <summary>
@@ -86,9 +85,6 @@ internal sealed class WindowService
         }
 
         _playbackWindow = _playbackWindowFactory.Create();
-
-        _playbackWindow.ConfigureNativeWindow();
-        _playbackWindow.ConfigureNativeTitleBar();
 
         _playbackWindow.Activate();
     }
@@ -111,10 +107,7 @@ internal sealed class WindowService
         }
 
         _settingsWindow = _settingsWindowFactory.Create();
-
-        _settingsWindow.ConfigureNativeWindow();
-        _settingsWindow.ConfigureNativeTitleBar();
-
+        
         _settingsWindow.Activate();
     }
     #endregion

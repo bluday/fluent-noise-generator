@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Immutable;
+using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Core.Services;
 
@@ -10,16 +10,16 @@ namespace FluentNoiseGenerator.Core.Services;
 public sealed class NoisePlaybackService
 {
     #region Fields
-    private ImmutableList<int> _availableSampleRates = [48000, 44100];
+    private IEnumerable<int> _audioSampleRates;
 
     private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets an enumerable with available sample rates.
+    /// Gets an enumerable with audio sample rates.
     /// </summary>
-    public IImmutableList<int> AvailableSampleRates => _availableSampleRates;
+    public IEnumerable<int> AudioSampleRates => _audioSampleRates;
     #endregion
 
     #region Constructor
@@ -35,6 +35,8 @@ public sealed class NoisePlaybackService
     public NoisePlaybackService(IMessenger messenger)
     {
         ArgumentNullException.ThrowIfNull(messenger);
+
+        _audioSampleRates = [48000, 44100];
 
         _messenger = messenger;
     }

@@ -10,13 +10,13 @@
 		<Platforms>x64</Platforms>
 		<PublishAot>false</PublishAot>
 		<PublishProfile>win-x64.pubxml</PublishProfile>
-		<RepositoryUrl>https://github.com/bluday/fluent-noise-remover</RepositoryUrl>
+		<RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
 		<RootNamespace>FluentNoiseGenerator</RootNamespace>
 		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
 		<TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
-		<Title>Fluent Noise Remover</Title>
+		<Title>Fluent Noise Generator</Title>
 		<UseWinUI>true</UseWinUI>
 		<WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,7 +27,12 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.250402" />
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.264">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -43,6 +48,9 @@
     -->
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="UI\Settings\Windows\" />
     </ItemGroup>
     
     <!--

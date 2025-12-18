@@ -8,7 +8,7 @@ namespace FluentNoiseGenerator.Common.Services;
 /// <summary>
 /// Service for retrieving and updating the current application language info.
 /// </summary>
-public sealed class LocalizationService
+public sealed class LocalizationService : IDisposable
 {
     #region Fields
     private LocalizedResourceProvider _localizedResourceProvider;
@@ -41,14 +41,25 @@ public sealed class LocalizationService
 
         _messenger = messenger;
 
+        RegisterMessageHandlers();
+    }
+    #endregion
+
+    #region Methods
+    private void RegisterMessageHandlers()
+    {
         _messenger.Register<ApplicationLanguageChangedMessage>(
             this,
             HandleApplicationLanguageChangedMessage
         );
     }
-    #endregion
 
-    #region Methods
+    /// <inheritdoc cref="IDisposable.Dispose()"/>
+    public void Dispose()
+    {
+        _messenger.UnregisterAll(this);
+    }
+
     /// <summary>
     /// Updates the resource loader instance stored in the resource provider.
     /// </summary>

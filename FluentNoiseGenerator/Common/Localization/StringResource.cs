@@ -25,7 +25,7 @@ public readonly struct StringResource
     /// <summary>
     /// Gets the localized resource value.
     /// </summary>
-    public string Value => _localizedResourceProvider.Get(_id);
+    public string? Value => _localizedResourceProvider?.Get(_id);
     #endregion
 
     #region Constructor

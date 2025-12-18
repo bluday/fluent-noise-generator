@@ -1,20 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Infrastructure.Messages;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
 /// Service for managing the current theme of the application.
 /// </summary>
-public sealed class ThemeService
+public sealed class ThemeService : IDisposable
 {
     #region Fields
     private SystemBackdrop? _currentSystemBackdrop;
 
     private ElementTheme _currentTheme;
+
+    private readonly IEnumerable<SystemBackdrop> _systemBackdrops;
+
+    private readonly IEnumerable<ElementTheme> _themes;
 
     private readonly IMessenger _messenger;
     #endregion
@@ -51,6 +57,16 @@ public sealed class ThemeService
             _messenger.Send(new ApplicationThemeUpdatedMessage(value));
         }
     }
+
+    /// <summary>
+    /// Gets an enumerable of system backdrops.
+    /// </summary>
+    public IEnumerable<SystemBackdrop> SystemBackdrops => _systemBackdrops;
+
+    /// <summary>
+    /// Gets an enumerable of themes.
+    /// </summary>
+    public IEnumerable<ElementTheme> Themes => _themes;
     #endregion
 
     #region Constructor
@@ -68,6 +84,22 @@ public sealed class ThemeService
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
+
+        _themes = Enum.GetValues<ElementTheme>();
+
+        _systemBackdrops = [
+            new MicaBackdrop(),
+            new MicaBackdrop { Kind = MicaKind.BaseAlt },
+            new DesktopAcrylicBackdrop()
+        ];
+    }
+    #endregion
+
+    #region Methods
+    /// <inheritdoc cref="IDisposable.Dispose()"/>
+    public void Dispose()
+    {
+        _messenger.UnregisterAll(this);
     }
     #endregion
 }

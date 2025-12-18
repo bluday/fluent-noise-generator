@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window x:Class="FluentNoiseGenerator.UI.Settings.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:communityToolkit="using:CommunityToolkit.WinUI"
+        xmlns:communityToolkitControls="using:CommunityToolkit.WinUI.Controls"
+        xmlns:controls="using:FluentNoiseGenerator.UI.Settings.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="{x:Bind ViewModel.StringResources.WindowCaptionTitle.Value}"
+        x:DefaultBindMode="OneWay"
+        Closed="Window_Closed"
+        mc:Ignorable="d">
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base"/>
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="layoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <controls:SettingsTitleBar x:Name="settingsTitleBar"
+                                   Title="{x:Bind ViewModel.StringResources.InAppWindowTitle.Value}"
+                                   Grid.Row="0"
+                                   IconPath="{x:Bind TitleBarIconPath}"/>
+
+        <Grid Grid.Row="1"
+              MaxWidth="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Margin="32,24,32,16"
+                       VerticalAlignment="Center"
+                       FontSize="24"
+                       Style="{StaticResource TitleTextBlockStyle}"
+                       Text="{x:Bind ViewModel.StringResources.Header.Value}"
+                       TextLineBounds="Tight"/>
+
+            <ScrollViewer Grid.Row="1"
+                          Padding="32,0">
+                <StackPanel Orientation="Vertical"
+                            Spacing="16">
+                    <controls:SettingsGeneralSection Margin="0,8,0,0"
+                                                     AvailableLanguages="{x:Bind ViewModel.AvailableLanguages}"
+                                                     AvailableNoisePresets="{x:Bind ViewModel.AvailableNoisePresets}"
+                                                     SelectedDefaultNoisePreset="{x:Bind ViewModel.SelectedDefaultNoisePreset, Mode=TwoWay}"
+                                                     SelectedLanguage="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"/>
+
+                    <controls:SettingsSoundSection AvailableAudioSampleRates="{x:Bind ViewModel.AvailableAudioSampleRates}"
+                                                   SelectedAudioSampleRate="{x:Bind ViewModel.SelectedAudioSampleRate, Mode=TwoWay}"/>
+
+                    <controls:SettingsAppearanceSection AvailableApplicationThemes="{x:Bind ViewModel.AvailableApplicationThemes}"
+                                                        AvailableSystemBackdrops="{x:Bind ViewModel.AvailableSystemBackdrops}"
+                                                        SelectedApplicationTheme="{x:Bind ViewModel.SelectedApplicationTheme, Mode=TwoWay}"
+                                                        SelectedSystemBackdrop="{x:Bind ViewModel.SelectedSystemBackdrop, Mode=TwoWay}"/>
+
+                    <controls:SettingsAboutSection/>
+
+
+                    <StackPanel Margin="0,8,0,32"
+                                Spacing="8">
+                        <HyperlinkButton Padding="0"
+                                         Content="{x:Bind ViewModel.StringResources.RepositoryOnGitHubHyperlinkButton.Value}"/>
+
+                        <HyperlinkButton Padding="0"
+                                         Content="{x:Bind ViewModel.StringResources.SendFeedbackHyperlinkButton.Value}"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
