@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
@@ -71,7 +71,6 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _windowService.ShowPlaybackWindow();
-        _windowService.ShowSettingsWindow();
     }
     #endregion
 }
