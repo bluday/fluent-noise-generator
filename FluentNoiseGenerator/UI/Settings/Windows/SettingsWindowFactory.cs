@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using System;
 
@@ -16,7 +17,11 @@ public sealed class SettingsWindowFactory
 
     private readonly IAppSettings _appSettings;
 
+    private readonly LanguageService _languageService;
+
     private readonly IMessenger _messenger;
+
+    private readonly ThemeService _themeService;
     #endregion
 
     #region Constructor
@@ -30,6 +35,12 @@ public sealed class SettingsWindowFactory
     /// <param name="appSettings">
     /// An <see cref="IAppSettings"/> instance with current settings for the application.
     /// </param>
+    /// <param name="languageService">
+    /// The service for managing the application language.
+    /// </param>
+    /// <param name="themeService">
+    /// The service for managing the application theme.
+    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// </param>
@@ -37,17 +48,23 @@ public sealed class SettingsWindowFactory
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     public SettingsWindowFactory(
-        AppResources appResources,
-        IAppSettings appSettings,
-        IMessenger   messenger)
+        AppResources    appResources,
+        IAppSettings    appSettings,
+        LanguageService languageService,
+        ThemeService    themeService,
+        IMessenger      messenger)
     {
         ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);
+        ArgumentNullException.ThrowIfNull(languageService);
+        ArgumentNullException.ThrowIfNull(themeService);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _appResources = appResources;
-        _appSettings  = appSettings;
-        _messenger    = messenger;
+        _appResources    = appResources;
+        _appSettings     = appSettings;
+        _languageService = languageService;
+        _messenger       = messenger;
+        _themeService    = themeService;
     }
     #endregion
 
@@ -65,6 +82,8 @@ public sealed class SettingsWindowFactory
             ViewModel = new SettingsViewModel(
                 _appResources,
                 _appSettings,
+                _languageService,
+                _themeService,
                 _messenger
             )
         };

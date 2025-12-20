@@ -52,6 +52,8 @@ public partial class App : Application
             new SettingsWindowFactory(
                 appResources,
                 _settingsService.CurrentSettings,
+                _languageService,
+                _themeService,
                 messenger
             ),
             messenger

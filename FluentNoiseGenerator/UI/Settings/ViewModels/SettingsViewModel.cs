@@ -4,6 +4,7 @@ using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Globalization;
 using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Resources;
+using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -23,7 +24,11 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
 
     private readonly bool _isInitializing;
 
+    private readonly LanguageService _languageService;
+
     private readonly IMessenger _messenger;
+
+    private readonly ThemeService _themeService;
     #endregion
 
     #region Properties
@@ -93,6 +98,12 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <param name="appSettings">
     /// An <see cref="IAppSettings"/> instance with selected settings for the application.
     /// </param>
+    /// <param name="languageService">
+    /// The service for managing the application language.
+    /// </param>
+    /// <param name="themeService">
+    /// The service for managing the application theme.
+    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// </param>
@@ -100,19 +111,27 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     public SettingsViewModel(
-        AppResources appResources,
-        IAppSettings appSettings,
-        IMessenger   messenger)
+        AppResources    appResources,
+        IAppSettings    appSettings,
+        LanguageService languageService,
+        ThemeService    themeService,
+        IMessenger      messenger)
     {
         ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);
+        ArgumentNullException.ThrowIfNull(languageService);
+        ArgumentNullException.ThrowIfNull(themeService);
         ArgumentNullException.ThrowIfNull(messenger);
 
         _appSettings = appSettings;
 
         _isInitializing = true;
 
+        _languageService = languageService;
+
         _messenger = messenger;
+
+        _themeService = themeService;
 
         AvailableApplicationThemes = [];
         AvailableAudioSampleRates  = [];
@@ -129,45 +148,24 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     #endregion
 
     #region Property changed methods
-    private void OnSelectedLanguageChanged(
-        NamedValue<ILanguage>? oldValue,
-        NamedValue<ILanguage>? newValue)
+    private void OnSelectedLanguageChanged(NamedValue<ILanguage>? value)
     {
-        if (!CanPerformPostPropertyValueChangeOperation(oldValue?.Value, newValue?.Value))
+        if (!_isInitializing && value?.Value is ILanguage language)
         {
-            return;
-        }
-
-        if (newValue?.Value is ILanguage language)
-        {
-            _messenger.Send(new UpdateApplicationLanguageMessage(language));
+            _languageService.CurrentLanguage = language;
         }
     }
 
-    private void OnSelectedApplicationThemeChanged(
-        ResourceNamedValue<ElementTheme>? oldValue,
-        ResourceNamedValue<ElementTheme>? newValue)
+    private void OnSelectedApplicationThemeChanged(ResourceNamedValue<ElementTheme>? value)
     {
-        if (!CanPerformPostPropertyValueChangeOperation(oldValue?.Value, newValue?.Value))
+        if (!_isInitializing && value?.Value is ElementTheme elementTheme)
         {
-            return;
-        }
-
-        if (newValue?.Value is ElementTheme elementTheme)
-        {
-            _messenger.Send(new UpdateApplicationThemeMessage(elementTheme));
+            _themeService.CurrentTheme = elementTheme;
         }
     }
     #endregion
 
     #region Instance methods
-    private bool CanPerformPostPropertyValueChangeOperation<TValue>(
-        TValue? oldValue,
-        TValue? newValue)
-    {
-        return !_isInitializing && oldValue?.Equals(newValue) is false;
-    }
-
     private void RefreshLocalizedContent()
     {
         OnPropertyChanged(nameof(StringResources));
