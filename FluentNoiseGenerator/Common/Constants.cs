@@ -1,12 +1,12 @@
 ﻿namespace FluentNoiseGenerator.Common;
 
 /// <summary>
-/// A utility for accessing application-specific constants.
+/// Provides utility constants used throughout the application.
 /// </summary>
-public static class Constants
+internal static class Constants
 {
     /// <summary>
-    /// The absolute icon path as a <see cref="string"/>.
+    /// The absolute icon path to the application's icon.
     /// </summary>
     public static readonly string IconPath = System.IO.Path.Combine(
         System.AppContext.BaseDirectory,
