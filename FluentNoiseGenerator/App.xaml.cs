@@ -1,10 +1,14 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using System;
 
 namespace FluentNoiseGenerator;
 
@@ -14,15 +18,7 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly LanguageService _languageService;
-
-    private readonly LocalizationService _localizationService;
-
-    private readonly NoisePlaybackService _noisePlaybackService;
-
-    private readonly SettingsService _settingsService;
-
-    private readonly ThemeService _themeService;
+    private readonly ServiceProvider _rootServiceProvider;
 
     private readonly WindowService _windowService;
     #endregion
@@ -33,37 +29,17 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        IMessenger messenger = WeakReferenceMessenger.Default;
+        _rootServiceProvider = CreateContainer();
 
-        _languageService = new LanguageService(messenger);
+        Ioc.Default.ConfigureServices(_rootServiceProvider);
 
-        _localizationService = new LocalizationService(messenger);
-
-        _noisePlaybackService = new NoisePlaybackService(messenger);
-
-        _settingsService = new SettingsService(messenger);
-
-        _themeService = new ThemeService(messenger);
-
-        AppResources appResources = new();
-
-        _windowService = new WindowService(
-            new PlaybackWindowFactory(appResources, messenger),
-            new SettingsWindowFactory(
-                appResources,
-                _settingsService.CurrentSettings,
-                _languageService,
-                _themeService,
-                messenger
-            ),
-            messenger
-        );
+        _windowService = _rootServiceProvider.GetRequiredService<WindowService>();
 
         InitializeComponent();
     }
     #endregion
 
-    #region Methods
+    #region Instance methods
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -73,6 +49,35 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _windowService.ShowPlaybackWindow();
+    }
+    #endregion
+
+    #region Static methods
+    private static ServiceProvider CreateContainer()
+    {
+        ServiceCollection services = new();
+
+        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
+        services.AddSingleton<AppResources>();
+
+        services.AddSingleton<IAppSettings>(
+            serviceProvider => serviceProvider
+                .GetRequiredService<SettingsService>()
+                .CurrentSettings
+        );
+
+        services.AddSingleton<PlaybackWindowFactory>();
+        services.AddSingleton<SettingsWindowFactory>();
+
+        services.AddSingleton<LanguageService>();
+        services.AddSingleton<LocalizationService>();
+        services.AddSingleton<NoisePlaybackService>();
+        services.AddSingleton<SettingsService>();
+        services.AddSingleton<ThemeService>();
+        services.AddSingleton<WindowService>();
+
+        return services.BuildServiceProvider();
     }
     #endregion
 }
