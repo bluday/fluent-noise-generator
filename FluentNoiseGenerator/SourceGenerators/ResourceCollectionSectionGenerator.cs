@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace FluentNoiseGenerator.SourceGenerator;
+namespace FluentNoiseGenerator.SourceGenerators;
 
 /// <summary>
 /// Represents a source generator for generating properties for sections, specified using the
@@ -20,11 +20,12 @@ public class ResourceCollectionSectionGenerator : IIncrementalGenerator
     /// The class template to be used for generation, including the namespace declaration.
     /// </summary>
     public const string CODE_CLASS_TEMPLATE = @"
-namespace $RESOURCE_COLLECTION_ASSEMBLY_NAME_IDENTIFIER$;
-
-public sealed partial class $RESOURCE_COLLECTION_TYPE_NAME_IDENTIFIER$
+namespace $RESOURCE_COLLECTION_ASSEMBLY_NAME_IDENTIFIER$
 {
-    $SECTIONS$
+    public sealed partial class $RESOURCE_COLLECTION_TYPE_NAME_IDENTIFIER$
+    {
+        $SECTIONS$
+    }
 }";
 
     /// <summary>
@@ -76,17 +77,6 @@ public $RESOURCE_SECTION_PROPERTY_TYPE_IDENTIFIER$ $RESOURCE_SECTION_PROPERTY_NA
     public const string SECTIONS_IDENTIFIER = "$SECTIONS$";
     #endregion
 
-    #region fields
-    private static readonly DiagnosticDescriptor DebugDescriptor = new(
-        id:                 "GEN999",
-        title:              "Generator debug",
-        messageFormat:      "Processing type: {0}",
-        category:           "IncrementalGenerator",
-        defaultSeverity:    DiagnosticSeverity.Warning,
-        isEnabledByDefault: true
-    );
-    #endregion
-
     #region Instance methods
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -98,18 +88,13 @@ public $RESOURCE_SECTION_PROPERTY_TYPE_IDENTIFIER$ $RESOURCE_SECTION_PROPERTY_NA
             )
             .Where(static (symbol) => symbol is not null);
 
+        System.Diagnostics.Debug.WriteLine("Hello");
+
         context.RegisterSourceOutput(
             namedTypeSymbols,
             static (sourceProductionContext, namedTypeSymbol) =>
             {
-                sourceProductionContext.ReportDiagnostic(
-                    Diagnostic.Create(DebugDescriptor, Location.None, namedTypeSymbol.Name)
-                );
-
-                sourceProductionContext.AddSource(
-                    $"{namedTypeSymbol.Name}.g.cs",
-                    SourceText.From(GetSourceContent(namedTypeSymbol), Encoding.UTF8)
-                );
+                sourceProductionContext.AddSource("Hello.g.cs", GetSourceContent());
             }
         );
     }
@@ -121,13 +106,23 @@ public $RESOURCE_SECTION_PROPERTY_TYPE_IDENTIFIER$ $RESOURCE_SECTION_PROPERTY_NA
         return true;
     }
 
-    private static string GetSourceContent(INamedTypeSymbol namedTypeSymbol)
+    private static string GetSourceContent()
     {
-        ArgumentNullException.ThrowIfNull(namedTypeSymbol);
+        // ArgumentNullException.ThrowIfNull(namedTypeSymbol);
 
-        IEnumerable<AttributeData> hasResourceSectionAttributes = namedTypeSymbol.GetAttributes();
+        // IEnumerable<AttributeData> hasResourceSectionAttributes = namedTypeSymbol.GetAttributes();
 
-        StringBuilder stringBuilder = new();
+        StringBuilder stringBuilder = new(@"
+namespace HelloDude
+{
+    public static class Cool
+    {
+        public static readonly string Haha = ""Haha"";
+    }
+}
+");
+
+        System.Diagnostics.Debug.WriteLine(stringBuilder.ToString());
 
         // TODO: Construct the code.
 
