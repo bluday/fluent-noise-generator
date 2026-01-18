@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentNoiseGenerator.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -25,11 +24,9 @@ public partial class App : Application
     {
         _container = new Container();
 
-        IServiceProvider rootServiceProvider = _container.RootServiceProvider;
+        _windowService = _container.RootServiceProvider.GetRequiredService<WindowService>();
 
-        _windowService = rootServiceProvider.GetRequiredService<WindowService>();
-
-        Ioc.Default.ConfigureServices(rootServiceProvider);
+        System.Diagnostics.Debug.WriteLine(Hello.Cool.Haha);
 
         InitializeComponent();
     }
