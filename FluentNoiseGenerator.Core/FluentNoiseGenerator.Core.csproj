@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Platforms>x64</Platforms>
+        <RootNamespace>FluentNoiseGenerator.Core</RootNamespace>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\FluentNoiseGenerator.Common\FluentNoiseGenerator.Common.csproj" />
+    </ItemGroup>
+</Project>

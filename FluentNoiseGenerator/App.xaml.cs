@@ -1,4 +1,4 @@
-using FluentNoiseGenerator.Common.Services;
+using FluentNoiseGenerator.UI.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
