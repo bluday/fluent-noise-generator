@@ -2,7 +2,7 @@
     <PropertyGroup>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IncludeBuildOutput>false</IncludeBuildOutput>
-        <IsRoslynComponent>true</IsRoslynComponent>
+        <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>

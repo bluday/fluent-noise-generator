@@ -26,7 +26,9 @@ public partial class App : Application
 
         _windowService = _container.RootServiceProvider.GetRequiredService<WindowService>();
 
-        System.Diagnostics.Debug.WriteLine(Hello.Cool.Haha);
+        System.Diagnostics.Debug.WriteLine(Cool.Haha);
+
+        Awesome.PrintSymbols();
 
         InitializeComponent();
     }
