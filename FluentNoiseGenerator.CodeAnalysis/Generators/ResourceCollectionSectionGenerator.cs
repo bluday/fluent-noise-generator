@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace FluentNoiseGenerator.CodeAnalysis.Generators;
 
@@ -9,11 +9,11 @@ public class ResourceCollectionSectionGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValueProvider<ImmutableArray<ISymbol>> symbols = context.SyntaxProvider
+        IncrementalValueProvider<ImmutableArray<SyntaxNode>> syntaxNodes = context.SyntaxProvider
             .ForAttributeWithMetadataName(
                 "FluentNoiseGenerator.Common.Localization.Attributes.ResourceCollectionAttribute",
-                static (syntaxNode, _) => true,
-                static (syntaxContext, _) => syntaxContext.TargetSymbol
+                static (syntaxNode, _)    => syntaxNode is ClassDeclarationSyntax,
+                static (syntaxContext, _) => syntaxContext.TargetNode
             )
             .Collect();
 
@@ -29,23 +29,14 @@ public partial class Cool
             );
         });
 
-        context.RegisterSourceOutput(symbols, static (sourceProductionContext, symbols) =>
+        context.RegisterSourceOutput(syntaxNodes, static (sourceProductionContext, syntaxNodes) =>
         {
-            string[] names = symbols.Select(symbol => symbol.Name).ToArray();
-
-            string output = names.Length > 1 ? string.Join(",", names) : "No symbols";
-
             sourceProductionContext.AddSource($"Awesome.g.cs",
 $@"namespace FluentNoiseGenerator;
 
-public partial class Awesome
+public partial class Cool
 {{
-    // public static string symbol.Name {{ get; }} = ""Haha"";
-
-    public static void PrintSymbols()
-    {{
-        System.Diagnostics.Debug.WriteLine(""{output}"");
-    }}
+    public static int NodeCount {{ get; }} = {syntaxNodes.Length};
 }}"
             );
         });
