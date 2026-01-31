@@ -17,18 +17,6 @@ public class ResourceCollectionSectionGenerator : IIncrementalGenerator
             )
             .Collect();
 
-        context.RegisterPostInitializationOutput((context) =>
-        {
-            context.AddSource("Cool.g.cs", 
-$@"namespace FluentNoiseGenerator;
-
-public partial class Cool
-{{
-    public static string Haha {{ get; }} = ""Haha"";
-}}"
-            );
-        });
-
         context.RegisterSourceOutput(syntaxNodes, static (sourceProductionContext, syntaxNodes) =>
         {
             sourceProductionContext.AddSource($"Awesome.g.cs",
