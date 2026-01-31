@@ -40,6 +40,7 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _windowService.ShowPlaybackWindow();
+        _windowService.ShowSettingsWindow();
     }
     #endregion
 }
