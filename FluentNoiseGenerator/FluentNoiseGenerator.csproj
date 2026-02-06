@@ -4,6 +4,7 @@
         <ApplicationIcon>Assets\Icon-64.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Authors>BluDay</Authors>
+        <Copyright>© BluDay 2026</Copyright>
         <EnableMsixTooling>true</EnableMsixTooling>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
