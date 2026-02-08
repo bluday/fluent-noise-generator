@@ -1,6 +1,8 @@
 ﻿using FluentNoiseGenerator.Common.Localization.Attributes;
+using FluentNoiseGenerator.UI.Playback.Resources;
+using FluentNoiseGenerator.UI.Settings.Resources;
 
-namespace FluentNoiseGenerator.Common.Resources;
+namespace FluentNoiseGenerator.UI.Resources;
 
 /// <summary>
 /// Represents a collection of resources used in the entire application.

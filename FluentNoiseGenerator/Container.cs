@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
-using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Services;
 using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Resources;
 using FluentNoiseGenerator.UI.Services;
 using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;

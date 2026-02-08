@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Resources;
 using FluentNoiseGenerator.Common.Messages;
+using FluentNoiseGenerator.UI.Resources;
+using FluentNoiseGenerator.UI.Playback.Resources;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;

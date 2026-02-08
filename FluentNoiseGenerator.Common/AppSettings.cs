@@ -1,7 +1,6 @@
-﻿using FluentNoiseGenerator.Common;
-using FluentNoiseGenerator.Common.Globalization;
+﻿using FluentNoiseGenerator.Common.Globalization;
 
-namespace FluentNoiseGenerator.Common.Services;
+namespace FluentNoiseGenerator.Common;
 
 /// <summary>
 /// Implementation for the <see cref="IAppSettings"/> interface.
@@ -46,6 +45,8 @@ public sealed class AppSettings : IAppSettings
         ArgumentNullException.ThrowIfNull(settingsService);
 
         _settingsService = settingsService;
+
+        ApplicationTheme = null!;
 
         Language = null!;
 

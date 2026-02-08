@@ -1,7 +1,7 @@
 ﻿using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Localization.Attributes;
 
-namespace FluentNoiseGenerator.Common.Resources;
+namespace FluentNoiseGenerator.UI.Playback.Resources;
 
 /// <summary>
 /// Represents a collection of string resources used for the playback window.

@@ -1,7 +1,7 @@
 ﻿using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Localization.Attributes;
 
-namespace FluentNoiseGenerator.Common.Resources;
+namespace FluentNoiseGenerator.UI.Settings.Resources;
 
 /// <summary>
 /// Represents a collection of resources used for the general section in settings.

@@ -11,7 +11,7 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly Container _container;
+    private readonly Container _container = new();
 
     private readonly WindowService _windowService;
     #endregion
@@ -22,8 +22,6 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _container = new Container();
-
         _windowService = _container.RootServiceProvider.GetRequiredService<WindowService>();
 
         InitializeComponent();
@@ -40,7 +38,6 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _windowService.ShowPlaybackWindow();
-        _windowService.ShowSettingsWindow();
     }
     #endregion
 }
