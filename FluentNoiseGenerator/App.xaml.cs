@@ -22,7 +22,11 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _windowService = _container.RootServiceProvider.GetRequiredService<WindowService>();
+        IServiceProvider rootServiceProvider = _container.RootServiceProvider;
+
+        _windowService = rootServiceProvider.GetRequiredService<WindowService>();
+
+        // TODO: Resolve remaining services for the startup process.
 
         InitializeComponent();
     }
