@@ -5,14 +5,14 @@ using FluentNoiseGenerator.Common.Globalization;
 using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Messages;
 using FluentNoiseGenerator.Common.Services;
-using FluentNoiseGenerator.UI.Resources;
 using FluentNoiseGenerator.UI.Settings.Resources;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNoiseGenerator.UI.Services;
+using FluentNoiseGenerator.UI.Common.Services;
+using FluentNoiseGenerator.UI.Common.Resources;
 
 namespace FluentNoiseGenerator.UI.Settings.ViewModels;
 

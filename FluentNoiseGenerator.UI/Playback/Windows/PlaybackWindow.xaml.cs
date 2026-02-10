@@ -1,4 +1,4 @@
-using FluentNoiseGenerator.UI.Extensions;
+using FluentNoiseGenerator.UI.Common.Extensions;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;

@@ -2,7 +2,7 @@
 using FluentNoiseGenerator.UI.Playback.Resources;
 using FluentNoiseGenerator.UI.Settings.Resources;
 
-namespace FluentNoiseGenerator.UI.Resources;
+namespace FluentNoiseGenerator.UI.Common.Resources;
 
 /// <summary>
 /// Represents a collection of resources used in the entire application.

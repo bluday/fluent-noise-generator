@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Messages;
-using FluentNoiseGenerator.UI.Extensions;
+using FluentNoiseGenerator.UI.Common.Extensions;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.Windows;
 using System;

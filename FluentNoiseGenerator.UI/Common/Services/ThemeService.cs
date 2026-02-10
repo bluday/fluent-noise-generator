@@ -3,7 +3,7 @@ using FluentNoiseGenerator.Common.Messages;
 using System;
 using System.Collections.Generic;
 
-namespace FluentNoiseGenerator.UI.Services;
+namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
 /// Service for managing the current theme of the application.

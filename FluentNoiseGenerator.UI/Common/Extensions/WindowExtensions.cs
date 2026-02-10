@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml;
 using System;
 
-namespace FluentNoiseGenerator.UI.Extensions;
+namespace FluentNoiseGenerator.UI.Common.Extensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="Window"/> instances.

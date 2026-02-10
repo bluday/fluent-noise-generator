@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Services;
-using FluentNoiseGenerator.UI.Resources;
-using FluentNoiseGenerator.UI.Services;
+using FluentNoiseGenerator.UI.Common.Resources;
+using FluentNoiseGenerator.UI.Common.Services;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using System;
 

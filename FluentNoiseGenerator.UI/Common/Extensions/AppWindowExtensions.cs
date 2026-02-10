@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using Windows.Graphics;
 
-namespace FluentNoiseGenerator.UI.Extensions;
+namespace FluentNoiseGenerator.UI.Common.Extensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="AppWindow"/> instances.
