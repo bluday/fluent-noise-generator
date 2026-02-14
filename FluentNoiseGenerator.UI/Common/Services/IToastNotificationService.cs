@@ -1,4 +1,6 @@
-﻿namespace FluentNoiseGenerator.Common.Services;
+﻿using System.Threading.Tasks;
+
+namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
 /// Service for sending toast notifications to the operating system.

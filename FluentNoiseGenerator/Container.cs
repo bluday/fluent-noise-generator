@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Resources;

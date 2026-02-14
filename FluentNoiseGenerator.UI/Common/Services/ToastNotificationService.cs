@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using System;
+using System.Threading.Tasks;
 
-namespace FluentNoiseGenerator.Common.Services;
+namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="IToastNotificationService"/> service.
