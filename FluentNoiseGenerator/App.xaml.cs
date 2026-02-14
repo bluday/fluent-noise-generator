@@ -13,7 +13,7 @@ public partial class App : Application
     #region Fields
     private readonly Container _container = new();
 
-    private readonly WindowService _windowService;
+    private readonly IWindowService _windowService;
     #endregion
 
     #region Constructor
@@ -24,7 +24,7 @@ public partial class App : Application
     {
         IServiceProvider rootServiceProvider = _container.RootServiceProvider;
 
-        _windowService = rootServiceProvider.GetRequiredService<WindowService>();
+        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
 
         // TODO: Resolve remaining services for the startup process.
 

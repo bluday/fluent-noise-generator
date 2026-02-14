@@ -6,7 +6,6 @@ using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Messages;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.UI.Settings.Resources;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -26,11 +25,11 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
 
     private readonly bool _isInitializing;
 
-    private readonly LanguageService _languageService;
+    private readonly ILanguageService _languageService;
 
     private readonly IMessenger _messenger;
 
-    private readonly ThemeService _themeService;
+    private readonly IThemeService _themeService;
     #endregion
 
     #region Properties
@@ -113,11 +112,11 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     public SettingsViewModel(
-        AppResources    appResources,
-        IAppSettings    appSettings,
-        LanguageService languageService,
-        ThemeService    themeService,
-        IMessenger      messenger)
+        AppResources     appResources,
+        IAppSettings     appSettings,
+        ILanguageService languageService,
+        IThemeService    themeService,
+        IMessenger       messenger)
     {
         ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);
@@ -146,24 +145,6 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         RegisterMessageHandlers();
 
         _isInitializing = false;
-    }
-    #endregion
-
-    #region Property changed methods
-    private void OnSelectedLanguageChanged(NamedValue<ILanguage>? value)
-    {
-        if (!_isInitializing && value?.Value is ILanguage language)
-        {
-            _languageService.CurrentLanguage = language;
-        }
-    }
-
-    private void OnSelectedApplicationThemeChanged(ResourceNamedValue<ElementTheme>? value)
-    {
-        if (!_isInitializing && value?.Value is ElementTheme elementTheme)
-        {
-            _themeService.CurrentTheme = elementTheme;
-        }
     }
     #endregion
 

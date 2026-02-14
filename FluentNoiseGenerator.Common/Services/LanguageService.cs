@@ -5,9 +5,9 @@ using FluentNoiseGenerator.Common.Messages;
 namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
-/// Service for retrieving and updating the current application language info.
+/// Default implementation for the <see cref="ILanguageService"/> service.
 /// </summary>
-public sealed class LanguageService : IDisposable
+public sealed class LanguageService : ILanguageService, IDisposable
 {
     #region Fields
     private ILanguage _currentLanguage;
@@ -18,9 +18,10 @@ public sealed class LanguageService : IDisposable
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Gets or sets the culture.
-    /// </summary>
+    /// <inheritdoc cref="ILanguageService.AvailableLanguages"/>
+    public IEnumerable<ILanguage> AvailableLanguages => _availableLanguages;
+
+    /// <inheritdoc cref="ILanguageService.CurrentLanguage"/>
     public ILanguage CurrentLanguage
     {
         get => _currentLanguage;
@@ -33,11 +34,6 @@ public sealed class LanguageService : IDisposable
             _messenger.Send(new ApplicationLanguageChangedMessage(value));
         }
     }
-
-    /// <summary>
-    /// Gets an enumerable of available languages.
-    /// </summary>
-    public IEnumerable<ILanguage> AvailableLanguages => _availableLanguages;
     #endregion
 
     #region Constructor
@@ -54,9 +50,7 @@ public sealed class LanguageService : IDisposable
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _availableLanguages = []; /*ApplicationLanguages.ManifestLanguages
-            .Select(language => new Language(language))
-            .Cast<ILanguage>();*/
+        _availableLanguages = [];
 
         _currentLanguage = new Language("en-US");
 
@@ -71,7 +65,7 @@ public sealed class LanguageService : IDisposable
     {
         _messenger.Register<UpdateApplicationLanguageMessage>(
             recipient: this,
-            handler:   (_, message) => CurrentLanguage = message.Value
+            handler: (_, message) => CurrentLanguage = message.Value
         );
     }
 

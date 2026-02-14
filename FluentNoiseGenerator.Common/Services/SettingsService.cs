@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common;
-using System;
 
 namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
-/// Service for managing the current theme of the application.
+/// Default implementation for the <see cref="ISettingsService"/> service.
 /// </summary>
-public sealed class SettingsService : IDisposable
+public sealed class SettingsService : ISettingsService, IDisposable
 {
     #region Fields
     private IAppSettings _currentSettings;
@@ -16,9 +14,7 @@ public sealed class SettingsService : IDisposable
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Gets the current app settings instance.
-    /// </summary>
+    /// <inheritdoc cref="ISettingsService.CurrentSettings"/>
     public IAppSettings CurrentSettings => _currentSettings;
     #endregion
 

@@ -54,21 +54,24 @@ internal sealed class Container
 
         services.AddSingleton<AppResources>();
 
-        services.AddSingleton<IAppSettings>(
+        services.AddSingleton(
             serviceProvider => serviceProvider
-                .GetRequiredService<SettingsService>()
+                .GetRequiredService<ISettingsService>()
                 .CurrentSettings
         );
 
         services.AddSingleton<PlaybackWindowFactory>();
         services.AddSingleton<SettingsWindowFactory>();
 
-        services.AddSingleton<LanguageService>();
-        services.AddSingleton<LocalizationService>();
-        services.AddSingleton<NoisePlaybackService>();
-        services.AddSingleton<SettingsService>();
-        services.AddSingleton<ThemeService>();
-        services.AddSingleton<WindowService>();
+        services.AddSingleton<ILanguageService, LanguageService>();
+        services.AddSingleton<ILocalizationService, LocalizationService>();
+        services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<IToastNotificationService, ToastNotificationService>();
+
+        services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
+
+        services.AddSingleton<IThemeService, ThemeService>();
+        services.AddSingleton<IWindowService, WindowService>();
     }
 
     /// <summary>

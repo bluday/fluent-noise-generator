@@ -18,11 +18,11 @@ public sealed class SettingsWindowFactory
 
     private readonly IAppSettings _appSettings;
 
-    private readonly LanguageService _languageService;
+    private readonly ILanguageService _languageService;
 
     private readonly IMessenger _messenger;
 
-    private readonly ThemeService _themeService;
+    private readonly IThemeService _themeService;
     #endregion
 
     #region Constructor
@@ -49,11 +49,11 @@ public sealed class SettingsWindowFactory
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     public SettingsWindowFactory(
-        AppResources    appResources,
-        IAppSettings    appSettings,
-        LanguageService languageService,
-        ThemeService    themeService,
-        IMessenger      messenger)
+        AppResources     appResources,
+        IAppSettings     appSettings,
+        ILanguageService languageService,
+        IThemeService    themeService,
+        IMessenger       messenger)
     {
         ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);

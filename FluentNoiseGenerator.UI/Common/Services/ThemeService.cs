@@ -6,9 +6,9 @@ using System.Collections.Generic;
 namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
-/// Service for managing the current theme of the application.
+/// Default implementation for the <see cref="IThemeService"/> service.
 /// </summary>
-public sealed class ThemeService : IDisposable
+public sealed partial class ThemeService : IThemeService, IDisposable
 {
     #region Fields
     private object? _currentSystemBackdrop;
@@ -23,9 +23,7 @@ public sealed class ThemeService : IDisposable
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Gets or sets the system backdrop to be used for all windows.
-    /// </summary>
+    /// <inheritdoc cref="IThemeService.CurrentSystemBackdrop"/>
     public object? CurrentSystemBackdrop
     {
         get => _currentSystemBackdrop;
@@ -34,14 +32,10 @@ public sealed class ThemeService : IDisposable
             if (_currentSystemBackdrop == value) return;
 
             _currentSystemBackdrop = value;
-
-            // TODO: Send message.
         }
     }
 
-    /// <summary>
-    /// Gets or sets the current theme of the application.
-    /// </summary>
+    /// <inheritdoc cref="IThemeService.CurrentTheme"/>
     public object CurrentTheme
     {
         get => _currentTheme;
@@ -55,14 +49,10 @@ public sealed class ThemeService : IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets an enumerable of system backdrops.
-    /// </summary>
+    /// <inheritdoc cref="IThemeService.SystemBackdrops"/>
     public IEnumerable<object> SystemBackdrops => _systemBackdrops;
 
-    /// <summary>
-    /// Gets an enumerable of themes.
-    /// </summary>
+    /// <inheritdoc cref="IThemeService.Themes"/>
     public IEnumerable<object> Themes => _themes;
     #endregion
 
@@ -80,15 +70,13 @@ public sealed class ThemeService : IDisposable
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
+        _currentTheme = null!;
+
         _messenger = messenger;
 
-        _themes = null; /*Enum.GetValues<object>();*/
+        _systemBackdrops = [];
 
-        _systemBackdrops = []; /*[
-            new MicaBackdrop(),
-            new MicaBackdrop { Kind = MicaKind.BaseAlt },
-            new DesktopAcrylicBackdrop()
-        ];*/
+        _themes = null!;
     }
     #endregion
 

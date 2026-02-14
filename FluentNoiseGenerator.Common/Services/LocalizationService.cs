@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Messages;
-using System;
 
 namespace FluentNoiseGenerator.Common.Services;
 
 /// <summary>
-/// Service for retrieving and updating the current application language info.
+/// Default implementation for the <see cref="ILocalizationService"/> service.
 /// </summary>
-public sealed class LocalizationService : IDisposable
+public sealed class LocalizationService : ILocalizationService, IDisposable
 {
     #region Fields
     private LocalizedResourceProvider _localizedResourceProvider;
@@ -17,9 +16,7 @@ public sealed class LocalizationService : IDisposable
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Gets the current localized resource provider instance.
-    /// </summary>
+    /// <inheritdoc cref="ILocalizationService.ResourceProvider"/>
     public LocalizedResourceProvider ResourceProvider => _localizedResourceProvider;
     #endregion
 

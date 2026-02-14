@@ -24,7 +24,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// Gets the current <see cref="ElementTheme"/> for the application.
     /// </summary>
     [ObservableProperty]
-    public partial object CurrentTheme { get; private set; }
+    public partial object? CurrentTheme { get; private set; }
 
     /// <summary>
     /// Gets or sets the current non-negative volume value.

@@ -8,10 +8,9 @@ using System;
 namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
-/// Service for managing the main and settings windows. This class ensures that windows are
-/// properly created, restored, and updated when necessary.
+/// Default implementation for the <see cref="IWindowService"/> service.
 /// </summary>
-public sealed partial class WindowService : IDisposable
+public sealed partial class WindowService : IWindowService, IDisposable
 {
     #region Fields
     private PlaybackWindow? _playbackWindow;
@@ -49,6 +48,7 @@ public sealed partial class WindowService : IDisposable
     {
         ArgumentNullException.ThrowIfNull(playbackWindowFactory);
         ArgumentNullException.ThrowIfNull(settingsWindowFactory);
+        ArgumentNullException.ThrowIfNull(messenger);
 
         _playbackWindowFactory = playbackWindowFactory;
         _settingsWindowFactory = settingsWindowFactory;
@@ -61,8 +61,15 @@ public sealed partial class WindowService : IDisposable
     #region Methods
     private void RegisterMessageHandlers()
     {
-        _messenger.Register<OpenSettingsWindowMessage>(this, HandleOpenSettingsWindowMessage);
-        _messenger.Register<ClosePlaybackWindowMessage>(this, HandleClosePlaybackWindowMessage);
+        _messenger.Register<OpenSettingsWindowMessage>(
+            this,
+            HandleOpenSettingsWindowMessage
+        );
+
+        _messenger.Register<ClosePlaybackWindowMessage>(
+            this,
+            HandleClosePlaybackWindowMessage
+        );
     }
 
     /// <inheritdoc cref="IDisposable.Dispose()"/>
@@ -71,10 +78,7 @@ public sealed partial class WindowService : IDisposable
         _messenger.UnregisterAll(this);
     }
 
-    /// <summary>
-    /// Displays the playback window, setting up necessary configurations like DPI scaling, native
-    /// app window settings, and the title bar.
-    /// </summary>
+    /// <inheritdoc cref="IWindowService.ShowPlaybackWindow()"/>
     public void ShowPlaybackWindow()
     {
         if (_playbackWindow?.HasClosed is false)
@@ -89,14 +93,7 @@ public sealed partial class WindowService : IDisposable
         _playbackWindow.Activate();
     }
 
-    /// <summary>
-    /// Displays the settings window, either restoring it if it is open already or creating
-    /// a new instance if it was closed. Listens for theme and backdrop changes.
-    /// </summary>
-    /// <remarks>
-    /// Restores the window if it was previously closed. Otherwise, a new instance is created,
-    /// and event handlers for theme and backdrop changes are registered.
-    /// </remarks>
+    /// <inheritdoc cref="IWindowService.ShowSettingsWindow()"/>
     public void ShowSettingsWindow()
     {
         if (_settingsWindow?.HasClosed is false)
@@ -113,12 +110,16 @@ public sealed partial class WindowService : IDisposable
     #endregion
 
     #region Message handlers
-    private void HandleOpenSettingsWindowMessage(object recipient, OpenSettingsWindowMessage message)
+    private void HandleOpenSettingsWindowMessage(
+        object                    recipient,
+        OpenSettingsWindowMessage message)
     {
         ShowSettingsWindow();
     }
 
-    private void HandleClosePlaybackWindowMessage(object recipient, ClosePlaybackWindowMessage message)
+    private void HandleClosePlaybackWindowMessage(
+        object                     recipient,
+        ClosePlaybackWindowMessage message)
     {
         _playbackWindow?.Close();
     }

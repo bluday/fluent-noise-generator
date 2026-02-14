@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using System;
-using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Core.Services;
 
 /// <summary>
-/// Represents a class for managing the playback of a noise preset within the application.
+/// Default implementation for the <see cref="INoisePlaybackService"/> service.
 /// </summary>
-public sealed class NoisePlaybackService
+public sealed class NoisePlaybackService : INoisePlaybackService
 {
     #region Fields
     private IEnumerable<int> _audioSampleRates;
@@ -16,9 +14,7 @@ public sealed class NoisePlaybackService
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Gets an enumerable with audio sample rates.
-    /// </summary>
+    /// <inheritdoc cref="INoisePlaybackService.AudioSampleRates"/>
     public IEnumerable<int> AudioSampleRates => _audioSampleRates;
     #endregion
 
@@ -39,6 +35,18 @@ public sealed class NoisePlaybackService
         _audioSampleRates = [48000, 44100];
 
         _messenger = messenger;
+
+        RegisterMessageHandlers();
+    }
+    #endregion
+
+    #region Methods
+    private void RegisterMessageHandlers() { }
+
+    /// <inheritdoc cref="IDisposable.Dispose()"/>
+    public void Dispose()
+    {
+        _messenger.UnregisterAll(this);
     }
     #endregion
 }
