@@ -69,6 +69,7 @@ internal sealed class Container
 
         services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
 
+        services.AddSingleton<IBackdropService, BackdropService>();
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<IWindowService, WindowService>();
     }

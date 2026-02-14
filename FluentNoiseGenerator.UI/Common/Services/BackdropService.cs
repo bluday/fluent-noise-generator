@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,40 +6,39 @@ using System.Collections.ObjectModel;
 namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
-/// Default implementation for the <see cref="IThemeService"/> service.
+/// Default implementation for the <see cref="IBackdropService"/> service.
 /// </summary>
-public sealed partial class ThemeService : IThemeService, IDisposable
+public sealed partial class BackdropService : IBackdropService, IDisposable
 {
     #region Fields
-    private object _currentTheme;
+    private object? _currentBackdrop;
 
-    private readonly Collection<object> _themes;
+    private readonly Collection<object> _backdrops;
 
     private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
-    /// <inheritdoc cref="IThemeService.CurrentTheme"/>
-    public object CurrentTheme
+    /// <inheritdoc cref="IBackdropService.CurrentBackdrop"/>
+    public object? CurrentBackdrop
     {
-        get => _currentTheme;
+        get => _currentBackdrop;
         set
         {
-            if (_currentTheme == value) return;
-
-            _currentTheme = value;
-
-            _messenger.Send(new ApplicationThemeUpdatedMessage(value));
+            if (_currentBackdrop != value)
+            {
+                _currentBackdrop = value;
+            }
         }
     }
 
-    /// <inheritdoc cref="IThemeService.Themes"/>
-    public IEnumerable<object> Themes => _themes;
+    /// <inheritdoc cref="IBackdropService.Backdrops"/>
+    public IEnumerable<object> Backdrops => _backdrops;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="ThemeService"/> class.
+    /// Initializes a new instance of the <see cref="BackdropService"/> class.
     /// </summary>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
@@ -48,15 +46,13 @@ public sealed partial class ThemeService : IThemeService, IDisposable
     /// <exception cref="ArgumentNullException">
     /// Throws when <paramref name="messenger"> is <c>null</c>.
     /// </exception>
-    public ThemeService(IMessenger messenger)
+    public BackdropService(IMessenger messenger)
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _currentTheme = null!;
-
         _messenger = messenger;
 
-        _themes = null!;
+        _backdrops = [];
     }
     #endregion
 
