@@ -8,10 +8,6 @@
         <Platform Project="x64" />
     </Project>
 
-    <Project Path="FluentNoiseGenerator.CodeAnalysis/FluentNoiseGenerator.CodeAnalysis.csproj">
-        <Platform Project="x64" />
-    </Project>
-
     <Project Path="FluentNoiseGenerator.Common/FluentNoiseGenerator.Common.csproj">
         <Platform Project="x64" />
     </Project>

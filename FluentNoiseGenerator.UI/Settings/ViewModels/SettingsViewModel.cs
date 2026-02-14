@@ -2,9 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
 using FluentNoiseGenerator.Common.Globalization;
-using FluentNoiseGenerator.Common.Localization;
 using FluentNoiseGenerator.Common.Messages;
-using FluentNoiseGenerator.UI.Settings.Resources;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -20,8 +18,6 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     #region Fields
     private readonly IAppSettings _appSettings;
 
-    private readonly bool _isInitializing;
-
     private readonly IMessenger _messenger;
     #endregion
 
@@ -29,66 +25,59 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<object>> AvailableApplicationThemes { get; private set; } = [];
+    public IEnumerable<object> AvailableApplicationThemes { get; private set; } = [];
 
     /// <summary>
     /// Gets an enumerable of available audio sample rates.
     /// </summary>
-    public IEnumerable<NamedValue<int>> AvailableAudioSampleRates { get; private set; } = [];
+    public IEnumerable<int> AvailableAudioSampleRates { get; private set; } = [];
 
     /// <summary>
     /// Gets an enumerable of available languages.
     /// </summary>
-    public IEnumerable<NamedValue<ILanguage>> AvailableLanguages { get; private set; } = [];
+    public IEnumerable<ILanguage> AvailableLanguages { get; private set; } = [];
 
     /// <summary>
     /// Gets an enumerable of available noise presets.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<string>> AvailableNoisePresets { get; private set; } = [];
+    public IEnumerable<string> AvailableNoisePresets { get; private set; } = [];
 
     /// <summary>
     /// Gets an enumerable of available system backdrops.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops { get; private set; } = [];
-
-    /// <summary>
-    /// Gets the resource collection for this window.
-    /// </summary>
-    public SettingsWindowResources Resources { get; private set; }
+    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; private set; } = [];
 
     /// <summary>
     /// Gets or sets the selected application theme.
     /// </summary>
-    public ResourceNamedValue<object>? SelectedApplicationTheme { get; set; }
+    public object? SelectedApplicationTheme { get; set; }
 
     /// <summary>
     /// Gets or sets the selected audio sample rate.
     /// </summary>
-    public NamedValue<int>? SelectedAudioSampleRate { get; set; }
+    public int? SelectedAudioSampleRate { get; set; }
 
     /// <summary>
     /// Gets or sets the selected application language.
     /// </summary>
-    public NamedValue<ILanguage>? SelectedLanguage { get; set; }
+    public ILanguage? SelectedLanguage { get; set; }
 
     /// <summary>
     /// Gets or sets the selected default noise preset.
     /// </summary>
-    public ResourceNamedValue<string>? SelectedDefaultNoisePreset { get; set; }
+    public string? SelectedDefaultNoisePreset { get; set; }
 
     /// <summary>
     /// Gets or sets the selected system backdrop.
     /// </summary>
-    public ResourceNamedValue<SystemBackdrop>? SelectedSystemBackdrop { get; set; }
+    public SystemBackdrop? SelectedSystemBackdrop { get; set; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using
+    /// the specified dependencies.
     /// </summary>
-    /// <param name="resources">
-    /// An <see cref="SettingsWindowResources"/> instance consisting of localized resources.
-    /// </param>
     /// <param name="appSettings">
     /// An <see cref="IAppSettings"/> instance with selected settings for the application.
     /// </param>
@@ -98,45 +87,25 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public SettingsViewModel(
-        SettingsWindowResources resources,
-        IAppSettings            appSettings,
-        IMessenger              messenger)
+    public SettingsViewModel(IAppSettings appSettings, IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(resources);
         ArgumentNullException.ThrowIfNull(appSettings);
         ArgumentNullException.ThrowIfNull(messenger);
-
-        _isInitializing = true;
 
         _appSettings = appSettings;
 
         _messenger = messenger;
 
-        Resources = resources;
-
         RegisterMessageHandlers();
-
-        _isInitializing = false;
     }
     #endregion
 
     #region Instance methods
-    private void RefreshLocalizedContent()
-    {
-        OnPropertyChanged(nameof(Resources));
-    }
-
     private void RegisterMessageHandlers()
     {
         _messenger.Register<ApplicationThemeUpdatedMessage>(
             this,
             HandleApplicationThemeUpdatedMessage
-        );
-
-        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
-            this,
-            HandleLocalizedResourceProviderUpdatedMessage
         );
     }
 
@@ -153,15 +122,8 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         ApplicationThemeUpdatedMessage message)
     {
         SelectedApplicationTheme = AvailableApplicationThemes.FirstOrDefault(
-            theme => theme.Value == message.Value
+            theme => message.Value == theme
         );
-    }
-
-    private void HandleLocalizedResourceProviderUpdatedMessage(
-        object                                  recipient,
-        LocalizedResourceProviderUpdatedMessage message)
-    {
-        RefreshLocalizedContent();
     }
     #endregion
 }

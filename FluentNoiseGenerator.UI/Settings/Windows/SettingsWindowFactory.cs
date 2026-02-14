@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
-using FluentNoiseGenerator.UI.Common.Resources;
-using FluentNoiseGenerator.UI.Settings.Resources;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using System;
 
@@ -16,18 +14,13 @@ public sealed class SettingsWindowFactory
     private readonly IAppSettings _appSettings;
 
     private readonly IMessenger _messenger;
-
-    private readonly SettingsWindowResources _resources;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using the
-    /// specified dependencies.
+    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using
+    /// the specified dependencies.
     /// </summary>
-    /// <param name="appResources">
-    /// An <see cref="AppResources"/> instance consisting of localized app resources.
-    /// </param>
     /// <param name="appSettings">
     /// An <see cref="IAppSettings"/> instance with current settings for the application.
     /// </param>
@@ -37,16 +30,11 @@ public sealed class SettingsWindowFactory
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public SettingsWindowFactory(
-        AppResources appResources,
-        IAppSettings appSettings,
-        IMessenger   messenger)
+    public SettingsWindowFactory(IAppSettings appSettings, IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _resources   = new SettingsWindowResources();
         _appSettings = appSettings;
         _messenger   = messenger;
     }
@@ -63,7 +51,7 @@ public sealed class SettingsWindowFactory
     {
         return new()
         {
-            ViewModel = new SettingsViewModel(_resources, _appSettings, _messenger)
+            ViewModel = new SettingsViewModel(_appSettings, _messenger)
         };
     }
     #endregion

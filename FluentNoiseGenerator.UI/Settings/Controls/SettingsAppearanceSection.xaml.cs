@@ -1,4 +1,3 @@
-using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -62,7 +61,7 @@ public sealed partial class SettingsAppearanceSection : UserControl
     public static readonly DependencyProperty AvailableApplicationThemesProperty =
         DependencyProperty.Register(
             nameof(AvailableApplicationThemes),
-            typeof(IEnumerable<ResourceNamedValue<object>>),
+            typeof(IEnumerable<object>),
             typeof(SettingsAppearanceSection),
             new PropertyMetadata(defaultValue: null)
         );
@@ -73,7 +72,7 @@ public sealed partial class SettingsAppearanceSection : UserControl
     public static readonly DependencyProperty AvailableSystemBackdropsProperty =
         DependencyProperty.Register(
             nameof(AvailableSystemBackdrops),
-            typeof(IEnumerable<ResourceNamedValue<SystemBackdrop>>),
+            typeof(IEnumerable<SystemBackdrop>),
             typeof(SettingsAppearanceSection),
             new PropertyMetadata(defaultValue: null)
         );
@@ -174,18 +173,18 @@ public sealed partial class SettingsAppearanceSection : UserControl
     /// <summary>
     /// Gets or sets the items source instance for the available application themes collection.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<object>> AvailableApplicationThemes
+    public IEnumerable<object> AvailableApplicationThemes
     {
-        get => (IEnumerable<ResourceNamedValue<object>>)GetValue(AvailableApplicationThemesProperty);
+        get => (IEnumerable<object>)GetValue(AvailableApplicationThemesProperty);
         set => SetValue(AvailableApplicationThemesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the items source instance for the available system backdrops collection.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<SystemBackdrop>> AvailableSystemBackdrops
+    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops
     {
-        get => (IEnumerable<ResourceNamedValue<SystemBackdrop>>)GetValue(AvailableSystemBackdropsProperty);
+        get => (IEnumerable<SystemBackdrop>)GetValue(AvailableSystemBackdropsProperty);
         set => SetValue(AvailableSystemBackdropsProperty, value);
     }
 

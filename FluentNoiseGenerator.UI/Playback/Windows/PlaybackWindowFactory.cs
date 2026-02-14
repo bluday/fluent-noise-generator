@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.UI.Common.Resources;
-using FluentNoiseGenerator.UI.Playback.Resources;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
 using System;
 
@@ -13,30 +11,23 @@ public sealed class PlaybackWindowFactory
 {
     #region Fields
     private readonly IMessenger _messenger;
-
-    private readonly PlaybackWindowResources _resources;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
-    /// specified dependencies.
+    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using
+    /// the specified dependencies.
     /// </summary>
-    /// <param name="appResources">
-    /// An <see cref="AppResources"/> instance consisting of localized app resources.
-    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public PlaybackWindowFactory(AppResources appResources, IMessenger messenger)
+    public PlaybackWindowFactory(IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _resources = new PlaybackWindowResources();
         _messenger = messenger;
     }
     #endregion
@@ -52,7 +43,7 @@ public sealed class PlaybackWindowFactory
     {
         return new()
         {
-            ViewModel = new PlaybackViewModel(_resources, _messenger)
+            ViewModel = new PlaybackViewModel(_messenger)
         };
     }
     #endregion

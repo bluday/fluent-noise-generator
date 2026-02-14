@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Messages;
-using FluentNoiseGenerator.UI.Playback.Resources;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;
@@ -43,21 +42,13 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// Gets a read-only observable collection of noise presets.
     /// </summary>
     public ReadOnlyObservableCollection<object> NoisePresets { get; } = new([]);
-
-    /// <summary>
-    /// Gets the resource collection for this window.
-    /// </summary>
-    public PlaybackWindowResources Resources { get; private set; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
-    /// specified dependencies.
+    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using
+    /// the specified dependencies.
     /// </summary>
-    /// <param name="resources">
-    /// A <see cref="PlaybackWindowResources"/> consisting of localized resources.
-    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// This is typically a <see cref="WeakReferenceMessenger"/>.
@@ -65,14 +56,11 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public PlaybackViewModel(PlaybackWindowResources resources, IMessenger messenger)
+    public PlaybackViewModel(IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(resources);
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
-
-        Resources = resources;
 
         RegisterMessageHandlers();
     }
@@ -113,11 +101,6 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
         _messenger.Register<ApplicationThemeUpdatedMessage>(
             this,
             (_, message) => CurrentTheme = message.Value
-        );
-
-        _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
-            this,
-            (_, __) => OnPropertyChanged(nameof(Resources))
         );
     }
 

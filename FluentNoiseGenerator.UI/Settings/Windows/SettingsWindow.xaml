@@ -7,7 +7,6 @@
         xmlns:controls="using:FluentNoiseGenerator.UI.Settings.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="{x:Bind ViewModel.Resources.WindowCaptionTitle.Value}"
         x:DefaultBindMode="OneWay"
         Closed="Window_Closed"
         mc:Ignorable="d">
@@ -22,7 +21,6 @@
         </Grid.RowDefinitions>
 
         <controls:SettingsTitleBar x:Name="settingsTitleBar"
-                                   Title="{x:Bind ViewModel.Resources.InAppWindowTitle.Value}"
                                    Grid.Row="0"
                                    IconPath="{x:Bind TitleBarIconPath}"/>
 
@@ -37,7 +35,6 @@
                        VerticalAlignment="Center"
                        FontSize="24"
                        Style="{StaticResource TitleTextBlockStyle}"
-                       Text="{x:Bind ViewModel.Resources.Header.Value}"
                        TextLineBounds="Tight"/>
 
             <ScrollViewer Grid.Row="1"
@@ -63,11 +60,9 @@
 
                     <StackPanel Margin="0,8,0,32"
                                 Spacing="8">
-                        <HyperlinkButton Padding="0"
-                                         Content="{x:Bind ViewModel.Resources.RepositoryOnGitHubHyperlinkButton.Value}"/>
+                        <HyperlinkButton Padding="0"/>
 
-                        <HyperlinkButton Padding="0"
-                                         Content="{x:Bind ViewModel.Resources.SendFeedbackHyperlinkButton.Value}"/>
+                        <HyperlinkButton Padding="0"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

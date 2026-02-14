@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
-using FluentNoiseGenerator.UI.Common.Resources;
 using FluentNoiseGenerator.UI.Common.Services;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.Windows;
@@ -51,8 +50,6 @@ internal sealed class Container
     {
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
-        services.AddSingleton<AppResources>();
-
         services.AddSingleton(
             serviceProvider => serviceProvider
                 .GetRequiredService<ISettingsService>()
@@ -63,7 +60,6 @@ internal sealed class Container
         services.AddSingleton<SettingsWindowFactory>();
 
         services.AddSingleton<ILanguageService, LanguageService>();
-        services.AddSingleton<ILocalizationService, LocalizationService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<IToastNotificationService, ToastNotificationService>();
 

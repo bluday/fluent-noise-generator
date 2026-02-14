@@ -33,11 +33,6 @@
     <ItemGroup>
         <ProjectReference Include="..\FluentNoiseGenerator.Common\FluentNoiseGenerator.Common.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
-        
-        <ProjectReference Include="..\FluentNoiseGenerator.CodeAnalysis\FluentNoiseGenerator.CodeAnalysis.csproj"
-                          OutputItemType="Analyzer"
-                          ReferenceOutputAssembly="false" />
-        
         <ProjectReference Include="..\FluentNoiseGenerator.UI\FluentNoiseGenerator.UI.csproj" />
     </ItemGroup>
     

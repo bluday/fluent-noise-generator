@@ -1,5 +1,4 @@
 using FluentNoiseGenerator.Common.Globalization;
-using FluentNoiseGenerator.Common.Localization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
@@ -62,7 +61,7 @@ public sealed partial class SettingsGeneralSection : UserControl
     public static readonly DependencyProperty AvailableLanguagesProperty =
         DependencyProperty.Register(
             nameof(AvailableLanguages),
-            typeof(IEnumerable<NamedValue<ILanguage>>),
+            typeof(IEnumerable<ILanguage>),
             typeof(SettingsGeneralSection),
             new PropertyMetadata(defaultValue: null)
         );
@@ -73,7 +72,7 @@ public sealed partial class SettingsGeneralSection : UserControl
     public static readonly DependencyProperty AvailableNoisePresetsProperty =
         DependencyProperty.Register(
             nameof(AvailableNoisePresets),
-            typeof(IEnumerable<ResourceNamedValue<string>>),
+            typeof(IEnumerable<string>),
             typeof(SettingsGeneralSection),
             new PropertyMetadata(defaultValue: null)
         );
@@ -196,18 +195,18 @@ public sealed partial class SettingsGeneralSection : UserControl
     /// <summary>
     /// Gets or sets the items source instance for the available language collection.
     /// </summary>
-    public IEnumerable<NamedValue<ILanguage>> AvailableLanguages
+    public IEnumerable<ILanguage> AvailableLanguages
     {
-        get => (IEnumerable<NamedValue<ILanguage>>)GetValue(AvailableLanguagesProperty);
+        get => (IEnumerable<ILanguage>)GetValue(AvailableLanguagesProperty);
         set => SetValue(AvailableLanguagesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the items source instance for the available noise preset collection.
     /// </summary>
-    public IEnumerable<ResourceNamedValue<string>> AvailableNoisePresets
+    public IEnumerable<string> AvailableNoisePresets
     {
-        get => (IEnumerable<ResourceNamedValue<string>>)GetValue(AvailableNoisePresetsProperty);
+        get => (IEnumerable<string>)GetValue(AvailableNoisePresetsProperty);
         set => SetValue(AvailableNoisePresetsProperty, value);
     }
 
