@@ -121,13 +121,13 @@
     <value>Fluent Noise Generator</value>
   </data>
   <data name="General.CopyrightText" xml:space="preserve">
-    <value>© 2025 BluDay</value>
+    <value>© 2026 BluDay</value>
   </data>
   <data name="General.GitHubRepositoryUrl" xml:space="preserve">
     <value>https://github.com/bluday/fluent-noise-generator</value>
   </data>
   <data name="General.SendFeedbackUrl" xml:space="preserve">
-    <value>https://halopedia.org</value>
+    <value>https://github.com/bluday/fluent-noise-generator</value>
   </data>
   <data name="SystemBackdrop.Acrylic" xml:space="preserve">
     <value>Acrylic</value>
