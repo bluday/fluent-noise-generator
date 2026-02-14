@@ -57,7 +57,7 @@ public sealed partial class ToastNotificationService : IToastNotificationService
     {
         _messenger.Register<IssueToastNotificationMessage>(
             this,
-            (sender, message) => Send(message.Title, message.Content)
+            (_, message) => Send(message.Title, message.Content)
         );
     }
 
@@ -91,6 +91,9 @@ public sealed partial class ToastNotificationService : IToastNotificationService
         }
 
         AppNotification notification = builder.BuildNotification();
+
+        notification.ExpiresOnReboot = true;
+        notification.Priority        = AppNotificationPriority.High;
 
         _notificationManager.Show(notification);
 
