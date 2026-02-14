@@ -48,11 +48,36 @@ public sealed partial class ToastNotificationService : IToastNotificationService
 
         _notificationManager = AppNotificationManager.Default;
 
+        _notificationManager.NotificationInvoked += _notificationManager_NotificationInvoked;
+
         RegisterMessageHandlers();
     }
     #endregion
 
+    #region Event handlers
+    private void _notificationManager_NotificationInvoked(
+        AppNotificationManager            sender,
+        AppNotificationActivatedEventArgs args)
+    {
+        // TODO: Parse arguments to perform certain actions.
+    }
+    #endregion
+
     #region Methods
+    private AppNotification BuildNotification(string title, string? content)
+    {
+        AppNotificationBuilder builder = new();
+
+        builder.AddText(title);
+
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            builder.AddText(content);
+        }
+
+        return builder.BuildNotification();
+    }
+
     private void RegisterMessageHandlers()
     {
         _messenger.Register<IssueToastNotificationMessage>(
@@ -61,16 +86,18 @@ public sealed partial class ToastNotificationService : IToastNotificationService
         );
     }
 
+    private static void ConfigureNotificationProperties(AppNotification notification)
+    {
+        notification.ExpiresOnReboot = true;
+        notification.Priority        = AppNotificationPriority.High;
+    }
+
     /// <inheritdoc cref="IDisposable.Dispose()"/>
     public void Dispose()
     {
         _messenger.UnregisterAll(this);
-    }
 
-    /// <inheritdoc cref="IToastNotificationService.Send(string)"/>
-    public void Send(string title)
-    {
-        Send(title, content: null);
+        _notificationManager.NotificationInvoked -= _notificationManager_NotificationInvoked;
     }
 
     /// <inheritdoc cref="IToastNotificationService.Send(string, string?)"/>
@@ -81,19 +108,9 @@ public sealed partial class ToastNotificationService : IToastNotificationService
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(title);
 
-        AppNotificationBuilder builder = new();
+        AppNotification notification = BuildNotification(title, content);
 
-        builder.AddText(title);
-
-        if (!string.IsNullOrWhiteSpace(content))
-        {
-            builder.AddText(content);
-        }
-
-        AppNotification notification = builder.BuildNotification();
-
-        notification.ExpiresOnReboot = true;
-        notification.Priority        = AppNotificationPriority.High;
+        ConfigureNotificationProperties(notification);
 
         _notificationManager.Show(notification);
 

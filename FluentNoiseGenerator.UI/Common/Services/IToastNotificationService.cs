@@ -19,6 +19,12 @@ public interface IToastNotificationService
     /// <summary>
     /// Sends a toast notification using the specified title and content.
     /// </summary>
+    /// <param name="title">
+    /// The title or the primary text control.
+    /// </param>
+    /// <param name="content">
+    /// The content or the secondary text control. Is nullable.
+    /// </param>
     void Send(string title, string? content);
     #endregion
 }

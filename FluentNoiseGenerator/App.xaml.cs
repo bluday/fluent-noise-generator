@@ -13,7 +13,7 @@ public partial class App : Application
     #region Fields
     private readonly Container _container = new();
 
-    private IWindowService? _windowService;
+    private IWindowService _windowService = null!;
     #endregion
 
     #region Constructor
@@ -45,7 +45,7 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _windowService!.ShowPlaybackWindow();
+        _windowService.ShowPlaybackWindow();
     }
     #endregion
 }
