@@ -1,16 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.Messages;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.UI.Common.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="IToastNotificationService"/> service.
 /// </summary>
-public sealed class ToastNotificationService : IToastNotificationService, IDisposable
+public sealed partial class ToastNotificationService : IToastNotificationService, IDisposable
 {
     #region Fields
+    private readonly Dictionary<uint, AppNotification> _issuedNotifications;
+
     private readonly IMessenger _messenger;
+
+    private readonly AppNotificationManager _notificationManager;
+    #endregion
+
+    #region Properties
+    /// <inheritdoc cref="IToastNotificationService.IssuedNotifications"/>
+    public IReadOnlyDictionary<uint, AppNotification> IssuedNotifications
+    {
+        get => _issuedNotifications.AsReadOnly();
+    }
     #endregion
 
     #region Constructor
@@ -27,14 +42,24 @@ public sealed class ToastNotificationService : IToastNotificationService, IDispo
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
+        _issuedNotifications = [];
+
         _messenger = messenger;
+
+        _notificationManager = AppNotificationManager.Default;
 
         RegisterMessageHandlers();
     }
     #endregion
 
     #region Methods
-    private void RegisterMessageHandlers() { }
+    private void RegisterMessageHandlers()
+    {
+        _messenger.Register<IssueToastNotificationMessage>(
+            this,
+            (sender, message) => Send(message.Title, message.Content)
+        );
+    }
 
     /// <inheritdoc cref="IDisposable.Dispose()"/>
     public void Dispose()
@@ -42,10 +67,34 @@ public sealed class ToastNotificationService : IToastNotificationService, IDispo
         _messenger.UnregisterAll(this);
     }
 
-    /// <inheritdoc cref="IToastNotificationService.SendAsync()"/>
-    public Task SendAsync()
+    /// <inheritdoc cref="IToastNotificationService.Send(string)"/>
+    public void Send(string title)
     {
-        return Task.CompletedTask;
+        Send(title, content: null);
+    }
+
+    /// <inheritdoc cref="IToastNotificationService.Send(string, string?)"/>
+    /// <exception cref="ArgumentException">
+    /// Throws if <paramref name="title"/> is null or whitespace.
+    /// </exception>
+    public void Send(string title, string? content)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(title);
+
+        AppNotificationBuilder builder = new();
+
+        builder.AddText(title);
+
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            builder.AddText(content);
+        }
+
+        AppNotification notification = builder.BuildNotification();
+
+        _notificationManager.Show(notification);
+
+        _issuedNotifications.TryAdd(notification.Id, notification);
     }
     #endregion
 }

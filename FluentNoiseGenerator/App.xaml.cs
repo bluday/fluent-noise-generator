@@ -13,7 +13,7 @@ public partial class App : Application
     #region Fields
     private readonly Container _container = new();
 
-    private readonly IWindowService _windowService;
+    private IWindowService? _windowService;
     #endregion
 
     #region Constructor
@@ -22,17 +22,21 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        IServiceProvider rootServiceProvider = _container.RootServiceProvider;
-
-        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
-
-        // TODO: Resolve remaining services for the startup process.
-
+        InitializeCoreServices();
         InitializeComponent();
     }
     #endregion
 
     #region Instance methods
+    private void InitializeCoreServices()
+    {
+        IServiceProvider rootServiceProvider = _container.RootServiceProvider;
+
+        // TODO: Resolve critical services in order to run the application.
+
+        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
+    }
+
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -41,7 +45,7 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _windowService.ShowPlaybackWindow();
+        _windowService!.ShowPlaybackWindow();
     }
     #endregion
 }

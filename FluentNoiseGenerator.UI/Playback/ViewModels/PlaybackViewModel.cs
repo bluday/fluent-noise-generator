@@ -6,7 +6,6 @@ using FluentNoiseGenerator.UI.Playback.Resources;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.ObjectModel;
-using FluentNoiseGenerator.UI.Common.Resources;
 
 namespace FluentNoiseGenerator.UI.Playback.ViewModels;
 
@@ -43,12 +42,12 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// <summary>
     /// Gets a read-only observable collection of noise presets.
     /// </summary>
-    public ReadOnlyObservableCollection<object> NoisePresets { get; }
+    public ReadOnlyObservableCollection<object> NoisePresets { get; } = new([]);
 
     /// <summary>
-    /// Gets the string resource collection instance specific to this window.
+    /// Gets the resource collection for this window.
     /// </summary>
-    public PlaybackWindowResources StringResources { get; private set; }
+    public PlaybackWindowResources Resources { get; private set; }
     #endregion
 
     #region Constructor
@@ -56,8 +55,8 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using the
     /// specified dependencies.
     /// </summary>
-    /// <param name="appResources">
-    /// An <see cref="AppResources"/> instance with localized app resources.
+    /// <param name="resources">
+    /// A <see cref="PlaybackWindowResources"/> consisting of localized resources.
     /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
@@ -66,16 +65,14 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     /// <exception cref="ArgumentNullException">
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
-    public PlaybackViewModel(AppResources appResources, IMessenger messenger)
+    public PlaybackViewModel(PlaybackWindowResources resources, IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(appResources);
+        ArgumentNullException.ThrowIfNull(resources);
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
 
-        NoisePresets = new ReadOnlyObservableCollection<object>([]);
-
-        StringResources = new();
+        Resources = resources;
 
         RegisterMessageHandlers();
     }
@@ -97,7 +94,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void TogglePlayback()
     {
-        throw new NotImplementedException();
+        // TODO: Toggle playback.
     }
 
     /// <summary>
@@ -115,12 +112,12 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     {
         _messenger.Register<ApplicationThemeUpdatedMessage>(
             this,
-            HandleApplicationThemeUpdatedMessage
+            (_, message) => CurrentTheme = message.Value
         );
 
         _messenger.Register<LocalizedResourceProviderUpdatedMessage>(
             this,
-            HandleLocalizedResourceProviderUpdatedMessage
+            (_, __) => OnPropertyChanged(nameof(Resources))
         );
     }
 
@@ -128,22 +125,6 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         _messenger.UnregisterAll(this);
-    }
-    #endregion
-
-    #region Message handlers
-    private void HandleApplicationThemeUpdatedMessage(
-        object                         recipient,
-        ApplicationThemeUpdatedMessage message)
-    {
-        CurrentTheme = message.Value;
-    }
-
-    private void HandleLocalizedResourceProviderUpdatedMessage(
-        object                                  recipient,
-        LocalizedResourceProviderUpdatedMessage message)
-    {
-        OnPropertyChanged(nameof(StringResources));
     }
     #endregion
 }

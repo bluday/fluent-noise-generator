@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common;
-using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.UI.Common.Resources;
-using FluentNoiseGenerator.UI.Common.Services;
+using FluentNoiseGenerator.UI.Settings.Resources;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using System;
 
@@ -14,15 +13,11 @@ namespace FluentNoiseGenerator.UI.Settings.Windows;
 public sealed class SettingsWindowFactory
 {
     #region Fields
-    private readonly AppResources _appResources;
-
     private readonly IAppSettings _appSettings;
-
-    private readonly ILanguageService _languageService;
 
     private readonly IMessenger _messenger;
 
-    private readonly IThemeService _themeService;
+    private readonly SettingsWindowResources _resources;
     #endregion
 
     #region Constructor
@@ -31,16 +26,10 @@ public sealed class SettingsWindowFactory
     /// specified dependencies.
     /// </summary>
     /// <param name="appResources">
-    /// An <see cref="AppResources"/> instance with localized app resources.
+    /// An <see cref="AppResources"/> instance consisting of localized app resources.
     /// </param>
     /// <param name="appSettings">
     /// An <see cref="IAppSettings"/> instance with current settings for the application.
-    /// </param>
-    /// <param name="languageService">
-    /// The service for managing the application language.
-    /// </param>
-    /// <param name="themeService">
-    /// The service for managing the application theme.
     /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
@@ -49,23 +38,17 @@ public sealed class SettingsWindowFactory
     /// Throws when any of the parameters is <c>null</c>.
     /// </exception>
     public SettingsWindowFactory(
-        AppResources     appResources,
-        IAppSettings     appSettings,
-        ILanguageService languageService,
-        IThemeService    themeService,
-        IMessenger       messenger)
+        AppResources appResources,
+        IAppSettings appSettings,
+        IMessenger   messenger)
     {
         ArgumentNullException.ThrowIfNull(appResources);
         ArgumentNullException.ThrowIfNull(appSettings);
-        ArgumentNullException.ThrowIfNull(languageService);
-        ArgumentNullException.ThrowIfNull(themeService);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _appResources    = appResources;
-        _appSettings     = appSettings;
-        _languageService = languageService;
-        _messenger       = messenger;
-        _themeService    = themeService;
+        _resources   = new SettingsWindowResources();
+        _appSettings = appSettings;
+        _messenger   = messenger;
     }
     #endregion
 
@@ -80,13 +63,7 @@ public sealed class SettingsWindowFactory
     {
         return new()
         {
-            ViewModel = new SettingsViewModel(
-                _appResources,
-                _appSettings,
-                _languageService,
-                _themeService,
-                _messenger
-            )
+            ViewModel = new SettingsViewModel(_resources, _appSettings, _messenger)
         };
     }
     #endregion
