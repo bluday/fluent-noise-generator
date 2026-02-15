@@ -15,24 +15,24 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsSectionHeader x:Uid="SettingsWindow/SectionHeaders/General"
+        <controls:SettingsSectionHeader x:Uid="/SettingsWindow/SectionHeaders/General"
                                         Grid.Row="0"
                                         Glyph="&#xf8a6;"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/AutoplayOnLaunch"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/General/AutoplayOnLaunch"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
                 <ToggleSwitch/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/DefaultNoisePreset"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/General/DefaultNoisePreset"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
                 <ComboBox ItemsSource="{x:Bind AvailableNoisePresets}"
                           SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/Language"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/General/Language"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                 <ComboBox ItemsSource="{x:Bind AvailableLanguages}"
                           SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"/>

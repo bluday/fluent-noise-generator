@@ -15,24 +15,24 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsSectionHeader x:Uid="SettingsWindow/SectionHeaders/Appearance"
+        <controls:SettingsSectionHeader x:Uid="/SettingsWindow/SectionHeaders/Appearance"
                                         Grid.Row="0"
                                         Glyph="&#xead5;"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/Appearance/AlwaysOnTop"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Appearance/AlwaysOnTop"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe81e;}">
                 <ToggleSwitch/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/Appearance/ApplicationTheme"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Appearance/ApplicationTheme"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
                 <ComboBox ItemsSource="{x:Bind AvailableApplicationThemes}"
                           SelectedItem="{x:Bind SelectedApplicationTheme, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/Appearance/SystemBackdrop"
+            <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Appearance/SystemBackdrop"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
                 <ComboBox ItemsSource="{x:Bind AvailableSystemBackdrops}"
                           SelectedItem="{x:Bind SelectedSystemBackdrop, Mode=TwoWay}"/>

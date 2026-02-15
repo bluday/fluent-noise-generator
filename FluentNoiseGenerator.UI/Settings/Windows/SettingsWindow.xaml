@@ -30,11 +30,11 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Uid="SettingsWindow/TextBlocks/Title"
-                       Margin="32,24,32,16"
+            <TextBlock Margin="32,24,32,16"
                        VerticalAlignment="Center"
                        FontSize="24"
                        Style="{StaticResource TitleTextBlockStyle}"
+                       Text="Settings"
                        TextLineBounds="Tight"/>
 
             <ScrollViewer Grid.Row="1"
@@ -59,10 +59,10 @@
 
                     <StackPanel Margin="0,8,0,32"
                                 Spacing="8">
-                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"
+                        <HyperlinkButton x:Uid="/SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"
                                          Padding="0"/>
 
-                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/SendFeedback"
+                        <HyperlinkButton x:Uid="/SettingsWindow/HyperlinkButtons/SendFeedback"
                                          Padding="0"/>
                     </StackPanel>
                 </StackPanel>
