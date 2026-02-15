@@ -15,22 +15,21 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsSectionHeader Grid.Row="0"
-                                        Glyph="&#xe946;"
-                                        Text="{x:Bind Header}"/>
+        <controls:SettingsSectionHeader x:Uid="SettingsWindow/SectionHeaders/About"
+                                        Grid.Row="0"
+                                        Glyph="&#xe946;"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">
-            <communityToolkitControls:SettingsExpander Description="{x:Bind AboutDescription}"
-                                                       Header="{x:Bind AppDisplayName}"
+            <communityToolkitControls:SettingsExpander x:Uid="SettingsWindow/SettingsExpanders/About/Info"
                                                        HeaderIcon="{communityToolkit:BitmapIcon Source=ms-appx:///Assets/StoreLogo.scale-100.png}">
                 <communityToolkitControls:SettingsExpander.Content>
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="{x:Bind ApplicationVersionText}"/>
+                               Text="1.0"/>
                 </communityToolkitControls:SettingsExpander.Content>
 
                 <communityToolkitControls:SettingsExpander.Items>
-                    <communityToolkitControls:SettingsCard Header="{x:Bind SessionIdentifierFormatString}"/>
+                    <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/About/SessionIdentifier"/>
                 </communityToolkitControls:SettingsExpander.Items>
             </communityToolkitControls:SettingsExpander>
         </StackPanel>

@@ -31,11 +31,6 @@ public sealed partial class SettingsWindow : Window
     public bool HasClosed { get; private set; }
 
     /// <summary>
-    /// Gets the path for the title bar icon.
-    /// </summary>
-    public string TitleBarIconPath { get; }
-
-    /// <summary>
     /// Gets or sets the view model instance associated with this window type.
     /// </summary>
     public SettingsViewModel? ViewModel { get; set; }
@@ -48,8 +43,6 @@ public sealed partial class SettingsWindow : Window
     public SettingsWindow()
     {
         ExtendsContentIntoTitleBar = true;
-
-        TitleBarIconPath = FluentNoiseGenerator.Common.Constants.IconPath;
 
         SetTitleBar(settingsTitleBar);
 
@@ -103,7 +96,7 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void ConfigureNativeTitleBar()
     {
-        AppWindow.SetIcon(TitleBarIconPath);
+        AppWindow.SetIcon(FluentNoiseGenerator.Common.Constants.IconPath);
     }
 
     /// <summary>
@@ -113,12 +106,16 @@ public sealed partial class SettingsWindow : Window
     {
         AppWindow appWindow = AppWindow;
 
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
+        if (appWindow.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.Create();
+
+            appWindow.SetPresenter(presenter);
+        }
 
         presenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
         presenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
 
-        appWindow.SetPresenter(presenter);
         appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
     }
     #endregion

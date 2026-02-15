@@ -25,27 +25,27 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
-    public IEnumerable<object> AvailableApplicationThemes { get; private set; } = [];
+    public IEnumerable<object> AvailableApplicationThemes { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available audio sample rates.
     /// </summary>
-    public IEnumerable<int> AvailableAudioSampleRates { get; private set; } = [];
+    public IEnumerable<int> AvailableAudioSampleRates { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available languages.
     /// </summary>
-    public IEnumerable<ILanguage> AvailableLanguages { get; private set; } = [];
+    public IEnumerable<ILanguage> AvailableLanguages { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available noise presets.
     /// </summary>
-    public IEnumerable<string> AvailableNoisePresets { get; private set; } = [];
+    public IEnumerable<string> AvailableNoisePresets { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available system backdrops.
     /// </summary>
-    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; private set; } = [];
+    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; } = [];
 
     /// <summary>
     /// Gets or sets the selected application theme.

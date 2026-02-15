@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <xsd:schema id="root"
+		xmlns=""
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string" />
+                            <xsd:attribute name="name" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Common.Blue" xml:space="preserve">
+		<value>Blue</value>
+	</data>
+    <data name="Common.Dark" xml:space="preserve">
+		<value>Dark</value>
+	</data>
+    <data name="Common.Light" xml:space="preserve">
+		<value>Light</value>
+	</data>
+    <data name="Common.None" xml:space="preserve">
+		<value>None</value>
+	</data>
+    <data name="Common.Off" xml:space="preserve">
+		<value>Off</value>
+	</data>
+    <data name="Common.On" xml:space="preserve">
+		<value>On</value>
+	</data>
+    <data name="Common.Settings" xml:space="preserve">
+		<value>Settings</value>
+	</data>
+    <data name="Common.System" xml:space="preserve">
+		<value>System</value>
+	</data>
+    <data name="Common.White" xml:space="preserve">
+		<value>White</value>
+	</data>
+    <data name="SettingsWindow.HyperlinkButtons.RepositoryOnGitHub.Content" xml:space="preserve">
+		<value>Repository on GitHub</value>
+	</data>
+    <data name="SettingsWindow.HyperlinkButtons.SendFeedback.Content" xml:space="preserve">
+		<value>Send feedback</value>
+	</data>
+    <data name="SettingsWindow.SectionHeaders.About.Text" xml:space="preserve">
+		<value>About</value>
+	</data>
+    <data name="SettingsWindow.SectionHeaders.Appearance.Text" xml:space="preserve">
+		<value>Appearance</value>
+	</data>
+    <data name="SettingsWindow.SectionHeaders.General.Text" xml:space="preserve">
+		<value>General</value>
+	</data>
+    <data name="SettingsWindow.SectionHeaders.Sound.Text" xml:space="preserve">
+		<value>Sound</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.About.SessionIdentifier.Header" xml:space="preserve">
+		<value>Session identifier: {0}</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.AlwaysOnTop.Description" xml:space="preserve">
+		<value>Decide whether the application should always stay on top of other windows</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.AlwaysOnTop.Header" xml:space="preserve">
+		<value>Always on top</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.ApplicationTheme.Description" xml:space="preserve">
+		<value>Select which application theme to display</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.ApplicationTheme.Header" xml:space="preserve">
+		<value>Application theme</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.Description" xml:space="preserve">
+		<value>Change layout, themes, and visual elements</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.SystemBackdrop.Description" xml:space="preserve">
+		<value>Select which system backdrop to use</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Appearance.SystemBackdrop.Header" xml:space="preserve">
+		<value>System backdrop</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.AutoplayOnLaunch.Description" xml:space="preserve">
+		<value>Select which noise preset to play automatically on launch</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.AutoplayOnLaunch.Header" xml:space="preserve">
+		<value>Autoplay on launch</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.DefaultNoisePreset.Description" xml:space="preserve">
+		<value>The noise preset to automatically select on launch</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.DefaultNoisePreset.Header" xml:space="preserve">
+		<value>Default noise preset</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.Description" xml:space="preserve">
+		<value>Configure basic preferences and application behavior</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.Language.Description" xml:space="preserve">
+		<value>Select which language to display</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.General.Language.Header" xml:space="preserve">
+		<value>Language</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Sound.SampleRate.Description" xml:space="preserve">
+		<value>Select which playback sample rate to use</value>
+	</data>
+    <data name="SettingsWindow.SettingsCards.Sound.SampleRate.Header" xml:space="preserve">
+		<value>Sample rate</value>
+	</data>
+    <data name="SettingsWindow.SettingsExpanders.About.Info.Description" xml:space="preserve">
+		<value>© 2026 BluDay</value>
+	</data>
+    <data name="SettingsWindow.SettingsExpanders.About.Info.Header" xml:space="preserve">
+		<value>Fluent Noise Generator</value>
+	</data>
+</root>

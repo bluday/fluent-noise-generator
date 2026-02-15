@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="FluentNoiseGenerator.UI.Settings.Controls.SettingsTitleBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:common="using:FluentNoiseGenerator.Common"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
     <Grid Height="32">
@@ -17,11 +18,11 @@
                Height="16"
                Margin="8,4"
                VerticalAlignment="Center"
-               Source="{x:Bind IconPath}"/>
+               Source="/Assets/Icon-64.ico"/>
 
         <TextBlock Grid.Column="1"
                    VerticalAlignment="Center"
                    FontSize="12"
-                   Text="{x:Bind Title}"/>
+                   Text="Fluent Noise Generator"/>
     </Grid>
 </UserControl>

@@ -126,7 +126,12 @@ public sealed partial class PlaybackWindow : Window
     {
         AppWindow appWindow = AppWindow;
 
-        OverlappedPresenter presenter = OverlappedPresenter.CreateForToolWindow();
+        if (appWindow.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.CreateForToolWindow();
+
+            appWindow.SetPresenter(presenter);
+        }
 
         presenter.IsAlwaysOnTop = true;
         presenter.IsMaximizable = false;
@@ -135,7 +140,6 @@ public sealed partial class PlaybackWindow : Window
 
         presenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
 
-        appWindow.SetPresenter(presenter);
         appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
         appWindow.MoveToCenter();
     }

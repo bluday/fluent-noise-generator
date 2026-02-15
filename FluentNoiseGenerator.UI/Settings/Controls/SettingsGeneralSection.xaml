@@ -15,33 +15,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsSectionHeader Grid.Row="0"
-                                        Glyph="&#xf8a6;"
-                                        Text="{x:Bind Header}"/>
+        <controls:SettingsSectionHeader x:Uid="SettingsWindow/SectionHeaders/General"
+                                        Grid.Row="0"
+                                        Glyph="&#xf8a6;"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">
-            <communityToolkitControls:SettingsCard Description="{x:Bind AutoplayOnLaunchSettingsCardDescription}"
-                                                   Header="{x:Bind AutoplayOnLaunchSettingsCardHeader}"
+            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/AutoplayOnLaunch"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xec57;}">
                 <ToggleSwitch/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard Description="{x:Bind DefaultNoisePresetSettingsCardDescription}"
-                                                   Header="{x:Bind DefaultNoisePresetSettingsCardHeader}"
+            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/DefaultNoisePreset"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                <ComboBox DisplayMemberPath="Resource.Value"
-                          ItemsSource="{x:Bind AvailableNoisePresets}"
-                          SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"
-                          SelectedValuePath="Value"/>
+                <ComboBox ItemsSource="{x:Bind AvailableNoisePresets}"
+                          SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
-            <communityToolkitControls:SettingsCard Description="{x:Bind LanguageSettingsCardDescription}"
-                                                   Header="{x:Bind LanguageSettingsCardHeader}"
+            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/General/Language"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
                 <ComboBox ItemsSource="{x:Bind AvailableLanguages}"
-                          SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"
-                          SelectedValuePath="Value"/>
+                          SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>

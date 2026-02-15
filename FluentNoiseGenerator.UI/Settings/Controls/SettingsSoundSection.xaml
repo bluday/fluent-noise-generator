@@ -15,18 +15,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsSectionHeader Grid.Row="0"
-                                        Glyph="&#xe8d6;"
-                                        Text="{x:Bind Header}"/>
+        <controls:SettingsSectionHeader x:Uid="SettingsWindow/SectionHeaders/Sound"
+                                        Grid.Row="0"
+                                        Glyph="&#xe8d6;"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">
-            <communityToolkitControls:SettingsCard Description="{x:Bind AudioSampleRateSettingsCardDescription}"
-                                                   Header="{x:Bind AudioSampleRateSettingsCardHeader}"
+            <communityToolkitControls:SettingsCard x:Uid="SettingsWindow/SettingsCards/Sound/SampleRate"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
                 <ComboBox ItemsSource="{x:Bind AvailableAudioSampleRates}"
-                          SelectedItem="{x:Bind SelectedAudioSampleRate, Mode=TwoWay}"
-                          SelectedValuePath="Value"/>
+                          SelectedItem="{x:Bind SelectedAudioSampleRate, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>
     </Grid>

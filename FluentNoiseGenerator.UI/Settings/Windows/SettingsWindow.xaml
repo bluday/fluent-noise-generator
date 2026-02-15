@@ -21,8 +21,7 @@
         </Grid.RowDefinitions>
 
         <controls:SettingsTitleBar x:Name="settingsTitleBar"
-                                   Grid.Row="0"
-                                   IconPath="{x:Bind TitleBarIconPath}"/>
+                                   Grid.Row="0"/>
 
         <Grid Grid.Row="1"
               MaxWidth="800">
@@ -31,7 +30,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="32,24,32,16"
+            <TextBlock x:Uid="SettingsWindow/TextBlocks/Title"
+                       Margin="32,24,32,16"
                        VerticalAlignment="Center"
                        FontSize="24"
                        Style="{StaticResource TitleTextBlockStyle}"
@@ -57,12 +57,13 @@
 
                     <controls:SettingsAboutSection/>
 
-
                     <StackPanel Margin="0,8,0,32"
                                 Spacing="8">
-                        <HyperlinkButton Padding="0"/>
+                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"
+                                         Padding="0"/>
 
-                        <HyperlinkButton Padding="0"/>
+                        <HyperlinkButton x:Uid="SettingsWindow/HyperlinkButtons/SendFeedback"
+                                         Padding="0"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
