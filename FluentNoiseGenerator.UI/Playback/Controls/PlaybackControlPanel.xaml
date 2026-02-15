@@ -42,16 +42,6 @@
                             <TextBlock FontSize="16"
                                        Style="{StaticResource BodyStrongTextBlockStyle}"
                                        Text="Noise presets"/>
-
-                            <Button Grid.Column="1"
-                                    Width="24"
-                                    Height="24"
-                                    Padding="4"
-                                    Background="Transparent"
-                                    BorderBrush="Transparent"
-                                    Content="{communityToolkit:FontIcon FontSize=12,
-                                                                        Glyph=&#xe710;}"
-                                    ToolTipService.ToolTip="Create preset"/>
                         </Grid>
 
                         <ListView Grid.Row="1"
