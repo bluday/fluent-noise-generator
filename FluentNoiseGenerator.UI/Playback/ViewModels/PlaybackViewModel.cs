@@ -82,7 +82,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void TogglePlayback()
     {
-        // TODO: Toggle playback.
+        IsPlaying = !IsPlaying;
     }
 
     /// <summary>
