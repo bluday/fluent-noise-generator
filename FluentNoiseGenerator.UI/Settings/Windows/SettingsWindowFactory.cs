@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
-using System;
 
 namespace FluentNoiseGenerator.UI.Settings.Windows;
 
@@ -10,49 +8,17 @@ namespace FluentNoiseGenerator.UI.Settings.Windows;
 /// </summary>
 public sealed class SettingsWindowFactory
 {
-    #region Fields
-    private readonly IAppSettings _appSettings;
-
-    private readonly IMessenger _messenger;
-    #endregion
-
-    #region Constructor
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using
-    /// the specified dependencies.
-    /// </summary>
-    /// <param name="appSettings">
-    /// An <see cref="IAppSettings"/> instance with current settings for the application.
-    /// </param>
-    /// <param name="messenger">
-    /// The messenger instance used for sending messages within the application.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
-    /// </exception>
-    public SettingsWindowFactory(IAppSettings appSettings, IMessenger messenger)
-    {
-        ArgumentNullException.ThrowIfNull(appSettings);
-        ArgumentNullException.ThrowIfNull(messenger);
-
-        _appSettings = appSettings;
-        _messenger   = messenger;
-    }
-    #endregion
-
-    #region Methods
     /// <summary>
     /// Creates a new <see cref="SettingsWindow"/> instance with its required dependencies.
     /// </summary>
     /// <returns>
     /// The created window instance.
     /// </returns>
-    public SettingsWindow Create()
+    public static SettingsWindow Create()
     {
         return new()
         {
-            ViewModel = new SettingsViewModel(_appSettings, _messenger)
+            ViewModel = Ioc.Default.GetRequiredService<SettingsViewModel>()
         };
     }
-    #endregion
 }

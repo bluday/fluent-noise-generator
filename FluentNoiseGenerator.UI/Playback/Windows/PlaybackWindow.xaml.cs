@@ -3,9 +3,8 @@ using FluentNoiseGenerator.UI.Playback.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using WinRT.Interop;
+using System;
+using Windows.Graphics;
 
 namespace FluentNoiseGenerator.UI.Playback.Windows;
 
@@ -16,27 +15,30 @@ public sealed partial class PlaybackWindow : Window
 {
     #region Constants
     /// <summary>
-    /// The standard or user-default screen DPI value.
+    /// Reduction factor applied when a scaled dimension value exceeds the
+    /// display work area.
     /// </summary>
-    public const int DEFAULT_DPI_SCALE = 96;
+    public const double DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR = 0.8;
 
     /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_HEIGHT = 160;
+    public const int MINIMUM_UNSCALED_HEIGHT = 110;
 
     /// <summary>
     /// The minimum width in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_WIDTH = 260;
+    public const int MINIMUM_UNSCALED_WIDTH = 170;
     #endregion
 
     #region Fields
-    private double _dpiScaleFactor;
-
     private bool _hasClosed;
 
+    private readonly double _dpiScaleFactor;
+
     private readonly InputNonClientPointerSource _inputNonClientPointerSource;
+
+    private readonly RectInt32 _displayWorkArea;
     #endregion
 
     #region Properties
@@ -54,15 +56,22 @@ public sealed partial class PlaybackWindow : Window
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackWindow"/> class.
+    /// </summary>
     public PlaybackWindow()
     {
-        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+        Microsoft.UI.WindowId windowId = AppWindow.Id;
+
+        _displayWorkArea = DisplayArea
+            .GetFromWindowId(windowId, DisplayAreaFallback.None)
+            .WorkArea;
+
+        _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+
+        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(windowId);
 
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(playbackTopBar);
-
-        RetrieveAndUpdateDpiScaleFactor();
 
         ConfigureNativeWindow();
         ConfigureNativeTitleBar();
@@ -72,11 +81,20 @@ public sealed partial class PlaybackWindow : Window
     #endregion
 
     #region Methods
-    private void RetrieveAndUpdateDpiScaleFactor()
+    private int GetScaledMinimumHeight()
     {
-        uint value = PInvoke.GetDpiForWindow((HWND)WindowNative.GetWindowHandle(this));
+        return (int)Math.Min(
+            MINIMUM_UNSCALED_HEIGHT * _dpiScaleFactor,
+            _displayWorkArea.Height * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+        );
+    }
 
-        _dpiScaleFactor = (double)value / DEFAULT_DPI_SCALE;
+    private int GetScaledMinimumWidth()
+    {
+        return (int)Math.Min(
+            MINIMUM_UNSCALED_WIDTH * _dpiScaleFactor,
+            _displayWorkArea.Width * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+        );
     }
 
     private void UpdateNonClientInputRegions()
@@ -99,7 +117,9 @@ public sealed partial class PlaybackWindow : Window
          */
         _inputNonClientPointerSource.SetRegionRects(
             region: NonClientRegionKind.Caption,
-            rects: [playbackTopBar.GetBoundingBox(_dpiScaleFactor)]
+            rects: [
+                playbackTopBar.GetBoundingBox(_dpiScaleFactor)
+            ]
         );
 
         _inputNonClientPointerSource.SetRegionRects(
@@ -140,7 +160,7 @@ public sealed partial class PlaybackWindow : Window
 
         presenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
 
-        appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        appWindow.Resize(GetScaledMinimumWidth(), GetScaledMinimumHeight());
         appWindow.MoveToCenter();
     }
     #endregion

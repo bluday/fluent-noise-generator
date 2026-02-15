@@ -17,10 +17,6 @@ public sealed partial class WindowService : IWindowService, IDisposable
 
     private SettingsWindow? _settingsWindow;
 
-    private readonly SettingsWindowFactory _settingsWindowFactory;
-
-    private readonly PlaybackWindowFactory _playbackWindowFactory;
-
     private readonly IMessenger _messenger;
     #endregion
 
@@ -28,12 +24,6 @@ public sealed partial class WindowService : IWindowService, IDisposable
     /// <summary>
     /// Initializes a new instance of the <see cref="WindowService"/> class.
     /// </summary>
-    /// <param name="playbackWindowFactory">
-    /// The <see cref="PlaybackWindowFactory"/> factory for creating new instances.
-    /// </param>
-    /// <param name="settingsWindowFactory">
-    /// The <see cref="SettingsWindowFactory"/> factory for creating new instances.
-    /// </param>
     /// <param name="messenger">
     /// The messenger instance used for sending messages within the application.
     /// This is typically a <see cref="WeakReferenceMessenger"/>.
@@ -41,18 +31,11 @@ public sealed partial class WindowService : IWindowService, IDisposable
     /// <exception cref="ArgumentNullException">
     /// Thrown when any of the specified parameters are <c>null</c>.
     /// </exception>
-    public WindowService(
-        PlaybackWindowFactory playbackWindowFactory,
-        SettingsWindowFactory settingsWindowFactory,
-        IMessenger            messenger)
+    public WindowService(IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(playbackWindowFactory);
-        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _playbackWindowFactory = playbackWindowFactory;
-        _settingsWindowFactory = settingsWindowFactory;
-        _messenger             = messenger;
+        _messenger = messenger;
 
         RegisterMessageHandlers();
     }
@@ -88,7 +71,7 @@ public sealed partial class WindowService : IWindowService, IDisposable
             return;
         }
 
-        _playbackWindow = _playbackWindowFactory.Create();
+        _playbackWindow = PlaybackWindowFactory.Create();
 
         _playbackWindow.Activate();
     }
@@ -103,7 +86,7 @@ public sealed partial class WindowService : IWindowService, IDisposable
             return;
         }
 
-        _settingsWindow = _settingsWindowFactory.Create();
+        _settingsWindow = SettingsWindowFactory.Create();
         
         _settingsWindow.Activate();
     }

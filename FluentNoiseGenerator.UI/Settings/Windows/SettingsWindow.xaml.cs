@@ -3,6 +3,8 @@ using FluentNoiseGenerator.UI.Settings.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using System;
+using Windows.Graphics;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.UI.Settings.Windows;
@@ -14,14 +16,26 @@ public sealed partial class SettingsWindow : Window
 {
     #region Constants
     /// <summary>
+    /// Reduction factor applied when a scaled dimension value exceeds the
+    /// display work area.
+    /// </summary>
+    public const double DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR = 0.9;
+
+    /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_HEIGHT = 1000;
+    public const int MINIMUM_UNSCALED_HEIGHT = 700;
 
     /// <summary>
     /// The minimum width in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_WIDTH = MINIMUM_HEIGHT;
+    public const int MINIMUM_UNSCALED_WIDTH = MINIMUM_UNSCALED_HEIGHT;
+    #endregion
+
+    #region Fields
+    private readonly double _dpiScaleFactor;
+
+    private readonly RectInt32 _displayWorkArea;
     #endregion
 
     #region Properties
@@ -42,6 +56,12 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public SettingsWindow()
     {
+        _displayWorkArea = DisplayArea
+            .GetFromWindowId(AppWindow.Id, DisplayAreaFallback.None)
+            .WorkArea;
+
+        _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(settingsTitleBar);
@@ -54,6 +74,22 @@ public sealed partial class SettingsWindow : Window
     #endregion
 
     #region Methods
+    private int GetScaledMinimumHeight()
+    {
+        return (int)Math.Min(
+            MINIMUM_UNSCALED_HEIGHT * _dpiScaleFactor,
+            _displayWorkArea.Height * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+        );
+    }
+
+    private int GetScaledMinimumWidth()
+    {
+        return (int)Math.Min(
+            MINIMUM_UNSCALED_WIDTH * _dpiScaleFactor,
+            _displayWorkArea.Width * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+        );
+    }
+
     private void RefreshTitleBarColors(ElementTheme elementTheme)
     {
         if (!AppWindowTitleBar.IsCustomizationSupported())
@@ -113,10 +149,13 @@ public sealed partial class SettingsWindow : Window
             appWindow.SetPresenter(presenter);
         }
 
-        presenter.PreferredMinimumWidth  = MINIMUM_WIDTH;
-        presenter.PreferredMinimumHeight = MINIMUM_HEIGHT;
+        int scaledHeight = GetScaledMinimumHeight();
+        int scaledWidth  = GetScaledMinimumWidth();
 
-        appWindow.Resize(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+        presenter.PreferredMinimumWidth  = scaledWidth;
+        presenter.PreferredMinimumHeight = scaledHeight;
+
+        appWindow.Resize(scaledWidth, scaledHeight);
     }
     #endregion
 

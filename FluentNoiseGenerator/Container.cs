@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Services;
+using FluentNoiseGenerator.UI.Playback.ViewModels;
 using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Settings.ViewModels;
 using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -56,9 +58,6 @@ internal sealed class Container
                 .CurrentSettings
         );
 
-        services.AddSingleton<PlaybackWindowFactory>();
-        services.AddSingleton<SettingsWindowFactory>();
-
         services.AddSingleton<ILanguageService, LanguageService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<IToastNotificationService, ToastNotificationService>();
@@ -68,6 +67,12 @@ internal sealed class Container
         services.AddSingleton<IBackdropService, BackdropService>();
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<IWindowService, WindowService>();
+
+        services.AddSingleton<PlaybackWindowFactory>();
+        services.AddSingleton<SettingsWindowFactory>();
+
+        services.AddSingleton<PlaybackViewModel>();
+        services.AddSingleton<SettingsViewModel>();
     }
 
     /// <summary>
