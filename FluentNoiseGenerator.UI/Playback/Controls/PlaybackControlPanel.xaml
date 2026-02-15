@@ -39,9 +39,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock FontSize="16"
-                                       Style="{StaticResource BodyStrongTextBlockStyle}"
-                                       Text="Noise presets"/>
+                            <TextBlock x:Uid="/PlaybackWindow/TextBlocks/ControlPanel/NoisePresets"
+                                       FontSize="16"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"/>
                         </Grid>
 
                         <ListView Grid.Row="1"
@@ -64,7 +64,7 @@
 
                                     <TextBlock Grid.Column="1"
                                                VerticalAlignment="Center"
-                                               Text="White"/>
+                                               Text="(Name)"/>
                                 </Grid>
                             </ListViewItem>
                         </ListView>
