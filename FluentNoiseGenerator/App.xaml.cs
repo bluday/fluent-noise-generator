@@ -1,12 +1,4 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Services;
-using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Services;
-using FluentNoiseGenerator.UI.Playback.ViewModels;
-using FluentNoiseGenerator.UI.Playback.Windows;
-using FluentNoiseGenerator.UI.Settings.ViewModels;
-using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -19,7 +11,7 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly Container _container;
+    private readonly IContainer _container;
 
     private readonly IWindowService _windowService;
     #endregion
@@ -30,7 +22,7 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _container = new Container(ConfigureServices);
+        _container = new Container();
 
         IKeyedServiceProvider rootServiceProvider = _container.RootServiceProvider;
 
@@ -38,40 +30,11 @@ public partial class App : Application
 
         _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
 
-        Ioc.Default.ConfigureServices(rootServiceProvider);
-
         InitializeComponent();
     }
     #endregion
 
     #region Instance methods
-    private void ConfigureServices(IServiceCollection services)
-    {
-        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
-
-        services.AddSingleton(
-            serviceProvider => serviceProvider
-                .GetRequiredService<ISettingsService>()
-                .CurrentSettings
-        );
-
-        services.AddSingleton<ILanguageService, LanguageService>();
-        services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<IToastNotificationService, ToastNotificationService>();
-
-        services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
-
-        services.AddSingleton<IBackdropService, BackdropService>();
-        services.AddSingleton<IThemeService, ThemeService>();
-        services.AddSingleton<IWindowService, WindowService>();
-
-        services.AddSingleton<PlaybackWindowFactory>();
-        services.AddSingleton<SettingsWindowFactory>();
-
-        services.AddSingleton<PlaybackViewModel>();
-        services.AddSingleton<SettingsViewModel>();
-    }
-
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
