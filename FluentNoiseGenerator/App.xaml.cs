@@ -1,4 +1,12 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
+using FluentNoiseGenerator.Common.Services;
+using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Services;
+using FluentNoiseGenerator.UI.Playback.ViewModels;
+using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Settings.ViewModels;
+using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -11,9 +19,9 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly Container _container = new();
+    private readonly Container _container;
 
-    private IWindowService _windowService = null!;
+    private readonly IWindowService _windowService;
     #endregion
 
     #region Constructor
@@ -22,19 +30,46 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        InitializeCoreServices();
+        _container = new Container(ConfigureServices);
+
+        IKeyedServiceProvider rootServiceProvider = _container.RootServiceProvider;
+
+        // TODO: Resolve critical services in order to run the application.
+
+        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
+
+        Ioc.Default.ConfigureServices(rootServiceProvider);
+
         InitializeComponent();
     }
     #endregion
 
     #region Instance methods
-    private void InitializeCoreServices()
+    private void ConfigureServices(IServiceCollection services)
     {
-        IServiceProvider rootServiceProvider = _container.RootServiceProvider;
+        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
-        // TODO: Resolve critical services in order to run the application.
+        services.AddSingleton(
+            serviceProvider => serviceProvider
+                .GetRequiredService<ISettingsService>()
+                .CurrentSettings
+        );
 
-        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
+        services.AddSingleton<ILanguageService, LanguageService>();
+        services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<IToastNotificationService, ToastNotificationService>();
+
+        services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
+
+        services.AddSingleton<IBackdropService, BackdropService>();
+        services.AddSingleton<IThemeService, ThemeService>();
+        services.AddSingleton<IWindowService, WindowService>();
+
+        services.AddSingleton<PlaybackWindowFactory>();
+        services.AddSingleton<SettingsWindowFactory>();
+
+        services.AddSingleton<PlaybackViewModel>();
+        services.AddSingleton<SettingsViewModel>();
     }
 
     /// <summary>
