@@ -47,7 +47,7 @@ public sealed partial class Container : IContainer
     #endregion
 
     #region Methods
-    private void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
