@@ -50,21 +50,66 @@
                                 <Grid Margin="4,8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
                                     <Border Grid.Column="0"
                                             Width="24"
                                             Height="24"
-                                            Margin="0,0,12,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Background="CornflowerBlue"
+                                            CornerRadius="{StaticResource ControlCornerRadius}"/>
+
+                                    <TextBlock Grid.Column="2"
+                                               VerticalAlignment="Center"
+                                               Text="Blue"/>
+                                </Grid>
+
+                            </ListViewItem>
+
+                            <ListViewItem>
+                                <Grid Margin="4,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0"
+                                            Width="24"
+                                            Height="24"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Background="SaddleBrown"
+                                            CornerRadius="{StaticResource ControlCornerRadius}"/>
+
+                                    <TextBlock Grid.Column="2"
+                                               VerticalAlignment="Center"
+                                               Text="Brown"/>
+                                </Grid>
+                            </ListViewItem>
+
+                            <ListViewItem>
+                                <Grid Margin="4,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0"
+                                            Width="24"
+                                            Height="24"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
                                             Background="White"
                                             CornerRadius="{StaticResource ControlCornerRadius}"/>
 
-                                    <TextBlock Grid.Column="1"
+                                    <TextBlock Grid.Column="2"
                                                VerticalAlignment="Center"
-                                               Text="(Name)"/>
+                                               Text="White"/>
                                 </Grid>
                             </ListViewItem>
                         </ListView>
