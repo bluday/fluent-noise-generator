@@ -14,13 +14,14 @@
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
 
-    <Grid x:Name="layoutRoot">
+    <Grid x:Name="LayoutRoot"
+          Loaded="LayoutRoot_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsTitleBar x:Name="settingsTitleBar"
+        <controls:SettingsTitleBar x:Name="TitleBar"
                                    Grid.Row="0"/>
 
         <Grid Grid.Row="1"

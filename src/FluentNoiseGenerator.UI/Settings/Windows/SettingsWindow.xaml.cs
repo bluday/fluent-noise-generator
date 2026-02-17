@@ -64,7 +64,7 @@ public sealed partial class SettingsWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(settingsTitleBar);
+        SetTitleBar(TitleBar);
 
         ConfigureNativeWindow();
         ConfigureNativeTitleBar();
@@ -165,6 +165,11 @@ public sealed partial class SettingsWindow : Window
         ViewModel?.Dispose();
 
         HasClosed = true;
+    }
+
+    private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
+    {
+        RefreshTitleBarColors(LayoutRoot.RequestedTheme);
     }
     #endregion
 }
