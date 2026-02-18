@@ -71,7 +71,7 @@ public sealed partial class PlaybackWindow : Window
 
         ExtendsContentIntoTitleBar = true;
 
-        SetTitleBar(playbackTopBar);
+        SetTitleBar(TopBar);
 
         ConfigureNativeWindow();
         ConfigureNativeTitleBar();
@@ -118,15 +118,15 @@ public sealed partial class PlaybackWindow : Window
         _inputNonClientPointerSource.SetRegionRects(
             region: NonClientRegionKind.Caption,
             rects: [
-                playbackTopBar.GetBoundingBox(_dpiScaleFactor)
+                TopBar.GetBoundingBox(_dpiScaleFactor)
             ]
         );
 
         _inputNonClientPointerSource.SetRegionRects(
             region: NonClientRegionKind.Passthrough,
             rects: [
-                playbackTopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-                playbackTopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+                TopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+                TopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
             ]
         );
     }
@@ -166,7 +166,7 @@ public sealed partial class PlaybackWindow : Window
     #endregion
 
     #region Event handlers
-    private void LayoutUpdated(object sender, object e)
+    private void LayoutRoot_LayoutUpdated(object sender, object e)
     {
         UpdateNonClientInputRegions();
     }

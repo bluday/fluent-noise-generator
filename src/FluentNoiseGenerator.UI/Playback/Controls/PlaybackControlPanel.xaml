@@ -122,14 +122,14 @@
             </Viewbox>
         </Button>
 
-        <Button x:Name="playbackButton"
+        <Button x:Name="PlaybackButton"
                 Width="48"
                 Height="48"
                 Command="{x:Bind PlaybackButtonClickCommand}"
                 CornerRadius="40"
                 Style="{StaticResource DefaultButtonStyle}">
             <Viewbox>
-                <FontIcon x:Name="playbackButtonFontIcon"
+                <FontIcon x:Name="PlaybackButtonFontIcon"
                           Glyph="&#xf5b0;"/>
             </Viewbox>
         </Button>
@@ -165,7 +165,7 @@
 
                 <VisualState x:Name="Playing">
                     <VisualState.Setters>
-                        <Setter Target="playbackButtonFontIcon.Glyph" Value="&#xf8ae;"/>
+                        <Setter Target="PlaybackButtonFontIcon.Glyph" Value="&#xf8ae;"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

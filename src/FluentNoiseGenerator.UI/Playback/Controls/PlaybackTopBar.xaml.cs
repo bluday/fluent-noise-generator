@@ -74,7 +74,7 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// </returns>
     public RectInt32 GetBoundingRectForCloseButton(double scaleFactor)
     {
-        return closeButton.GetBoundingBox(scaleFactor);
+        return CloseButton.GetBoundingBox(scaleFactor);
     }
 
     /// <inheritdoc cref="GetBoundingRectForCloseButton(double)"/>
@@ -83,7 +83,7 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// </summary>
     public RectInt32 GetBoundingRectForSettingsButton(double scaleFactor)
     {
-        return settingsButton.GetBoundingBox(scaleFactor);
+        return SettingsButton.GetBoundingBox(scaleFactor);
     }
     #endregion
 }

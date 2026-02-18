@@ -12,14 +12,15 @@
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
 
-    <Grid IsTabStop="True"
-          LayoutUpdated="LayoutUpdated">
+    <Grid x:Name="LayourRoot"
+          IsTabStop="True"
+          LayoutUpdated="LayoutRoot_LayoutUpdated">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:PlaybackTopBar x:Name="playbackTopBar"
+        <controls:PlaybackTopBar x:Name="TopBar"
                                  Grid.Row="0"
                                  Padding="4"
                                  BorderBrush="{ThemeResource ControlElevationBorderBrush}"

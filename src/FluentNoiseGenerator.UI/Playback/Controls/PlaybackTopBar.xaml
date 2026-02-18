@@ -32,7 +32,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="settingsButton"
+        <Button x:Name="SettingsButton"
                 Grid.Column="0"
                 Command="{x:Bind SettingsButtonClickCommand}">
             <FontIcon Glyph="&#xe713;"/>
@@ -46,7 +46,7 @@
                 BorderThickness="0"
                 CornerRadius="2"/>
 
-        <Button x:Name="closeButton"
+        <Button x:Name="CloseButton"
                 Grid.Column="2"
                 Command="{x:Bind CloseButtonClickCommand}">
             <FontIcon FontSize="10"
