@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Services;
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.UI.Common.Services;
@@ -13,21 +12,15 @@ using System;
 namespace FluentNoiseGenerator;
 
 /// <summary>
-/// A wrapper for <see cref="ServiceProvider"/>, providing additional information about the
-/// container, such as registered service descriptors, active scopes, and whether the
-/// container has been disposed of.
+/// Represents the pre-configured IoC container for the application.
 /// </summary>
-public sealed partial class Container : IContainer
+public sealed partial class Container
 {
-    #region Fields
-    private readonly ServiceProvider _rootServiceProvider;
-    #endregion
-
     #region Properties
     /// <summary>
-    /// Gets the <see cref="ServiceProvider"/> instance for the root scope of the container.
+    /// Gets the <see cref="ServiceProvider"/> instance for the root scope.
     /// </summary>
-    public IKeyedServiceProvider RootServiceProvider => _rootServiceProvider;
+    public ServiceProvider RootServiceProvider { get; }
     #endregion
 
     #region Constructor
@@ -36,18 +29,16 @@ public sealed partial class Container : IContainer
     /// </summary>
     public Container()
     {
-        ServiceCollection services = new();
+        ServiceCollection serviceDescriptors = new();
 
-        ConfigureServices(services);
+        Configure(serviceDescriptors);
 
-        _rootServiceProvider = services.BuildServiceProvider();
-
-        Ioc.Default.ConfigureServices(_rootServiceProvider);
+        RootServiceProvider = serviceDescriptors.BuildServiceProvider();
     }
     #endregion
 
-    #region Methods
-    private static void ConfigureServices(IServiceCollection services)
+    #region Static methods
+    private static void Configure(ServiceCollection services)
     {
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
@@ -67,26 +58,11 @@ public sealed partial class Container : IContainer
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<IWindowService, WindowService>();
 
+        services.AddTransient<PlaybackViewModel>();
         services.AddSingleton<PlaybackWindowFactory>();
+
+        services.AddTransient<SettingsViewModel>();
         services.AddSingleton<SettingsWindowFactory>();
-
-        services.AddSingleton<PlaybackViewModel>();
-        services.AddSingleton<SettingsViewModel>();
-    }
-
-    /// <summary>
-    /// Creates a new limited scope for resolving services, allowing for isolated
-    /// dependencies within a specific context or operation.
-    /// </summary>
-    /// <returns>
-    /// An instance of <see cref="IServiceScope"/> representing the new scope.
-    /// </returns>
-    /// <exception cref="InvalidOperationException">
-    /// Throws if the current instance has been disposed of.
-    /// </exception>
-    public IServiceScope CreateScope()
-    {
-        return _rootServiceProvider.CreateScope();
     }
     #endregion
 }
