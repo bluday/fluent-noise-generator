@@ -1,3 +1,4 @@
+using FluentNoiseGenerator.Infrastructure.Constants;
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using Microsoft.UI;
@@ -45,22 +46,31 @@ public sealed partial class SettingsWindow : Window
     public bool HasClosed { get; private set; }
 
     /// <summary>
-    /// Gets or sets the view model instance associated with this window type.
+    /// Gets the view model instance.
     /// </summary>
-    public SettingsViewModel? ViewModel { get; set; }
+    public SettingsViewModel ViewModel { get; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class.
+    /// Initializes a new instance of the <see cref="SettingsWindow"/> class
+    /// using the specified dependencies.
     /// </summary>
-    public SettingsWindow()
+    /// <param name="viewModel">
+    /// The view model instance for the window.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws if any of the parameters are <c>null</c>.
+    /// </exception>
+    public SettingsWindow(SettingsViewModel viewModel)
     {
-        _displayWorkArea = DisplayArea
-            .GetFromWindowId(AppWindow.Id, DisplayAreaFallback.None)
-            .WorkArea;
+        ArgumentNullException.ThrowIfNull(viewModel);
+
+        _displayWorkArea = this.GetDisplayArea().WorkArea;
 
         _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+
+        ViewModel = viewModel;
 
         ExtendsContentIntoTitleBar = true;
 
@@ -132,7 +142,7 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public void ConfigureNativeTitleBar()
     {
-        AppWindow.SetIcon(FluentNoiseGenerator.Infrastructure.Constants.IconPath);
+        AppWindow.SetIcon(Icons.IconPath);
     }
 
     /// <summary>

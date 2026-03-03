@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using FluentNoiseGenerator.Configuration;
 using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -21,7 +23,7 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _container = new Container();
+        _container = new Container(ServiceConfiguration.Configure);
 
         Ioc.Default.ConfigureServices(_container.RootServiceProvider);
 
@@ -38,9 +40,10 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _container.RootServiceProvider
-            .GetRequiredService<PlaybackWindow>()
-            .Activate();
+        IKeyedServiceProvider serviceProvider = _container.RootServiceProvider;
+
+        serviceProvider.GetRequiredService<PlaybackWindow>().Activate();
+        serviceProvider.GetRequiredService<SettingsWindow>().Activate();
     }
     #endregion
 }

@@ -1,3 +1,4 @@
+using FluentNoiseGenerator.Infrastructure.Constants;
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
 using Microsoft.UI.Input;
@@ -48,26 +49,33 @@ public sealed partial class PlaybackWindow : Window
     public bool HasClosed => _hasClosed;
 
     /// <summary>
-    /// Gets or sets the view model instance associated with this window type.
+    /// Gets the view model instance.
     /// </summary>
-    public PlaybackViewModel? ViewModel { get; set; }
+    public PlaybackViewModel ViewModel { get; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackWindow"/> class
+    /// using the specified dependencies.
     /// </summary>
-    public PlaybackWindow()
+    /// <param name="viewModel">
+    /// The view model instance for the window.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws if any of the parameters are <c>null</c>.
+    /// </exception>
+    public PlaybackWindow(PlaybackViewModel viewModel)
     {
-        Microsoft.UI.WindowId windowId = AppWindow.Id;
+        ArgumentNullException.ThrowIfNull(viewModel);
 
-        _displayWorkArea = DisplayArea
-            .GetFromWindowId(windowId, DisplayAreaFallback.None)
-            .WorkArea;
+        _displayWorkArea = this.GetDisplayArea().WorkArea;
 
         _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
 
-        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(windowId);
+        _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+
+        ViewModel = viewModel;
 
         ExtendsContentIntoTitleBar = true;
 
@@ -105,8 +113,6 @@ public sealed partial class PlaybackWindow : Window
          */
         if (_hasClosed) return;
 
-        _inputNonClientPointerSource.ClearAllRegionRects();
-
         /**
          * Region kind for drag must be set to `Caption` in order to set a drag region for the
          * title bar control. Really bizarre that one can't hide the native close chrome button
@@ -115,20 +121,14 @@ public sealed partial class PlaybackWindow : Window
          * I am lazy and this is the easiest way of specifying drag regions after setting title
          * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
          */
-        _inputNonClientPointerSource.SetRegionRects(
-            region: NonClientRegionKind.Caption,
-            rects: [
-                TopBar.GetBoundingBox(_dpiScaleFactor)
-            ]
-        );
+        _inputNonClientPointerSource.ReplaceRegionRects(NonClientRegionKind.Caption, [
+            TopBar.GetBoundingBox(_dpiScaleFactor)
+        ]);
 
-        _inputNonClientPointerSource.SetRegionRects(
-            region: NonClientRegionKind.Passthrough,
-            rects: [
-                TopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
-                TopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
-            ]
-        );
+        _inputNonClientPointerSource.ReplaceRegionRects(NonClientRegionKind.Passthrough, [
+            TopBar.GetBoundingRectForSettingsButton(_dpiScaleFactor),
+            TopBar.GetBoundingRectForCloseButton(_dpiScaleFactor)
+        ]);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public sealed partial class PlaybackWindow : Window
     /// </summary>
     public void ConfigureNativeTitleBar()
     {
-        AppWindow.SetIcon(FluentNoiseGenerator.Infrastructure.Constants.IconPath);
+        AppWindow.SetIcon(Icons.IconPath);
     }
 
     /// <summary>

@@ -1,68 +1,40 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Infrastructure.Services;
-using FluentNoiseGenerator.Core.Services;
-using FluentNoiseGenerator.UI.Infrastructure.Services;
-using FluentNoiseGenerator.UI.Playback.ViewModels;
-using FluentNoiseGenerator.UI.Playback.Windows;
-using FluentNoiseGenerator.UI.Settings.ViewModels;
-using FluentNoiseGenerator.UI.Settings.Windows;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace FluentNoiseGenerator;
 
 /// <summary>
-/// Represents the pre-configured IoC container for the application.
+/// Represents a pre-configured IoC container for the client.
 /// </summary>
-public sealed partial class Container
+internal sealed class Container
 {
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets the <see cref="ServiceProvider"/> instance for the root scope.
+    /// Gets the service provider for the root scope of the container.
     /// </summary>
-    public ServiceProvider RootServiceProvider { get; }
+    internal IKeyedServiceProvider RootServiceProvider { get; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="Container"/> class.
+    /// Initializes a new instance of the <see cref="Container"/> class
+    /// using the specified service configurator.
     /// </summary>
-    public Container()
+    /// <param name="serviceConfigurator">
+    /// The function that registers configured services to the container.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws if <paramref name="serviceConfigurator"/> is <c>null</c>.
+    /// </exception>
+    internal Container(Action<IServiceCollection> serviceConfigurator)
     {
-        ServiceCollection serviceDescriptors = new();
+        ArgumentNullException.ThrowIfNull(serviceConfigurator);
 
-        Configure(serviceDescriptors);
+        ServiceCollection services = [];
 
-        RootServiceProvider = serviceDescriptors.BuildServiceProvider();
-    }
-    #endregion
+        serviceConfigurator(services);
 
-    #region Static methods
-    private static void Configure(ServiceCollection services)
-    {
-        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
-
-        services.AddSingleton(
-            serviceProvider => serviceProvider
-                .GetRequiredService<ISettingsService>()
-                .CurrentSettings
-        );
-
-        services.AddSingleton<ILanguageService, LanguageService>();
-        services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<IToastNotificationService, ToastNotificationService>();
-
-        services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
-
-        services.AddSingleton<IBackdropService, BackdropService>();
-        services.AddSingleton<IThemeService, ThemeService>();
-        services.AddSingleton<IWindowService, WindowService>();
-
-        services.AddTransient<PlaybackViewModel>();
-        services.AddSingleton<PlaybackWindowFactory>();
-
-        services.AddTransient<SettingsViewModel>();
-        services.AddSingleton<SettingsWindowFactory>();
+        RootServiceProvider = services.BuildServiceProvider();
     }
     #endregion
 }
