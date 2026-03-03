@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentNoiseGenerator.Configuration;
 using FluentNoiseGenerator.UI.Playback.Windows;
-using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -37,7 +36,6 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _rootServiceProvider.GetRequiredService<PlaybackWindow>().Activate();
-        _rootServiceProvider.GetRequiredService<SettingsWindow>().Activate();
     }
     #endregion
 
