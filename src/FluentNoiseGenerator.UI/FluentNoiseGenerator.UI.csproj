@@ -23,9 +23,4 @@
       <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
       <ProjectReference Include="..\FluentNoiseGenerator.UI.Infrastructure\FluentNoiseGenerator.UI.Infrastructure.csproj" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Settings\Controls\Sections\" />
-      <Folder Include="Settings\Styles\" />
-    </ItemGroup>
 </Project>
