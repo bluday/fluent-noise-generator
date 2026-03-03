@@ -34,8 +34,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.UI.Infrastructure\FluentNoiseGenerator.UI.Infrastructure.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.UI\FluentNoiseGenerator.UI.csproj" />
     </ItemGroup>
     

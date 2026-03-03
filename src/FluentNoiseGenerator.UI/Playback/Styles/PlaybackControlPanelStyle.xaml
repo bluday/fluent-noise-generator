@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:FluentNoiseGenerator.UI.Playback.Controls">
+    <Style x:Key="FluentNoiseGeneratorPlaybackControlPanelButtonStyle"
+           BasedOn="{StaticResource DefaultButtonStyle}"
+           TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonBorderThickness}"/>
+        <Setter Property="Height" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonSize}"/>
+        <Setter Property="Width" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonSize}"/>
+        <Setter Property="Padding" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonPadding}"/>
+    </Style>
+
+    <Style TargetType="controls:PlaybackControlPanel">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PlaybackControlPanel">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelSpacing}">
+                        <!-- Presets button -->
+                        <Button Style="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout AreOpenCloseAnimationsEnabled="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelFlyoutAnimationsEnabled}"
+                                        ShouldConstrainToRootBounds="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelFlyoutConstrainToRootBounds}">
+                                    <Grid Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetsFlyoutWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0"
+                                              Margin="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetsHeaderMargin}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock x:Uid="/PlaybackWindow/TextBlocks/ControlPanel/NoisePresets"
+                                                       FontSize="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelHeaderFontSize}"
+                                                       Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                                        </Grid>
+
+                                        <!-- Temporary stuff -->
+                                        <ListView Grid.Row="1"
+                                                  Grid.ColumnSpan="2">
+                                            <ListViewItem>
+                                                <Grid Margin="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemMargin}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemSpacing}"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Border Grid.Column="0"
+                                                            Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            Height="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            Background="CornflowerBlue"
+                                                            CornerRadius="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetCornerRadius}"/>
+
+                                                    <TextBlock Grid.Column="2"
+                                                               VerticalAlignment="Center"
+                                                               Text="Blue"/>
+                                                </Grid>
+                                            </ListViewItem>
+
+                                            <ListViewItem>
+                                                <Grid Margin="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemMargin}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemSpacing}"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Border Grid.Column="0"
+                                                            Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            Height="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            Background="SaddleBrown"
+                                                            CornerRadius="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetCornerRadius}"/>
+
+                                                    <TextBlock Grid.Column="2"
+                                                               VerticalAlignment="Center"
+                                                               Text="Brown"/>
+                                                </Grid>
+                                            </ListViewItem>
+
+                                            <ListViewItem>
+                                                <Grid Margin="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemMargin}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetItemSpacing}"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Border Grid.Column="0"
+                                                            Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            Height="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetColorSize}"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            Background="White"
+                                                            CornerRadius="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetCornerRadius}"/>
+
+                                                    <TextBlock Grid.Column="2"
+                                                               VerticalAlignment="Center"
+                                                               Text="White"/>
+                                                </Grid>
+                                            </ListViewItem>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </Button.Flyout>
+
+                            <Viewbox>
+                                <FontIcon Glyph="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPresetsGlyph}"/>
+                            </Viewbox>
+                        </Button>
+
+                        <!-- Playback button -->
+                        <Button Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPlaybackButtonSize}"
+                                Height="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPlaybackButtonSize}"
+                                Command="{TemplateBinding PlaybackButtonClickCommand}"
+                                CornerRadius="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPlaybackButtonCornerRadius}"
+                                Style="{StaticResource DefaultButtonStyle}">
+                            <Viewbox>
+                                <FontIcon x:Name="PlaybackButtonFontIcon"
+                                          Glyph="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPlayGlyph}"/>
+                            </Viewbox>
+                        </Button>
+
+                        <!-- Volume button -->
+                        <Button Style="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout AreOpenCloseAnimationsEnabled="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelFlyoutAnimationsEnabled}"
+                                        ShouldConstrainToRootBounds="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelFlyoutConstrainToRootBounds}">
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelVolumeFlyoutSpacing}">
+
+                                        <Slider Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelVolumeSliderWidth}"
+                                                Value="{Binding Volume, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                        <StackPanel Width="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelVolumeValueWidth}"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Volume, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <TextBlock Text="%"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+
+                            <Viewbox>
+                                <FontIcon Glyph="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelVolumeGlyph}"/>
+                            </Viewbox>
+                        </Button>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+
+                                <VisualState x:Name="Playing">
+                                    <VisualState.Setters>
+                                        <Setter Target="PlaybackButtonFontIcon.Glyph" Value="{ThemeResource FluentNoiseGeneratorPlaybackControlPanelPauseGlyph}"/>
+                                    </VisualState.Setters>
+
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding IsActive, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

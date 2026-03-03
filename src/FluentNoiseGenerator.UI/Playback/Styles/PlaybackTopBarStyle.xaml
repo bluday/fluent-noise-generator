@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:FluentNoiseGenerator.UI.Playback.Controls">
+    <Style x:Key="FluentNoiseGeneratorPlaybackTopBarButtonStyle"
+           BasedOn="{StaticResource DefaultButtonStyle}"
+           TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarButtonSize}"/>
+        <Setter Property="Padding" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarButtonPadding}"/>
+        <Setter Property="Width" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarButtonSize}"/>
+    </Style>
+
+    <Style TargetType="controls:PlaybackTopBar">
+        <Setter Property="Padding" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarPadding}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource FluentNoiseGeneratorPlaybackTopBarBorderThickness}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PlaybackTopBar">
+                    <Grid Padding="{TemplateBinding Padding}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="PART_SettingsButton"
+                                Grid.Column="0"
+                                Command="{TemplateBinding SettingsButtonClickCommand}"
+                                Style="{ThemeResource FluentNoiseGeneratorPlaybackTopBarButtonStyle}">
+                            <FontIcon FontSize="{ThemeResource FluentNoiseGeneratorPlaybackTopBarSettingsButtonFontSize}"
+                                      Glyph="{ThemeResource FluentNoiseGeneratorPlaybackTopBarSettingsButtonGlyph}"/>
+                        </Button>
+
+                        <Border Grid.ColumnSpan="3"
+                                Width="{ThemeResource FluentNoiseGeneratorPlaybackTopBarDragHandleWidth}"
+                                Height="{ThemeResource FluentNoiseGeneratorPlaybackTopBarDragHandleHeight}"
+                                VerticalAlignment="Center"
+                                Background="{ThemeResource FluentNoiseGeneratorPlaybackTopBarDragHandleBackgroundBrush}"
+                                BorderThickness="{ThemeResource FluentNoiseGeneratorPlaybackTopBarDragHandleBorderThickness}"
+                                CornerRadius="{ThemeResource FluentNoiseGeneratorPlaybackTopBarDragHandleCornerRadius}"/>
+
+                        <Button x:Name="PART_CloseButton"
+                                Grid.Column="2"
+                                Command="{TemplateBinding CloseButtonClickCommand}"
+                                Style="{ThemeResource FluentNoiseGeneratorPlaybackTopBarButtonStyle}">
+                            <FontIcon FontSize="{ThemeResource FluentNoiseGeneratorPlaybackTopBarCloseButtonFontSize}"
+                                      Glyph="{ThemeResource FluentNoiseGeneratorPlaybackTopBarCloseButtonGlyph}"/>
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

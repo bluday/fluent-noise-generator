@@ -1,5 +1,6 @@
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using Windows.Graphics;
 
@@ -8,8 +9,28 @@ namespace FluentNoiseGenerator.UI.Playback.Controls;
 /// <summary>
 /// Interaction logic for PlaybackTopBar.xaml.
 /// </summary>
-public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserControl
+[TemplatePart(Name = PART_CloseButton, Type = typeof(Button))]
+[TemplatePart(Name = PART_SettingsButton, Type = typeof(Button))]
+public sealed partial class PlaybackTopBar : Control
 {
+    #region Constants
+    /// <summary>
+    /// The "PART_CloseButton" string literal.
+    /// </summary>
+    public const string PART_CloseButton = "PART_CloseButton";
+
+    /// <summary>
+    /// The "PART_SettingsButton" string literal.
+    /// </summary>
+    public const string PART_SettingsButton = "PART_SettingsButton";
+    #endregion
+
+    #region Fields
+    private Button _closeButton;
+
+    private Button _settingsButton;
+    #endregion
+
     #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="CloseButtonClickCommand"/> dependency property.
@@ -36,18 +57,18 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// <summary>
     /// Gets or sets the command to be executed when the close button gets clicked.
     /// </summary>
-    public ICommand CloseButtonClickCommand
+    public ICommand? CloseButtonClickCommand
     {
-        get => (ICommand)GetValue(CloseButtonClickCommandProperty);
+        get => GetValue(CloseButtonClickCommandProperty) as ICommand;
         set => SetValue(CloseButtonClickCommandProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the command to be executed when the settings button gets clicked.
     /// </summary>
-    public ICommand SettingsButtonClickCommand
+    public ICommand? SettingsButtonClickCommand
     {
-        get => (ICommand)GetValue(SettingsButtonClickCommandProperty);
+        get => GetValue(SettingsButtonClickCommandProperty) as ICommand;
         set => SetValue(SettingsButtonClickCommandProperty, value);
     }
     #endregion
@@ -58,11 +79,24 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// </summary>
     public PlaybackTopBar()
     {
-        InitializeComponent();
+        _closeButton = null!;
+
+        _settingsButton = null!;
+
+        DefaultStyleKey = typeof(PlaybackTopBar);
     }
     #endregion
 
     #region Methods
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        _closeButton    = (Button)GetTemplateChild(PART_CloseButton);
+        _settingsButton = (Button)GetTemplateChild(PART_SettingsButton);
+    }
+
     /// <summary>
     /// Gets the bounding box for the settings button.
     /// </summary>
@@ -74,7 +108,7 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// </returns>
     public RectInt32 GetBoundingRectForCloseButton(double scaleFactor)
     {
-        return CloseButton.GetBoundingBox(scaleFactor);
+        return _closeButton.GetBoundingBox(scaleFactor);
     }
 
     /// <inheritdoc cref="GetBoundingRectForCloseButton(double)"/>
@@ -83,7 +117,7 @@ public sealed partial class PlaybackTopBar : Microsoft.UI.Xaml.Controls.UserCont
     /// </summary>
     public RectInt32 GetBoundingRectForSettingsButton(double scaleFactor)
     {
-        return SettingsButton.GetBoundingBox(scaleFactor);
+        return _settingsButton.GetBoundingBox(scaleFactor);
     }
     #endregion
 }

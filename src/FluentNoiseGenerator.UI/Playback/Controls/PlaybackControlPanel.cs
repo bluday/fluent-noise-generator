@@ -1,5 +1,5 @@
 using Microsoft.UI.Xaml;
-using System.Collections.Generic;
+using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
 namespace FluentNoiseGenerator.UI.Playback.Controls;
@@ -7,21 +7,9 @@ namespace FluentNoiseGenerator.UI.Playback.Controls;
 /// <summary>
 /// Interaction logic for PlaybackControlPanel.xaml.
 /// </summary>
-public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.UserControl
+public sealed partial class PlaybackControlPanel : Control
 {
-    #region Constants
-    /// <summary>
-    /// The "Normal" visual state name.
-    /// </summary>
-    public const string STATE_NAME_NORMAL = "Normal";
-
-    /// <summary>
-    /// The "Playing" visual state name.
-    /// </summary>
-    public const string STATE_NAME_PLAYING = "Playing";
-    #endregion
-
-    #region Depenedency properties
+    #region Dependency properties
     /// <summary>
     /// Identifies the <see cref="IsPlaying"/> dependency property.
     /// </summary>
@@ -29,10 +17,7 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
         nameof(IsPlaying),
         typeof(bool),
         typeof(PlaybackControlPanel),
-        new PropertyMetadata(
-            defaultValue:            false,
-            propertyChangedCallback: OnIsPlayingChanged
-        )
+        new PropertyMetadata(defaultValue: false)
     );
 
     /// <summary>
@@ -40,7 +25,7 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
     /// </summary>
     public static readonly DependencyProperty NoisePresetItemsSourceProperty = DependencyProperty.Register(
         nameof(NoisePresetItemsSource),
-        typeof(IEnumerable<object>),
+        typeof(object),
         typeof(PlaybackControlPanel),
         new PropertyMetadata(defaultValue: null)
     );
@@ -66,7 +51,7 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
     );
     #endregion
 
-    #region Properties
+    #region Instance roperties
     /// <summary>
     /// Gets or sets a value indicating whether the playback is currently active.
     /// </summary>
@@ -79,18 +64,18 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
     /// <summary>
     /// Gets or sets the items source instance for the noise preset collection.
     /// </summary>
-    public IEnumerable<object> NoisePresetItemsSource
+    public object? NoisePresetItemsSource
     {
-        get => (IEnumerable<object>)GetValue(NoisePresetItemsSourceProperty);
+        get => GetValue(NoisePresetItemsSourceProperty);
         set => SetValue(NoisePresetItemsSourceProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the command to be executed when the close button gets clicked.
     /// </summary>
-    public ICommand PlaybackButtonClickCommand
+    public ICommand? PlaybackButtonClickCommand
     {
-        get => (ICommand)GetValue(PlaybackButtonClickCommandProperty);
+        get => GetValue(PlaybackButtonClickCommandProperty) as ICommand;
         set => SetValue(PlaybackButtonClickCommandProperty, value);
     }
 
@@ -110,25 +95,7 @@ public sealed partial class PlaybackControlPanel : Microsoft.UI.Xaml.Controls.Us
     /// </summary>
     public PlaybackControlPanel()
     {
-        InitializeComponent();
-    }
-    #endregion
-
-    #region Methods
-    private void UpdatePlaybackVisualState()
-    {
-        VisualStateManager.GoToState(
-            control:        this,
-            stateName:      IsPlaying ? STATE_NAME_PLAYING : STATE_NAME_NORMAL,
-            useTransitions: true
-        );
-    }
-    #endregion
-
-    #region Property callbacks
-    private static void OnIsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        ((PlaybackControlPanel)d).UpdatePlaybackVisualState();
+        DefaultStyleKey = typeof(PlaybackControlPanel);
     }
     #endregion
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Application x:Class="FluentNoiseGenerator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -7,10 +7,16 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
 
+                <!-- Compact styles -->
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
-            <x:String x:Key="AppIconPath">Assets/Icon-64.ico</x:String>
+                <!-- Infrastructure -->
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI.Infrastructure/Themes/Generic.xaml"/>
+
+                <!-- Playback -->
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackControlPanelStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackTopBarStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

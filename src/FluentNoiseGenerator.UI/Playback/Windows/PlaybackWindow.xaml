@@ -22,9 +22,6 @@
 
         <controls:PlaybackTopBar x:Name="TopBar"
                                  Grid.Row="0"
-                                 Padding="4"
-                                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-                                 BorderThickness="0,0,0,1"
                                  CloseButtonClickCommand="{x:Bind ViewModel.CloseWindowCommand}"
                                  SettingsButtonClickCommand="{x:Bind ViewModel.ShowSettingsCommand}"/>
 
