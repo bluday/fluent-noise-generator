@@ -12,6 +12,10 @@
             <Platform Project="x64" />
         </Project>
 
+        <Project Path="src/FluentNoiseGenerator.UI.Infrastructure/FluentNoiseGenerator.UI.Infrastructure.csproj">
+            <Platform Project="x64" />
+        </Project>
+
         <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
             <Platform Project="x64" />
         </Project>
@@ -22,7 +26,7 @@
         </Project>
     </Folder>
 
-    <Folder Name="/Test/">
+    <Folder Name="/Tests/">
         <Project Path="tests/FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj">
             <Platform Project="x64" />
         </Project>

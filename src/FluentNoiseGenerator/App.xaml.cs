@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using FluentNoiseGenerator.UI.Infrastructure.Services;
+using FluentNoiseGenerator.UI.Playback.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -13,8 +13,6 @@ public partial class App : Application
 {
     #region Fields
     private readonly Container _container;
-
-    private readonly IWindowService _windowService;
     #endregion
 
     #region Constructor
@@ -25,11 +23,7 @@ public partial class App : Application
     {
         _container = new Container();
 
-        IKeyedServiceProvider rootServiceProvider = _container.RootServiceProvider;
-
-        _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
-
-        Ioc.Default.ConfigureServices(rootServiceProvider);
+        Ioc.Default.ConfigureServices(_container.RootServiceProvider);
 
         InitializeComponent();
     }
@@ -44,7 +38,9 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _windowService.ShowPlaybackWindow();
+        _container.RootServiceProvider
+            .GetRequiredService<PlaybackWindow>()
+            .Activate();
     }
     #endregion
 }

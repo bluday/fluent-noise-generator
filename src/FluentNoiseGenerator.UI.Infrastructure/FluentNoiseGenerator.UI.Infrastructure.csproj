@@ -3,24 +3,27 @@
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
-        <RootNamespace>FluentNoiseGenerator.UI</RootNamespace>
+        <RootNamespace>FluentNoiseGenerator.UI.Infrastructure</RootNamespace>
         <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
     </PropertyGroup>
-    
+
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
-      <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
-      <ProjectReference Include="..\FluentNoiseGenerator.UI.Infrastructure\FluentNoiseGenerator.UI.Infrastructure.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
     </ItemGroup>
 </Project>
