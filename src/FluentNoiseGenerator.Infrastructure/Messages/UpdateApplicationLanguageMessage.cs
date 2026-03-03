@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Common.Messages;
+﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for updating the current application language.
@@ -6,4 +6,4 @@
 /// <param name="Value">
 /// The new application language to set.
 /// </param>
-public sealed record UpdateApplicationLanguageMessage(Common.Globalization.ILanguage Value);
+public sealed record UpdateApplicationLanguageMessage(Globalization.ILanguage Value);

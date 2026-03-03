@@ -27,8 +27,6 @@ public partial class App : Application
 
         IKeyedServiceProvider rootServiceProvider = _container.RootServiceProvider;
 
-        // TODO: Resolve critical services in order to run the application.
-
         _windowService = rootServiceProvider.GetRequiredService<IWindowService>();
 
         Ioc.Default.ConfigureServices(rootServiceProvider);

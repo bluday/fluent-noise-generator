@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace FluentNoiseGenerator.Common.Messages;
+namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for when the application theme has been changed.

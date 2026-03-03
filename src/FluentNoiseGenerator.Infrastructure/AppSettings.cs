@@ -1,6 +1,6 @@
-﻿using FluentNoiseGenerator.Common.Globalization;
+﻿using FluentNoiseGenerator.Infrastructure.Globalization;
 
-namespace FluentNoiseGenerator.Common;
+namespace FluentNoiseGenerator.Infrastructure;
 
 /// <summary>
 /// Implementation for the <see cref="IAppSettings"/> interface.
@@ -14,16 +14,16 @@ public sealed class AppSettings : IAppSettings
 
     #region Properties
     /// <inheritdoc cref="IAppSettings.ApplicationTheme"/>
-    public object ApplicationTheme { get; private set; }
+    public object? ApplicationTheme { get; private set; }
 
     /// <inheritdoc cref="IAppSettings.AudioSampleRate"/>
-    public int AudioSampleRate { get; private set; }
+    public int? AudioSampleRate { get; private set; }
 
     /// <inheritdoc cref="IAppSettings.Language"/>
-    public ILanguage Language { get; private set; }
+    public ILanguage? Language { get; private set; }
 
     /// <inheritdoc cref="IAppSettings.DefaultNoisePreset"/>
-    public object DefaultNoisePreset { get; private set; }
+    public object? DefaultNoisePreset { get; private set; }
 
     /// <inheritdoc cref="IAppSettings.SystemBackdrop"/>
     public object? SystemBackdrop { get; private set; }
@@ -45,12 +45,6 @@ public sealed class AppSettings : IAppSettings
         ArgumentNullException.ThrowIfNull(settingsService);
 
         _settingsService = settingsService;
-
-        ApplicationTheme = null!;
-
-        Language = null!;
-
-        DefaultNoisePreset = null!;
     }
     #endregion
 }

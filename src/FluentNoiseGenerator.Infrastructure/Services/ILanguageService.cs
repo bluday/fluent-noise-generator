@@ -1,6 +1,6 @@
-﻿using FluentNoiseGenerator.Common.Globalization;
+﻿using FluentNoiseGenerator.Infrastructure.Globalization;
 
-namespace FluentNoiseGenerator.Common.Services;
+namespace FluentNoiseGenerator.Infrastructure.Services;
 
 /// <summary>
 /// Service for updating the language of the application.

@@ -3,12 +3,7 @@
         <Platform Name="x64" />
     </Configurations>
 
-    <Project Path="src/FluentNoiseGenerator/FluentNoiseGenerator.csproj">
-        <Deploy />
-        <Platform Project="x64" />
-    </Project>
-
-    <Project Path="src/FluentNoiseGenerator.Common/FluentNoiseGenerator.Common.csproj">
+    <Project Path="src/FluentNoiseGenerator.Infrastructure/FluentNoiseGenerator.Infrastructure.csproj">
         <Platform Project="x64" />
     </Project>
 
@@ -18,6 +13,11 @@
 
     <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
         <Platform Project="x64" />
+    </Project>
+
+    <Project Path="src/FluentNoiseGenerator/FluentNoiseGenerator.csproj">
+        <Platform Project="x64" />
+        <Deploy />
     </Project>
 
     <Project Path="tests/FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj">

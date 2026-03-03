@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Common;
+﻿namespace FluentNoiseGenerator.Infrastructure;
 
 /// <summary>
 /// Provides utility constants used throughout the application.
@@ -10,6 +10,7 @@ public static class Constants
     /// </summary>
     public static readonly string IconPath = Path.Combine(
         AppContext.BaseDirectory,
-        "Assets/Icon-64.ico"
+        "Assets",
+        "Icon-64.ico"
     );
 }

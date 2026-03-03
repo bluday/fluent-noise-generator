@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Common.Globalization;
+﻿namespace FluentNoiseGenerator.Infrastructure.Globalization;
 
 /// <summary>
 /// Defines a contract for an abstracted application language.

@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Globalization;
-using FluentNoiseGenerator.Common.Messages;
+using FluentNoiseGenerator.Infrastructure.Globalization;
+using FluentNoiseGenerator.Infrastructure.Messages;
 
-namespace FluentNoiseGenerator.Common.Services;
+namespace FluentNoiseGenerator.Infrastructure.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="ILanguageService"/> service.

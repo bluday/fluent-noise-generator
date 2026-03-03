@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Common.Messages;
+﻿namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for closing the playback window.

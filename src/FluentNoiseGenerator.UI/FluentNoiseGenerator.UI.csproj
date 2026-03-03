@@ -22,7 +22,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\FluentNoiseGenerator.Common\FluentNoiseGenerator.Common.csproj" />
+      <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
       <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
     </ItemGroup>
 </Project>

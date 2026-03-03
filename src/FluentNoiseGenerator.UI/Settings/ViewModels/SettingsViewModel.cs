@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common;
-using FluentNoiseGenerator.Common.Globalization;
-using FluentNoiseGenerator.Common.Messages;
+using FluentNoiseGenerator.Infrastructure;
+using FluentNoiseGenerator.Infrastructure.Globalization;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;

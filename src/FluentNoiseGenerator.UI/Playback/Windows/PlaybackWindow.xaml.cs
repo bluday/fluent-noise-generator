@@ -136,7 +136,7 @@ public sealed partial class PlaybackWindow : Window
     /// </summary>
     public void ConfigureNativeTitleBar()
     {
-        AppWindow.SetIcon(FluentNoiseGenerator.Common.Constants.IconPath);
+        AppWindow.SetIcon(FluentNoiseGenerator.Infrastructure.Constants.IconPath);
     }
 
     /// <summary>

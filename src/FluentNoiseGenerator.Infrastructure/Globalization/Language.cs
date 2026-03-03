@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentNoiseGenerator.Common.Globalization;
+namespace FluentNoiseGenerator.Infrastructure.Globalization;
 
 /// <summary>
 /// Represents the default implementation for the <see cref="ILanguage"/> interface.

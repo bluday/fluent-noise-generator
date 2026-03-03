@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.Common.Services;
+﻿namespace FluentNoiseGenerator.Infrastructure.Services;
 
 /// <summary>
 /// Service for managing the current theme of the application.

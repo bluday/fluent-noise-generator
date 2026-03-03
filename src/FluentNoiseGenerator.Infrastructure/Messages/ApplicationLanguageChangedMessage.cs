@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using FluentNoiseGenerator.Common.Globalization;
+using FluentNoiseGenerator.Infrastructure.Globalization;
 
-namespace FluentNoiseGenerator.Common.Messages;
+namespace FluentNoiseGenerator.Infrastructure.Messages;
 
 /// <summary>
 /// Represents a message for when the application language has been changed.

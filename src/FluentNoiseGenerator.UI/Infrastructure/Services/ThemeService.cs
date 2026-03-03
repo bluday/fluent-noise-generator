@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Messages;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

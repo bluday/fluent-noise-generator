@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Common.Messages;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.Windows;

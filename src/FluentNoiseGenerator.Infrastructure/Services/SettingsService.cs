@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 
-namespace FluentNoiseGenerator.Common.Services;
+namespace FluentNoiseGenerator.Infrastructure.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="ISettingsService"/> service.

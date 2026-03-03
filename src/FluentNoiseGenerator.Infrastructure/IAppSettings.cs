@@ -1,6 +1,4 @@
-﻿using FluentNoiseGenerator.Common.Globalization;
-
-namespace FluentNoiseGenerator.Common;
+﻿namespace FluentNoiseGenerator.Infrastructure;
 
 /// <summary>
 /// Defines a contract for currently-set application settings.
@@ -10,22 +8,22 @@ public interface IAppSettings
     /// <summary>
     /// Gets the application theme.
     /// </summary>
-    object ApplicationTheme { get; }
+    object? ApplicationTheme { get; }
 
     /// <summary>
     /// Gets the audio sample rate.
     /// </summary>
-    int AudioSampleRate { get; }
+    int? AudioSampleRate { get; }
 
     /// <summary>
     /// Gets the application language.
     /// </summary>
-    ILanguage Language { get; }
+    Globalization.ILanguage? Language { get; }
 
     /// <summary>
     /// Gets the default noise preset.
     /// </summary>
-    object DefaultNoisePreset { get; }
+    object? DefaultNoisePreset { get; }
 
     /// <summary>
     /// Gets the system backdrop.
