@@ -1,23 +1,22 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace FluentNoiseGenerator.UI.Settings.Controls;
 
 /// <summary>
 /// Interaction logic for SettingsSectionHeader.xaml.
 /// </summary>
-public sealed partial class SettingsSectionHeader : UserControl
+public sealed partial class SettingsSectionHeader : Control
 {
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="Glyph"> dependency property.
+    /// Identifies the <see cref="Icon"> dependency property.
     /// </summary>
-    public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(
-        nameof(Glyph),
-        typeof(ImageSource),
+    public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+        nameof(Icon),
+        typeof(IconElement),
         typeof(SettingsSectionHeader),
-        new PropertyMetadata(defaultValue: string.Empty)
+        new PropertyMetadata(defaultValue: null)
     );
 
     /// <summary>
@@ -27,24 +26,24 @@ public sealed partial class SettingsSectionHeader : UserControl
         nameof(Text),
         typeof(string),
         typeof(SettingsSectionHeader),
-        new PropertyMetadata(defaultValue: string.Empty)
+        new PropertyMetadata(defaultValue: null)
     );
     #endregion
 
     #region Properties
     /// <summary>
-    /// Gets the font icon glyph placed beside the header text.
+    /// Gets or sets the icon.
     /// </summary>
-    public string Glyph
+    public IconElement? Icon
     {
-        get => (string)GetValue(GlyphProperty);
-        set => SetValue(GlyphProperty, value);
+        get => GetValue(IconProperty) as IconElement;
+        set => SetValue(IconProperty, value);
     }
 
     /// <summary>
-    /// Gets the header text.
+    /// Gets or sets the text.
     /// </summary>
-    public string Text
+    public string? Text
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
@@ -57,7 +56,7 @@ public sealed partial class SettingsSectionHeader : UserControl
     /// </summary>
     public SettingsSectionHeader()
     {
-        InitializeComponent();
+        DefaultStyleKey = typeof(SettingsSectionHeader);
     }
     #endregion
 }

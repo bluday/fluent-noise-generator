@@ -50,4 +50,26 @@
     <x:String x:Key="FluentNoiseGeneratorPlaybackControlPanelVolumeGlyph">&#xe767;</x:String>
     <x:String x:Key="FluentNoiseGeneratorPlaybackTopBarCloseButtonGlyph">&#xe8bb;</x:String>
     <x:String x:Key="FluentNoiseGeneratorPlaybackTopBarSettingsButtonGlyph">&#xe713;</x:String>
+
+    <!-- Settings -->
+    <Thickness x:Key="FluentNoiseGeneratorSettingsSectionHeaderIconMargin">0,0,8,0</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsSectionHeaderMargin">0,4</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsTitleBarIconMargin">8,4</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsWindowContentPadding">32,0</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsWindowHyperlinkButtonPadding">0</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsWindowMainTextMargin">32,24,32,16</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsWindowSectionStackPanelMargin">0,8,0,0</Thickness>
+    <Thickness x:Key="FluentNoiseGeneratorSettingsWindowFooterStackPanelMargin">0,8,0,32</Thickness>
+
+    <x:Double x:Key="FluentNoiseGeneratorSettingsSectionHeaderFontSize">14</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsSectionHeaderIconSize">16</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsTitleBarFontSize">12</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsTitleBarHeight">32</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsTitleBarIconSize">16</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsWindowFooterStackPanelSpacing">8</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsWindowMainStackPanelSpacing">16</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsWindowMainTextFontSize">24</x:Double>
+    <x:Double x:Key="FluentNoiseGeneratorSettingsWindowMaxWidth">800</x:Double>
+
+    <x:String x:Key="FluentNoiseGeneratorSettingsTitleBarIconSource">ms-appx:///Assets/Icon-64.ico</x:String>
 </ResourceDictionary>

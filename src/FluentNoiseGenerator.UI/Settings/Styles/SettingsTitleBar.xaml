@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:FluentNoiseGenerator.UI.Settings.Controls">
+    <Style TargetType="controls:SettingsTitleBar">
+        <Setter Property="Height" Value="{ThemeResource FluentNoiseGeneratorSettingsTitleBarHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SettingsTitleBar">
+                    <Grid Height="{TemplateBinding Height}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                               Width="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSize}"
+                               Height="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSize}"
+                               Margin="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconMargin}"
+                               VerticalAlignment="Center"
+                               Source="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSource}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="{ThemeResource FluentNoiseGeneratorSettingsTitleBarFontSize}"
+                                   Text="{TemplateBinding Title}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

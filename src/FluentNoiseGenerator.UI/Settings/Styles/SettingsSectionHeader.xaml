@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:FluentNoiseGenerator.UI.Settings.Controls">
+    <Style TargetType="controls:SettingsSectionHeader">
+        <Setter Property="Margin" Value="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderMargin}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SettingsSectionHeader">
+                    <Grid Margin="{TemplateBinding Margin}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox Grid.Column="0"
+                                 Width="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconSize}"
+                                 Height="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconSize}"
+                                 Margin="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconMargin}">
+                            <ContentPresenter Content="{TemplateBinding Icon}"/>
+                        </Viewbox>
+
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderFontSize}"
+                                   Style="{StaticResource BodyStrongTextBlockStyle}"
+                                   Text="{TemplateBinding Text}"
+                                   TextLineBounds="Tight"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

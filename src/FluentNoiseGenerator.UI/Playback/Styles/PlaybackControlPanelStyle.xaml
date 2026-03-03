@@ -170,7 +170,7 @@
                                     </VisualState.Setters>
 
                                     <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{Binding IsActive, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <StateTrigger IsActive="{Binding IsPlaying, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>

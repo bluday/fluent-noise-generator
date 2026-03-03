@@ -5,13 +5,10 @@
         xmlns:controls="using:FluentNoiseGenerator.UI.Playback.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Fluent Noise Generator"
         x:DefaultBindMode="OneWay"
         Closed="Window_Closed"
         mc:Ignorable="d">
-    <Window.SystemBackdrop>
-        <MicaBackdrop Kind="Base"/>
-    </Window.SystemBackdrop>
-
     <Grid x:Name="LayoutRoot"
           IsTabStop="True"
           LayoutUpdated="LayoutRoot_LayoutUpdated">

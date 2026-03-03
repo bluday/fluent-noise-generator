@@ -17,7 +17,7 @@
 
         <controls:SettingsSectionHeader x:Uid="/SettingsWindow/SectionHeaders/About"
                                         Grid.Row="0"
-                                        Glyph="&#xe946;"/>
+                                        Icon="{communityToolkit:FontIcon Glyph=&#xe946;}"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">

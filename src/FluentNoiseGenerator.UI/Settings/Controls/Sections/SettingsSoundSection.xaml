@@ -17,7 +17,7 @@
 
         <controls:SettingsSectionHeader x:Uid="/SettingsWindow/SectionHeaders/Sound"
                                         Grid.Row="0"
-                                        Glyph="&#xe8d6;"/>
+                                        Icon="{communityToolkit:FontIcon Glyph=&#xe8d6;}"/>
 
         <StackPanel Grid.Row="1"
                     Spacing="2">

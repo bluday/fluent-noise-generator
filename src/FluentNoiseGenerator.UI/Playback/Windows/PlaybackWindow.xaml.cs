@@ -77,6 +77,8 @@ public sealed partial class PlaybackWindow : Window
 
         ViewModel = viewModel;
 
+        SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
+
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(TopBar);

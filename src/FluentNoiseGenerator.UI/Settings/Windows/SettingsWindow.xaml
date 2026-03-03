@@ -7,13 +7,10 @@
         xmlns:controls="using:FluentNoiseGenerator.UI.Settings.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Settings"
         x:DefaultBindMode="OneWay"
         Closed="Window_Closed"
         mc:Ignorable="d">
-    <Window.SystemBackdrop>
-        <MicaBackdrop Kind="Base"/>
-    </Window.SystemBackdrop>
-
     <Grid x:Name="LayoutRoot"
           Loaded="LayoutRoot_Loaded">
         <Grid.RowDefinitions>
@@ -22,27 +19,29 @@
         </Grid.RowDefinitions>
 
         <controls:SettingsTitleBar x:Name="TitleBar"
+                                   Title="Fluent Noise Generator"
                                    Grid.Row="0"/>
 
         <Grid Grid.Row="1"
-              MaxWidth="800">
+              MaxWidth="{ThemeResource FluentNoiseGeneratorSettingsWindowMaxWidth}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="32,24,32,16"
+            <TextBlock Margin="{ThemeResource FluentNoiseGeneratorSettingsWindowMainTextMargin}"
                        VerticalAlignment="Center"
-                       FontSize="24"
+                       FontSize="{ThemeResource FluentNoiseGeneratorSettingsWindowMainTextFontSize}"
                        Style="{StaticResource TitleTextBlockStyle}"
                        Text="Settings"
                        TextLineBounds="Tight"/>
 
             <ScrollViewer Grid.Row="1"
-                          Padding="32,0">
+                          Padding="{ThemeResource FluentNoiseGeneratorSettingsWindowContentPadding}">
                 <StackPanel Orientation="Vertical"
-                            Spacing="16">
-                    <controls:SettingsGeneralSection Margin="0,8,0,0"
+                            Spacing="{ThemeResource FluentNoiseGeneratorSettingsWindowMainStackPanelSpacing}">
+
+                    <controls:SettingsGeneralSection Margin="{ThemeResource FluentNoiseGeneratorSettingsWindowSectionStackPanelMargin}"
                                                      AvailableLanguages="{x:Bind ViewModel.AvailableLanguages}"
                                                      AvailableNoisePresets="{x:Bind ViewModel.AvailableNoisePresets}"
                                                      SelectedDefaultNoisePreset="{x:Bind ViewModel.SelectedDefaultNoisePreset, Mode=TwoWay}"
@@ -58,13 +57,13 @@
 
                     <controls:SettingsAboutSection/>
 
-                    <StackPanel Margin="0,8,0,32"
-                                Spacing="8">
+                    <StackPanel Margin="{ThemeResource FluentNoiseGeneratorSettingsWindowFooterStackPanelMargin}"
+                                Spacing="{ThemeResource FluentNoiseGeneratorSettingsWindowFooterStackPanelSpacing}">
                         <HyperlinkButton x:Uid="/SettingsWindow/HyperlinkButtons/RepositoryOnGitHub"
-                                         Padding="0"/>
+                                         Padding="{ThemeResource FluentNoiseGeneratorSettingsWindowHyperlinkButtonPadding}"/>
 
                         <HyperlinkButton x:Uid="/SettingsWindow/HyperlinkButtons/SendFeedback"
-                                         Padding="0"/>
+                                         Padding="{ThemeResource FluentNoiseGeneratorSettingsWindowHyperlinkButtonPadding}"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

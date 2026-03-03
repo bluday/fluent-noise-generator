@@ -16,6 +16,10 @@
                 <!-- Playback -->
                 <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackControlPanelStyle.xaml"/>
                 <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackTopBarStyle.xaml"/>
+
+                <!-- Settings -->
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Settings/Styles/SettingsSectionHeader.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Settings/Styles/SettingsTitleBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

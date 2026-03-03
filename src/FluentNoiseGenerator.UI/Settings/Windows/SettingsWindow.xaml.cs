@@ -72,6 +72,8 @@ public sealed partial class SettingsWindow : Window
 
         ViewModel = viewModel;
 
+        SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
+
         ExtendsContentIntoTitleBar = true;
 
         SetTitleBar(TitleBar);

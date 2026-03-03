@@ -27,8 +27,6 @@ public partial class App : Application
 
         Ioc.Default.ConfigureServices(_container.RootServiceProvider);
 
-        UnhandledException += (sender, e) => System.Diagnostics.Debug.WriteLine(e.Message);
-
         InitializeComponent();
     }
     #endregion
