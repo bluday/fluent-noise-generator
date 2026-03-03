@@ -3,24 +3,28 @@
         <Platform Name="x64" />
     </Configurations>
 
-    <Project Path="src/FluentNoiseGenerator.Infrastructure/FluentNoiseGenerator.Infrastructure.csproj">
-        <Platform Project="x64" />
-    </Project>
+    <Folder Name="/Source/">
+        <Project Path="src/FluentNoiseGenerator.Infrastructure/FluentNoiseGenerator.Infrastructure.csproj">
+            <Platform Project="x64" />
+        </Project>
 
-    <Project Path="src/FluentNoiseGenerator.Core/FluentNoiseGenerator.Core.csproj">
-        <Platform Project="x64" />
-    </Project>
+        <Project Path="src/FluentNoiseGenerator.Core/FluentNoiseGenerator.Core.csproj">
+            <Platform Project="x64" />
+        </Project>
 
-    <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
-        <Platform Project="x64" />
-    </Project>
+        <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
+            <Platform Project="x64" />
+        </Project>
 
-    <Project Path="src/FluentNoiseGenerator/FluentNoiseGenerator.csproj">
-        <Platform Project="x64" />
-        <Deploy />
-    </Project>
+        <Project Path="src/FluentNoiseGenerator/FluentNoiseGenerator.csproj">
+            <Platform Project="x64" />
+            <Deploy />
+        </Project>
+    </Folder>
 
-    <Project Path="tests/FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj">
-        <Platform Project="x64" />
-    </Project>
+    <Folder Name="/Test/">
+        <Project Path="tests/FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj">
+            <Platform Project="x64" />
+        </Project>
+    </Folder>
 </Solution>
