@@ -14,7 +14,7 @@ namespace FluentNoiseGenerator;
 public partial class App : Application
 {
     #region Fields
-    private readonly Container _container;
+    private readonly ServiceProvider _rootServiceProvider;
     #endregion
 
     #region Constructor
@@ -23,9 +23,13 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        _container = new Container(ServiceConfiguration.Configure);
+        ServiceCollection services = [];
 
-        Ioc.Default.ConfigureServices(_container.RootServiceProvider);
+        ServiceConfiguration.Configure(services);
+
+        _rootServiceProvider = services.BuildServiceProvider();
+
+        Ioc.Default.ConfigureServices(_rootServiceProvider);
 
         InitializeComponent();
     }
@@ -40,10 +44,8 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        IKeyedServiceProvider serviceProvider = _container.RootServiceProvider;
-
-        serviceProvider.GetRequiredService<PlaybackWindow>().Activate();
-        serviceProvider.GetRequiredService<SettingsWindow>().Activate();
+        _rootServiceProvider.GetRequiredService<PlaybackWindow>().Activate();
+        _rootServiceProvider.GetRequiredService<SettingsWindow>().Activate();
     }
     #endregion
 }
