@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Common.Messages;
-using FluentNoiseGenerator.UI.Common.Extensions;
+using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.Windows;
 using System;
 
-namespace FluentNoiseGenerator.UI.Common.Services;
+namespace FluentNoiseGenerator.UI.Infrastructure.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="IWindowService"/> service.

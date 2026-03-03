@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using FluentNoiseGenerator.UI.Common.Services;
+using FluentNoiseGenerator.UI.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;

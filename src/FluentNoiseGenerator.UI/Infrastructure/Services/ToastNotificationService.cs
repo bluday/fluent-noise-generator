@@ -5,7 +5,7 @@ using Microsoft.Windows.AppNotifications.Builder;
 using System;
 using System.Collections.Generic;
 
-namespace FluentNoiseGenerator.UI.Common.Services;
+namespace FluentNoiseGenerator.UI.Infrastructure.Services;
 
 /// <summary>
 /// Default implementation for the <see cref="IToastNotificationService"/> service.

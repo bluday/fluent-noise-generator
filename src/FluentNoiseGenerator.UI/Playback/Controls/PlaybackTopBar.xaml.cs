@@ -1,4 +1,4 @@
-using FluentNoiseGenerator.UI.Common.Extensions;
+using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using Microsoft.UI.Xaml;
 using System.Windows.Input;
 using Windows.Graphics;

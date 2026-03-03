@@ -5,7 +5,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
 
-namespace FluentNoiseGenerator.UI.Common.Extensions;
+namespace FluentNoiseGenerator.UI.Infrastructure.Extensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="Window"/> instances.

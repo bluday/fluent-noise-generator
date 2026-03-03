@@ -1,7 +1,7 @@
 ﻿using Microsoft.Windows.AppNotifications;
 using System.Collections.Generic;
 
-namespace FluentNoiseGenerator.UI.Common.Services;
+namespace FluentNoiseGenerator.UI.Infrastructure.Services;
 
 /// <summary>
 /// Service for sending toast notifications to the operating system.

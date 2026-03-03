@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FluentNoiseGenerator.UI.Common.Services;
+namespace FluentNoiseGenerator.UI.Infrastructure.Services;
 
 /// <summary>
 /// Service for managing the shared system backdrop between all windows.

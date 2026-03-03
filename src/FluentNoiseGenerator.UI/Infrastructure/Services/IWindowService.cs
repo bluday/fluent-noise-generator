@@ -1,4 +1,4 @@
-﻿namespace FluentNoiseGenerator.UI.Common.Services;
+﻿namespace FluentNoiseGenerator.UI.Infrastructure.Services;
 
 /// <summary>
 /// Service for managing the main and settings windows.
