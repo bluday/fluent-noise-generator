@@ -1,36 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ApplicationIcon>Assets\Icon-64.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\icon_64.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Authors>BluDay</Authors>
         <Copyright>© BluDay 2026</Copyright>
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <EnableMsixTooling>true</EnableMsixTooling>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <OutputType>WinExe</OutputType>
-        <Platforms>x64</Platforms>
-        <PublishAot>false</PublishAot>
-        <PublishProfile>win-x64.pubxml</PublishProfile>
         <RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
         <RootNamespace>FluentNoiseGenerator</RootNamespace>
-        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-        <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <Title>Fluent Noise Generator</Title>
         <UseWinUI>true</UseWinUI>
         <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+        <WindowsSdkPackageVersion>10.0.26100.56</WindowsSdkPackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
+        <PackageReference Include="System.Reflection.Metadata" Version="10.0.5" />
+        <PackageReference Include="Tomlyn.Signed" Version="2.3.0" />
         <Manifest Include="$(ApplicationManifest)" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.3" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.3" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.3" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
     </ItemGroup>
 
     <ItemGroup>
@@ -57,4 +62,10 @@
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="Assets\**\*.*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 </Project>

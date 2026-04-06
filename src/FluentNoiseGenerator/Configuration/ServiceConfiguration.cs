@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Core.Services;
+using FluentNoiseGenerator.Infrastructure.Extensions;
 using FluentNoiseGenerator.Infrastructure.Services;
 using FluentNoiseGenerator.UI.Infrastructure.Services;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
@@ -51,9 +52,9 @@ internal static class ServiceConfiguration
         services.AddSingleton<IWindowService, WindowService>();
 
         services.AddTransient<PlaybackViewModel>();
-        services.AddTransient<PlaybackWindow>();
+        services.AddTransientWithFactory<PlaybackWindow>();
 
         services.AddTransient<SettingsViewModel>();
-        services.AddTransient<SettingsWindow>();
+        services.AddTransientWithFactory<SettingsWindow>();
     }
 }

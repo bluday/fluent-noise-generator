@@ -10,6 +10,7 @@ namespace FluentNoiseGenerator.UI.Infrastructure.Extensions;
 /// </summary>
 public static class InputNonClientPointerSourceExtensions
 {
+    #region Static methods
     /// <summary>
     /// Clears and sets the specified rects for the specified region in the
     /// non-client area of the window.
@@ -37,4 +38,5 @@ public static class InputNonClientPointerSourceExtensions
         source.ClearRegionRects(region);
         source.SetRegionRects(region, [.. rects]);
     }
+    #endregion
 }

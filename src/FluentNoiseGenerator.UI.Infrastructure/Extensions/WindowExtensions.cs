@@ -20,7 +20,7 @@ public static class WindowExtensions
     public const int DEFAULT_DPI_SCALE = 96;
     #endregion
 
-    #region Methods
+    #region Static methods
     /// <summary>
     /// Focuses on the window programmatically.
     /// </summary>

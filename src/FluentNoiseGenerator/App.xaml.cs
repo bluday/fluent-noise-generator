@@ -1,7 +1,4 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using FluentNoiseGenerator.Configuration;
 using FluentNoiseGenerator.UI.Playback.Windows;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
 
@@ -12,16 +9,27 @@ namespace FluentNoiseGenerator;
 /// </summary>
 public partial class App : Application
 {
-    #region Fields
-    private readonly ServiceProvider _rootServiceProvider = CreateContainer();
+    #region Instance fields
+    private readonly Func<PlaybackWindow> _playbackWindowFactory;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="App"/> class.
+    /// Initializes a new instance of the <see cref="App"/> class using
+    /// the specified dependencies.
     /// </summary>
-    public App()
+    /// <param name="playbackWindowFactory">
+    /// A factory for creating <see cref="PlaybackWindow"/> instances with.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Throws if any of the parameters are <c>null</c>.
+    /// </exception>
+    public App(Func<PlaybackWindow> playbackWindowFactory)
     {
+        ArgumentNullException.ThrowIfNull(playbackWindowFactory);
+
+        _playbackWindowFactory = playbackWindowFactory;
+
         InitializeComponent();
     }
     #endregion
@@ -30,27 +38,12 @@ public partial class App : Application
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
-    /// <param name="args">
+    /// <param name="e">
     /// Details about the launch request and process.
     /// </param>
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        _rootServiceProvider.GetRequiredService<PlaybackWindow>().Activate();
-    }
-    #endregion
-
-    #region Static methods
-    private static ServiceProvider CreateContainer()
-    {
-        ServiceCollection services = [];
-
-        ServiceConfiguration.Configure(services);
-
-        ServiceProvider rootServiceProvider = services.BuildServiceProvider();
-
-        Ioc.Default.ConfigureServices(rootServiceProvider);
-
-        return rootServiceProvider;
+        _playbackWindowFactory().Activate();
     }
     #endregion
 }
