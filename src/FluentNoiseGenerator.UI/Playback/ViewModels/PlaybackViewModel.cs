@@ -87,12 +87,21 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     }
     #endregion
 
+    #region Message handlers
+    private void HandleApplicationThemeUpdatedMessage(
+        object recipient,
+        ApplicationThemeUpdatedMessage message)
+    {
+        CurrentTheme = message.Value;
+    }
+    #endregion
+
     #region Instance methods
     private void RegisterMessageHandlers()
     {
         _messenger.Register<ApplicationThemeUpdatedMessage>(
             this,
-            (_, message) => CurrentTheme = message.Value
+            HandleApplicationThemeUpdatedMessage
         );
     }
 
