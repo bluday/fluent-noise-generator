@@ -34,7 +34,7 @@ public sealed partial class PlaybackWindow : Window
     public const int MINIMUM_UNSCALED_WIDTH = 170;
     #endregion
 
-    #region Fields
+    #region Instance ields
     private bool _hasClosed;
 
     private readonly double _dpiScaleFactor;
@@ -46,7 +46,7 @@ public sealed partial class PlaybackWindow : Window
     private readonly IMessenger _messenger;
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
@@ -122,7 +122,7 @@ public sealed partial class PlaybackWindow : Window
     }
     #endregion
 
-    #region Methods
+    #region Instance methods
     private int GetScaledMinimumHeight()
     {
         return (int)Math.Min(
