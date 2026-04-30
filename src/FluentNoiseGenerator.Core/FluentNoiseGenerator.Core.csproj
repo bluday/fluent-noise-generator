@@ -12,6 +12,6 @@
 
     <ItemGroup>
         <PackageReference Include="NAudio" Version="2.3.0" />
-        <PackageReference Include="Tomlyn.Signed" Version="2.3.0" />
+        <PackageReference Include="Tomlyn.Signed" Version="2.3.2" />
     </ItemGroup>
 </Project>
