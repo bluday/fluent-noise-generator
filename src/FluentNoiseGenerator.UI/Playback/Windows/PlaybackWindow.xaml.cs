@@ -34,12 +34,12 @@ public sealed partial class PlaybackWindow : Window
     public const int MINIMUM_UNSCALED_WIDTH = 170;
     #endregion
 
-    #region Instance ields
+    #region Instance fields
     private bool _hasClosed;
 
-    private readonly double _dpiScaleFactor;
-
     private readonly RectInt32 _displayWorkArea;
+
+    private readonly double _dpiScaleFactor;
 
     private readonly InputNonClientPointerSource _inputNonClientPointerSource;
 
