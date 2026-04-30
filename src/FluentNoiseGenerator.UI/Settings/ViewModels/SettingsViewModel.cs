@@ -15,13 +15,13 @@ namespace FluentNoiseGenerator.UI.Settings.ViewModels;
 /// </summary>
 public sealed partial class SettingsViewModel : ObservableObject, IDisposable
 {
-    #region Fields
+    #region Instance fields
     private readonly IAppSettings _appSettings;
 
     private readonly IMessenger _messenger;
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
@@ -100,6 +100,17 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     }
     #endregion
 
+    #region Message handlers
+    private void HandleApplicationThemeUpdatedMessage(
+        object recipient,
+        ApplicationThemeUpdatedMessage message)
+    {
+        SelectedApplicationTheme = AvailableApplicationThemes.FirstOrDefault(
+            theme => message.Value == theme
+        );
+    }
+    #endregion
+
     #region Instance methods
     private void RegisterMessageHandlers()
     {
@@ -113,17 +124,6 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         _messenger.UnregisterAll(this);
-    }
-    #endregion
-
-    #region Message handlers
-    private void HandleApplicationThemeUpdatedMessage(
-        object                         recipient,
-        ApplicationThemeUpdatedMessage message)
-    {
-        SelectedApplicationTheme = AvailableApplicationThemes.FirstOrDefault(
-            theme => message.Value == theme
-        );
     }
     #endregion
 }
