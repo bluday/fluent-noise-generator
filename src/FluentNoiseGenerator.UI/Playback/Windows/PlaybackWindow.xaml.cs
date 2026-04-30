@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Infrastructure.Constants;
+using FluentNoiseGenerator.Infrastructure.Messages;
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
 using Microsoft.UI.Input;
@@ -37,9 +39,11 @@ public sealed partial class PlaybackWindow : Window
 
     private readonly double _dpiScaleFactor;
 
+    private readonly RectInt32 _displayWorkArea;
+
     private readonly InputNonClientPointerSource _inputNonClientPointerSource;
 
-    private readonly RectInt32 _displayWorkArea;
+    private readonly IMessenger _messenger;
     #endregion
 
     #region Properties
@@ -65,15 +69,18 @@ public sealed partial class PlaybackWindow : Window
     /// <exception cref="ArgumentNullException">
     /// Throws if any of the parameters are <c>null</c>.
     /// </exception>
-    public PlaybackWindow(PlaybackViewModel viewModel)
+    public PlaybackWindow(PlaybackViewModel viewModel, IMessenger messenger)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
+        ArgumentNullException.ThrowIfNull(messenger);
 
         _displayWorkArea = this.GetDisplayArea().WorkArea;
 
         _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
 
         _inputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+
+        _messenger = messenger;
 
         ViewModel = viewModel;
 
@@ -83,10 +90,35 @@ public sealed partial class PlaybackWindow : Window
 
         SetTitleBar(TopBar);
 
+        RegisterMessageHandlers();
+
         ConfigureNativeWindow();
         ConfigureNativeTitleBar();
 
         InitializeComponent();
+    }
+    #endregion
+
+    #region Event handlers
+    private void LayoutRoot_LayoutUpdated(object sender, object e)
+    {
+        UpdateNonClientInputRegions();
+    }
+
+    private void Window_Closed(object sender, WindowEventArgs args)
+    {
+        ViewModel?.Dispose();
+
+        _hasClosed = true;
+    }
+    #endregion
+
+    #region Message handlers
+    private void HandleClosePlaybackWindowMessage(
+        object recipient,
+        ClosePlaybackWindowMessage message)
+    {
+        Close();
     }
     #endregion
 
@@ -105,6 +137,19 @@ public sealed partial class PlaybackWindow : Window
             MINIMUM_UNSCALED_WIDTH * _dpiScaleFactor,
             _displayWorkArea.Width * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
         );
+    }
+
+    private void RegisterMessageHandlers()
+    {
+        _messenger.Register<ClosePlaybackWindowMessage>(
+            this,
+            HandleClosePlaybackWindowMessage
+        );
+    }
+
+    private void UnregisterMessageHandlers()
+    {
+        _messenger.UnregisterAll(this);
     }
 
     private void UpdateNonClientInputRegions()
@@ -164,20 +209,6 @@ public sealed partial class PlaybackWindow : Window
 
         appWindow.Resize(GetScaledMinimumWidth(), GetScaledMinimumHeight());
         appWindow.MoveToCenter();
-    }
-    #endregion
-
-    #region Event handlers
-    private void LayoutRoot_LayoutUpdated(object sender, object e)
-    {
-        UpdateNonClientInputRegions();
-    }
-
-    private void Window_Closed(object sender, WindowEventArgs args)
-    {
-        ViewModel?.Dispose();
-
-        _hasClosed = true;
     }
     #endregion
 }
