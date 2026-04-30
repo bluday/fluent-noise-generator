@@ -12,7 +12,7 @@ namespace FluentNoiseGenerator.UI.Playback.ViewModels;
 /// </summary>
 public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
 {
-    #region Fields
+    #region Instance fields
     private readonly IMessenger _messenger;
     #endregion
 
@@ -58,7 +58,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     }
     #endregion
 
-    #region Commands
+    #region Relay commands
     /// <summary>
     /// Invokes when the close button on the top bar gets clicked.
     /// </summary>
@@ -87,7 +87,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     }
     #endregion
 
-    #region Methods
+    #region Instance methods
     private void RegisterMessageHandlers()
     {
         _messenger.Register<ApplicationThemeUpdatedMessage>(
