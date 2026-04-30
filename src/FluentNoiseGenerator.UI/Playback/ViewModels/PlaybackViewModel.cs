@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Infrastructure.Messages;
 using Microsoft.UI.Xaml;
 using System;
-using System.Collections.ObjectModel;
 
 namespace FluentNoiseGenerator.UI.Playback.ViewModels;
 
