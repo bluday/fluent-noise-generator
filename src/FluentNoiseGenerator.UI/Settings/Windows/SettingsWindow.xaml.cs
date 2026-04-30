@@ -32,14 +32,14 @@ public sealed partial class SettingsWindow : Window
     /// </summary>
     public const int MINIMUM_UNSCALED_WIDTH = MINIMUM_UNSCALED_HEIGHT;
     #endregion
-
-    #region Fields
+    
+    #region Instance fields
     private readonly double _dpiScaleFactor;
 
     private readonly RectInt32 _displayWorkArea;
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
     /// Gets a value indicating whether the window has been closed.
     /// </summary>
@@ -85,7 +85,21 @@ public sealed partial class SettingsWindow : Window
     }
     #endregion
 
-    #region Methods
+    #region Event handlers
+    private void Window_Closed(object sender, WindowEventArgs args)
+    {
+        ViewModel?.Dispose();
+
+        HasClosed = true;
+    }
+
+    private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
+    {
+        RefreshTitleBarColors(LayoutRoot.RequestedTheme);
+    }
+    #endregion
+
+    #region Instance methods
     private int GetScaledMinimumHeight()
     {
         return (int)Math.Min(
@@ -168,20 +182,6 @@ public sealed partial class SettingsWindow : Window
         presenter.PreferredMinimumHeight = scaledHeight;
 
         appWindow.Resize(scaledWidth, scaledHeight);
-    }
-    #endregion
-
-    #region Event handlers
-    private void Window_Closed(object sender, WindowEventArgs args)
-    {
-        ViewModel?.Dispose();
-
-        HasClosed = true;
-    }
-
-    private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
-    {
-        RefreshTitleBarColors(LayoutRoot.RequestedTheme);
     }
     #endregion
 }
