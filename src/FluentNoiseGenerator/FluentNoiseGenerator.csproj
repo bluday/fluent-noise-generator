@@ -23,18 +23,18 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.5" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.5" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.5" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
-        <PackageReference Include="System.Reflection.Metadata" Version="10.0.5" />
-        <PackageReference Include="Tomlyn.Signed" Version="2.3.0" />
+        <PackageReference Include="System.Reflection.Metadata" Version="10.0.7" />
+        <PackageReference Include="Tomlyn.Signed" Version="2.3.2" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
