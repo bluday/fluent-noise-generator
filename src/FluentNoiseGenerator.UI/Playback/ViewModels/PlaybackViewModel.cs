@@ -37,13 +37,6 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     public partial bool IsPlaying { get; private set; }
     #endregion
 
-    #region Properties
-    /// <summary>
-    /// Gets a read-only observable collection of noise presets.
-    /// </summary>
-    public ReadOnlyObservableCollection<object> NoisePresets { get; } = new([]);
-    #endregion
-
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using

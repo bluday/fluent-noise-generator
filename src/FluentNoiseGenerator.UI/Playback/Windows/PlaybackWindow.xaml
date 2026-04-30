@@ -24,7 +24,6 @@
 
         <controls:PlaybackControlPanel Grid.Row="1"
                                        IsPlaying="{x:Bind ViewModel.IsPlaying}"
-                                       NoisePresetItemsSource="{x:Bind ViewModel.NoisePresets}"
                                        PlaybackButtonClickCommand="{x:Bind ViewModel.TogglePlaybackCommand}"
                                        Volume="{x:Bind ViewModel.CurrentVolume}"/>
     </Grid>
