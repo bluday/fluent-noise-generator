@@ -1,7 +1,7 @@
 # fluent-noise-generator
 
-Fluent Noise Generator is a lightweight WinUI 3 application designed to suppress ambient noise and create a more serene audio experience.
+_Fluent Noise Generator_ is a lightweight _WinUI 3_ application designed to suppress ambient noise and create a more peaceful environment.
 
-> ⚠️ *Note: This application is currently in early development and does not yet include functional features.*
+> *This application is currently in early development and does not yet include functional features.*
 
-![Screenshot](/assets/screenshots/screenshot_0.png)
+![Screenshot 1](./assets/screenshots/screenshot_0.png)
