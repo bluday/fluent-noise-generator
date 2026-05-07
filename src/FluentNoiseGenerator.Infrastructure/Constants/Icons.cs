@@ -9,6 +9,6 @@ public static class Icons
     /// The absolute icon path as a <see cref="string"/>.
     /// </summary>
     public static readonly string IconPath = Path.Combine(
-        AppContext.BaseDirectory, "Assets", "Icon-64.ico"
+        AppContext.BaseDirectory, "Assets", "logo_64x64.ico"
     );
 }

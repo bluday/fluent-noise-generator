@@ -2,13 +2,12 @@
     <Configurations>
         <BuildType Name="Debug"/>
         <BuildType Name="Release"/>
-
         <Platform Name="ARM64" />
         <Platform Name="x64" />
     </Configurations>
 
     <Folder Name="/Assets/Icons/">
-        <File Path="assets/icons/logo_1024x64.png"/>
+        <File Path="assets/icons/logo_1024x1024.png"/>
         <File Path="assets/icons/logo_64x64.ico"/>
     </Folder>
 

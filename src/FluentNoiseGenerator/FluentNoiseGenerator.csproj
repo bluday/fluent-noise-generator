@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ApplicationIcon>Assets\icon_64.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\logo_64x64.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Authors>BluDay</Authors>
         <Copyright>© BluDay 2026</Copyright>
