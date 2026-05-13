@@ -2,12 +2,14 @@
 using FluentNoiseGenerator.Core.Services;
 using FluentNoiseGenerator.Infrastructure.Extensions;
 using FluentNoiseGenerator.Infrastructure.Services;
+using FluentNoiseGenerator.UI.Infrastructure.Hosting;
 using FluentNoiseGenerator.UI.Infrastructure.Services;
 using FluentNoiseGenerator.UI.Playback.ViewModels;
 using FluentNoiseGenerator.UI.Playback.Windows;
 using FluentNoiseGenerator.UI.Settings.ViewModels;
 using FluentNoiseGenerator.UI.Settings.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using System;
 
 namespace FluentNoiseGenerator.Configuration;
@@ -30,6 +32,10 @@ internal static class ServiceConfiguration
     internal static void Configure(IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        services.AddHostedService<HostedWinUI3ApplicationService>();
+
+        services.AddTransient<Application, App>();
 
         services.AddLogging(LoggingConfiguration.Configure);
 

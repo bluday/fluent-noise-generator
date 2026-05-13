@@ -5,12 +5,17 @@
         <RootNamespace>FluentNoiseGenerator.UI.Infrastructure</RootNamespace>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+        <UsesCommunityToolkitMvvm>true</UsesCommunityToolkitMvvm>
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(UsesCommunityToolkitMvvm)' == 'true'">
+        <DefineConstants>$(DefineConstants);USES_COMMUNITY_TOOLKIT_MVVM</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" Condition="'$(UsesCommunityToolkitMvvm)' == 'true'" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />

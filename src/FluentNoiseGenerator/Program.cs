@@ -1,17 +1,14 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using FluentNoiseGenerator;
-using FluentNoiseGenerator.Configuration;
+﻿using FluentNoiseGenerator.Configuration;
 using FluentNoiseGenerator.UI.Infrastructure.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 
 using IHost host = Host.CreateDefaultBuilder()
-    .UseContentRoot(AppContext.BaseDirectory)
     .ConfigureLogging(LoggingConfiguration.Configure)
     .ConfigureServices(ServiceConfiguration.Configure)
-    .UseWinUI3Application<App>()
+    .UseContentRoot(AppContext.BaseDirectory)
     .Build();
 
-Ioc.Default.ConfigureServices(host.Services);
+host.ConfigureCommunityToolkitIoc();
 
 await host.RunAsync();

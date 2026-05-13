@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace FluentNoiseGenerator.UI.Infrastructure.Hosting;
 
 /// <summary>
-/// Represents a service for a WinUI 3 application that is managed by a host.
+/// Represents a WinUI 3 application managed by a <see cref="IHost"/>.
 /// </summary>
-public sealed class WinUI3ApplicationHostedService : IHostedService
+public sealed class HostedWinUI3ApplicationService : IHostedService
 {
     #region Instance fields
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
@@ -25,7 +25,7 @@ public sealed class WinUI3ApplicationHostedService : IHostedService
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="WinUI3ApplicationHostedService"/>
+    /// Initializes a new instance of the <see cref="HostedWinUI3ApplicationService"/>
     /// class using the specified dependencies.
     /// </summary>
     /// <param name="hostApplicationLifetime">
@@ -35,12 +35,12 @@ public sealed class WinUI3ApplicationHostedService : IHostedService
     /// The logger instance for this type.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if any of the parameters are <c>null</c>.
+    /// Thrown if any of the parameters are <c>null</c>.
     /// </exception>
-    public WinUI3ApplicationHostedService(
+    public HostedWinUI3ApplicationService(
         IHostApplicationLifetime                hostApplicationLifetime,
         IServiceProvider                        rootServiceProvider,
-        ILogger<WinUI3ApplicationHostedService> logger)
+        ILogger<HostedWinUI3ApplicationService> logger)
     {
         ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
         ArgumentNullException.ThrowIfNull(rootServiceProvider);
