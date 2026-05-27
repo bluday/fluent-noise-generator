@@ -19,17 +19,17 @@ public static class FrameworkElementExtensions
     /// <summary>
     /// The "FilledIconGlyph" string literal.
     /// </summary>
-    public const string FilledIconGlyph = "FilledIconGlyph";
+    public const string FilledIconGlyph = nameof(FilledIconGlyph);
 
     /// <summary>
     /// The "RegularIconGlyph" string literal.
     /// </summary>
-    public const string RegularIconGlyph = "RegularIconGlyph";
+    public const string RegularIconGlyph = nameof(RegularIconGlyph);
 
     /// <summary>
     /// The "TargetPage" string literal.
     /// </summary>
-    public const string TargetPage = "TargetPage";
+    public const string TargetPage = nameof(TargetPage);
     #endregion
 
     #region Attached properties
