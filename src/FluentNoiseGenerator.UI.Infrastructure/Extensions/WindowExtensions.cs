@@ -17,7 +17,7 @@ public static class WindowExtensions
     /// <summary>
     /// The standard or user-default screen DPI value.
     /// </summary>
-    public const int DEFAULT_DPI_SCALE = 96;
+    public const int DefaultDpiScale = 96;
     #endregion
 
     #region Static methods
@@ -71,7 +71,7 @@ public static class WindowExtensions
 
         uint value = PInvoke.GetDpiForWindow((HWND)WindowNative.GetWindowHandle(source));
 
-        return (double)value / DEFAULT_DPI_SCALE;
+        return (double)value / DefaultDpiScale;
     }
 
     /// <summary>

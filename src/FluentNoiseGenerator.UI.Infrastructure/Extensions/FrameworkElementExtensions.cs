@@ -14,7 +14,7 @@ public static class FrameworkElementExtensions
     /// <summary>
     /// The default bounding box scale factor.
     /// </summary>
-    public const double DEFAULT_BOUNDING_BOX_SCALE_FACTOR = 1.0;
+    public const double DefaultBoundingBoxScaleFactor = 1.0;
 
     /// <summary>
     /// The "FilledIconGlyph" string literal.
@@ -161,7 +161,7 @@ public static class FrameworkElementExtensions
     {
         ArgumentNullException.ThrowIfNull(source);
 
-        return source.GetBoundingBox(DEFAULT_BOUNDING_BOX_SCALE_FACTOR);
+        return source.GetBoundingBox(DefaultBoundingBoxScaleFactor);
     }
 
     /// <summary>

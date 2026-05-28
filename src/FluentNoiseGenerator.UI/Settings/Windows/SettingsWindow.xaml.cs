@@ -20,17 +20,17 @@ public sealed partial class SettingsWindow : Window
     /// Reduction factor applied when a scaled dimension value exceeds the
     /// display work area.
     /// </summary>
-    public const double DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR = 0.9;
+    public const double DisplayWorkAreaOverflowReductionFactor = 0.9;
 
     /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_UNSCALED_HEIGHT = 700;
+    public const int MinimumUnscaledHeight = 700;
 
     /// <summary>
     /// The minimum width in pixels, unscaled.
     /// </summary>
-    public const int MINIMUM_UNSCALED_WIDTH = MINIMUM_UNSCALED_HEIGHT;
+    public const int MinimumUnscaledWidth = MinimumUnscaledHeight;
     #endregion
     
     #region Instance fields
@@ -103,16 +103,16 @@ public sealed partial class SettingsWindow : Window
     private int GetScaledMinimumHeight()
     {
         return (int)Math.Min(
-            MINIMUM_UNSCALED_HEIGHT * _dpiScaleFactor,
-            _displayWorkArea.Height * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+            MinimumUnscaledHeight * _dpiScaleFactor,
+            _displayWorkArea.Height * DisplayWorkAreaOverflowReductionFactor
         );
     }
 
     private int GetScaledMinimumWidth()
     {
         return (int)Math.Min(
-            MINIMUM_UNSCALED_WIDTH * _dpiScaleFactor,
-            _displayWorkArea.Width * DISPLAY_WORK_AREA_OVERFLOW_REDUCTION_FACTOR
+            MinimumUnscaledWidth * _dpiScaleFactor,
+            _displayWorkArea.Width * DisplayWorkAreaOverflowReductionFactor
         );
     }
 
