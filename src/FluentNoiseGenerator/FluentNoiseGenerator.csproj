@@ -12,9 +12,9 @@
         <OutputType>WinExe</OutputType>
         <RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
         <RootNamespace>FluentNoiseGenerator</RootNamespace>
-        <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+        <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
         <Title>Fluent Noise Generator</Title>
         <UseWinUI>true</UseWinUI>
         <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
@@ -39,9 +39,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FluentNoiseGenerator.Core\FluentNoiseGenerator.Core.csproj" />
-        <ProjectReference Include="..\FluentNoiseGenerator.Infrastructure\FluentNoiseGenerator.Infrastructure.csproj" />
-        <ProjectReference Include="..\FluentNoiseGenerator.UI.Infrastructure\FluentNoiseGenerator.UI.Infrastructure.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Playback.Core\FluentNoiseGenerator.Playback.Core.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Playback.UI\FluentNoiseGenerator.Playback.UI.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Settings.UI\FluentNoiseGenerator.Settings.UI.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.UI\FluentNoiseGenerator.UI.csproj" />
     </ItemGroup>
     

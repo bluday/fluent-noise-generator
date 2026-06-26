@@ -11,15 +11,15 @@
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml"/>
 
                 <!-- Infrastructure -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.UI.Infrastructure/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Themes/Generic.xaml"/>
 
                 <!-- Playback -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackControlPanelStyle.xaml"/>
-                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Playback/Styles/PlaybackTopBarStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Playback.UI/Styles/PlaybackControlPanelStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Playback.UI/Styles/PlaybackTopBarStyle.xaml"/>
 
                 <!-- Settings -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Settings/Styles/SettingsSectionHeader.xaml"/>
-                <ResourceDictionary Source="/FluentNoiseGenerator.UI/Settings/Styles/SettingsTitleBar.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Settings.UI/Styles/SettingsSectionHeader.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Settings.UI/Styles/SettingsTitleBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

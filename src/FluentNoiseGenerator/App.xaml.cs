@@ -1,4 +1,4 @@
-using FluentNoiseGenerator.UI.Playback.Windows;
+using FluentNoiseGenerator.Playback.UI.Windows;
 using Microsoft.UI.Xaml;
 using System;
 

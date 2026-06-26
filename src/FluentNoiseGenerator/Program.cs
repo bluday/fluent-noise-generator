@@ -1,5 +1,5 @@
 ﻿using FluentNoiseGenerator.Configuration;
-using FluentNoiseGenerator.UI.Infrastructure.Extensions;
+using FluentNoiseGenerator.UI.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 
