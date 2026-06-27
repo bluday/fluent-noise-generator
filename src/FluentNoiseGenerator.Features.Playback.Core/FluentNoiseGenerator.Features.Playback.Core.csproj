@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>FluentNoiseGenerator.Features.Playback.Core</RootNamespace>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NAudio" Version="2.3.0" />
+        <PackageReference Include="Tomlyn.Signed" Version="2.3.2" />
+    </ItemGroup>
+</Project>

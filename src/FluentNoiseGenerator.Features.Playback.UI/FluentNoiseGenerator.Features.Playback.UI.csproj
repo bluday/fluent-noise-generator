@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <RootNamespace>FluentNoiseGenerator.Features.Playback.UI</RootNamespace>
+        <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+        <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+        <UseWinUI>true</UseWinUI>
+        <WinUISDKReferences>false</WinUISDKReferences>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Features.Playback.Core\FluentNoiseGenerator.Features.Playback.Core.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation.UI\FluentNoiseGenerator.Foundation.UI.csproj" />
+    </ItemGroup>
+</Project>

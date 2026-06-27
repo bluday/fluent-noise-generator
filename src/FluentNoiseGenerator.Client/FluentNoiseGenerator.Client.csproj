@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ApplicationIcon>Assets\logo_64x64.ico</ApplicationIcon>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <Authors>BluDay</Authors>
+        <Copyright>© BluDay 2026</Copyright>
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+        <EnableMsixTooling>true</EnableMsixTooling>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <OutputType>WinExe</OutputType>
+        <RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
+        <RootNamespace>FluentNoiseGenerator</RootNamespace>
+        <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
+        <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+        <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+        <Title>Fluent Noise Generator</Title>
+        <UseWinUI>true</UseWinUI>
+        <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+        <WindowsSdkPackageVersion>10.0.26100.56</WindowsSdkPackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
+        <PackageReference Include="System.Reflection.Metadata" Version="10.0.7" />
+        <PackageReference Include="Tomlyn.Signed" Version="2.3.2" />
+        <Manifest Include="$(ApplicationManifest)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Features.Playback.Core\FluentNoiseGenerator.Features.Playback.Core.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Features.Playback.UI\FluentNoiseGenerator.Features.Playback.UI.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Features.Settings.UI\FluentNoiseGenerator.Features.Settings.UI.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.Foundation.UI\FluentNoiseGenerator.Foundation.UI.csproj" />
+    </ItemGroup>
+    
+    <!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+    -->
+    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    
+    <!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+    -->
+    <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="Assets\**\*.*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+</Project>

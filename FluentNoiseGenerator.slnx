@@ -22,35 +22,35 @@
     </Folder>
 
     <Folder Name="/Source/">
-        <Project Path="src/FluentNoiseGenerator.Foundation/FluentNoiseGenerator.Foundation.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
-        <Project Path="src/FluentNoiseGenerator.Playback.Core/FluentNoiseGenerator.Playback.Core.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
-        <Project Path="src/FluentNoiseGenerator.Playback.UI/FluentNoiseGenerator.Playback.UI.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
-        <Project Path="src/FluentNoiseGenerator.Settings.UI/FluentNoiseGenerator.Settings.UI.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
-        <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
-        <Project Path="src/FluentNoiseGenerator/FluentNoiseGenerator.csproj">
+        <Project Path="src/FluentNoiseGenerator.Client/FluentNoiseGenerator.Client.csproj">
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
             <Deploy />
         </Project>
+        <Project Path="src/FluentNoiseGenerator.Foundation/FluentNoiseGenerator.Foundation.csproj">
+            <Platform Solution="*|ARM64" Project="ARM64" />
+            <Platform Solution="*|x64" Project="x64" />
+        </Project>
+        <Project Path="src/FluentNoiseGenerator.Foundation.UI/FluentNoiseGenerator.Foundation.UI.csproj">
+            <Platform Solution="*|ARM64" Project="ARM64" />
+            <Platform Solution="*|x64" Project="x64" />
+        </Project>
+        <Project Path="src/FluentNoiseGenerator.Features.Playback.Core/FluentNoiseGenerator.Features.Playback.Core.csproj">
+            <Platform Solution="*|ARM64" Project="ARM64" />
+            <Platform Solution="*|x64" Project="x64" />
+        </Project>
+        <Project Path="src/FluentNoiseGenerator.Features.Playback.UI/FluentNoiseGenerator.Features.Playback.UI.csproj">
+            <Platform Solution="*|ARM64" Project="ARM64" />
+            <Platform Solution="*|x64" Project="x64" />
+        </Project>
+        <Project Path="src/FluentNoiseGenerator.Features.Settings.UI/FluentNoiseGenerator.Features.Settings.UI.csproj">
+            <Platform Solution="*|ARM64" Project="ARM64" />
+            <Platform Solution="*|x64" Project="x64" />
+        </Project>
     </Folder>
 
     <Folder Name="/Tests/">
-        <Project Path="tests/FluentNoiseGenerator.Tests/FluentNoiseGenerator.Tests.csproj">
+        <Project Path="tests/FluentNoiseGenerator.Client.Tests/FluentNoiseGenerator.Client.Tests.csproj">
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
         </Project>
