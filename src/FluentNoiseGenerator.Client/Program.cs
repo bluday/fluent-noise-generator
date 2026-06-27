@@ -1,4 +1,5 @@
-﻿using FluentNoiseGenerator.Configuration;
+﻿using FluentNoiseGenerator.Client;
+using FluentNoiseGenerator.Configuration;
 using FluentNoiseGenerator.Foundation.UI.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -7,6 +8,7 @@ using IHost host = Host.CreateDefaultBuilder()
     .ConfigureLogging(LoggingConfiguration.Configure)
     .ConfigureServices(ServiceConfiguration.Configure)
     .UseContentRoot(AppContext.BaseDirectory)
+    .UseWinUI3Application<App>()
     .Build();
 
 host.ConfigureCommunityToolkitIoc();

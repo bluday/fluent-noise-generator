@@ -6,10 +6,8 @@ using FluentNoiseGenerator.Features.Settings.UI.ViewModels;
 using FluentNoiseGenerator.Features.Settings.UI.Windows;
 using FluentNoiseGenerator.Foundation.Extensions;
 using FluentNoiseGenerator.Foundation.Services;
-using FluentNoiseGenerator.Foundation.UI.Hosting;
 using FluentNoiseGenerator.Foundation.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
 using System;
 
 namespace FluentNoiseGenerator.Configuration;
@@ -32,12 +30,6 @@ internal static class ServiceConfiguration
     internal static void Configure(IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
-
-        services.AddHostedService<HostedWinUI3ApplicationService>();
-
-        services.AddTransient<Application, App>();
-
-        services.AddLogging(LoggingConfiguration.Configure);
 
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 

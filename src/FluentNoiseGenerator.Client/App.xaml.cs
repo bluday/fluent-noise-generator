@@ -2,7 +2,7 @@ using FluentNoiseGenerator.Features.Playback.UI.Windows;
 using Microsoft.UI.Xaml;
 using System;
 
-namespace FluentNoiseGenerator;
+namespace FluentNoiseGenerator.Client;
 
 /// <summary>
 /// Interaction logic for App.xaml.
