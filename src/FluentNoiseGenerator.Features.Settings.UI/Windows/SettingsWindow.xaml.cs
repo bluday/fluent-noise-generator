@@ -5,7 +5,6 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
-using Windows.Graphics;
 using Windows.UI;
 
 namespace FluentNoiseGenerator.Features.Settings.UI.Windows;
@@ -17,12 +16,6 @@ public sealed partial class SettingsWindow : Window
 {
     #region Constants
     /// <summary>
-    /// Reduction factor applied when a scaled dimension value exceeds the
-    /// display work area.
-    /// </summary>
-    public const double DisplayWorkAreaOverflowReductionFactor = 0.9;
-
-    /// <summary>
     /// The minimum height in pixels, unscaled.
     /// </summary>
     public const int MinimumUnscaledHeight = 700;
@@ -33,66 +26,41 @@ public sealed partial class SettingsWindow : Window
     public const int MinimumUnscaledWidth = MinimumUnscaledHeight;
     #endregion
     
-    #region Instance fields
-    private readonly double _dpiScaleFactor;
-
-    private readonly RectInt32 _displayWorkArea;
-    #endregion
-
     #region Instance properties
     /// <summary>
-    /// Gets a value indicating whether the window has been closed.
-    /// </summary>
-    public bool HasClosed { get; private set; }
-
-    /// <summary>
-    /// Gets the view model instance.
+    /// Gets the view model.
     /// </summary>
     public SettingsViewModel ViewModel { get; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsWindow"/> class
-    /// using the specified dependencies.
+    /// Initializes a new instance of the <see cref="SettingsWindow"/>
+    /// class using the specified view model.
     /// </summary>
     /// <param name="viewModel">
-    /// The view model instance for the window.
+    /// The view model.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if any of the parameters are <c>null</c>.
+    /// Thrown when any parameter is <c>null</c>.
     /// </exception>
     public SettingsWindow(SettingsViewModel viewModel)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
 
-        _displayWorkArea = this.GetDisplayArea().WorkArea;
-
-        _dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+        ExtendsContentIntoTitleBar = true;
 
         ViewModel = viewModel;
 
-        SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
-
-        ExtendsContentIntoTitleBar = true;
-
         SetTitleBar(TitleBar);
 
-        ConfigureNativeWindow();
-        ConfigureNativeTitleBar();
+        ConfigureAppWindow();
 
         InitializeComponent();
     }
     #endregion
 
     #region Event handlers
-    private void Window_Closed(object sender, WindowEventArgs args)
-    {
-        ViewModel?.Dispose();
-
-        HasClosed = true;
-    }
-
     private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
     {
         RefreshTitleBarColors(LayoutRoot.RequestedTheme);
@@ -100,20 +68,27 @@ public sealed partial class SettingsWindow : Window
     #endregion
 
     #region Instance methods
-    private int GetScaledMinimumHeight()
+    private void ConfigureAppWindow()
     {
-        return (int)Math.Min(
-            MinimumUnscaledHeight * _dpiScaleFactor,
-            _displayWorkArea.Height * DisplayWorkAreaOverflowReductionFactor
-        );
-    }
+        AppWindow appWindow = AppWindow;
 
-    private int GetScaledMinimumWidth()
-    {
-        return (int)Math.Min(
-            MinimumUnscaledWidth * _dpiScaleFactor,
-            _displayWorkArea.Width * DisplayWorkAreaOverflowReductionFactor
-        );
+        if (appWindow.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.Create();
+
+            appWindow.SetPresenter(presenter);
+        }
+
+        double dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+
+        int scaledMinimumHeight = (int)(MinimumUnscaledHeight * dpiScaleFactor);
+        int scaledMinimumWidth  = (int)(MinimumUnscaledWidth  * dpiScaleFactor);
+
+        presenter.PreferredMinimumWidth  = scaledMinimumWidth;
+        presenter.PreferredMinimumHeight = scaledMinimumHeight;
+
+        appWindow.Resize(scaledMinimumHeight, scaledMinimumWidth);
+        appWindow.SetIcon(Icons.IconPath);
     }
 
     private void RefreshTitleBarColors(ElementTheme elementTheme)
@@ -151,37 +126,6 @@ public sealed partial class SettingsWindow : Window
         titleBar.ButtonForegroundColor        = buttonForegroundColor;
         titleBar.ButtonHoverForegroundColor   = buttonForegroundColor;
         titleBar.ButtonPressedForegroundColor = buttonForegroundColor;
-    }
-
-    /// <summary>
-    /// Configures the underlying, native title bar for the window.
-    /// </summary>
-    public void ConfigureNativeTitleBar()
-    {
-        AppWindow.SetIcon(Icons.IconPath);
-    }
-
-    /// <summary>
-    /// Configures the underlying native window.
-    /// </summary>
-    public void ConfigureNativeWindow()
-    {
-        AppWindow appWindow = AppWindow;
-
-        if (appWindow.Presenter is not OverlappedPresenter presenter)
-        {
-            presenter = OverlappedPresenter.Create();
-
-            appWindow.SetPresenter(presenter);
-        }
-
-        int scaledHeight = GetScaledMinimumHeight();
-        int scaledWidth  = GetScaledMinimumWidth();
-
-        presenter.PreferredMinimumWidth  = scaledWidth;
-        presenter.PreferredMinimumHeight = scaledHeight;
-
-        appWindow.Resize(scaledWidth, scaledHeight);
     }
     #endregion
 }

@@ -10,16 +10,15 @@
                 <!-- Compact styles -->
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml"/>
 
-                <!-- Infrastructure -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.Foundation.UI/Themes/Generic.xaml"/>
-
                 <!-- Playback -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Playback.UI/Styles/PlaybackControlPanelStyle.xaml"/>
-                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Playback.UI/Styles/PlaybackTopBarStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Playback.UI/Resources/Styles/PlaybackControlPanelStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Playback.UI/Resources/Styles/PlaybackTopBarStyle.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Playback.UI/Resources/Themes/Generic.xaml"/>
 
                 <!-- Settings -->
-                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Settings.UI/Styles/SettingsSectionHeader.xaml"/>
-                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Settings.UI/Styles/SettingsTitleBar.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Settings.UI/Resources/Styles/SettingsSectionHeader.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Settings.UI/Resources/Styles/SettingsTitleBar.xaml"/>
+                <ResourceDictionary Source="/FluentNoiseGenerator.Features.Settings.UI/Resources/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

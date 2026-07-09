@@ -1,16 +1,27 @@
+using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Features.Playback.UI.Windows;
+using FluentNoiseGenerator.Features.Settings.UI.Windows;
+using FluentNoiseGenerator.Foundation.Messages;
 using Microsoft.UI.Xaml;
 using System;
 
 namespace FluentNoiseGenerator.Client;
 
 /// <summary>
-/// Interaction logic for App.xaml.
+/// Provides application-specific behavior to supplement the base class.
 /// </summary>
-public partial class App : Application
+public sealed partial class App : Application
 {
     #region Instance fields
+    private PlaybackWindow? _playbackWindow;
+
+    private SettingsWindow? _settingsWindow;
+
+    private readonly IMessenger _messenger;
+
     private readonly Func<PlaybackWindow> _playbackWindowFactory;
+
+    private readonly Func<SettingsWindow> _settingsWindowFactory;
     #endregion
 
     #region Constructor
@@ -19,22 +30,63 @@ public partial class App : Application
     /// the specified dependencies.
     /// </summary>
     /// <param name="playbackWindowFactory">
-    /// A factory for creating <see cref="PlaybackWindow"/> instances with.
+    /// A factory for creating the playback window.
+    /// </param>
+    /// <param name="settingsWindowFactory">
+    /// A factory for creating the settings window.
+    /// </param>
+    /// <param name="messenger">
+    /// The messenger for sending messages within the app.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if any of the parameters are <c>null</c>.
+    /// Thrown when any parameter is <c>null</c>.
     /// </exception>
-    public App(Func<PlaybackWindow> playbackWindowFactory)
+    public App(
+        Func<PlaybackWindow> playbackWindowFactory,
+        Func<SettingsWindow> settingsWindowFactory,
+        IMessenger           messenger)
     {
         ArgumentNullException.ThrowIfNull(playbackWindowFactory);
+        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
+        ArgumentNullException.ThrowIfNull(messenger);
 
+        _messenger = messenger;
+        
         _playbackWindowFactory = playbackWindowFactory;
+
+        _settingsWindowFactory = settingsWindowFactory;
+
+        RegisterMessageHandlers();
 
         InitializeComponent();
     }
     #endregion
 
+    #region Message handlers
+    private void HandleClosePlaybackWindowMessage(object sender, ClosePlaybackWindowMessage message)
+    {
+        _playbackWindow?.Close();
+    }
+
+    private void HandleOpenSettingsWindowMessage(object sender, OpenSettingsWindowMessage message)
+    {
+        _settingsWindow ??= CreateWindow(_settingsWindowFactory);
+    }
+    #endregion
+
     #region Instance methods
+    private void RegisterMessageHandlers()
+    {
+        Subscribe<ClosePlaybackWindowMessage>(HandleClosePlaybackWindowMessage);
+        Subscribe<OpenSettingsWindowMessage>(HandleOpenSettingsWindowMessage);
+    }
+
+    private void Subscribe<TMessage>(MessageHandler<object, TMessage> handler)
+        where TMessage : class
+    {
+        _messenger.Register(this, handler);
+    }
+
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -43,7 +95,20 @@ public partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        _playbackWindowFactory().Activate();
+        _playbackWindow ??= CreateWindow(_playbackWindowFactory);
+        _settingsWindow ??= CreateWindow(_settingsWindowFactory);
+    }
+    #endregion
+
+    #region Static methods
+    private static TWindow CreateWindow<TWindow>(Func<TWindow> factory)
+        where TWindow : Window
+    {
+        TWindow window = factory();
+
+        window.Activate();
+
+        return window;
     }
     #endregion
 }
