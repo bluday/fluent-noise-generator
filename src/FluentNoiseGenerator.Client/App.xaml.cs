@@ -65,7 +65,16 @@ public sealed partial class App : Application
     #region Message handlers
     private void HandleClosePlaybackWindowMessage(object sender, ClosePlaybackWindowMessage message)
     {
-        _playbackWindow?.Close();
+        if (_playbackWindow is null) return;
+
+        _playbackWindow.Close();
+
+        _playbackWindow = null;
+    }
+
+    private void HandleOpenPlaybackWindowMessage(object sender, OpenPlaybackWindowMessage message)
+    {
+        _playbackWindow ??= CreateWindow(_playbackWindowFactory);
     }
 
     private void HandleOpenSettingsWindowMessage(object sender, OpenSettingsWindowMessage message)
@@ -78,6 +87,7 @@ public sealed partial class App : Application
     private void RegisterMessageHandlers()
     {
         Subscribe<ClosePlaybackWindowMessage>(HandleClosePlaybackWindowMessage);
+        Subscribe<OpenPlaybackWindowMessage>(HandleOpenPlaybackWindowMessage);
         Subscribe<OpenSettingsWindowMessage>(HandleOpenSettingsWindowMessage);
     }
 
@@ -95,8 +105,8 @@ public sealed partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        _playbackWindow ??= CreateWindow(_playbackWindowFactory);
-        _settingsWindow ??= CreateWindow(_settingsWindowFactory);
+        _messenger.Send(new OpenPlaybackWindowMessage());
+        _messenger.Send(new OpenSettingsWindowMessage());
     }
     #endregion
 
