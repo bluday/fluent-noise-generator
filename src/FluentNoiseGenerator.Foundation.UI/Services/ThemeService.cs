@@ -46,7 +46,7 @@ public sealed partial class ThemeService : IThemeService, IDisposable
     /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when <paramref name="messenger"> is <c>null</c>.
+    /// Throws when <paramref name="messenger"> is <see langword="null"/>.
     /// </exception>
     public ThemeService(IMessenger messenger)
     {

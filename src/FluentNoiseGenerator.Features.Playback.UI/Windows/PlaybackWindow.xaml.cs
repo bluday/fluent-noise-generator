@@ -35,7 +35,7 @@ public sealed partial class PlaybackWindow : Window
     /// <summary>
     /// Gets the view model.
     /// </summary>
-    public PlaybackViewModel ViewModel { get; }
+    public PlaybackWindowViewModel ViewModel { get; }
     #endregion
 
     #region Constructor
@@ -47,9 +47,9 @@ public sealed partial class PlaybackWindow : Window
     /// The view model.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when <paramref name="viewModel"/> is <c>null</c>.
+    /// Thrown when <paramref name="viewModel"/> is <see langword="null"/>.
     /// </exception>
-    public PlaybackWindow(PlaybackViewModel viewModel)
+    public PlaybackWindow(PlaybackWindowViewModel viewModel)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
 

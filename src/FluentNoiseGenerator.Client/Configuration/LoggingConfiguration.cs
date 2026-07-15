@@ -15,7 +15,7 @@ internal static class LoggingConfiguration
     /// The logging builder instance to configure.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if <paramref name="logging"/> is <c>null</c>.
+    /// Throws if <paramref name="logging"/> is <see langword="null"/>.
     /// </exception>
     internal static void Configure(ILoggingBuilder logging)
     {

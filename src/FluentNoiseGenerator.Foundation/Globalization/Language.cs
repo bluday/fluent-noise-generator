@@ -23,7 +23,7 @@ public class Language : ILanguage
     /// The IETF BCP 47-compatible name of the language.
     /// </param>
     /// <exception cref="ArgumentException">
-    /// Throws when <paramref name="name"/> is <c>null</c>, contains an empty
+    /// Throws when <paramref name="name"/> is <see langword="null"/>, contains an empty
     /// string value or only whitespace characters.
     /// </exception>
     public Language(string name)

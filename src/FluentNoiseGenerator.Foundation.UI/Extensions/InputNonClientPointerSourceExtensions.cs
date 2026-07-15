@@ -25,7 +25,7 @@ public static class InputNonClientPointerSourceExtensions
     /// The calculated rectangles to set for the specified region.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static void ReplaceRegionRects(
         this InputNonClientPointerSource source,

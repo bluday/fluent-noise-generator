@@ -28,7 +28,7 @@ public static class WindowExtensions
     /// The targeted <see cref="Window"/> instance.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static void Focus(this Window source)
     {
@@ -47,7 +47,7 @@ public static class WindowExtensions
     /// Describes how the content of the window obtained focus.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static void Focus(this Window source, FocusState focusState)
     {
@@ -63,7 +63,7 @@ public static class WindowExtensions
     /// The targeted <see cref="Window"/> instance.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static double GetCurrentDpiScaleFactor(this Window source)
     {
@@ -84,7 +84,7 @@ public static class WindowExtensions
     /// The targeted <see cref="Window"/> instance.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static DisplayArea GetDisplayArea(this Window source)
     {
@@ -107,7 +107,7 @@ public static class WindowExtensions
     /// display area.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static DisplayArea GetDisplayArea(this Window source, DisplayAreaFallback displayAreaFallback)
     {
@@ -127,7 +127,7 @@ public static class WindowExtensions
     /// The targeted <see cref="Window"/> instance.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static InputNonClientPointerSource GetInputNonClientPointerSource(this Window source)
     {
@@ -143,7 +143,7 @@ public static class WindowExtensions
     /// The targeted <see cref="Window"/> instance.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static void Restore(this Window source)
     {

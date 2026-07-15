@@ -36,7 +36,7 @@ public sealed partial class ToastNotificationService : IToastNotificationService
     /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
+    /// Throws when any parameter is <see langword="null"/>.
     /// </exception>
     public ToastNotificationService(IMessenger messenger)
     {

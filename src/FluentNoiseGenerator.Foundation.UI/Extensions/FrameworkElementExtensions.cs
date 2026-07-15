@@ -73,7 +73,7 @@ public static class FrameworkElementExtensions
     /// The targeted element to get the image source from.
     /// </param>
     /// <returns>
-    /// The set <see cref="string"/> or <c>null</c>.
+    /// The set <see cref="string"/> or <see langword="null"/>.
     /// </returns>
     public static string? GetFilledIconGlyph(UIElement element)
     {
@@ -88,7 +88,7 @@ public static class FrameworkElementExtensions
     /// The targeted element to get the image source from.
     /// </param>
     /// <returns>
-    /// The set <see cref="string"/> or <c>null</c>.
+    /// The set <see cref="string"/> or <see langword="null"/>.
     /// </returns>
     public static string? GetRegularIconGlyph(UIElement element)
     {
@@ -102,7 +102,7 @@ public static class FrameworkElementExtensions
     /// The targeted element to get the targeted page type from.
     /// </param>
     /// <returns>
-    /// The targeted page type if set; otherwise <c>null</c>.
+    /// The targeted page type if set; otherwise <see langword="null"/>.
     /// </returns>
     public static Type? GetTargetPage(UIElement element)
     {
@@ -175,7 +175,7 @@ public static class FrameworkElementExtensions
     /// The scale factor to apply to the resulting dimensions.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     /// <returns>
     /// A <see cref="RectInt32"/> value representing the scaled bounding box of

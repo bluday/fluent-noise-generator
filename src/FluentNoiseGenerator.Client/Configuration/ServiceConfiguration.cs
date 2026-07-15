@@ -25,7 +25,7 @@ internal static class ServiceConfiguration
     /// client services to.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if <paramref name="services"/> is <c>null</c>.
+    /// Throws if <paramref name="services"/> is <see langword="null"/>.
     /// </exception>
     internal static void Configure(IServiceCollection services)
     {
@@ -49,10 +49,10 @@ internal static class ServiceConfiguration
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<IWindowService, WindowService>();
 
-        services.AddTransient<PlaybackViewModel>();
+        services.AddTransient<PlaybackWindowViewModel>();
         services.AddTransientWithFactory<PlaybackWindow>();
 
-        services.AddTransient<SettingsViewModel>();
+        services.AddTransient<SettingsWindowViewModel>();
         services.AddTransientWithFactory<SettingsWindow>();
     }
 }

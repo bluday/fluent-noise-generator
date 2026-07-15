@@ -23,7 +23,7 @@ public static class HostExtensions
     /// The specified <see cref="IHost"/> to enable chaining.
     /// </returns>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="source"/> is <c>null</c>.
+    /// Thrown if <paramref name="source"/> is <see langword="null"/>.
     /// </exception>
     public static IHost ConfigureCommunityToolkitIoc(this IHost source)
     {

@@ -16,21 +16,21 @@ public sealed partial class SettingsWindow : Window
 {
     #region Constants
     /// <summary>
-    /// The minimum height in pixels, unscaled.
+    /// The minimum unscaled height, in pixels.
     /// </summary>
     public const int MinimumUnscaledHeight = 700;
 
     /// <summary>
-    /// The minimum width in pixels, unscaled.
+    /// The minimum unscaled width, in pixels.
     /// </summary>
-    public const int MinimumUnscaledWidth = MinimumUnscaledHeight;
+    public const int MinimumUnscaledWidth = 700;
     #endregion
     
     #region Instance properties
     /// <summary>
     /// Gets the view model.
     /// </summary>
-    public SettingsViewModel ViewModel { get; }
+    public SettingsWindowViewModel ViewModel { get; }
     #endregion
 
     #region Constructor
@@ -42,15 +42,17 @@ public sealed partial class SettingsWindow : Window
     /// The view model.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when any parameter is <c>null</c>.
+    /// Thrown when any parameter is <see langword="null"/>.
     /// </exception>
-    public SettingsWindow(SettingsViewModel viewModel)
+    public SettingsWindow(SettingsWindowViewModel viewModel)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
 
         ExtendsContentIntoTitleBar = true;
 
         ViewModel = viewModel;
+
+        Closed += SettingsWindow_Closed;
 
         SetTitleBar(TitleBar);
 
@@ -64,6 +66,11 @@ public sealed partial class SettingsWindow : Window
     private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
     {
         RefreshTitleBarColors(LayoutRoot.RequestedTheme);
+    }
+
+    private void SettingsWindow_Closed(object sender, WindowEventArgs e)
+    {
+        ViewModel.NotifyWindowClosed();
     }
     #endregion
 

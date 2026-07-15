@@ -35,7 +35,7 @@ public sealed class HostedWinUI3ApplicationService : IHostedService
     /// The logger instance for this type.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if any of the parameters are <c>null</c>.
+    /// Thrown if any parameter are <see langword="null"/>.
     /// </exception>
     public HostedWinUI3ApplicationService(
         IHostApplicationLifetime                hostApplicationLifetime,

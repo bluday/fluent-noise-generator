@@ -39,7 +39,7 @@ public sealed partial class App : Application
     /// The messenger for sending messages within the app.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when any parameter is <c>null</c>.
+    /// Thrown when any parameter is <see langword="null"/>.
     /// </exception>
     public App(
         Func<PlaybackWindow> playbackWindowFactory,
@@ -65,21 +65,22 @@ public sealed partial class App : Application
     #region Message handlers
     private void HandleClosePlaybackWindowMessage(object sender, ClosePlaybackWindowMessage message)
     {
-        if (_playbackWindow is null) return;
-
-        _playbackWindow.Close();
-
-        _playbackWindow = null;
+        CloseWindow(ref _playbackWindow);
     }
 
     private void HandleOpenPlaybackWindowMessage(object sender, OpenPlaybackWindowMessage message)
     {
-        _playbackWindow ??= CreateWindow(_playbackWindowFactory);
+        CreateWindow(ref _playbackWindow, _playbackWindowFactory);
     }
 
     private void HandleOpenSettingsWindowMessage(object sender, OpenSettingsWindowMessage message)
     {
-        _settingsWindow ??= CreateWindow(_settingsWindowFactory);
+        CreateWindow(ref _settingsWindow, _settingsWindowFactory);
+    }
+
+    private void HandleSettingsWindowClosedMessage(object sender, SettingsWindowClosedMessage message)
+    {
+        _settingsWindow = null;
     }
     #endregion
 
@@ -89,6 +90,7 @@ public sealed partial class App : Application
         Subscribe<ClosePlaybackWindowMessage>(HandleClosePlaybackWindowMessage);
         Subscribe<OpenPlaybackWindowMessage>(HandleOpenPlaybackWindowMessage);
         Subscribe<OpenSettingsWindowMessage>(HandleOpenSettingsWindowMessage);
+        Subscribe<SettingsWindowClosedMessage>(HandleSettingsWindowClosedMessage);
     }
 
     private void Subscribe<TMessage>(MessageHandler<object, TMessage> handler)
@@ -105,18 +107,29 @@ public sealed partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        _messenger.Send(new OpenPlaybackWindowMessage());
-        _messenger.Send(new OpenSettingsWindowMessage());
+        CreateWindow(ref _playbackWindow, _playbackWindowFactory);
+        CreateWindow(ref _settingsWindow, _settingsWindowFactory);
     }
     #endregion
 
     #region Static methods
-    private static TWindow CreateWindow<TWindow>(Func<TWindow> factory)
+    private static void CloseWindow<TWindow>(ref TWindow? window)
         where TWindow : Window
     {
-        TWindow window = factory();
+        window?.Close();
 
-        window.Activate();
+        window = null;
+    }
+
+    private static TWindow CreateWindow<TWindow>(ref TWindow? window, Func<TWindow> factory)
+        where TWindow : Window
+    {
+        if (window is null)
+        {
+            window = factory();
+
+            window.Activate();
+        }
 
         return window;
     }

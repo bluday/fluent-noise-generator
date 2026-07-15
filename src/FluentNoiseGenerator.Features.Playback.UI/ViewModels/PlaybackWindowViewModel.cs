@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Foundation.Messages;
-using Microsoft.UI.Xaml;
 using System;
 
 namespace FluentNoiseGenerator.Features.Playback.UI.ViewModels;
@@ -10,7 +9,7 @@ namespace FluentNoiseGenerator.Features.Playback.UI.ViewModels;
 /// <summary>
 /// Represents the view model for the playback window.
 /// </summary>
-public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
+public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposable
 {
     #region Instance fields
     private readonly IMessenger _messenger;
@@ -18,7 +17,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
 
     #region Observable properties
     /// <summary>
-    /// Gets the current <see cref="ElementTheme"/> for the application.
+    /// Gets the current theme for the application.
     /// </summary>
     [ObservableProperty]
     public partial object? CurrentTheme { get; private set; }
@@ -38,17 +37,16 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackViewModel"/> class using
-    /// the specified dependencies.
+    /// Initializes a new instance of the <see cref="PlaybackWindowViewModel"/>
+    /// class using the specified dependencies.
     /// </summary>
     /// <param name="messenger">
-    /// The messenger instance used for sending messages within the application.
-    /// This is typically a <see cref="WeakReferenceMessenger"/>.
+    /// The messenger for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
+    /// Throws when any parameter is <see langword="null"/>.
     /// </exception>
-    public PlaybackViewModel(IMessenger messenger)
+    public PlaybackWindowViewModel(IMessenger messenger)
     {
         ArgumentNullException.ThrowIfNull(messenger);
 
@@ -69,7 +67,8 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// Invokes when the toggle playback button on the control panel gets clicked.
+    /// Invokes when the toggle playback button on the control panel
+    /// gets clicked.
     /// </summary>
     [RelayCommand]
     private void TogglePlayback()
@@ -89,7 +88,7 @@ public sealed partial class PlaybackViewModel : ObservableObject, IDisposable
 
     #region Message handlers
     private void HandleApplicationThemeUpdatedMessage(
-        object recipient,
+        object                         recipient,
         ApplicationThemeUpdatedMessage message)
     {
         CurrentTheme = message.Value;

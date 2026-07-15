@@ -44,7 +44,7 @@ public sealed partial class BackdropService : IBackdropService, IDisposable
     /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when <paramref name="messenger"> is <c>null</c>.
+    /// Throws when <paramref name="messenger"> is <see langword="null"/>.
     /// </exception>
     public BackdropService(IMessenger messenger)
     {

@@ -13,7 +13,7 @@ namespace FluentNoiseGenerator.Features.Settings.UI.ViewModels;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class SettingsViewModel : ObservableObject, IDisposable
+public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposable
 {
     #region Instance fields
     private readonly IAppSettings _appSettings;
@@ -25,27 +25,27 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
-    public IEnumerable<object> AvailableApplicationThemes { get; } = [];
+    public IEnumerable<object> AvailableApplicationThemes { get; }
 
     /// <summary>
     /// Gets an enumerable of available audio sample rates.
     /// </summary>
-    public IEnumerable<int> AvailableAudioSampleRates { get; } = [];
+    public IEnumerable<int> AvailableAudioSampleRates { get; }
 
     /// <summary>
     /// Gets an enumerable of available languages.
     /// </summary>
-    public IEnumerable<ILanguage> AvailableLanguages { get; } = [];
+    public IEnumerable<ILanguage> AvailableLanguages { get; }
 
     /// <summary>
     /// Gets an enumerable of available noise presets.
     /// </summary>
-    public IEnumerable<string> AvailableNoisePresets { get; } = [];
+    public IEnumerable<string> AvailableNoisePresets { get; }
 
     /// <summary>
     /// Gets an enumerable of available system backdrops.
     /// </summary>
-    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; } = [];
+    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; }
 
     /// <summary>
     /// Gets or sets the selected application theme.
@@ -70,24 +70,25 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
     /// <summary>
     /// Gets or sets the selected system backdrop.
     /// </summary>
-    public SystemBackdrop? SelectedSystemBackdrop { get; set; }
+    public object? SelectedSystemBackdrop { get; set; }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class using
-    /// the specified dependencies.
+    /// Initializes a new instance of the <see cref="SettingsWindowViewModel"/>
+    /// class using the specified dependencies.
     /// </summary>
     /// <param name="appSettings">
-    /// An <see cref="IAppSettings"/> instance with selected settings for the application.
+    /// An <see cref="IAppSettings"/> instance with selected settings
+    /// for the application.
     /// </param>
     /// <param name="messenger">
-    /// The messenger instance used for sending messages within the application.
+    /// The messenger used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
+    /// Throws when any parameter is <see langword="null"/>.
     /// </exception>
-    public SettingsViewModel(IAppSettings appSettings, IMessenger messenger)
+    public SettingsWindowViewModel(IAppSettings appSettings, IMessenger messenger)
     {
         ArgumentNullException.ThrowIfNull(appSettings);
         ArgumentNullException.ThrowIfNull(messenger);
@@ -96,18 +97,23 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
 
         _messenger = messenger;
 
+        AvailableApplicationThemes = [];
+        AvailableAudioSampleRates  = [];
+        AvailableLanguages         = [];
+        AvailableNoisePresets      = [];
+        AvailableSystemBackdrops   = [];
+
         RegisterMessageHandlers();
     }
     #endregion
 
     #region Message handlers
     private void HandleApplicationThemeUpdatedMessage(
-        object recipient,
+        object                         recipient,
         ApplicationThemeUpdatedMessage message)
     {
-        SelectedApplicationTheme = AvailableApplicationThemes.FirstOrDefault(
-            theme => message.Value == theme
-        );
+        SelectedApplicationTheme = AvailableApplicationThemes
+            .FirstOrDefault(theme => message.Value == theme);
     }
     #endregion
 
@@ -120,10 +126,19 @@ public sealed partial class SettingsViewModel : ObservableObject, IDisposable
         );
     }
 
-    /// <inheritdoc cref="IDisposable.Dispose()"/>
+    /// <inheritdoc/>
     public void Dispose()
     {
         _messenger.UnregisterAll(this);
+    }
+    
+    /// <summary>
+    /// Sends a <see cref="SettingsWindowClosedMessage"/> to subscribers
+    /// within the application to notify that the window has closed.
+    /// </summary>
+    public void NotifyWindowClosed()
+    {
+        _messenger.Send(new SettingsWindowClosedMessage());
     }
     #endregion
 }

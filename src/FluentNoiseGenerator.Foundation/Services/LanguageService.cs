@@ -44,7 +44,7 @@ public sealed class LanguageService : ILanguageService, IDisposable
     /// The messenger instance used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws when any of the parameters is <c>null</c>.
+    /// Throws when any parameter is <see langword="null"/>.
     /// </exception>
     public LanguageService(IMessenger messenger)
     {

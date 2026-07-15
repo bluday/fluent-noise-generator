@@ -22,7 +22,7 @@ public sealed partial class WindowService : IWindowService, IDisposable
     /// application, typically a <see cref="WeakReferenceMessenger"/>.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when any parameter is <c>null</c>.
+    /// Thrown when any parameter is <see langword="null"/>.
     /// </exception>
     public WindowService(IMessenger messenger)
     {
