@@ -1,6 +1,8 @@
-using FluentNoiseGenerator.Foundation.UI.Extensions;
+using FluentNoiseGenerator.UI.Extensions;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Windows.Input;
 using Windows.Graphics;
 
@@ -15,25 +17,37 @@ public sealed partial class PlaybackTopBar : Control
 {
     #region Constants
     /// <summary>
+    /// The default DPI scale factor to use input region rects.
+    /// </summary>
+    public const double DefaultDpiScaleFactor = 1.0;
+
+    /// <summary>
     /// The "PART_CloseButton" string literal.
     /// </summary>
-    public const string PART_CloseButton = "PART_CloseButton";
+    public const string PART_CloseButton = nameof(PART_CloseButton);
 
     /// <summary>
     /// The "PART_SettingsButton" string literal.
     /// </summary>
-    public const string PART_SettingsButton = "PART_SettingsButton";
+    public const string PART_SettingsButton = nameof(PART_SettingsButton);
     #endregion
 
-    #region Fields
+    #region Instance fields
+    private bool _canConfigureNonClientRegions;
+
     private Button _closeButton;
+
+    private double _dpiScaleFactor;
+
+    private InputNonClientPointerSource? _inputNonClientPointerSource;
 
     private Button _settingsButton;
     #endregion
 
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="CloseButtonClickCommand"/> dependency property.
+    /// Identifies the <see cref="CloseButtonClickCommand"/>
+    /// dependency property.
     /// </summary>
     public static readonly DependencyProperty CloseButtonClickCommandProperty = DependencyProperty.Register(
         nameof(CloseButtonClickCommand),
@@ -43,7 +57,8 @@ public sealed partial class PlaybackTopBar : Control
     );
 
     /// <summary>
-    /// Identifies the <see cref="SettingsButtonClickCommand"/> dependency property.
+    /// Identifies the <see cref="SettingsButtonClickCommand"/>
+    /// dependency property.
     /// </summary>
     public static readonly DependencyProperty SettingsButtonClickCommandProperty = DependencyProperty.Register(
         nameof(SettingsButtonClickCommand),
@@ -53,9 +68,19 @@ public sealed partial class PlaybackTopBar : Control
     );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets or sets the command to be executed when the close button gets clicked.
+    /// Gets or sets a value indicating whether the non-client regions
+    /// can be configured.
+    /// </summary>
+    public bool CanConfigureNonClientRegions
+    {
+        get => _canConfigureNonClientRegions;
+        set => _canConfigureNonClientRegions = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the close button click command.
     /// </summary>
     public ICommand? CloseButtonClickCommand
     {
@@ -64,7 +89,26 @@ public sealed partial class PlaybackTopBar : Control
     }
 
     /// <summary>
-    /// Gets or sets the command to be executed when the settings button gets clicked.
+    /// Gets or sets the targeted DPI scale factor.
+    /// </summary>
+    public double? DpiScaleFactor
+    {
+        get => _dpiScaleFactor;
+        set => _dpiScaleFactor = value ?? DefaultDpiScaleFactor;
+    }
+
+    /// <summary>
+    /// Gets or sets the <see cref="InputNonClientPointerSource"> for
+    /// configuring the non-client input regions.
+    /// </summary>
+    public InputNonClientPointerSource? InputNonClientPointerSource
+    {
+        get => _inputNonClientPointerSource;
+        set => _inputNonClientPointerSource = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the settings button click command.
     /// </summary>
     public ICommand? SettingsButtonClickCommand
     {
@@ -75,7 +119,8 @@ public sealed partial class PlaybackTopBar : Control
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackTopBar"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackTopBar"/>
+    /// class.
     /// </summary>
     public PlaybackTopBar()
     {
@@ -83,11 +128,62 @@ public sealed partial class PlaybackTopBar : Control
 
         _settingsButton = null!;
 
+        _dpiScaleFactor = DefaultDpiScaleFactor;
+
         DefaultStyleKey = typeof(PlaybackTopBar);
+
+        RegisterEventHandlers();
     }
     #endregion
 
-    #region Methods
+    #region Event handlers
+    private void PlaybackTopBar_LayoutUpdated(object? sender, object e)
+    {
+        UpdatePassthroughRegionRects();
+    }
+
+    private void PlaybackTopBar_Unloaded(object? sender, RoutedEventArgs e)
+    {
+        UnregisterEventHandlers();
+    }
+    #endregion
+
+    #region Instance methods
+    private RectInt32[] GetPassthroughRegionRects()
+    {
+        return [
+            _closeButton.GetBoundingBox(_dpiScaleFactor),
+            _settingsButton.GetBoundingBox(_dpiScaleFactor)
+        ];
+    }
+
+    private void RegisterEventHandlers()
+    {
+        LayoutUpdated += PlaybackTopBar_LayoutUpdated;
+        Unloaded      += PlaybackTopBar_Unloaded;
+    }
+
+    private void UnregisterEventHandlers()
+    {
+        LayoutUpdated -= PlaybackTopBar_LayoutUpdated;
+        Unloaded      -= PlaybackTopBar_Unloaded;
+    }
+
+    private void UpdatePassthroughRegionRects()
+    {
+        if (!_canConfigureNonClientRegions || _inputNonClientPointerSource is null)
+        {
+            return;
+        }
+
+        var region = NonClientRegionKind.Passthrough;
+
+        RectInt32[] rects = GetPassthroughRegionRects();
+
+        _inputNonClientPointerSource.ClearRegionRects(region);
+        _inputNonClientPointerSource.SetRegionRects(region, rects);
+    }
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
@@ -98,26 +194,26 @@ public sealed partial class PlaybackTopBar : Control
     }
 
     /// <summary>
-    /// Gets the bounding box for the settings button.
+    /// Configures the control using the specified parameters.
     /// </summary>
-    /// <param name="scaleFactor">
-    /// The scale factor to multiply the width and height with.
+    /// <param name="dpiScaleFactor">
+    /// The DPI scale factor to use.
     /// </param>
-    /// <returns>
-    /// A scaled rect of the bounding box.
-    /// </returns>
-    public RectInt32 GetBoundingRectForCloseButton(double scaleFactor)
+    /// <param name="inputNonClientPointerSource">
+    /// The non-client input pointer handler.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="inputNonClientPointerSource"/> is <see langword="null"/>
+    /// </exception>
+    public void Configure(
+        double                      dpiScaleFactor,
+        InputNonClientPointerSource inputNonClientPointerSource)
     {
-        return _closeButton.GetBoundingBox(scaleFactor);
-    }
+        ArgumentNullException.ThrowIfNull(inputNonClientPointerSource);
 
-    /// <inheritdoc cref="GetBoundingRectForCloseButton(double)"/>
-    /// <summary>
-    /// Gets the bounding box for the settings button.
-    /// </summary>
-    public RectInt32 GetBoundingRectForSettingsButton(double scaleFactor)
-    {
-        return _settingsButton.GetBoundingBox(scaleFactor);
+        _dpiScaleFactor = dpiScaleFactor;
+
+        _inputNonClientPointerSource = inputNonClientPointerSource;
     }
     #endregion
 }

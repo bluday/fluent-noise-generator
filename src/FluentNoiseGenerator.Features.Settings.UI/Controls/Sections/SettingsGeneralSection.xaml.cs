@@ -1,4 +1,3 @@
-using FluentNoiseGenerator.Foundation.Globalization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
@@ -14,64 +13,60 @@ public sealed partial class SettingsGeneralSection : UserControl
     /// <summary>
     /// Identifies the <see cref="AvailableLanguages"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableLanguagesProperty =
-        DependencyProperty.Register(
-            nameof(AvailableLanguages),
-            typeof(IEnumerable<ILanguage>),
-            typeof(SettingsGeneralSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty AvailableLanguagesProperty = DependencyProperty.Register(
+        nameof(AvailableLanguages),
+        typeof(IEnumerable<object>),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="AvailableNoisePresets"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableNoisePresetsProperty =
-        DependencyProperty.Register(
-            nameof(AvailableNoisePresets),
-            typeof(IEnumerable<string>),
-            typeof(SettingsGeneralSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty AvailableNoisePresetsProperty = DependencyProperty.Register(
+        nameof(AvailableNoisePresets),
+        typeof(IEnumerable<object>),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="SelectedDefaultNoisePreset"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedDefaultNoisePresetProperty =
-        DependencyProperty.Register(
-            nameof(SelectedDefaultNoisePreset),
-            typeof(object),
-            typeof(SettingsGeneralSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SelectedDefaultNoisePresetProperty = DependencyProperty.Register(
+        nameof(SelectedDefaultNoisePreset),
+        typeof(object),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="SelectedLanguage"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedLanguageProperty =
-        DependencyProperty.Register(
-            nameof(SelectedLanguage),
-            typeof(object),
-            typeof(SettingsGeneralSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SelectedLanguageProperty = DependencyProperty.Register(
+        nameof(SelectedLanguage),
+        typeof(object),
+        typeof(SettingsGeneralSection),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets or sets the items source instance for the available language collection.
+    /// Gets or sets an enumerable with available languages.
     /// </summary>
-    public IEnumerable<ILanguage> AvailableLanguages
+    public IEnumerable<object> AvailableLanguages
     {
-        get => (IEnumerable<ILanguage>)GetValue(AvailableLanguagesProperty);
+        get => (IEnumerable<object>)GetValue(AvailableLanguagesProperty);
         set => SetValue(AvailableLanguagesProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets the items source instance for the available noise preset collection.
+    /// Gets or sets an enumerable with available noise presets.
     /// </summary>
-    public IEnumerable<string> AvailableNoisePresets
+    public IEnumerable<object> AvailableNoisePresets
     {
-        get => (IEnumerable<string>)GetValue(AvailableNoisePresetsProperty);
+        get => (IEnumerable<object>)GetValue(AvailableNoisePresetsProperty);
         set => SetValue(AvailableNoisePresetsProperty, value);
     }
 
@@ -96,7 +91,8 @@ public sealed partial class SettingsGeneralSection : UserControl
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsGeneralSection"/> class.
+    /// Initializes a new instance of the <see cref="SettingsGeneralSection"/>
+    /// class.
     /// </summary>
     public SettingsGeneralSection()
     {

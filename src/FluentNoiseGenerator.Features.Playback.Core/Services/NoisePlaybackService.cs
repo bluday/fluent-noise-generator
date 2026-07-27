@@ -7,15 +7,15 @@ namespace FluentNoiseGenerator.Features.Playback.Core.Services;
 /// </summary>
 public sealed class NoisePlaybackService : INoisePlaybackService
 {
-    #region Fields
-    private IEnumerable<int> _audioSampleRates;
+    #region Instance fields
+    private IEnumerable<object> _audioSampleRates;
 
     private readonly IMessenger _messenger;
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <inheritdoc cref="INoisePlaybackService.AudioSampleRates"/>
-    public IEnumerable<int> AudioSampleRates => _audioSampleRates;
+    public IEnumerable<object> AudioSampleRates => _audioSampleRates;
     #endregion
 
     #region Constructor
@@ -40,7 +40,7 @@ public sealed class NoisePlaybackService : INoisePlaybackService
     }
     #endregion
 
-    #region Methods
+    #region Instance methods
     private void RegisterMessageHandlers() { }
 
     /// <inheritdoc cref="IDisposable.Dispose()"/>

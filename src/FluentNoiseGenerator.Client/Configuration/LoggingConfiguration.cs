@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace FluentNoiseGenerator.Configuration;
+namespace FluentNoiseGenerator.Client.Configuration;
 
 /// <summary>
 /// Provides a method for configuring logging for the client.

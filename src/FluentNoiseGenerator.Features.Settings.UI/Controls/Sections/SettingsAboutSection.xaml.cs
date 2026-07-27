@@ -10,31 +10,32 @@ public sealed partial class SettingsAboutSection : UserControl
 {
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="SessionIdentifierFormatString"/> dependency property.
+    /// Identifies the <see cref="SessionIdentifierFormatString"/>
+    /// dependency property.
     /// </summary>
-    public static readonly DependencyProperty SessionIdentifierFormatStringProperty =
-        DependencyProperty.Register(
-            nameof(SessionIdentifierFormatString),
-            typeof(string),
-            typeof(SettingsAboutSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SessionIdentifierFormatStringProperty = DependencyProperty.Register(
+        nameof(SessionIdentifierFormatString),
+        typeof(string),
+        typeof(SettingsAboutSection),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets or sets the format string used to display the session identifier.
+    /// Gets or sets the <see cref="string"/> format for the session identifier.
     /// </summary>
-    public string SessionIdentifierFormatString
+    public string? SessionIdentifierFormatString
     {
-        get => (string)GetValue(SessionIdentifierFormatStringProperty);
+        get => GetValue(SessionIdentifierFormatStringProperty) as string;
         set => SetValue(SessionIdentifierFormatStringProperty, value);
     }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsAboutSection"/> class.
+    /// Initializes a new instance of the <see cref="SettingsAboutSection"/>
+    /// class.
     /// </summary>
     public SettingsAboutSection()
     {

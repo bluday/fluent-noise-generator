@@ -22,18 +22,19 @@ public sealed partial class SettingsTitleBar : Control
 
     #region Instance properties
     /// <summary>
-    /// Gets or sets the text.
+    /// Gets or sets the title.
     /// </summary>
     public string? Title
     {
-        get => (string)GetValue(TitleProperty);
+        get => GetValue(TitleProperty) as string;
         set => SetValue(TitleProperty, value);
     }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsTitleBar"/> class.
+    /// Initializes a new instance of the <see cref="SettingsTitleBar"/>
+    /// class.
     /// </summary>
     public SettingsTitleBar()
     {

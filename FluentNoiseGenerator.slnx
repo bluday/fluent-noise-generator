@@ -3,7 +3,6 @@
         <Platform Name="ARM64" />
         <Platform Name="x64" />
     </Configurations>
-    <Folder Name="/Assets/" />
 
     <Folder Name="/Assets/Icons/">
         <File Path="assets/icons/logo_1024x1024.png" />
@@ -31,10 +30,6 @@
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
         </Project>
-        <Project Path="src/FluentNoiseGenerator.Foundation.UI/FluentNoiseGenerator.Foundation.UI.csproj">
-            <Platform Solution="*|ARM64" Project="ARM64" />
-            <Platform Solution="*|x64" Project="x64" />
-        </Project>
         <Project Path="src/FluentNoiseGenerator.Features.Playback.Core/FluentNoiseGenerator.Features.Playback.Core.csproj">
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
@@ -47,12 +42,10 @@
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
         </Project>
-    </Folder>
-
-    <Folder Name="/Tests/">
-        <Project Path="tests/FluentNoiseGenerator.Client.Tests/FluentNoiseGenerator.Client.Tests.csproj">
+        <Project Path="src/FluentNoiseGenerator.UI/FluentNoiseGenerator.UI.csproj">
             <Platform Solution="*|ARM64" Project="ARM64" />
             <Platform Solution="*|x64" Project="x64" />
         </Project>
     </Folder>
 </Solution>
+

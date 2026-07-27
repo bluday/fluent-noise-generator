@@ -10,14 +10,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
-        <ProjectReference Include="..\FluentNoiseGenerator.Foundation.UI\FluentNoiseGenerator.Foundation.UI.csproj" />
+        <ProjectReference Include="..\FluentNoiseGenerator.UI\FluentNoiseGenerator.UI.csproj" />
     </ItemGroup>
 </Project>

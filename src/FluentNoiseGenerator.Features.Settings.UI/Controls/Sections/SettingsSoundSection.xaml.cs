@@ -13,33 +13,32 @@ public sealed partial class SettingsSoundSection : UserControl
     /// <summary>
     /// Identifies the <see cref="AvailableAudioSampleRates"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableAudioSampleRatesProperty =
-        DependencyProperty.Register(
-            nameof(AvailableAudioSampleRates),
-            typeof(IEnumerable<int>),
-            typeof(SettingsSoundSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty AvailableAudioSampleRatesProperty = DependencyProperty.Register(
+        nameof(AvailableAudioSampleRates),
+        typeof(IEnumerable<object>),
+        typeof(SettingsSoundSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="SelectedAudioSampleRate"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedAudioSampleRateProperty =
-        DependencyProperty.Register(
-            nameof(SelectedAudioSampleRate),
-            typeof(object),
-            typeof(SettingsSoundSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SelectedAudioSampleRateProperty = DependencyProperty.Register(
+        nameof(SelectedAudioSampleRate),
+        typeof(object),
+        typeof(SettingsSoundSection),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets or sets the items source instance for the available audio sample rate collection.
+    /// Gets or sets the items source instance for the available
+    /// audio sample rate collection.
     /// </summary>
-    public IEnumerable<int> AvailableAudioSampleRates
+    public IEnumerable<object> AvailableAudioSampleRates
     {
-        get => (IEnumerable<int>)GetValue(AvailableAudioSampleRatesProperty);
+        get => (IEnumerable<object>)GetValue(AvailableAudioSampleRatesProperty);
         set => SetValue(AvailableAudioSampleRatesProperty, value);
     }
 
@@ -55,7 +54,8 @@ public sealed partial class SettingsSoundSection : UserControl
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsSoundSection"/> class.
+    /// Initializes a new instance of the <see cref="SettingsSoundSection"/>
+    /// class.
     /// </summary>
     public SettingsSoundSection()
     {

@@ -30,7 +30,7 @@ public sealed partial class SettingsSectionHeader : Control
     );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
     /// Gets or sets the icon.
     /// </summary>
@@ -45,14 +45,15 @@ public sealed partial class SettingsSectionHeader : Control
     /// </summary>
     public string? Text
     {
-        get => (string)GetValue(TextProperty);
+        get => GetValue(TextProperty) as string;
         set => SetValue(TextProperty, value);
     }
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsSectionHeader"/> class.
+    /// Initializes a new instance of the <see cref="SettingsSectionHeader"/>
+    /// class.
     /// </summary>
     public SettingsSectionHeader()
     {

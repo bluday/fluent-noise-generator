@@ -1,9 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Foundation;
-using FluentNoiseGenerator.Foundation.Globalization;
 using FluentNoiseGenerator.Foundation.Messages;
-using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +13,6 @@ namespace FluentNoiseGenerator.Features.Settings.UI.ViewModels;
 public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposable
 {
     #region Instance fields
-    private readonly IAppSettings _appSettings;
-
     private readonly IMessenger _messenger;
     #endregion
 
@@ -25,27 +20,27 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     /// <summary>
     /// Gets an enumerable of available application themes.
     /// </summary>
-    public IEnumerable<object> AvailableApplicationThemes { get; }
+    public IEnumerable<object> AvailableApplicationThemes { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available audio sample rates.
     /// </summary>
-    public IEnumerable<int> AvailableAudioSampleRates { get; }
+    public IEnumerable<object> AvailableAudioSampleRates { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available languages.
     /// </summary>
-    public IEnumerable<ILanguage> AvailableLanguages { get; }
+    public IEnumerable<object> AvailableLanguages { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available noise presets.
     /// </summary>
-    public IEnumerable<string> AvailableNoisePresets { get; }
+    public IEnumerable<object> AvailableNoisePresets { get; } = [];
 
     /// <summary>
     /// Gets an enumerable of available system backdrops.
     /// </summary>
-    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops { get; }
+    public IEnumerable<object> AvailableSystemBackdrops { get; } = [];
 
     /// <summary>
     /// Gets or sets the selected application theme.
@@ -60,7 +55,7 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     /// <summary>
     /// Gets or sets the selected application language.
     /// </summary>
-    public ILanguage? SelectedLanguage { get; set; }
+    public object? SelectedLanguage { get; set; }
 
     /// <summary>
     /// Gets or sets the selected default noise preset.
@@ -71,6 +66,12 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     /// Gets or sets the selected system backdrop.
     /// </summary>
     public object? SelectedSystemBackdrop { get; set; }
+
+    /// <summary>
+    /// Gets or sets the window title.
+    /// </summary>
+    [ObservableProperty]
+    public partial string? Title { get; set; }
     #endregion
 
     #region Constructor
@@ -78,30 +79,17 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     /// Initializes a new instance of the <see cref="SettingsWindowViewModel"/>
     /// class using the specified dependencies.
     /// </summary>
-    /// <param name="appSettings">
-    /// An <see cref="IAppSettings"/> instance with selected settings
-    /// for the application.
-    /// </param>
     /// <param name="messenger">
     /// The messenger used for sending messages within the application.
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Throws when any parameter is <see langword="null"/>.
     /// </exception>
-    public SettingsWindowViewModel(IAppSettings appSettings, IMessenger messenger)
+    public SettingsWindowViewModel(IMessenger messenger)
     {
-        ArgumentNullException.ThrowIfNull(appSettings);
         ArgumentNullException.ThrowIfNull(messenger);
 
-        _appSettings = appSettings;
-
         _messenger = messenger;
-
-        AvailableApplicationThemes = [];
-        AvailableAudioSampleRates  = [];
-        AvailableLanguages         = [];
-        AvailableNoisePresets      = [];
-        AvailableSystemBackdrops   = [];
 
         RegisterMessageHandlers();
     }
@@ -112,8 +100,9 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
         object                         recipient,
         ApplicationThemeUpdatedMessage message)
     {
-        SelectedApplicationTheme = AvailableApplicationThemes
-            .FirstOrDefault(theme => message.Value == theme);
+        SelectedApplicationTheme = AvailableApplicationThemes.FirstOrDefault(
+            theme => message.Value == theme
+        );
     }
     #endregion
 
@@ -133,8 +122,8 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     }
     
     /// <summary>
-    /// Sends a <see cref="SettingsWindowClosedMessage"/> to subscribers
-    /// within the application to notify that the window has closed.
+    /// Sends a <see cref="SettingsWindowClosedMessage"/> to notify
+    /// that the window has closed.
     /// </summary>
     public void NotifyWindowClosed()
     {

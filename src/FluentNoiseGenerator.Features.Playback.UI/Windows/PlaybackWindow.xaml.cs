@@ -1,98 +1,88 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentNoiseGenerator.Features.Playback.UI.ViewModels;
 using FluentNoiseGenerator.Foundation.Constants;
-using FluentNoiseGenerator.Foundation.UI.Extensions;
-using Microsoft.UI.Input;
+using FluentNoiseGenerator.UI.Extensions;
+using FluentNoiseGenerator.UI.Windowing;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
 
 namespace FluentNoiseGenerator.Features.Playback.UI.Windows;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class PlaybackWindow : Window
+public sealed partial class PlaybackWindow : Window, IConfigurableWindow
 {
     #region Constants
     /// <summary>
-    /// The minimum height in pixels, unscaled.
+    /// The minimum height, in pixels.
     /// </summary>
-    public const int MinimumUnscaledHeight = 110;
+    public const int MinimumHeight = 110;
 
     /// <summary>
-    /// The minimum width in pixels, unscaled.
+    /// The minimum width, in pixels.
     /// </summary>
-    public const int MinimumUnscaledWidth = 170;
+    public const int MinimumWidth = 170;
     #endregion
 
     #region Instance fields
-    private bool _hasClosed;
-
-    private readonly InputNonClientPointerSource _inputNonClientPointerSource;
+    private readonly PlaybackWindowViewModel _viewModel;
     #endregion
 
     #region Instance properties
     /// <summary>
     /// Gets the view model.
     /// </summary>
-    public PlaybackWindowViewModel ViewModel { get; }
+    public PlaybackWindowViewModel ViewModel => _viewModel;
     #endregion
 
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackWindow"/>
-    /// class using the specified view model.
+    /// class.
     /// </summary>
-    /// <param name="viewModel">
-    /// The view model.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when <paramref name="viewModel"/> is <see langword="null"/>.
-    /// </exception>
-    public PlaybackWindow(PlaybackWindowViewModel viewModel)
+    public PlaybackWindow()
     {
-        ArgumentNullException.ThrowIfNull(viewModel);
-
-        _inputNonClientPointerSource = this.GetInputNonClientPointerSource();
+        _viewModel = Ioc.Default.GetRequiredService<PlaybackWindowViewModel>();
 
         ExtendsContentIntoTitleBar = true;
 
-        ViewModel = viewModel;
-
-        Closed += Window_Closed;
+        Closed += PlaybackWindow_Closed;
 
         SetTitleBar(TopBar);
 
-        ConfigureAppWindow();
-
         InitializeComponent();
+
+        TopBar.Configure(
+            this.GetCurrentDpiScaleFactor(),
+            this.GetInputNonClientPointerSource()
+        );
+
+        TopBar.CanConfigureNonClientRegions = true;
     }
     #endregion
 
     #region Event handlers
-    private void LayoutRoot_LayoutUpdated(object sender, object e)
+    private void PlaybackWindow_Closed(object sender, WindowEventArgs args)
     {
-        UpdateNonClientInputRegions();
-    }
+        TopBar.CanConfigureNonClientRegions = false;
 
-    private void Window_Closed(object sender, WindowEventArgs args)
-    {
-        _hasClosed = true;
-
-        Closed -= Window_Closed;
+        _viewModel.NotifyWindowClosed();
+        _viewModel.Dispose();
     }
     #endregion
 
     #region Instance methods
-    private void ConfigureAppWindow()
+    /// <inheritdoc/>
+    public void ApplyConfiguration()
     {
-        AppWindow appWindow = AppWindow;
+        AppWindow window = AppWindow;
 
-        if (appWindow.Presenter is not OverlappedPresenter presenter)
+        if (window.Presenter is not OverlappedPresenter presenter)
         {
             presenter = OverlappedPresenter.CreateForToolWindow();
 
-            appWindow.SetPresenter(presenter);
+            window.SetPresenter(presenter);
         }
 
         presenter.IsAlwaysOnTop = true;
@@ -100,52 +90,16 @@ public sealed partial class PlaybackWindow : Window
         presenter.IsMinimizable = true;
         presenter.IsResizable   = false;
 
-        presenter.SetBorderAndTitleBar(
-            hasBorder:   true,
-            hasTitleBar: false
-        );
+        presenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
 
-        double dpiScaleFactor = this.GetCurrentDpiScaleFactor();
+        double scaleFactor = this.GetCurrentDpiScaleFactor();
 
-        appWindow.Resize(
-            (int)(MinimumUnscaledWidth  * dpiScaleFactor),
-            (int)(MinimumUnscaledHeight * dpiScaleFactor)
-        );
+        int minimumHeight = (int)(MinimumHeight * scaleFactor);
+        int minimumWidth  = (int)(MinimumWidth  * scaleFactor);
 
-        appWindow.MoveToCenter();
-        appWindow.SetIcon(Icons.IconPath);
-    }
-
-    private void UpdateNonClientInputRegions()
-    {
-        /**
-         * Required to prevent the window from throwing a <see cref="ObjectDisposedException"/>.
-         * Operations on the pointer source are not allowed once the window has been closed.
-         */
-        if (_hasClosed) return;
-
-        double dpiScaleFactor = this.GetCurrentDpiScaleFactor();
-
-        /**
-         * Region kind for drag must be set to `Caption` in order to set a drag region for the
-         * title bar control. Really bizarre that one can't hide the native close chrome button
-         * without making external calls to the Win32 API.
-         * 
-         * I am lazy and this is the easiest way of specifying drag regions after setting title
-         * bar to false using <see cref="OverlappedPresenter.SetBorderAndTitleBar(bool, bool)"/>.
-         */
-        _inputNonClientPointerSource.ReplaceRegionRects(
-            NonClientRegionKind.Caption,
-            [TopBar.GetBoundingBox(dpiScaleFactor)]
-        );
-
-        _inputNonClientPointerSource.ReplaceRegionRects(
-            NonClientRegionKind.Passthrough,
-            [
-                TopBar.GetBoundingRectForSettingsButton(dpiScaleFactor),
-                TopBar.GetBoundingRectForCloseButton(dpiScaleFactor)
-            ]
-        );
+        window.Resize(minimumWidth, minimumHeight);
+        window.MoveToCenter();
+        window.SetIcon(Icons.IconPath);
     }
     #endregion
 }

@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:FluentNoiseGenerator.Features.Settings.UI.Controls">
     <Style TargetType="controls:SettingsTitleBar">
-        <Setter Property="Height" Value="{ThemeResource FluentNoiseGeneratorSettingsTitleBarHeight}"/>
+        <Setter Property="Height" Value="{ThemeResource SettingsTitleBarHeight}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SettingsTitleBar">
@@ -14,15 +14,15 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Grid.Column="0"
-                               Width="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSize}"
-                               Height="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSize}"
-                               Margin="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconMargin}"
+                               Width="{ThemeResource SettingsTitleBarIconSize}"
+                               Height="{ThemeResource SettingsTitleBarIconSize}"
+                               Margin="{ThemeResource SettingsTitleBarIconMargin}"
                                VerticalAlignment="Center"
-                               Source="{ThemeResource FluentNoiseGeneratorSettingsTitleBarIconSource}"/>
+                               Source="{ThemeResource SettingsTitleBarIconSource}"/>
 
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
-                                   FontSize="{ThemeResource FluentNoiseGeneratorSettingsTitleBarFontSize}"
+                                   FontSize="{ThemeResource SettingsTitleBarFontSize}"
                                    Text="{TemplateBinding Title}"/>
                     </Grid>
                 </ControlTemplate>

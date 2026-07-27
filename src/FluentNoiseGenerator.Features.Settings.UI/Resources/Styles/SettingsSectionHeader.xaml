@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:FluentNoiseGenerator.Features.Settings.UI.Controls">
     <Style TargetType="controls:SettingsSectionHeader">
-        <Setter Property="Margin" Value="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderMargin}"/>
+        <Setter Property="Margin" Value="{ThemeResource SettingsSectionHeaderMargin}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SettingsSectionHeader">
@@ -14,15 +14,15 @@
                         </Grid.ColumnDefinitions>
 
                         <Viewbox Grid.Column="0"
-                                 Width="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconSize}"
-                                 Height="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconSize}"
-                                 Margin="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderIconMargin}">
+                                 Width="{ThemeResource SettingsSectionHeaderIconSize}"
+                                 Height="{ThemeResource SettingsSectionHeaderIconSize}"
+                                 Margin="{ThemeResource SettingsSectionHeaderIconMargin}">
                             <ContentPresenter Content="{TemplateBinding Icon}"/>
                         </Viewbox>
 
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
-                                   FontSize="{ThemeResource FluentNoiseGeneratorSettingsSectionHeaderFontSize}"
+                                   FontSize="{ThemeResource SettingsSectionHeaderFontSize}"
                                    Style="{StaticResource BodyStrongTextBlockStyle}"
                                    Text="{TemplateBinding Text}"
                                    TextLineBounds="Tight"/>

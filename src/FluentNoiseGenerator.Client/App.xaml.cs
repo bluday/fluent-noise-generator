@@ -2,8 +2,9 @@ using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Features.Playback.UI.Windows;
 using FluentNoiseGenerator.Features.Settings.UI.Windows;
 using FluentNoiseGenerator.Foundation.Messages;
+using FluentNoiseGenerator.UI.Windowing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using System;
 
 namespace FluentNoiseGenerator.Client;
 
@@ -17,44 +18,16 @@ public sealed partial class App : Application
 
     private SettingsWindow? _settingsWindow;
 
-    private readonly IMessenger _messenger;
-
-    private readonly Func<PlaybackWindow> _playbackWindowFactory;
-
-    private readonly Func<SettingsWindow> _settingsWindowFactory;
+    private readonly ServiceProvider _rootServiceProvider;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="App"/> class using
-    /// the specified dependencies.
+    /// Initializes a new instance of the <see cref="App"/> class.
     /// </summary>
-    /// <param name="playbackWindowFactory">
-    /// A factory for creating the playback window.
-    /// </param>
-    /// <param name="settingsWindowFactory">
-    /// A factory for creating the settings window.
-    /// </param>
-    /// <param name="messenger">
-    /// The messenger for sending messages within the app.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when any parameter is <see langword="null"/>.
-    /// </exception>
-    public App(
-        Func<PlaybackWindow> playbackWindowFactory,
-        Func<SettingsWindow> settingsWindowFactory,
-        IMessenger           messenger)
+    public App()
     {
-        ArgumentNullException.ThrowIfNull(playbackWindowFactory);
-        ArgumentNullException.ThrowIfNull(settingsWindowFactory);
-        ArgumentNullException.ThrowIfNull(messenger);
-
-        _messenger = messenger;
-        
-        _playbackWindowFactory = playbackWindowFactory;
-
-        _settingsWindowFactory = settingsWindowFactory;
+        _rootServiceProvider = ServiceProviderFactory.Create();
 
         RegisterMessageHandlers();
 
@@ -68,19 +41,19 @@ public sealed partial class App : Application
         CloseWindow(ref _playbackWindow);
     }
 
+    private void HandleCloseSettingsWindowMessage(object sender, CloseSettingsWindowMessage message)
+    {
+        CloseWindow(ref _settingsWindow);
+    }
+
     private void HandleOpenPlaybackWindowMessage(object sender, OpenPlaybackWindowMessage message)
     {
-        CreateWindow(ref _playbackWindow, _playbackWindowFactory);
+        CreateAndActivateWindow(ref _playbackWindow);
     }
 
     private void HandleOpenSettingsWindowMessage(object sender, OpenSettingsWindowMessage message)
     {
-        CreateWindow(ref _settingsWindow, _settingsWindowFactory);
-    }
-
-    private void HandleSettingsWindowClosedMessage(object sender, SettingsWindowClosedMessage message)
-    {
-        _settingsWindow = null;
+        CreateAndActivateWindow(ref _settingsWindow);
     }
     #endregion
 
@@ -88,15 +61,15 @@ public sealed partial class App : Application
     private void RegisterMessageHandlers()
     {
         Subscribe<ClosePlaybackWindowMessage>(HandleClosePlaybackWindowMessage);
+        Subscribe<CloseSettingsWindowMessage>(HandleCloseSettingsWindowMessage);
         Subscribe<OpenPlaybackWindowMessage>(HandleOpenPlaybackWindowMessage);
         Subscribe<OpenSettingsWindowMessage>(HandleOpenSettingsWindowMessage);
-        Subscribe<SettingsWindowClosedMessage>(HandleSettingsWindowClosedMessage);
     }
 
     private void Subscribe<TMessage>(MessageHandler<object, TMessage> handler)
         where TMessage : class
     {
-        _messenger.Register(this, handler);
+        WeakReferenceMessenger.Default.Register(this, handler);
     }
 
     /// <summary>
@@ -107,31 +80,48 @@ public sealed partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        CreateWindow(ref _playbackWindow, _playbackWindowFactory);
-        CreateWindow(ref _settingsWindow, _settingsWindowFactory);
+        CreateAndActivateWindow(ref _playbackWindow);
     }
     #endregion
 
     #region Static methods
-    private static void CloseWindow<TWindow>(ref TWindow? window)
+    private static bool CloseWindow<TWindow>(ref TWindow? window)
         where TWindow : Window
     {
-        window?.Close();
+        if (window is null) return false;
+
+        window.Close();
 
         window = null;
+
+        return true;
     }
 
-    private static TWindow CreateWindow<TWindow>(ref TWindow? window, Func<TWindow> factory)
-        where TWindow : Window
+    private static void CreateAndActivateWindow<TWindow>(ref TWindow? window)
+        where TWindow : Window, new()
     {
-        if (window is null)
+        if (CreateWindow(ref window))
         {
-            window = factory();
+            window!.Activate();
+        }
+    }
 
-            window.Activate();
+    private static bool CreateWindow<TWindow>(ref TWindow? window)
+        where TWindow : Window, new()
+    {
+        if (window is not null)
+        {
+            return false;
         }
 
-        return window;
+        window = new();
+
+        if (window is IConfigurableWindow configurableWindow)
+        {
+            configurableWindow.ApplyConfiguration();
+        }
+
+        return true;
     }
     #endregion
 }

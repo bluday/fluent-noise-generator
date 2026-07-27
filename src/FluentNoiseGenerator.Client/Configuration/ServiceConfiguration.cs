@@ -1,16 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using FluentNoiseGenerator.Features.Playback.Core.Services;
 using FluentNoiseGenerator.Features.Playback.UI.ViewModels;
-using FluentNoiseGenerator.Features.Playback.UI.Windows;
 using FluentNoiseGenerator.Features.Settings.UI.ViewModels;
-using FluentNoiseGenerator.Features.Settings.UI.Windows;
-using FluentNoiseGenerator.Foundation.Extensions;
-using FluentNoiseGenerator.Foundation.Services;
-using FluentNoiseGenerator.Foundation.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace FluentNoiseGenerator.Configuration;
+namespace FluentNoiseGenerator.Client.Configuration;
 
 /// <summary>
 /// Provides a method for configuring and registering client-specific services.
@@ -33,26 +28,10 @@ internal static class ServiceConfiguration
 
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
-        services.AddSingleton(
-            serviceProvider => serviceProvider
-                .GetRequiredService<ISettingsService>()
-                .CurrentSettings
-        );
-
-        services.AddSingleton<ILanguageService, LanguageService>();
-        services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<IToastNotificationService, ToastNotificationService>();
-
         services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
 
-        services.AddSingleton<IBackdropService, BackdropService>();
-        services.AddSingleton<IThemeService, ThemeService>();
-        services.AddSingleton<IWindowService, WindowService>();
-
         services.AddTransient<PlaybackWindowViewModel>();
-        services.AddTransientWithFactory<PlaybackWindow>();
 
         services.AddTransient<SettingsWindowViewModel>();
-        services.AddTransientWithFactory<SettingsWindow>();
     }
 }

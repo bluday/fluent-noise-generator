@@ -33,6 +33,12 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     /// </summary>
     [ObservableProperty]
     public partial bool IsPlaying { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the window title.
+    /// </summary>
+    [ObservableProperty]
+    public partial string? Title { get; set; }
     #endregion
 
     #region Constructor
@@ -58,12 +64,21 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
 
     #region Relay commands
     /// <summary>
-    /// Invokes when the close button on the top bar gets clicked.
+    /// Sends a message to close the playback window.
     /// </summary>
     [RelayCommand]
     private void CloseWindow()
     {
         _messenger.Send(new ClosePlaybackWindowMessage());
+    }
+
+    /// <summary>
+    /// Sends a message to open the settings window.
+    /// </summary>
+    [RelayCommand]
+    private void OpenSettings()
+    {
+        _messenger.Send(new OpenSettingsWindowMessage());
     }
 
     /// <summary>
@@ -74,15 +89,6 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     private void TogglePlayback()
     {
         IsPlaying = !IsPlaying;
-    }
-
-    /// <summary>
-    /// Invokes when the settings button on the top bar gets clicked.
-    /// </summary>
-    [RelayCommand]
-    private void ShowSettings()
-    {
-        _messenger.Send(new OpenSettingsWindowMessage());
     }
     #endregion
 
@@ -108,6 +114,15 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     public void Dispose()
     {
         _messenger.UnregisterAll(this);
+    }
+
+    /// <summary>
+    /// Sends a <see cref="PlaybackWindowClosedMessage"/> to notify
+    /// that the window has closed.
+    /// </summary>
+    public void NotifyWindowClosed()
+    {
+        _messenger.Send(new PlaybackWindowClosedMessage());
     }
     #endregion
 }

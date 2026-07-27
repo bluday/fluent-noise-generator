@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Features.Settings.UI.Controls;
@@ -14,51 +13,47 @@ public sealed partial class SettingsAppearanceSection : UserControl
     /// <summary>
     /// Identifies the <see cref="AvailableApplicationThemes"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableApplicationThemesProperty =
-        DependencyProperty.Register(
-            nameof(AvailableApplicationThemes),
-            typeof(IEnumerable<object>),
-            typeof(SettingsAppearanceSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty AvailableApplicationThemesProperty = DependencyProperty.Register(
+        nameof(AvailableApplicationThemes),
+        typeof(IEnumerable<object>),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="AvailableSystemBackdrops"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableSystemBackdropsProperty =
-        DependencyProperty.Register(
-            nameof(AvailableSystemBackdrops),
-            typeof(IEnumerable<SystemBackdrop>),
-            typeof(SettingsAppearanceSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty AvailableSystemBackdropsProperty = DependencyProperty.Register(
+        nameof(AvailableSystemBackdrops),
+        typeof(IEnumerable<object>),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="SelectedApplicationTheme"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedApplicationThemeProperty =
-        DependencyProperty.Register(
-            nameof(SelectedApplicationTheme),
-            typeof(object),
-            typeof(SettingsAppearanceSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SelectedApplicationThemeProperty = DependencyProperty.Register(
+        nameof(SelectedApplicationTheme),
+        typeof(object),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
 
     /// <summary>
     /// Identifies the <see cref="SelectedSystemBackdrop"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty SelectedSystemBackdropProperty =
-        DependencyProperty.Register(
-            nameof(SelectedSystemBackdrop),
-            typeof(object),
-            typeof(SettingsAppearanceSection),
-            new PropertyMetadata(defaultValue: null)
-        );
+    public static readonly DependencyProperty SelectedSystemBackdropProperty = DependencyProperty.Register(
+        nameof(SelectedSystemBackdrop),
+        typeof(object),
+        typeof(SettingsAppearanceSection),
+        new PropertyMetadata(defaultValue: null)
+    );
     #endregion
 
-    #region Properties
+    #region Instance properties
     /// <summary>
-    /// Gets or sets the items source instance for the available application themes collection.
+    /// Gets or sets an enumerable with available application themes.
     /// </summary>
     public IEnumerable<object> AvailableApplicationThemes
     {
@@ -67,11 +62,11 @@ public sealed partial class SettingsAppearanceSection : UserControl
     }
 
     /// <summary>
-    /// Gets or sets the items source instance for the available system backdrops collection.
+    /// Gets or sets an enumerable with available system backdrops.
     /// </summary>
-    public IEnumerable<SystemBackdrop> AvailableSystemBackdrops
+    public IEnumerable<object> AvailableSystemBackdrops
     {
-        get => (IEnumerable<SystemBackdrop>)GetValue(AvailableSystemBackdropsProperty);
+        get => (IEnumerable<object>)GetValue(AvailableSystemBackdropsProperty);
         set => SetValue(AvailableSystemBackdropsProperty, value);
     }
 
@@ -96,7 +91,8 @@ public sealed partial class SettingsAppearanceSection : UserControl
 
     #region Constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsAppearanceSection"/> class.
+    /// Initializes a new instance of the <see cref="SettingsAppearanceSection"/>
+    /// class.
     /// </summary>
     public SettingsAppearanceSection()
     {

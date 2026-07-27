@@ -1,62 +1,55 @@
-using FluentNoiseGenerator.Foundation.Constants;
-using FluentNoiseGenerator.Foundation.UI.Extensions;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentNoiseGenerator.Features.Settings.UI.ViewModels;
-using Microsoft.UI;
+using FluentNoiseGenerator.Foundation.Constants;
+using FluentNoiseGenerator.UI.Extensions;
+using FluentNoiseGenerator.UI.Windowing;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
-using Windows.UI;
 
 namespace FluentNoiseGenerator.Features.Settings.UI.Windows;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class SettingsWindow : Window
+public sealed partial class SettingsWindow : Window, IConfigurableWindow
 {
     #region Constants
     /// <summary>
-    /// The minimum unscaled height, in pixels.
+    /// The minimum height, in pixels.
     /// </summary>
-    public const int MinimumUnscaledHeight = 700;
+    public const int MinimumHeight = 700;
 
     /// <summary>
-    /// The minimum unscaled width, in pixels.
+    /// The minimum width, in pixels.
     /// </summary>
-    public const int MinimumUnscaledWidth = 700;
+    public const int MinimumWidth = 700;
     #endregion
-    
+
+    #region Instance fields
+    private readonly SettingsWindowViewModel _viewModel;
+    #endregion
+
     #region Instance properties
     /// <summary>
     /// Gets the view model.
     /// </summary>
-    public SettingsWindowViewModel ViewModel { get; }
+    public SettingsWindowViewModel ViewModel => _viewModel;
     #endregion
 
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/>
-    /// class using the specified view model.
+    /// class.
     /// </summary>
-    /// <param name="viewModel">
-    /// The view model.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when any parameter is <see langword="null"/>.
-    /// </exception>
-    public SettingsWindow(SettingsWindowViewModel viewModel)
+    public SettingsWindow()
     {
-        ArgumentNullException.ThrowIfNull(viewModel);
+        _viewModel = Ioc.Default.GetRequiredService<SettingsWindowViewModel>();
 
         ExtendsContentIntoTitleBar = true;
-
-        ViewModel = viewModel;
 
         Closed += SettingsWindow_Closed;
 
         SetTitleBar(TitleBar);
-
-        ConfigureAppWindow();
 
         InitializeComponent();
     }
@@ -70,69 +63,46 @@ public sealed partial class SettingsWindow : Window
 
     private void SettingsWindow_Closed(object sender, WindowEventArgs e)
     {
-        ViewModel.NotifyWindowClosed();
+        _viewModel.NotifyWindowClosed();
+        _viewModel.Dispose();
     }
     #endregion
 
     #region Instance methods
-    private void ConfigureAppWindow()
-    {
-        AppWindow appWindow = AppWindow;
-
-        if (appWindow.Presenter is not OverlappedPresenter presenter)
-        {
-            presenter = OverlappedPresenter.Create();
-
-            appWindow.SetPresenter(presenter);
-        }
-
-        double dpiScaleFactor = this.GetCurrentDpiScaleFactor();
-
-        int scaledMinimumHeight = (int)(MinimumUnscaledHeight * dpiScaleFactor);
-        int scaledMinimumWidth  = (int)(MinimumUnscaledWidth  * dpiScaleFactor);
-
-        presenter.PreferredMinimumWidth  = scaledMinimumWidth;
-        presenter.PreferredMinimumHeight = scaledMinimumHeight;
-
-        appWindow.Resize(scaledMinimumHeight, scaledMinimumWidth);
-        appWindow.SetIcon(Icons.IconPath);
-    }
-
     private void RefreshTitleBarColors(ElementTheme elementTheme)
     {
-        if (!AppWindowTitleBar.IsCustomizationSupported())
-        {
-            return;
-        }
-
-        AppWindowTitleBar titleBar = AppWindow.TitleBar;
-
-        Color buttonForegroundColor;
-        Color hoverPressedBackgroundColor;
-
-        titleBar.ButtonBackgroundColor         = Colors.Transparent;
-        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
         if (elementTheme is ElementTheme.Light)
         {
-            hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0xDD, 0xDD, 0xDD);
-
-            buttonForegroundColor = Colors.Black;
+            AppWindowConfigurator.ApplyLightTitleBarColors(AppWindow);
         }
         else
         {
-            hoverPressedBackgroundColor = Color.FromArgb(0xFF, 0x33, 0x33, 0x33);
+            AppWindowConfigurator.ApplyDarkTitleBarColors(AppWindow);
+        }
+    }
 
-            buttonForegroundColor = Colors.White;
+    /// <inheritdoc/>
+    public void ApplyConfiguration()
+    {
+        AppWindow window = AppWindow;
+
+        if (window.Presenter is not OverlappedPresenter presenter)
+        {
+            presenter = OverlappedPresenter.Create();
+
+            window.SetPresenter(presenter);
         }
 
-        titleBar.ButtonHoverBackgroundColor   = hoverPressedBackgroundColor;
-        titleBar.ButtonPressedBackgroundColor = hoverPressedBackgroundColor;
+        double scaleFactor = this.GetCurrentDpiScaleFactor();
 
-        titleBar.ButtonForegroundColor        = buttonForegroundColor;
-        titleBar.ButtonHoverForegroundColor   = buttonForegroundColor;
-        titleBar.ButtonPressedForegroundColor = buttonForegroundColor;
+        int minimumHeight = (int)(MinimumHeight * scaleFactor);
+        int minimumWidth  = (int)(MinimumWidth  * scaleFactor);
+
+        presenter.PreferredMinimumWidth  = minimumWidth;
+        presenter.PreferredMinimumHeight = minimumHeight;
+
+        window.Resize(minimumWidth, minimumHeight);
+        window.SetIcon(Icons.IconPath);
     }
     #endregion
 }
