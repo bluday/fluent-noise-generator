@@ -74,7 +74,7 @@ public sealed partial class SettingsWindowViewModel : ObservableObject, IDisposa
     public partial string? Title { get; set; }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindowViewModel"/>
     /// class using the specified dependencies.

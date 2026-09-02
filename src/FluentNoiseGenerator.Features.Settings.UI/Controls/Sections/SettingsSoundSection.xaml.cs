@@ -52,7 +52,7 @@ public sealed partial class SettingsSoundSection : UserControl
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsSoundSection"/>
     /// class.

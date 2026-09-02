@@ -89,7 +89,7 @@ public sealed partial class SettingsAppearanceSection : UserControl
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsAppearanceSection"/>
     /// class.

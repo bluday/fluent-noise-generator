@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.Messaging;
-using FluentNoiseGenerator.Foundation.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
@@ -11,21 +9,17 @@ namespace FluentNoiseGenerator.Client;
 public sealed partial class App : Application
 {
     #region Instance fields
-    private readonly ServiceProvider _rootServiceProvider;
+    private readonly ServiceProvider _rootServiceProvider = ServiceProviderFactory.Create();
 
-    private readonly WindowService _windowService;
+    private readonly WindowService _windowService = new();
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="App"/> class.
     /// </summary>
     public App()
     {
-        _rootServiceProvider = ServiceProviderFactory.Create();
-
-        _windowService = new WindowService();
-
         InitializeComponent();
     }
     #endregion

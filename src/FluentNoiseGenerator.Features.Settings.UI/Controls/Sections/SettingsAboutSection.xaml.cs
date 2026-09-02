@@ -32,7 +32,7 @@ public sealed partial class SettingsAboutSection : UserControl
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsAboutSection"/>
     /// class.

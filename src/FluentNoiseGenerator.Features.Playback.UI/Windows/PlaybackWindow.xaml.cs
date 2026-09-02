@@ -36,7 +36,7 @@ public sealed partial class PlaybackWindow : Window, IConfigurableWindow
     public PlaybackWindowViewModel ViewModel => _viewModel;
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackWindow"/>
     /// class.

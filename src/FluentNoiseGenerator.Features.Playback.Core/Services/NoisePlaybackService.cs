@@ -18,7 +18,7 @@ public sealed class NoisePlaybackService : INoisePlaybackService
     public IEnumerable<object> AudioSampleRates => _audioSampleRates;
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="NoisePlaybackService"/> class.
     /// </summary>

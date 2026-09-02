@@ -50,7 +50,7 @@ public sealed partial class SettingsSectionHeader : Control
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsSectionHeader"/>
     /// class.

@@ -36,7 +36,7 @@ public sealed partial class SettingsWindow : Window, IConfigurableWindow
     public SettingsWindowViewModel ViewModel => _viewModel;
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsWindow"/>
     /// class.

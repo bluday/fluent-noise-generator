@@ -117,7 +117,7 @@ public sealed partial class PlaybackTopBar : Control
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackTopBar"/>
     /// class.

@@ -31,7 +31,7 @@ public sealed partial class SettingsTitleBar : Control
     }
     #endregion
 
-    #region Constructor
+    #region Instance constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsTitleBar"/>
     /// class.
