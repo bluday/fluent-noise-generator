@@ -10,7 +10,7 @@
         <Nullable>enable</Nullable>
         <OutputType>WinExe</OutputType>
         <RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
-        <RootNamespace>FluentNoiseGenerator</RootNamespace>
+        <RootNamespace>FluentNoiseGenerator.Client</RootNamespace>
         <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>

@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\FluentNoiseGenerator.Features.Playback.UI\FluentNoiseGenerator.Features.Playback.UI.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.Foundation\FluentNoiseGenerator.Foundation.csproj" />
         <ProjectReference Include="..\FluentNoiseGenerator.UI\FluentNoiseGenerator.UI.csproj" />
     </ItemGroup>
