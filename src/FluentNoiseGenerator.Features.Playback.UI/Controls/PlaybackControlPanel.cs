@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+
 using System.Windows.Input;
 
 namespace FluentNoiseGenerator.Features.Playback.UI.Controls;
@@ -91,7 +92,8 @@ public sealed partial class PlaybackControlPanel : Control
 
     #region Instance constructor
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackControlPanel"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackControlPanel"/>
+    /// class.
     /// </summary>
     public PlaybackControlPanel()
     {

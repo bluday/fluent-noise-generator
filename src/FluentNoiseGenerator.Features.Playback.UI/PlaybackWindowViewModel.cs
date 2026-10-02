@@ -1,15 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+
 using FluentNoiseGenerator.Foundation.Messages;
+
 using System;
 
-namespace FluentNoiseGenerator.Features.Playback.UI.ViewModels;
+namespace FluentNoiseGenerator.Features.Playback.UI;
 
 /// <summary>
 /// Represents the view model for the playback window.
 /// </summary>
-public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposable
+public sealed partial class PlaybackWindowViewModel : ObservableObject
 {
     #region Instance fields
     private readonly IMessenger _messenger;
@@ -26,7 +28,7 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     /// Gets or sets the current non-negative volume value.
     /// </summary>
     [ObservableProperty]
-    public partial uint CurrentVolume { get; set; }
+    public partial uint CurrentVolume { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the playback is currently active.
@@ -35,10 +37,10 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     public partial bool IsPlaying { get; private set; }
 
     /// <summary>
-    /// Gets or sets the window title.
+    /// Gets the title of the window.
     /// </summary>
     [ObservableProperty]
-    public partial string? Title { get; set; }
+    public partial string? WindowTitle { get; private set; } = "Fluent Noise Generator";
     #endregion
 
     #region Instance constructor
@@ -57,8 +59,6 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
         ArgumentNullException.ThrowIfNull(messenger);
 
         _messenger = messenger;
-
-        RegisterMessageHandlers();
     }
     #endregion
 
@@ -89,40 +89,6 @@ public sealed partial class PlaybackWindowViewModel : ObservableObject, IDisposa
     private void TogglePlayback()
     {
         IsPlaying = !IsPlaying;
-    }
-    #endregion
-
-    #region Message handlers
-    private void HandleApplicationThemeUpdatedMessage(
-        object                         recipient,
-        ApplicationThemeUpdatedMessage message)
-    {
-        CurrentTheme = message.Value;
-    }
-    #endregion
-
-    #region Instance methods
-    private void RegisterMessageHandlers()
-    {
-        _messenger.Register<ApplicationThemeUpdatedMessage>(
-            this,
-            HandleApplicationThemeUpdatedMessage
-        );
-    }
-
-    /// <inheritdoc cref="IDisposable.Dispose()"/>
-    public void Dispose()
-    {
-        _messenger.UnregisterAll(this);
-    }
-
-    /// <summary>
-    /// Sends a <see cref="PlaybackWindowClosedMessage"/> to notify
-    /// that the window has closed.
-    /// </summary>
-    public void NotifyWindowClosed()
-    {
-        _messenger.Send(new PlaybackWindowClosedMessage());
     }
     #endregion
 }

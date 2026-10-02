@@ -1,9 +1,12 @@
 using FluentNoiseGenerator.UI.Extensions;
+
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+
 using System;
 using System.Windows.Input;
+
 using Windows.Graphics;
 
 namespace FluentNoiseGenerator.Features.Playback.UI.Controls;
@@ -16,20 +19,11 @@ namespace FluentNoiseGenerator.Features.Playback.UI.Controls;
 public sealed partial class PlaybackTopBar : Control
 {
     #region Constants
-    /// <summary>
-    /// The default DPI scale factor to use input region rects.
-    /// </summary>
-    public const double DefaultDpiScaleFactor = 1.0;
+    private const double DefaultDpiScaleFactor = 1.0;
 
-    /// <summary>
-    /// The "PART_CloseButton" string literal.
-    /// </summary>
-    public const string PART_CloseButton = nameof(PART_CloseButton);
+    private const string PART_CloseButton = nameof(PART_CloseButton);
 
-    /// <summary>
-    /// The "PART_SettingsButton" string literal.
-    /// </summary>
-    public const string PART_SettingsButton = nameof(PART_SettingsButton);
+    private const string PART_SettingsButton = nameof(PART_SettingsButton);
     #endregion
 
     #region Instance fields

@@ -23,7 +23,7 @@
                     Spacing="2">
             <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Sound/SampleRate"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf61f;}">
-                <ComboBox ItemsSource="{x:Bind AvailableAudioSampleRates}"
+                <ComboBox ItemsSource="{x:Bind AudioSampleRates}"
                           SelectedItem="{x:Bind SelectedAudioSampleRate, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>

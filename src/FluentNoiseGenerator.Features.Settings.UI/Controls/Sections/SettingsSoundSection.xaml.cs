@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+
 using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Features.Settings.UI.Controls;
@@ -11,10 +12,10 @@ public sealed partial class SettingsSoundSection : UserControl
 {
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="AvailableAudioSampleRates"/> dependency property.
+    /// Identifies the <see cref="AudioSampleRates"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableAudioSampleRatesProperty = DependencyProperty.Register(
-        nameof(AvailableAudioSampleRates),
+    public static readonly DependencyProperty AudioSampleRatesProperty = DependencyProperty.Register(
+        nameof(AudioSampleRates),
         typeof(IEnumerable<object>),
         typeof(SettingsSoundSection),
         new PropertyMetadata(defaultValue: null)
@@ -36,10 +37,10 @@ public sealed partial class SettingsSoundSection : UserControl
     /// Gets or sets the items source instance for the available
     /// audio sample rate collection.
     /// </summary>
-    public IEnumerable<object> AvailableAudioSampleRates
+    public IEnumerable<object> AudioSampleRates
     {
-        get => (IEnumerable<object>)GetValue(AvailableAudioSampleRatesProperty);
-        set => SetValue(AvailableAudioSampleRatesProperty, value);
+        get => (IEnumerable<object>)GetValue(AudioSampleRatesProperty);
+        set => SetValue(AudioSampleRatesProperty, value);
     }
 
     /// <summary>

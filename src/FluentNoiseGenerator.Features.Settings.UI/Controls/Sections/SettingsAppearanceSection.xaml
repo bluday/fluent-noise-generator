@@ -28,13 +28,13 @@
 
             <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Appearance/ApplicationTheme"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe790;}">
-                <ComboBox ItemsSource="{x:Bind AvailableApplicationThemes}"
+                <ComboBox ItemsSource="{x:Bind ApplicationThemes}"
                           SelectedItem="{x:Bind SelectedApplicationTheme, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
             <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/Appearance/SystemBackdrop"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xeb42;}">
-                <ComboBox ItemsSource="{x:Bind AvailableSystemBackdrops}"
+                <ComboBox ItemsSource="{x:Bind SystemBackdrops}"
                           SelectedItem="{x:Bind SelectedSystemBackdrop, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>

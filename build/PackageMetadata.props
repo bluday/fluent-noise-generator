@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <Authors>BluDay</Authors>
+        <Copyright>© BluDay 2026</Copyright>
+        <Description>Developed by BluDay.</Description>
+        <Product>Fluent Noise Generator</Product>
+        <RepositoryUrl>https://github.com/bluday/fluent-noise-generator</RepositoryUrl>
+        <Title>$(Product)</Title>
+    </PropertyGroup>
+</Project>

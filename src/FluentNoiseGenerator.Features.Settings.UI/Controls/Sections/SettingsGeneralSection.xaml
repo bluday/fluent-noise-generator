@@ -28,13 +28,13 @@
 
             <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/General/DefaultNoisePreset"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xe9e9;}">
-                <ComboBox ItemsSource="{x:Bind AvailableNoisePresets}"
+                <ComboBox ItemsSource="{x:Bind NoisePresets}"
                           SelectedItem="{x:Bind SelectedDefaultNoisePreset, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
 
             <communityToolkitControls:SettingsCard x:Uid="/SettingsWindow/SettingsCards/General/Language"
                                                    HeaderIcon="{communityToolkit:FontIcon Glyph=&#xf2b7;}">
-                <ComboBox ItemsSource="{x:Bind AvailableLanguages}"
+                <ComboBox ItemsSource="{x:Bind Languages}"
                           SelectedItem="{x:Bind SelectedLanguage, Mode=TwoWay}"/>
             </communityToolkitControls:SettingsCard>
         </StackPanel>

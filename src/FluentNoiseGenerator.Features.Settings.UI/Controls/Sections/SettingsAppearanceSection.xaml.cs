@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+
 using System.Collections.Generic;
 
 namespace FluentNoiseGenerator.Features.Settings.UI.Controls;
@@ -11,20 +12,20 @@ public sealed partial class SettingsAppearanceSection : UserControl
 {
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="AvailableApplicationThemes"/> dependency property.
+    /// Identifies the <see cref="ApplicationThemes"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableApplicationThemesProperty = DependencyProperty.Register(
-        nameof(AvailableApplicationThemes),
+    public static readonly DependencyProperty ApplicationThemesProperty = DependencyProperty.Register(
+        nameof(ApplicationThemes),
         typeof(IEnumerable<object>),
         typeof(SettingsAppearanceSection),
         new PropertyMetadata(defaultValue: null)
     );
 
     /// <summary>
-    /// Identifies the <see cref="AvailableSystemBackdrops"/> dependency property.
+    /// Identifies the <see cref="SystemBackdrops"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableSystemBackdropsProperty = DependencyProperty.Register(
-        nameof(AvailableSystemBackdrops),
+    public static readonly DependencyProperty SystemBackdropsProperty = DependencyProperty.Register(
+        nameof(SystemBackdrops),
         typeof(IEnumerable<object>),
         typeof(SettingsAppearanceSection),
         new PropertyMetadata(defaultValue: null)
@@ -55,19 +56,19 @@ public sealed partial class SettingsAppearanceSection : UserControl
     /// <summary>
     /// Gets or sets an enumerable with available application themes.
     /// </summary>
-    public IEnumerable<object> AvailableApplicationThemes
+    public IEnumerable<object> ApplicationThemes
     {
-        get => (IEnumerable<object>)GetValue(AvailableApplicationThemesProperty);
-        set => SetValue(AvailableApplicationThemesProperty, value);
+        get => (IEnumerable<object>)GetValue(ApplicationThemesProperty);
+        set => SetValue(ApplicationThemesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets an enumerable with available system backdrops.
     /// </summary>
-    public IEnumerable<object> AvailableSystemBackdrops
+    public IEnumerable<object> SystemBackdrops
     {
-        get => (IEnumerable<object>)GetValue(AvailableSystemBackdropsProperty);
-        set => SetValue(AvailableSystemBackdropsProperty, value);
+        get => (IEnumerable<object>)GetValue(SystemBackdropsProperty);
+        set => SetValue(SystemBackdropsProperty, value);
     }
 
     /// <summary>
