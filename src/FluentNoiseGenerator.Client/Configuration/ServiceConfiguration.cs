@@ -1,37 +1,44 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+
 using FluentNoiseGenerator.Features.Playback.Core.Services;
-using FluentNoiseGenerator.Features.Playback.UI.ViewModels;
-using FluentNoiseGenerator.Features.Settings.UI.ViewModels;
+using FluentNoiseGenerator.Features.Playback.UI;
+using FluentNoiseGenerator.Features.Settings.UI;
+
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace FluentNoiseGenerator.Client.Configuration;
 
 /// <summary>
-/// Provides a method for configuring and registering client-specific services.
+/// Provides a method for registering configured services to DI container.
 /// </summary>
 internal static class ServiceConfiguration
 {
-    /// <summary>
-    /// Registers configured services to the specified service collection.
-    /// </summary>
-    /// <param name="services">
-    /// The service descriptor collection to register all of the configured
-    /// client services to.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Throws if <paramref name="services"/> is <see langword="null"/>.
-    /// </exception>
-    internal static void Configure(IServiceCollection services)
+    private static void Configure(IServiceCollection services)
     {
-        ArgumentNullException.ThrowIfNull(services);
-
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
-        services.AddSingleton<INoisePlaybackService, NoisePlaybackService>();
+        services.AddSingleton<NoisePlaybackService>();
 
+        services.AddTransient<PlaybackWindow>();
         services.AddTransient<PlaybackWindowViewModel>();
 
+        services.AddTransient<SettingsWindow>();
         services.AddTransient<SettingsWindowViewModel>();
+    }
+
+    /// <summary>
+    /// Builds a new <see cref="ServiceProvider"/> with all application
+    /// services registered.
+    /// </summary>
+    /// <returns>
+    /// The configured <see cref="ServiceProvider"/> instance.
+    /// </returns>
+    public static ServiceProvider BuildServiceProvider()
+    {
+        ServiceCollection services = new();
+
+        Configure(services);
+
+        return services.BuildServiceProvider();
     }
 }

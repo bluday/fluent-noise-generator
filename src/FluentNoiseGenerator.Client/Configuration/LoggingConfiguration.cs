@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+
 using System;
 
 namespace FluentNoiseGenerator.Client.Configuration;
 
 /// <summary>
-/// Provides a method for configuring logging for the client.
+/// Provides a method for configuring logging for the app.
 /// </summary>
 internal static class LoggingConfiguration
 {
@@ -15,7 +16,7 @@ internal static class LoggingConfiguration
     /// The logging builder instance to configure.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Throws if <paramref name="logging"/> is <see langword="null"/>.
+    /// Thrown when <paramref name="logging"/> is <see langword="null"/>.
     /// </exception>
     internal static void Configure(ILoggingBuilder logging)
     {

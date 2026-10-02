@@ -20,5 +20,5 @@
     <x:Double x:Key="SettingsWindowMainTextFontSize">24</x:Double>
     <x:Double x:Key="SettingsWindowMaxWidth">800</x:Double>
 
-    <x:String x:Key="SettingsTitleBarIconSource">ms-appx:///Assets/logo_64x64.ico</x:String>
+    <x:String x:Key="SettingsTitleBarIconSource">ms-appx:///Assets/Icons/Window/icon.ico</x:String>
 </ResourceDictionary>

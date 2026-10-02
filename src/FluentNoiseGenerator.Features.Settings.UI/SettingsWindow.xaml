@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Window x:Class="FluentNoiseGenerator.Features.Settings.UI.Windows.SettingsWindow"
+<Window x:Class="FluentNoiseGenerator.Features.Settings.UI.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:communityToolkit="using:CommunityToolkit.WinUI"
@@ -7,22 +7,21 @@
         xmlns:controls="using:FluentNoiseGenerator.Features.Settings.UI.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="{x:Bind ViewModel.Title}"
+        Title="{x:Bind ViewModel.WindowTitle}"
         x:DefaultBindMode="OneWay"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop/>
     </Window.SystemBackdrop>
-    
-    <Grid x:Name="LayoutRoot"
-          Loaded="LayoutRoot_Loaded">
+
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <controls:SettingsTitleBar x:Name="TitleBar"
-                                   Title="Fluent Noise Generator"
+                                   Title="{x:Bind ViewModel.TitleBarTitle}"
                                    Grid.Row="0"/>
 
         <Grid Grid.Row="1"
@@ -45,18 +44,18 @@
                             Spacing="{ThemeResource SettingsWindowMainStackPanelSpacing}">
 
                     <controls:SettingsGeneralSection Margin="{ThemeResource SettingsWindowSectionStackPanelMargin}"
-                                                     AvailableLanguages="{x:Bind ViewModel.AvailableLanguages}"
-                                                     AvailableNoisePresets="{x:Bind ViewModel.AvailableNoisePresets}"
+                                                     Languages="{x:Bind ViewModel.Languages}"
+                                                     NoisePresets="{x:Bind ViewModel.NoisePresets}"
                                                      SelectedDefaultNoisePreset="{x:Bind ViewModel.SelectedDefaultNoisePreset, Mode=TwoWay}"
                                                      SelectedLanguage="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"/>
 
-                    <controls:SettingsSoundSection AvailableAudioSampleRates="{x:Bind ViewModel.AvailableAudioSampleRates}"
+                    <controls:SettingsSoundSection AudioSampleRates="{x:Bind ViewModel.AudioSampleRates}"
                                                    SelectedAudioSampleRate="{x:Bind ViewModel.SelectedAudioSampleRate, Mode=TwoWay}"/>
 
-                    <controls:SettingsAppearanceSection AvailableApplicationThemes="{x:Bind ViewModel.AvailableApplicationThemes}"
-                                                        AvailableSystemBackdrops="{x:Bind ViewModel.AvailableSystemBackdrops}"
+                    <controls:SettingsAppearanceSection ApplicationThemes="{x:Bind ViewModel.ApplicationThemes}"
                                                         SelectedApplicationTheme="{x:Bind ViewModel.SelectedApplicationTheme, Mode=TwoWay}"
-                                                        SelectedSystemBackdrop="{x:Bind ViewModel.SelectedSystemBackdrop, Mode=TwoWay}"/>
+                                                        SelectedSystemBackdrop="{x:Bind ViewModel.SelectedSystemBackdrop, Mode=TwoWay}"
+                                                        SystemBackdrops="{x:Bind ViewModel.SystemBackdrops}"/>
 
                     <controls:SettingsAboutSection/>
 

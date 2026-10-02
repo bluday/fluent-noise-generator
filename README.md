@@ -1,6 +1,6 @@
 <div align="center">
     
-<img alt="Logo" height="128" src="./assets/icons/logo_1024x1024.png"/>
+<img alt="Logo" height="128" src="./assets/icons/icon.png"/>
 
 # Fluent Noise Generator
 

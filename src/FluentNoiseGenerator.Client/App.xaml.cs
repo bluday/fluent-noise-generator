@@ -1,3 +1,7 @@
+using FluentNoiseGenerator.Client.Configuration;
+using FluentNoiseGenerator.Features.Playback.UI;
+using FluentNoiseGenerator.Features.Settings.UI;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
@@ -9,9 +13,7 @@ namespace FluentNoiseGenerator.Client;
 public sealed partial class App : Application
 {
     #region Instance fields
-    private readonly ServiceProvider _rootServiceProvider = ServiceProviderFactory.Create();
-
-    private readonly WindowService _windowService = new();
+    private readonly ServiceProvider _rootServiceProvider = ServiceConfiguration.BuildServiceProvider();
     #endregion
 
     #region Instance constructor
@@ -33,7 +35,13 @@ public sealed partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        _windowService.OpenPlaybackWindow();
+        var playbackWindow = _rootServiceProvider.GetRequiredService<PlaybackWindow>();
+
+        playbackWindow.Activate();
+
+        var settingsWindow = _rootServiceProvider.GetRequiredService<SettingsWindow>();
+
+        settingsWindow.Activate();
     }
     #endregion
 }

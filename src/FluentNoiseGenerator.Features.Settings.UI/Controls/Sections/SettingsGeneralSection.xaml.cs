@@ -11,20 +11,20 @@ public sealed partial class SettingsGeneralSection : UserControl
 {
     #region Dependency properties
     /// <summary>
-    /// Identifies the <see cref="AvailableLanguages"/> dependency property.
+    /// Identifies the <see cref="Languages"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableLanguagesProperty = DependencyProperty.Register(
-        nameof(AvailableLanguages),
+    public static readonly DependencyProperty LanguagesProperty = DependencyProperty.Register(
+        nameof(Languages),
         typeof(IEnumerable<object>),
         typeof(SettingsGeneralSection),
         new PropertyMetadata(defaultValue: null)
     );
 
     /// <summary>
-    /// Identifies the <see cref="AvailableNoisePresets"/> dependency property.
+    /// Identifies the <see cref="NoisePresets"/> dependency property.
     /// </summary>
-    public static readonly DependencyProperty AvailableNoisePresetsProperty = DependencyProperty.Register(
-        nameof(AvailableNoisePresets),
+    public static readonly DependencyProperty NoisePresetsProperty = DependencyProperty.Register(
+        nameof(NoisePresets),
         typeof(IEnumerable<object>),
         typeof(SettingsGeneralSection),
         new PropertyMetadata(defaultValue: null)
@@ -55,19 +55,19 @@ public sealed partial class SettingsGeneralSection : UserControl
     /// <summary>
     /// Gets or sets an enumerable with available languages.
     /// </summary>
-    public IEnumerable<object> AvailableLanguages
+    public IEnumerable<object>Languages
     {
-        get => (IEnumerable<object>)GetValue(AvailableLanguagesProperty);
-        set => SetValue(AvailableLanguagesProperty, value);
+        get => (IEnumerable<object>)GetValue(LanguagesProperty);
+        set => SetValue(LanguagesProperty, value);
     }
 
     /// <summary>
     /// Gets or sets an enumerable with available noise presets.
     /// </summary>
-    public IEnumerable<object> AvailableNoisePresets
+    public IEnumerable<object>NoisePresets
     {
-        get => (IEnumerable<object>)GetValue(AvailableNoisePresetsProperty);
-        set => SetValue(AvailableNoisePresetsProperty, value);
+        get => (IEnumerable<object>)GetValue(NoisePresetsProperty);
+        set => SetValue(NoisePresetsProperty, value);
     }
 
     /// <summary>
