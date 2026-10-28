@@ -35,13 +35,8 @@ public sealed partial class App : Application
     /// </param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        var playbackWindow = _rootServiceProvider.GetRequiredService<PlaybackWindow>();
-
-        playbackWindow.Activate();
-
-        var settingsWindow = _rootServiceProvider.GetRequiredService<SettingsWindow>();
-
-        settingsWindow.Activate();
+        _rootServiceProvider.GetRequiredService<PlaybackWindow>().Activate();
+        _rootServiceProvider.GetRequiredService<SettingsWindow>().Activate();
     }
     #endregion
 }
